@@ -70,7 +70,7 @@ namespace Nocturnal.server
                 wss.Log.Output = (_, __) => { };
             }
 
-
+            //
         }
 
         internal static void sendmessage(string text)
