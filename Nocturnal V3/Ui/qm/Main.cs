@@ -131,11 +131,14 @@ namespace Nocturnal.Ui.qm
 
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp", Newtonsoft.Json.JsonConvert.SerializeObject(sendinfo));
 
-                var newmsg = new Settings.jsonmanager.custommsg()
+                var newmsg = new Settings.jsonmanager.custommsg2()
                 {
                     code = "4",
 
                     msg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+
+                    msg2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg2,
+
                 };
 
                 server.setup.sendmessage(JsonConvert.SerializeObject(newmsg));

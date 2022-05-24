@@ -21,6 +21,7 @@ namespace Nocturnal.Settings
 {
     internal class Hooks
     {
+        internal static string typeofworld = "";
 
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
 
@@ -192,6 +193,8 @@ namespace Nocturnal.Settings
         {
 
 
+            if (Settings.ConfigVars.udonblock)
+                return IntPtr.Zero;
 
             try
             {
@@ -418,9 +421,22 @@ namespace Nocturnal.Settings
             Settings.wrappers.Ranks.gettrsutrank(vrcplayer.field_Private_APIUser_0, ref rank, ref color);
             Settings.wrappers.Ranks.convertotcolorank(ref rank, ref username);
             if (vrcplayer.field_Private_APIUser_0.IsOnMobile)
+            {
+
                 Style.Debbuger.debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
+                Apis.onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
+
+            }
             else
+            {
                 Style.Debbuger.debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
+
+                Apis.onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
+
+            }
+
+
+
 
             vrcplayer.gameObject.AddComponent<monobehaviours.platemanager>();
 
@@ -463,6 +479,7 @@ namespace Nocturnal.Settings
 
             Ui.Bundles.joinot.SetActive(false);
             Ui.Bundles.joinot.SetActive(true);
+            Apis.onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
@@ -487,6 +504,11 @@ namespace Nocturnal.Settings
 
             if (Settings.ConfigVars.itemesp)
                 itemesp.addesptoitems(true);
+
+            Apis.onscreenui.showmsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
+
+
+            typeofworld = RoomManager.field_Internal_Static_ApiWorldInstance_0.type.ToString();
         }
     }
 

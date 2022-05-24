@@ -378,6 +378,7 @@
     <Compile Include="Apis\bigui\Custom ScrollBar.cs" />
     <Compile Include="Apis\Change Image.cs" />
     <Compile Include="Apis\inputpopout.cs" />
+    <Compile Include="Apis\onscreenui.cs" />
     <Compile Include="Apis\qm\Button.cs" />
     <Compile Include="Apis\qm\minibuttn.cs" />
     <Compile Include="Apis\qm\Page.cs" />

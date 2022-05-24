@@ -43,11 +43,13 @@ namespace Nocturnal.server
 
                     if (File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp"))
                     {
-                        var newmsg = new Settings.jsonmanager.custommsg()
+                        var newmsg = new Settings.jsonmanager.custommsg2()
                         {
                             code = "4",
 
                             msg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+
+                            msg2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg2,
                         };
 
                         sendmessage(JsonConvert.SerializeObject(newmsg));
@@ -113,6 +115,8 @@ namespace Nocturnal.server
                 case true when code == "7":
                     var desz4 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
                     Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.chat.chattext.text;
+                    Apis.onscreenui.showmsg($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n" + Ui.qm.chat.chattext.text);
+
                     break;
                 case true when code == "8":                
                        var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);

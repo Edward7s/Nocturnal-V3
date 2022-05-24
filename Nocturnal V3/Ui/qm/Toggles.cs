@@ -39,6 +39,8 @@ namespace Nocturnal.Ui.qm
                         playes[i].gameObject.SetActive(true);
                 }
             }, ConfigVars.hidequests);
+            Toggle.toggle("Udon Block", toggles.getmenu(), () => Settings.ConfigVars.udonblock = true, () => Settings.ConfigVars.udonblock = false, Settings.ConfigVars.udonblock);
+            
         }
 
 

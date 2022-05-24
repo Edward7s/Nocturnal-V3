@@ -87,19 +87,18 @@ namespace Nocturnal.Ui.qm
 
             Apis.qm.Toggle.toggle("Player List", extensions.getmenu(uipg), () =>
             {
-                Settings.ConfigVars.playerlist = true;
 
                 string obj = Settings.ConfigVars.rightsideplayerlist ? "Wing_Right" : "Wing_Left";
                     GameObject.Find("/UserInterface").transform.Find($"Canvas_QuickMenu(Clone)/Container/Window/{obj}/Button/VRC+_Banners(Clone)").gameObject.SetActive(true);
 
-              
+                Settings.ConfigVars.playerlist = true;
+
             }, () =>
             {
-                Settings.ConfigVars.playerlist = false;
                 string obj = Settings.ConfigVars.rightsideplayerlist ? "Wing_Right" : "Wing_Left";
 
-                GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/{obj}/Button/VRC+_Banners(Clone)").gameObject.SetActive(false);
-
+                GameObject.Find("/UserInterface").transform.Find($"Canvas_QuickMenu(Clone)/Container/Window/{obj}/Button/VRC+_Banners(Clone)").gameObject.SetActive(false);
+                Settings.ConfigVars.playerlist = false;
 
             }, Settings.ConfigVars.playerlist);
 
@@ -175,7 +174,19 @@ namespace Nocturnal.Ui.qm
 
             }, Settings.ConfigVars.rainbackground);
 
-   
+            Apis.qm.Toggle.toggle("Hud Info", extensions.getmenu(uipg), () => {
+                Settings.ConfigVars.hudUi = true;
+                Ui.Qm_basic.GUIInfo.transform.parent.gameObject.SetActive(true);
+
+            }, () => {
+                Settings.ConfigVars.hudUi = false;
+                Ui.Qm_basic.GUIInfo.transform.parent.gameObject.SetActive(false);
+
+
+            }, Settings.ConfigVars.hudUi);
+
+
+
             //VRC+_Banners(Clone)
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////

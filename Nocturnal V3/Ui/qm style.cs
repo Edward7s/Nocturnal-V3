@@ -18,6 +18,7 @@ namespace Nocturnal.Ui
         internal static TMPro.TextMeshProUGUI firsttext = null;
         internal static TMPro.TextMeshProUGUI secondtext = null;
         internal static TMPro.TextMeshProUGUI Thirdtext = null;
+        internal static TMPro.TextMeshProUGUI GUIInfo = null;
 
         internal static void setupstuff()
         {
@@ -210,13 +211,38 @@ namespace Nocturnal.Ui
             Thirdtext.transform.localPosition = new Vector3(380,0,0);
             secondp.transform.Find("Panel/Background").transform.localPosition = new Vector3(300, 0, 0);
             secondp.transform.Find("Panel/Background").GetComponent<RectTransform>().sizeDelta = new Vector2(200, 0);
-            NocturnalC.log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
             Thirdtext.enableWordWrapping = false;
             secondtext.enableWordWrapping = false;
             firsttext.transform.localPosition = new Vector3(firsttext.transform.localPosition.x - 30, 0, 0);
             secondtext.transform.localPosition = new Vector3(secondtext.transform.localPosition.x - 30, 0, 0);
+            var texts = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_AvInteractions/Button_ToggleSelfInteract/Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+            texts.text = texts.text += " /Self ERP";
 
+
+            var pushtotalkxbox = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent/Hud/VoiceDotParent/PushToTalkXbox").gameObject;
+            var instanciatedpushb = GameObject.Instantiate(pushtotalkxbox, pushtotalkxbox.transform.parent.parent);
+            var _Imageb = instanciatedpushb.GetComponent<Image>();
+            _Imageb.sprite = null;
+            _Imageb.color = new Color(0, 0, 0, 0.6f);
+            instanciatedpushb.name = "InfoPannel";
+            instanciatedpushb.SetActive(true);
+            instanciatedpushb.transform.localPosition = new Vector3(-363, -296f, 663);
+            instanciatedpushb.transform.localScale = new Vector3(1, 1.2f, 1);
+            var tobetext = GameObject.Instantiate(instanciatedpushb, instanciatedpushb.transform).gameObject;
+            Component.DestroyImmediate(tobetext.GetComponent<UnityEngine.UI.Image>());
+            GUIInfo = tobetext.AddComponent<TMPro.TextMeshProUGUI>();
+            GUIInfo.text = "Loading";
+            GUIInfo.fontSize = 12;
+            GUIInfo.alignment = TMPro.TextAlignmentOptions.Center;
+            GUIInfo.transform.localPosition = Vector3.zero;
+            GUIInfo.color = new Color(Settings.ConfigVars.HuDColor[0], Settings.ConfigVars.HuDColor[1], Settings.ConfigVars.HuDColor[2]);
+            tobetext.transform.localPosition = Vector3.zero;
+            tobetext.transform.localScale = Vector3.one;
+            Apis.onscreenui.generateuimsg();
+            instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.hudUi);
             styletimer.Stop();
+            NocturnalC.log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
+
         }
     }
 }

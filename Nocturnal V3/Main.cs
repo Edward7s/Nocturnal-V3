@@ -35,6 +35,8 @@ namespace Nocturnal
 
         public static void Start()
         {
+           
+
             pid = System.Diagnostics.Process.GetCurrentProcess().Id;
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -107,7 +109,6 @@ namespace Nocturnal
             Console.WriteLine();
             logasembl(melonmodslist);
 
-
             mainthread = System.Threading.Thread.CurrentThread;
 
             AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -176,7 +177,19 @@ namespace Nocturnal
             Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
 
             //   discord.RunCallbacks();
-   
+
+        
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                var bot = GameObject.Find("/Decor/Vroomba").gameObject;
+                var hg = VRC.Player.prop_Player_0.gameObject.transform.Find("AnimationController/HeadAndHandIK/RightEffector").GetComponent<VRCHandGrasper>();
+             hg.field_Internal_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
+              hg.field_Private_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
+              hg.Method_Public_VRC_Pickup_0();
+             hg.Method_Public_VRC_Pickup_1();
+
+            }
+
 
             try
             {
@@ -363,6 +376,8 @@ namespace Nocturnal
 
             for (int i2 = 0; i2 < melontblList.Count; i2++)
             {
+
+
                 string name = "";
                 var Color = ConsoleColor.DarkRed;
 

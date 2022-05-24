@@ -89,6 +89,8 @@ namespace Nocturnal.Settings
         public string? chatimage { get; set; }
         public bool? rainbackground { get; set; }
         public bool? discordrichpresence { get; set; }
+        public bool? udonblock { get; set; }
+        public bool? hudUi { get; set; }
 
     }
     internal class ConfigVars
@@ -166,6 +168,8 @@ namespace Nocturnal.Settings
                 chatimage = chatimage,
                 rainbackground = rainbackground,
                 discordrichpresence = discordrichpresence,
+                udonblock = udonblock,
+                hudUi = hudUi,
             };
             File.WriteAllText(path, $"{Newtonsoft.Json.JsonConvert.SerializeObject(conf)}");
 
@@ -240,6 +244,8 @@ namespace Nocturnal.Settings
             chatimage = (string)config.chatimage;
             rainbackground = (bool)config.rainbackground;
             discordrichpresence = (bool)config.discordrichpresence;
+            udonblock = (bool)config.udonblock;
+            hudUi = (bool)config.hudUi;
             saveconfig(path);
         }
         public static string QmDebbugerImg = "https://cutewallpaper.org/21/black-aesthetic-anime/Image-about-girl-in-black-aesthetic-by-Quantis.png";
@@ -312,5 +318,7 @@ namespace Nocturnal.Settings
         public static string chatimage = "https://nocturnal-client.xyz/Resources/img.jpg";
         public static bool rainbackground = true;
         public static bool discordrichpresence = true;
+        public static bool udonblock = false;
+        public static bool hudUi = true;
     }
 }

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nocturnal
 {
-     class NocturnalC
-    {
 
+
+    class NocturnalC
+    {
+     
         private string art = " ";
         internal static string log(object message, string types = "Blank", ConsoleColor color = ConsoleColor.White,bool msg = true)
         {
