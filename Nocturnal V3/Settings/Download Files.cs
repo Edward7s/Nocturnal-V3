@@ -132,7 +132,7 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
 
 
-            imgr = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Nocturnal%20logo.png");
+            imgr = new System.Net.WebClient().DownloadData("https://nocturnal-client.xyz/Resources/Nocturnal%20logo.png");
              nameplates = webclient.DownloadData("https://nocturnal-client.xyz/Resources/namepalte.png");
 
             shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");

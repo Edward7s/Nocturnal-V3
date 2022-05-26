@@ -196,8 +196,9 @@ namespace Nocturnal.Ui.qm
 
             Apis.qm.Toggle.toggle("Optimized Mirror", extensions.getmenu(Main), () => exploits.Mirror.togglemirror(true,true), () => exploits.Mirror.togglemirror(false));
 
-            Apis.qm.Toggle.toggle("Ghost Mode", extensions.getmenu(Main), () => stopev7 = true, () => stopev7 = false, stopev7);
+            Apis.qm.Toggle.toggle("Ghost Mode", extensions.getmenu(Main), () => stopev7 = true, () => stopev7 = false, Settings.Hooks.fakelag);
 
+            Apis.qm.Toggle.toggle("Fake Lag", extensions.getmenu(Main), () => Settings.Hooks.fakelag = true, () => Settings.Hooks.fakelag = false, stopev7);
 
 
 

@@ -22,6 +22,10 @@ namespace Nocturnal.Settings
     internal class Hooks
     {
         internal static string typeofworld = "";
+        internal static int fakelagnumb = 0;
+        internal static int fakevcnumb = 0;
+        private static bool time = true;
+        internal static bool fakelag = false;
 
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
 
@@ -152,7 +156,7 @@ namespace Nocturnal.Settings
             MethodInfo udonevent = typeof(UdonSync).GetMethod("UdonSyncRunProgramAsRPC");
             _globaludon = Hook<globaludon>(udonevent, typeof(Hooks).GetMethod(nameof(udonsyncedevents), BindingFlags.Static | BindingFlags.NonPublic));
 
-           MethodInfo raiseev = typeof(PhotonNetwork).GetMethod(nameof(PhotonNetwork.Method_Public_Static_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
+           MethodInfo raiseev = typeof(LoadBalancingClient).GetMethod(nameof(LoadBalancingClient.Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
           _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
@@ -167,7 +171,6 @@ namespace Nocturnal.Settings
 
         private static IntPtr onpageapiuser(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr)
         {
-            NocturnalC.log("1");
             var apiuserinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.APIUser>(apiuseri);
 
             try
@@ -189,7 +192,39 @@ namespace Nocturnal.Settings
 
             private static IntPtr RaiseEvent(IntPtr _instance,byte code,IntPtr il2obj,IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
         {
+            var isteruned = true;
+            if (fakelag)
+            {
+                if (code == 7)
+                {
+                    if (fakelagnumb >= 5)
+                    {
+                        isteruned = true;
+                        fakelagnumb = 0;
+                    }
+                    else
+                    {
+                        isteruned = false;
+                        fakelagnumb += 1;
 
+                    }
+                }
+                if (code == 1)
+                {
+                    if (fakevcnumb >= 2)
+                    {
+                        isteruned = true;
+                        fakevcnumb = 0;
+                    }
+                    else
+                    {
+                        isteruned = false;
+                        fakevcnumb += 1;
+
+                    }
+                }
+
+            }
             // NocturnalC.log(code);
             if (Ui.qm.Main.stopev7 && code == 7)
                 return IntPtr.Zero;
@@ -211,10 +246,12 @@ namespace Nocturnal.Settings
                     NocturnalC.log(bytesl);
                 
             }*/
-           
-      
 
-            return _opraiseevent(_instance,code,il2obj,sendoptions,_nativeMethodInfoPtr);
+
+            if (isteruned)
+                return _opraiseevent(_instance, code, il2obj, sendoptions, _nativeMethodInfoPtr);
+            else
+                return IntPtr.Zero;
         }
        
         private static IntPtr udonsyncedevents(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr)
