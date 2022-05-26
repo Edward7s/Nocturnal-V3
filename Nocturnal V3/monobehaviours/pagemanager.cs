@@ -27,10 +27,9 @@ namespace Nocturnal.monobehaviours
                   //  Ui.objects.group2.text = Ui.objects.friendlistmanager.prop_String_1 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_4.Count} / 64]";
                   //  Ui.objects.group3.text = Ui.objects.friendlistmanager.prop_String_2 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_5.Count} / 64]";
                     Ui.objects.offlinefriends.text = $"Offline Friends (Expand to Show)        [{Ui.objects.friendlistmanager.prop_List_1_IUser_2.Count}]";
-
                     break;
                 case true when this.name == "UserInfo":
-
+                 
                     break;
                 case true when this.name == "WorldInfo":
                     break;
@@ -48,6 +47,9 @@ namespace Nocturnal.monobehaviours
                     };
                     server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(getm));
                     break;
+
+                    //   
+
             }
         }
 

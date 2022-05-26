@@ -12,6 +12,7 @@ namespace Nocturnal.Ui
 {
     internal class buttons_b
     {
+        internal static GameObject buttonaddtag;
         internal static void runbuttons()
         {
             var addnewgmj = new GameObject();
@@ -54,6 +55,43 @@ namespace Nocturnal.Ui
 
             });
             BButton.NormalButton("Copy uid", addnewgmj, () => System.Windows.Forms.Clipboard.SetText(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
+
+            buttonaddtag = BButton.NormalButton("Set Tag", addnewgmj, () =>
+            {
+                string tagtosend = "";
+
+
+
+                Apis.inputpopout.run("", value => tagtosend = value, () => {
+
+                    if (tagtosend.Trim().Length > 60)
+                    {
+                        NocturnalC.log("Message can not be bigger then 60C");
+                        return;
+                    }
+
+
+                    var newtag = new Settings.jsonmanager.custommsg2()
+                    {
+
+                        code = "9",
+
+                        msg2 = buttonaddtag.transform.parent.parent.parent.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id,
+
+                        msg = tagtosend.Trim(),
+
+                    };
+
+                    server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(newtag));
+                  
+
+                });
+
+           
+
+            });
+
+            buttonaddtag.gameObject.SetActive(false);
             biguiscrollbar.setscrollbars();
             Bundles.loadrain();
 

@@ -122,8 +122,13 @@ namespace Nocturnal.server
                        var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
                         for (int i = 0; i < getcm.Count; i++)
                             Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.chat.chattext.text;
-    
-                    
+                    break;
+                case true when code == "12":
+                    MelonLoader.MelonCoroutines.Start(waitforobj());
+                    break;
+                case true when code == "11":
+                    var dezmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
+                    Ui.objects.trustranktext.text = $"[{Ui.objects.trustranktext.text}] [{dezmsg.msg}]";
                     break;
                 case true when code == "87":
                     var desz2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
@@ -136,6 +141,7 @@ namespace Nocturnal.server
             }
         }
 
+
         internal static void tryrecconect()
         {
             try
@@ -147,7 +153,17 @@ namespace Nocturnal.server
 
         }
 
-     
+        private static IEnumerator waitforobj()
+        {
+            while (Ui.buttons_b.buttonaddtag == null)
+                yield return null;
+
+
+            Ui.buttons_b.buttonaddtag.SetActive(true);
+            yield return null;
+        }
+        
+
 
 
             private static IEnumerator generatenoralplate(string st,byte[] img = null)

@@ -14,9 +14,9 @@ namespace Nocturnal.Ui
         internal static GameObject Bbutton;
         internal static NotificationManager notmanager;
         internal static UnityEngine.UI.Text friendreqeusts;
-        internal static UnityEngine.UI.Text group1;
-        internal static UnityEngine.UI.Text group2;
-        internal static UnityEngine.UI.Text group3;
+     //   internal static UnityEngine.UI.Text group1;
+      //  internal static UnityEngine.UI.Text group2;
+      //  internal static UnityEngine.UI.Text group3;
         internal static UnityEngine.UI.Text offlinefriends;
         internal static GameObject Scrollbargmj;
         internal static GameObject Page;
@@ -25,6 +25,7 @@ namespace Nocturnal.Ui
         internal static GameObject TogglePrebab;
         internal static GameObject qmbackground;
         internal static GameObject qmexpand;
+        internal static UnityEngine.UI.Text trustranktext;
 
         internal static void collectobjs()
         {
@@ -62,6 +63,7 @@ namespace Nocturnal.Ui
             
               qmexpand = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand").gameObject;
 
+            trustranktext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo/User Panel/TrustLevel/TrustText").gameObject.GetComponent<UnityEngine.UI.Text>();
         }
     }
 }

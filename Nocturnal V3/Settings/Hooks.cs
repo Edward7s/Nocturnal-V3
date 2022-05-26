@@ -65,6 +65,10 @@ namespace Nocturnal.Settings
 
         private static opraiseevent _opraiseevent;
 
+        private delegate IntPtr apiuserpage(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr);
+
+        private static apiuserpage _apiuserpage;
+
 
         internal static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
@@ -151,6 +155,8 @@ namespace Nocturnal.Settings
            MethodInfo raiseev = typeof(PhotonNetwork).GetMethod(nameof(PhotonNetwork.Method_Public_Static_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
           _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
 
+            MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
+            _apiuserpage = Hook<apiuserpage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
 
             NocturnalC.log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
             hooktimer.Stop();
@@ -158,7 +164,30 @@ namespace Nocturnal.Settings
 
         }
 
-        private static IntPtr RaiseEvent(IntPtr _instance,byte code,IntPtr il2obj,IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
+
+        private static IntPtr onpageapiuser(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr)
+        {
+            NocturnalC.log("1");
+            var apiuserinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.APIUser>(apiuseri);
+
+            try
+            {
+                var sendid = new Settings.jsonmanager.custommsg()
+                {
+                    code = "10",
+
+                    msg = apiuserinfo.id,
+                };
+                server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(sendid));
+
+            }
+            catch { };
+
+            return _apiuserpage(_instance, apiuseri, _nativeMethodInfoPtr);
+        }
+
+
+            private static IntPtr RaiseEvent(IntPtr _instance,byte code,IntPtr il2obj,IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
         {
 
             // NocturnalC.log(code);
