@@ -115,7 +115,7 @@ namespace Nocturnal.server
                 case true when code == "7":
                     var desz4 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
                     Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.chat.chattext.text;
-                    Apis.onscreenui.showmsg($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>");
+                    MelonLoader.MelonCoroutines.Start(Apis.onscreenui.showmsgienum($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
 
                     break;
                 case true when code == "8":                

@@ -185,6 +185,19 @@ namespace Nocturnal.Ui.qm
 
             }, Settings.ConfigVars.hudUi);
 
+            Apis.qm.Toggle.toggle("Screen Logger", extensions.getmenu(uipg), () => {
+
+                Settings.ConfigVars.toggleonscreenlogger = true;
+                GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(true);
+
+            }, () => {
+                Settings.ConfigVars.toggleonscreenlogger = false;
+                GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(false);
+
+
+            }, Settings.ConfigVars.toggleonscreenlogger);
+            GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(Settings.ConfigVars.toggleonscreenlogger);
+
 
 
             //VRC+_Banners(Clone)

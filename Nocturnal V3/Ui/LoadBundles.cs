@@ -27,7 +27,7 @@ namespace Nocturnal.Ui
             var uim = myLoadedAssetBundle.LoadAsset<GameObject>("ui");
             myLoadedAssetBundle.Unload(false);
 
-            var gmj = GameObject.Instantiate(uim, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent").transform);
+            var gmj = GameObject.Instantiate(uim, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old").transform);
 
             gmj.transform.localScale = Vector3.one;
             gmj.transform.localPosition = Vector3.zero;

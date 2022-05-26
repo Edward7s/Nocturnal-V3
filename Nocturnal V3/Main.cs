@@ -181,12 +181,12 @@ namespace Nocturnal
         
             if (Input.GetKeyDown(KeyCode.K))
             {
-                var bot = GameObject.Find("/Decor/Vroomba").gameObject;
-                var hg = VRC.Player.prop_Player_0.gameObject.transform.Find("AnimationController/HeadAndHandIK/RightEffector").GetComponent<VRCHandGrasper>();
-             hg.field_Internal_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
-              hg.field_Private_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
-              hg.Method_Public_VRC_Pickup_0();
-             hg.Method_Public_VRC_Pickup_1();
+             //   var bot = GameObject.Find("/Decor/Vroomba").gameObject;
+             //   var hg = VRC.Player.prop_Player_0.gameObject.transform.Find("AnimationController/HeadAndHandIK/RightEffector").GetComponent<VRCHandGrasper>();
+          //   hg.field_Internal_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
+          //    hg.field_Private_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
+           //   hg.Method_Public_VRC_Pickup_0();
+         //    hg.Method_Public_VRC_Pickup_1();
 
             }
 

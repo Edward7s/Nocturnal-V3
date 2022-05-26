@@ -13,7 +13,8 @@ namespace Nocturnal.Apis.qm
     {
         internal static GameObject toggle(string text, GameObject menu, Action vtrue, Action vfalse, bool prevalue = false,bool half = false,float X = 628, float Y = 628)
         {
-            float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
+            // -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
+            float yvalue = half ? -329 - (Y * (200 / 2) - 45) : -140 - Y * 200;
 
         
 

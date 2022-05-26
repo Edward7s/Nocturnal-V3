@@ -13,12 +13,18 @@ namespace Nocturnal.Ui
         internal static void hudcolors()
         {
             var color = new Color(ConfigVars.HuDColor[0], ConfigVars.HuDColor[1], ConfigVars.HuDColor[2], ConfigVars.HuDColor[3]);
-            var unscaledhud = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent/Hud").gameObject;
+
+            var unscaledhud = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud").gameObject;
             unscaledhud.transform.Find("VoiceDotParent/VoiceDotDisabled").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;
+
             unscaledhud.transform.Find("AFK/Icon").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;
+
             unscaledhud.transform.Find("VoiceDotParent/PushToTalkKeybd").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;
+
             unscaledhud.transform.Find("VoiceDotParent/PushToTalkXbox").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;
+
             unscaledhud.transform.Find("ReticleParent/Reticle").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;
+
             HighlightsFX.field_Private_Static_HighlightsFX_0.field_Protected_Material_0.color = color;
             GameObject.Find("_Application/CursorManager/MouseArrow/VRCUICursorIcon").gameObject.GetComponent<UnityEngine.SpriteRenderer>().color = color;
         }

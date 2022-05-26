@@ -47,6 +47,22 @@ namespace Nocturnal.Ui
                         text.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
                         childs[i].transform.Find("Badge_MMJump").transform.localPosition = new Vector3(88.8256f, 34.0999f, 0f);
 
+
+                        if (childs[i].name == "Button_SelectUser")
+                        {
+
+                            childs[i].transform.Find("Text_H4").gameObject.transform.localPosition = new Vector3(18.58f, 70, 0);
+                            childs[i].transform.Find("Icon").transform.localPosition = new Vector3(-75.5186f, -70, 0);
+
+                            //Icon
+                        }
+                        if (childs[i].name == " Button_InteractionPauseWithState")
+                        {
+                            childs[i].transform.Find("Text_H4").gameObject.transform.localPosition = new Vector3(18.58f, 70, 0);
+                            childs[i].transform.Find("Icon").transform.localPosition = new Vector3(-75.5186f, -70, 0);
+
+                        }
+
                     }
                     catch { }
                    
@@ -218,8 +234,8 @@ namespace Nocturnal.Ui
             var texts = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_AvInteractions/Button_ToggleSelfInteract/Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
             texts.text = texts.text += " /Self ERP";
 
-
-            var pushtotalkxbox = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent/Hud/VoiceDotParent/PushToTalkXbox").gameObject;
+            //meObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)Container/Window/QMParent/Menu_Dashboard/Header_H1/LeftItemContainer/Text_Title").gameObject.transform.localPosition = new Vector3(-32, 0, 0);
+            var pushtotalkxbox = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/VoiceDotParent/PushToTalkXbox").gameObject;
             var instanciatedpushb = GameObject.Instantiate(pushtotalkxbox, pushtotalkxbox.transform.parent.parent);
             var _Imageb = instanciatedpushb.GetComponent<Image>();
             _Imageb.sprite = null;

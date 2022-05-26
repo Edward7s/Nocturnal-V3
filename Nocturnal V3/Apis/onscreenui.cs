@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Nocturnal.Settings;
 namespace Nocturnal.Apis
 {
     internal class onscreenui
@@ -15,8 +16,8 @@ namespace Nocturnal.Apis
         private static int countdown =0;
         internal static void generateuimsg()
         {
-            var toinst = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent/Hud/AlertTextParent/Capsule").gameObject;
-            textgameobj = GameObject.Instantiate(toinst, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent/Hud"));
+            var toinst = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/AlertTextParent/Capsule").gameObject;
+            textgameobj = GameObject.Instantiate(toinst, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud"));
             textgameobj.SetActive(true);
             textgameobj.GetComponent<UnityEngine.UI.ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             textgameobj.name = "ONscreennotui";
@@ -34,6 +35,8 @@ namespace Nocturnal.Apis
 
         internal static IEnumerator showmsgienum(string strings)
         {
+            if (!Settings.ConfigVars.toggleonscreenlogger)
+                yield break;
             tmpro.text += strings + "\n";
 
             if (countdown == 0)

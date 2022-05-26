@@ -22,7 +22,7 @@ namespace Nocturnal.monobehaviours
             {
                 case true when this.name == "Social":
                     Ui.objects.onlinefriendstext.text = $"Online Friends        [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_1.Count} / {Ui.objects.friendlistmanager.field_Private_List_1_IUser_0.Count}]";
-                  Ui.objects.friendreqeusts.text = $"Friend Requests        [{Ui.objects.notmanager.field_Private_List_1_InterfacePublicAbstractStOb1StTeBoSt1TeDaUnique_1.Count}]";
+                  Ui.objects.friendreqeusts.text = $"Friend Requests        [{Ui.objects.notmanager.field_Private_List_1_InterfacePublicAbstractStOb1StTeVaSt1Te2Unique_1.Count}]";
                   //  Ui.objects.group1.text = Ui.objects.friendlistmanager.prop_String_0 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_3.Count} / 64]";
                   //  Ui.objects.group2.text = Ui.objects.friendlistmanager.prop_String_1 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_4.Count} / 64]";
                   //  Ui.objects.group3.text = Ui.objects.friendlistmanager.prop_String_2 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_5.Count} / 64]";

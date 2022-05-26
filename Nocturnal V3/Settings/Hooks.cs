@@ -126,7 +126,6 @@ namespace Nocturnal.Settings
                 }
             }
 
-      
 
 
 
@@ -138,7 +137,7 @@ namespace Nocturnal.Settings
             MethodInfo jumpimp = typeof(VRC.SDKBase.VRCPlayerApi).GetMethod(nameof(Networking.LocalPlayer.SetJumpImpulse), BindingFlags.Instance |BindingFlags.Public);
             _jumpimp = Hook<jumpimp>(jumpimp, typeof(Hooks).GetMethod(nameof(_Jumpimp), BindingFlags.Static | BindingFlags.NonPublic));
 
-       
+
             MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod("Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0");
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
@@ -149,8 +148,8 @@ namespace Nocturnal.Settings
             MethodInfo udonevent = typeof(UdonSync).GetMethod("UdonSyncRunProgramAsRPC");
             _globaludon = Hook<globaludon>(udonevent, typeof(Hooks).GetMethod(nameof(udonsyncedevents), BindingFlags.Static | BindingFlags.NonPublic));
 
-            MethodInfo raiseev = typeof(LoadBalancingClient).GetMethod("Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_1");
-            _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
+           MethodInfo raiseev = typeof(PhotonNetwork).GetMethod(nameof(PhotonNetwork.Method_Public_Static_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
+          _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
 
 
             NocturnalC.log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
