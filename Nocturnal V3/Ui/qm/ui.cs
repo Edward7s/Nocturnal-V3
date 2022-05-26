@@ -289,15 +289,7 @@ namespace Nocturnal.Ui.qm
 
             }, false, null);
 
-            Buttons.Button(extensions.getmenu(Colors), "Client Chat Image", () =>
-            {
-                Apis.inputpopout.run("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
-                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
-                      GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/_Submenu_Client Chat/Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup/_Button_/Background/Background(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.chatimage
-                        ));
-                });
-
-            }, false, null);
+          
 
             float r = 0;
             float g = 0;
@@ -373,6 +365,17 @@ namespace Nocturnal.Ui.qm
             Component.DestroyImmediate(bc.gameObject.transform.Find("Background").GetComponent<Image>());
             btnt = bc.gameObject.transform.Find("Background").gameObject.AddComponent<Image>();
             btnt.sprite = null;
+
+            Buttons.Button(extensions.getmenu(Colors), "Client Chat Image", () =>
+            {
+                Apis.inputpopout.run("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
+                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
+                      GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/_Submenu_Client Chat/Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup/_Button_/Background/Background(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.chatimage
+                        ));
+                });
+
+            }, false, null);
+
 
             Buttons.Button(extensions.getmenu(Colors), "Friends", () =>
             {

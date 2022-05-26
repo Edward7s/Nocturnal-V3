@@ -110,9 +110,10 @@ namespace Nocturnal
             logasembl(melonmodslist);
 
             mainthread = System.Threading.Thread.CurrentThread;
-
             AppDomain currentDomain = AppDomain.CurrentDomain;
+
             Assembly[] assems = currentDomain.GetAssemblies();
+
             for (int i = 0; i < assems.Length; i++)
             {
                 try

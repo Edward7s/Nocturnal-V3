@@ -50,6 +50,7 @@ namespace Nocturnal.Settings
         internal static MethodInfo callback = null;
         internal static MethodInfo activitymanager = null;
         internal static byte[] Discord = null;
+        internal static MethodInfo setworldinfo = null;
 
         internal static void DownloadHanler()
         {
@@ -188,6 +189,9 @@ namespace Nocturnal.Settings
             chat = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Chat.png");
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
             Discord = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Discord.png");
+
+
+
             try
             {
                 Assembly asembly = Assembly.Load(bytes);
@@ -196,6 +200,7 @@ namespace Nocturnal.Settings
                 runrpc = callclass.GetMethod("startrpc", BindingFlags.NonPublic | BindingFlags.Static);
                 callback = callclass.GetMethod("runcallback", BindingFlags.NonPublic | BindingFlags.Static);
                 activitymanager = callclass.GetMethod("updateRPC", BindingFlags.NonPublic | BindingFlags.Static);
+                setworldinfo = callclass.GetMethod("setworld", BindingFlags.NonPublic | BindingFlags.Static);
             }
             catch (Exception ex)
             {
@@ -220,6 +225,12 @@ namespace Nocturnal.Settings
                 NocturnalC.log("Exception In Finding the VRC Window,Tryng PID","ERROR");
                 Main2.hwnd = Process.GetProcessById(Main2.pid).MainWindowHandle;
             }
+
+
+
+
+
+            
           
 
 

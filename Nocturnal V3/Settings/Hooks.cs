@@ -508,8 +508,14 @@ namespace Nocturnal.Settings
 
 
             typeofworld = RoomManager.field_Internal_Static_ApiWorldInstance_0.type.ToString();
+
+
+            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] {RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{RoomManager.field_Internal_Static_ApiWorld_0.name}] [{typeofworld}]" });
         }
+
+        
     }
+
 
 
 }
