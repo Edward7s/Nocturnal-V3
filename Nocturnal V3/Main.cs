@@ -139,8 +139,8 @@ namespace Nocturnal
            
 
             NocturnalC.log("///////////////////////////////\nRember Using stuff in murder can lead to a crashs\nMurder and prison breack got a custom anticheat for it from what it seams like><\n//////////////////////////////////////////////////////////////", "Start Up",ConsoleColor.Red);
-
-
+            NocturnalC.log("Join the Discord server if u are not in it\nhttps://discord.nocturnal-client.xyz/", "Start Up", ConsoleColor.Green);
+            
             Settings.Download_Files.DownloadHanler();
             Settings.LoadConfig.load();
             injectories();

@@ -146,7 +146,7 @@ namespace Nocturnal.Settings
             _jumpimp = Hook<jumpimp>(jumpimp, typeof(Hooks).GetMethod(nameof(_Jumpimp), BindingFlags.Static | BindingFlags.NonPublic));
 
 
-            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod("Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0");
+            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_1));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
 
@@ -172,7 +172,6 @@ namespace Nocturnal.Settings
         private static IntPtr onpageapiuser(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr)
         {
             var apiuserinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.APIUser>(apiuseri);
-
             try
             {
                 var sendid = new Settings.jsonmanager.custommsg()
@@ -186,6 +185,7 @@ namespace Nocturnal.Settings
             }
             catch { };
 
+          
             return _apiuserpage(_instance, apiuseri, _nativeMethodInfoPtr);
         }
 

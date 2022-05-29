@@ -39,7 +39,7 @@ namespace Nocturnal.Ui.qm
                 Sitonparts.issiting = !Sitonparts.issiting; 
                 Sitonparts.part = 4; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts());
             });
-            Apis.qm.Toggle.toggle("Copy Ik", extensions.getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);
+            var ikb = Apis.qm.Toggle.toggle("Copy Ik", extensions.getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
             //   Apis.qm.Toggle.toggle("Copy Voice", extensions.getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);
             Apis.qm.Toggle.toggle("Item Orbit", extensions.getmenu(Target), () => {
                 exploits.orbit.isorbiting = true;

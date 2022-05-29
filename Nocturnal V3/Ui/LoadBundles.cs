@@ -119,7 +119,7 @@ namespace Nocturnal.Ui
             imgm.raycastTarget = false;
             var msdk = maskgmj.AddComponent<UnityEngine.UI.Mask>();
             msdk.showMaskGraphic = false;
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(imgm, "http://nocturnal-client.xyz/Resources/Mask.png"));
+            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(imgm, "https://nocturnal-client.xyz/Resources/Mask.png"));
             var bg = GameObject.Instantiate(imgm, imgm.transform);
             Component.DestroyImmediate(bg.GetComponent<UnityEngine.UI.Mask>());
             MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(bg.GetComponent<UnityEngine.UI.Image>(), Settings.ConfigVars.BiguiImg));

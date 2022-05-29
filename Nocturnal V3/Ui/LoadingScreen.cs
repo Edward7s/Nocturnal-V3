@@ -15,16 +15,16 @@ namespace Nocturnal.Ui
         {
          
           
-            var loadingbar = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/LOADING_BAR_BG").gameObject.GetComponent<UnityEngine.UI.Image>();
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(loadingbar, "https://nocturnal-client.xyz/Resources/LoadingBar.png"));
-            loadingbar.color = Color.white;
-            loadingbar.transform.localScale = new Vector3(1.3f, 4.6f, 1);
-            var loadingbarp = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/LOADING_BAR").gameObject.GetComponent<UnityEngine.UI.Image>();
-            loadingbarp.sprite = null;
-            loadingbarp.color = new Color(0.15f,0.15f,0.15f,0.72f);
-            loadingbarp.transform.localScale = new Vector3(1.25f, 3.66f, 1);
+          //  var loadingbar = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/LOADING_BAR_BG").gameObject.GetComponent<UnityEngine.UI.Image>();
+        //    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(loadingbar, "https://nocturnal-client.xyz/Resources/LoadingBar.png"));
+       //     loadingbar.color = Color.white;
+        //    loadingbar.transform.localScale = new Vector3(1.3f, 4.6f, 1);
+       //     var loadingbarp = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/LOADING_BAR").gameObject.GetComponent<UnityEngine.UI.Image>();
+        //    loadingbarp.sprite = null;
+        //    loadingbarp.color = new Color(0.15f,0.15f,0.15f,0.72f);
+        //    loadingbarp.transform.localScale = new Vector3(1.25f, 3.66f, 1);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/txt_Percent").transform.localPosition = new Vector3(-98.0401f, 115.42f, 0);
-            GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/txt_LOADING_Size").transform.localPosition = new Vector3(201.4574f, 115.55f, 1);
+          //  GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/ProgressPanel/Parent_Loading_Progress/Loading Elements/txt_LOADING_Size").transform.localPosition = new Vector3(201.4574f, 115.55f, 1);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/3DElements/LoadingInfoPanel").gameObject.SetActive(false);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/3DElements/LoadingBackground_TealGradient/SkyCube_Baked").gameObject.SetActive(false);
             var vrclogo = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Authentication/StoreLoginPrompt/VRChat_LOGO (1)").gameObject;

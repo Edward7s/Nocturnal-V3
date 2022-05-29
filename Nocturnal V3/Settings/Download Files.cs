@@ -9,7 +9,6 @@ namespace Nocturnal.Settings
 {
     internal class Download_Files
     {
-        internal static byte[] imgr = null;
         internal static string shaderlist = null;
         internal static string userwhitelist = null;
         internal static byte[] nameplates = null;
@@ -51,6 +50,7 @@ namespace Nocturnal.Settings
         internal static MethodInfo activitymanager = null;
         internal static byte[] Discord = null;
         internal static MethodInfo setworldinfo = null;
+        internal static byte[] micmenu = null;
 
         internal static void DownloadHanler()
         {
@@ -102,7 +102,7 @@ namespace Nocturnal.Settings
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic");
 
             if (Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic").Length == 0)
-                webclient.DownloadFile("http://nocturnal-client.xyz/Resources/LoadingMusic.mp3", Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic\\LoadingMusic.mp3");
+                webclient.DownloadFile("https://nocturnal-client.xyz/Resources/LoadingMusic.mp3", Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic\\LoadingMusic.mp3");
 
             loadingscreenmusicpath = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic").FirstOrDefault().ToString();
 
@@ -132,7 +132,6 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
 
 
-            imgr = new System.Net.WebClient().DownloadData("https://nocturnal-client.xyz/Resources/Nocturnal%20logo.png");
              nameplates = webclient.DownloadData("https://nocturnal-client.xyz/Resources/namepalte.png");
 
             shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");
@@ -189,7 +188,7 @@ namespace Nocturnal.Settings
             chat = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Chat.png");
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
             Discord = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Discord.png");
-
+            micmenu = webclient.DownloadData("https://nocturnal-client.xyz/Resources/mic%20icon.png");
 
 
             try

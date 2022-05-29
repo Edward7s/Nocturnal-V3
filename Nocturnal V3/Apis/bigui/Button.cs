@@ -19,6 +19,7 @@ namespace Nocturnal.Apis.bigui
             var btncomp = _Button.gameObject.GetComponent<Button>();
             btncomp.onClick.RemoveAllListeners();
             btncomp.onClick.AddListener(action);
+            _Button.transform.localEulerAngles = Vector3.zero;
             return _Button;
         }
     }

@@ -8,9 +8,6 @@ using VRC;
 using System.Diagnostics;
 using System.IO;
 using VRC.SDKBase;
-using VRC.UI;
-using UnityEngine;
-using VRC.Core;
 using Nocturnal.Settings.wrappers;
 using Nocturnal.Settings;
 using System.Runtime.InteropServices;
@@ -36,8 +33,8 @@ namespace Nocturnal.Ui.qm
 
             mainpage = submenu.Submenu("Nocturnal", null,true);
             var Main = submenu.Submenu("Main", mainpage);
-            Page.page("Nocturnal", mainpage, Settings.Download_Files.imgr);
-
+            var pg = Page.page("Nocturnal", mainpage, Settings.Download_Files.logo);
+          //  MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(pg.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>(),""));
             Anticrash.runanti();
             Toggles.runantoggles();
             ui.runui();
@@ -49,6 +46,7 @@ namespace Nocturnal.Ui.qm
             tags.Tagsmenu();
             chat.Chat();
             Discord.start();
+            mic.start();
             Buttons.Button(extensions.getmenu(mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null,3, 6);
             Buttons.Button(extensions.getmenu(mainpage), "Restart", () => 
             {

@@ -263,10 +263,10 @@ namespace Nocturnal.Settings
         public static bool esp = true;
         public static float Flyspeed = 0.6f;
         public static float jumpimpulse = 3f;
-        public static float espwidth = 0.7f;
+        public static float espwidth = 0.35f;
         public static float debuggeropacity = 0.7f;
         public static bool qmdebug = true;
-        public static bool thunderbigui = true;
+        public static bool thunderbigui = false;
         public static float falloff = 0.1f;
         public static bool itemmaxrange = true;
         public static bool itempickup= true;

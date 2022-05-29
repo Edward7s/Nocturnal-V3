@@ -173,18 +173,20 @@ namespace Nocturnal.server
 
                 var players = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray();
 
-                foreach (var player in players)
-                {
-                    yield return new WaitForSeconds(1f);
-                
-                    if (player.field_Private_APIUser_0.id != deserializedmsg.userid) continue;
-                    for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
-                   {
-                    yield return new WaitForSeconds(1f);
-                    player.GeneratePlate(deserializedmsg.tagslist[i], img);
 
-                    }
+            for (int i2 = 0; i2 < players.Length; i2++)
+            {
+                yield return new WaitForSeconds(1.5f);
+
+                if (players[i2].field_Private_APIUser_0.id != deserializedmsg.userid) continue;
+                for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
+                {
+                    yield return new WaitForSeconds(1.5f);
+                    players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
+
                 }
+            }
+               
                yield return null;
             }
     }
