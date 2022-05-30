@@ -105,7 +105,7 @@ namespace Nocturnal.Settings
 					if (xrefedmethod[i2].Type != UnhollowerRuntimeLib.XrefScans.XrefType.Global) continue;
 
 					if (xrefedmethod[i2].ReadAsObject().ToString().Contains("OnPlayerJoin"))
-						userJ = Hook<UserJ>(methodsinfo[i], typeof(Hooks).GetMethod(nameof(_userjoined), BindingFlags.Static | BindingFlags.NonPublic));
+						userJ = Hook<UserJ>(methodsinfo[i], typeof(Hooks).GetMethod(nameof(UserJoined), BindingFlags.Static | BindingFlags.NonPublic));
 					else
 						userL = Hook<UserL>(methodsinfo[i], typeof(Hooks).GetMethod(nameof(_userleft), BindingFlags.Static | BindingFlags.NonPublic));
 
@@ -147,16 +147,16 @@ namespace Nocturnal.Settings
 
 
 			MethodInfo onevent = typeof(Photon.Realtime.LoadBalancingClient).GetMethod("OnEvent");
-			onEvent = Hook<OnEvent>(onevent, typeof(Hooks).GetMethod(nameof(oneventm), BindingFlags.Static | BindingFlags.NonPublic));
+			onEvent = Hook<OnEvent>(onevent, typeof(Hooks).GetMethod(nameof(OnEventM), BindingFlags.Static | BindingFlags.NonPublic));
 
 			MethodInfo udonevent = typeof(UdonSync).GetMethod("UdonSyncRunProgramAsRPC");
-			globalUdon = Hook<GlobalUdon>(udonevent, typeof(Hooks).GetMethod(nameof(udonsyncedevents), BindingFlags.Static | BindingFlags.NonPublic));
+			globalUdon = Hook<GlobalUdon>(udonevent, typeof(Hooks).GetMethod(nameof(UdonSyncedEvents), BindingFlags.Static | BindingFlags.NonPublic));
 
 			MethodInfo raiseev = typeof(LoadBalancingClient).GetMethod(nameof(LoadBalancingClient.Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
 			opRaiseEvent = Hook<OpRaiseEvent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
 
 			MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
-			apiUserPage = Hook<ApiUserPage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
+			apiUserPage = Hook<ApiUserPage>(apiuserpage, typeof(Hooks).GetMethod(nameof(OnPageApiUser), BindingFlags.Static | BindingFlags.NonPublic));
 
 			NocturnalConsole.Log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
 			hooktimer.Stop();
@@ -165,7 +165,7 @@ namespace Nocturnal.Settings
 		}
 
 
-		private static IntPtr onpageapiuser(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr)
+		private static IntPtr OnPageApiUser(IntPtr _instance, IntPtr apiuseri, IntPtr _nativeMethodInfoPtr)
 		{
 			var apiuserinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.APIUser>(apiuseri);
 			try
@@ -250,7 +250,7 @@ namespace Nocturnal.Settings
 				return IntPtr.Zero;
 		}
 
-		private static IntPtr udonsyncedevents(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr)
+		private static IntPtr UdonSyncedEvents(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr)
 		{
 
 
@@ -318,7 +318,7 @@ namespace Nocturnal.Settings
 		}
 
 
-		private static IntPtr oneventm(IntPtr _instance, IntPtr eventData, IntPtr _nativeMethodInfoPtr)
+		private static IntPtr OnEventM(IntPtr _instance, IntPtr eventData, IntPtr _nativeMethodInfoPtr)
 		{
 
 			try
@@ -363,7 +363,7 @@ namespace Nocturnal.Settings
 							field_Public_ReceiverGroup_0 = Photon.Realtime.ReceiverGroup.Others,
 							field_Public_EventCaching_0 = Photon.Realtime.EventCaching.DoNotCache,
 						},
-				   default);
+				default);
 
 
 				}
@@ -454,12 +454,12 @@ namespace Nocturnal.Settings
 
 
 
-			MelonCoroutines.Start(waitforworldtoinitialize());
+			MelonCoroutines.Start(WaifForWorldToInitialize());
 
 			return worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
 		}
 
-		private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
+		private static IntPtr UserJoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
 		{
 
 			VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
@@ -545,7 +545,7 @@ namespace Nocturnal.Settings
 			return userL(_instance, user, _nativeMethodInfoPtr);
 		}
 		private static IntPtr _Jumpimp(IntPtr _instance, float jumpimp, IntPtr _nativeMethodInfoPtr) => Hooks.jumpimp(_instance, Settings.ConfigVars.jumpimpulse, _nativeMethodInfoPtr);
-		private static IEnumerator waitforworldtoinitialize()
+		private static IEnumerator WaifForWorldToInitialize()
 		{
 			while (VRC.SDKBase.Networking.LocalPlayer == null)
 				yield return null;
@@ -553,7 +553,7 @@ namespace Nocturnal.Settings
 			Nocturnal.Style.Debugger.DebugMsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
 			Ui.QM.WorldHistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
 			Exploits.Pickups.pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC.SDKBase.VRC_Pickup>().ToArray();
-
+			Nocturnal.Ui.QM.ItemManager.Refresh();
 			if (Settings.ConfigVars.itemmaxrange)
 				for (int i = 0; i < Exploits.Pickups.pickupsobs.Length; i++)
 					Exploits.Pickups.pickupsobs[i].proximity = 9999;

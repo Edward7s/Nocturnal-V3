@@ -41,6 +41,7 @@ namespace Nocturnal.Ui.QM
 			Chat.CreateUI();
 			Discord.CreateUI();
 			Mic.CreateUI();
+			ItemManager.CreateUI();
 			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Close", () => Process.GetCurrentProcess().Kill(), true, null, 3, 6);
 			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Restart", () =>
 			{
