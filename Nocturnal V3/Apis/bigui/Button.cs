@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nocturnal.Ui;
+﻿using Nocturnal.Ui;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Nocturnal.Apis.bigui
+namespace Nocturnal.Apis.BigUI
 {
-    internal class BButton
-    {
-        internal static GameObject NormalButton(string name,GameObject path, Action action)
-        {
-            var _Button = GameObject.Instantiate(objects.Bbutton, path.transform);
-            Component.DestroyImmediate(_Button.GetComponent<VRCUiButton>());
-            _Button.name = "NBTN_" + name;
-            _Button.transform.Find("Image/Text").gameObject.GetComponent<Text>().text = name;
-            var btncomp = _Button.gameObject.GetComponent<Button>();
-            btncomp.onClick.RemoveAllListeners();
-            btncomp.onClick.AddListener(action);
-            _Button.transform.localEulerAngles = Vector3.zero;
-            return _Button;
-        }
-    }
+	internal class BigButton
+	{
+		internal static GameObject NormalButton(string name, GameObject path, Action action)
+		{
+			var button = GameObject.Instantiate(Objects.bigButton, path.transform);
+			Component.DestroyImmediate(button.GetComponent<VRCUiButton>());
+			button.name = "NBTN_" + name;
+			button.transform.Find("Image/Text").gameObject.GetComponent<Text>().text = name;
+			var btnComp = button.gameObject.GetComponent<Button>();
+			btnComp.onClick.RemoveAllListeners();
+			btnComp.onClick.AddListener(action);
+			button.transform.localEulerAngles = Vector3.zero;
+			return button;
+		}
+	}
 }

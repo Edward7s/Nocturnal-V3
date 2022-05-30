@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Nocturnal.Settings.wrappers
+namespace Nocturnal.Settings.Wrappers
 {
     internal static class photon_extentions
     {

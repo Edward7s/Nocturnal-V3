@@ -1,40 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nocturnal.Ui;
-using Nocturnal.Apis.qm;
-using Nocturnal.Settings.wrappers;
+﻿using Nocturnal.Apis.QM;
 using Nocturnal.Settings;
-namespace Nocturnal.Ui.qm
+using Nocturnal.Settings.Wrappers;
+namespace Nocturnal.Ui.QM
 {
-    internal class world
-    {
+	internal class World
+	{
 
-        internal static void World()
-        {
-            var pickupsm = submenu.Submenu("World", Main.mainpage);
-            Main.mainpage.getmenu().submenu("World", pickupsm, Settings.Download_Files.World, true, 1, 3);
-
-
+		internal static void CreateUI()
+		{
+			var pickupsm = SubMenu.Create("World", Main.mainPage);
+			Main.mainPage.GetMenu().Create("World", pickupsm, Settings.DownloadFiles.world, true, 1, 3);
 
 
-            var Murderexploits  = submenu.Submenu("Warrning u will probably crash", pickupsm);
-            pickupsm.getmenu().submenu("Murder", Murderexploits, null);
-            Apis.qm.Toggle.toggle("Self Gold Weapon", Murderexploits.getmenu(), () => ConfigVars.murdergoldweapon = true, () => ConfigVars.murdergoldweapon = false, ConfigVars.murdergoldweapon);
-            Apis.qm.Toggle.toggle("Everyone Gold Weapon", Murderexploits.getmenu(), () => ConfigVars.everyonegoldgun = true, () => ConfigVars.everyonegoldgun = false, ConfigVars.everyonegoldgun);
-            Apis.qm.Toggle.toggle("God Mode", Murderexploits.getmenu(), () => ConfigVars.murdergodmod = true, () => ConfigVars.murdergodmod = false, ConfigVars.murdergodmod);
-            Apis.qm.Toggle.toggle("Self No ShootC", Murderexploits.getmenu(), () => ConfigVars.continuesfire = true, () => ConfigVars.continuesfire = false, ConfigVars.continuesfire);
-            Apis.qm.Toggle.toggle("Everyone No ShootC", Murderexploits.getmenu(), () => ConfigVars.everyonecontinuesfire = true, () => ConfigVars.everyonecontinuesfire = false, ConfigVars.everyonecontinuesfire);
-
-            var Amongusexploits = submenu.Submenu("Among Us", pickupsm);
-            pickupsm.getmenu().submenu("Among Us", Amongusexploits, null);
-
-            Apis.qm.Toggle.toggle("God Mode", Amongusexploits.getmenu(), () => ConfigVars.amongusgodmod = true, () => ConfigVars.amongusgodmod = false, ConfigVars.amongusgodmod);
 
 
-        }
+			var Murderexploits = SubMenu.Create("Warrning u will probably crash", pickupsm);
+			pickupsm.GetMenu().Create("Murder", Murderexploits, null);
+			Apis.QM.Toggle.Create("Self Gold Weapon", Murderexploits.GetMenu(), () => ConfigVars.murdergoldweapon = true, () => ConfigVars.murdergoldweapon = false, ConfigVars.murdergoldweapon);
+			Apis.QM.Toggle.Create("Everyone Gold Weapon", Murderexploits.GetMenu(), () => ConfigVars.everyonegoldgun = true, () => ConfigVars.everyonegoldgun = false, ConfigVars.everyonegoldgun);
+			Apis.QM.Toggle.Create("God Mode", Murderexploits.GetMenu(), () => ConfigVars.murdergodmod = true, () => ConfigVars.murdergodmod = false, ConfigVars.murdergodmod);
+			Apis.QM.Toggle.Create("Self No ShootC", Murderexploits.GetMenu(), () => ConfigVars.continuesfire = true, () => ConfigVars.continuesfire = false, ConfigVars.continuesfire);
+			Apis.QM.Toggle.Create("Everyone No ShootC", Murderexploits.GetMenu(), () => ConfigVars.everyonecontinuesfire = true, () => ConfigVars.everyonecontinuesfire = false, ConfigVars.everyonecontinuesfire);
 
-    }
+			var Amongusexploits = SubMenu.Create("Among Us", pickupsm);
+			pickupsm.GetMenu().Create("Among Us", Amongusexploits, null);
+
+			Apis.QM.Toggle.Create("God Mode", Amongusexploits.GetMenu(), () => ConfigVars.amongusgodmod = true, () => ConfigVars.amongusgodmod = false, ConfigVars.amongusgodmod);
+
+
+		}
+
+	}
 }

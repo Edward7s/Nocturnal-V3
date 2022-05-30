@@ -1,194 +1,171 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebSocketSharp;
-using Newtonsoft.Json;
-using Nocturnal.Settings.wrappers;
-using VRC;
-using System.Reflection;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
+using Nocturnal.Settings.Wrappers;
+using System;
 using System.Collections;
-using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows.Threading;
-namespace Nocturnal.server
+using UnityEngine;
+using VRC;
+using WebSocketSharp;
+namespace Nocturnal.Server
 {
-    internal class setup
-    {
-        private static WebSocket wss = null;
-        private protected static bool onetime = true;
-        internal static void serversetup()
-        {
-            using (wss = new WebSocket("wss://wsserver.nocturnal-client.xyz"))
-            {
-                wss.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-                wss.Connect();
-                wss.OnClose += (sender, e) =>
-                {
-                    tryrecconect();
-                };
-                wss.OnOpen += (sender, e) =>
-                {
-                   
-                    var newi = new Settings.jsonmanager.custommsg()
-                    {
-                        code = "1",
+	internal class Setup
+	{
+		private static WebSocket wss = null;
+		private protected static bool oneTime = true;
+		internal static void ServerSetup()
+		{
+			using (wss = new WebSocket("wss://wsserver.nocturnal-client.xyz"))
+			{
+				wss.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+				wss.Connect();
+				wss.OnClose += (sender, e) =>
+				{
+					tryrecconect();
+				};
+				wss.OnOpen += (sender, e) =>
+				{
 
-                        msg = VRC.Core.APIUser.CurrentUser.id,
+					var newi = new Settings.JsonManager.custommsg()
+					{
+						code = "1",
+						msg = VRC.Core.APIUser.CurrentUser.id,
+					};
+					sendmessage(JsonConvert.SerializeObject(newi));
 
-                    };
-                    sendmessage(JsonConvert.SerializeObject(newi));
+					if (File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp"))
+					{
+						var newmsg = new Settings.JsonManager.custommsg2()
+						{
+							code = "4",
+							msg = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+							msg2 = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg2,
+						};
+						sendmessage(JsonConvert.SerializeObject(newmsg));
+					}
 
-                    if (File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp"))
-                    {
-                        var newmsg = new Settings.jsonmanager.custommsg2()
-                        {
-                            code = "4",
+					if (oneTime)
+					{
+						var cb = new Settings.JsonManager.custommsg()
+						{
+							code = "8",
+							msg = "recivechatmsg",
+						};
+						Server.Setup.sendmessage(JsonConvert.SerializeObject(cb));
+						oneTime = false;
+					}
 
-                            msg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+				};
+				wss.OnMessage += Wss_OnMessage; ;
+				wss.Log.Output = (_, __) => { };
+			}
 
-                            msg2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg2,
-                        };
+		}
 
-                        sendmessage(JsonConvert.SerializeObject(newmsg));
-                    }
+		internal static void sendmessage(string text)
+		{
+			try
+			{
+				if (wss.IsAlive)
+					wss.Send(text);
+			}
+			catch { }
 
-                    if (onetime)
-                    {
-                        var cb = new Settings.jsonmanager.custommsg()
-                        {
-                            code = "8",
+		}
 
-                            msg = "recivechatmsg",
-                        };
-                        server.setup.sendmessage(JsonConvert.SerializeObject(cb));
-                        onetime = false;
-                    }
+		private static void Wss_OnMessage(object sender, MessageEventArgs e)
+		{
+			var message = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(e.Data));
 
-                };
-                wss.OnMessage += Wss_OnMessage; ;
-                wss.Log.Output = (_, __) => { };
-            }
+			string code = "Number";
+			if (message.Substring(10, 1) != "\"")
+				code = message.Substring(9, 2);
+			else
+				code = message.Substring(9, 1);
 
-            
-        }
+			// NocturnalC.log(code);
+			//   NocturnalC.log(message);
 
-        internal static void sendmessage(string text)
-        {
-            try
-            {
-                if (wss.IsAlive)
-                wss.Send(text);
-            }
-            catch { }
-          
-        }
+			switch (true)
+			{
 
-        private static void Wss_OnMessage(object sender, MessageEventArgs e)
-        {
-            var message = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(e.Data));
+				case true when code == "2":
+					MelonLoader.MelonCoroutines.Start(generatenoralplate(message));
+					break;
+				case true when code == "5":
+					MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.DownloadFiles.logo));
+					break;
+				case true when code == "86":
+					var desz3 = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg>(message);
+					MelonLoader.MelonCoroutines.Start(Settings.Wrappers.Extensions.ClientMessageWaiter(desz3.msg));
+					break;
+				case true when code == "7":
+					var desz4 = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg2>(message);
+					Ui.QM.Chat.chatText.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n" + Ui.QM.Chat.chatText.text;
+					MelonLoader.MelonCoroutines.Start(Apis.OnScreenUI.ShowMessageIEnumerator($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
 
-            string code = "Number";
-            if (message.Substring(10, 1) != "\"")
-                code = message.Substring(9, 2);
-            else
-                code = message.Substring(9, 1);
+					break;
+				case true when code == "8":
+					var getcm = JsonConvert.DeserializeObject<List<Settings.JsonManager.custommsg2>>(JsonConvert.DeserializeObject<Settings.JsonManager.custommsg>(message).msg);
+					for (int i = 0; i < getcm.Count; i++)
+						Ui.QM.Chat.chatText.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.QM.Chat.chatText.text;
+					break;
+				case true when code == "12":
+					MelonLoader.MelonCoroutines.Start(waitforobj());
+					break;
+				case true when code == "11":
+					var dezmsg = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg>(message);
+					Ui.Objects.trustRankText.text = $"[{Ui.Objects.trustRankText.text}] [{dezmsg.msg}]";
+					break;
+				case true when code == "87":
+					var desz2 = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg>(message);
+					Ui.QMBasic.secondText.text = $"C Users:{desz2.msg}";
+					break;
+				case true when code == "89":
+					var jsond = JsonConvert.DeserializeObject<Settings.JsonManager.custommsg>(message);
+					NocturnalConsole.Log(jsond.msg, "Server");
+					break;
+			}
+		}
+		internal static void tryrecconect()
+		{
+			try
+			{
+				wss.Connect();
+			}
+			catch { }
 
-             // NocturnalC.log(code);
-       //   NocturnalC.log(message);
+		}
 
-            switch (true)
-            {
+		private static IEnumerator waitforobj()
+		{
+			while (Ui.BigUIButton.buttonaddtag == null)
+				yield return null;
 
-                case true when code == "2":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message));
-                    break;
-                case true when code == "5":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.logo));
-                    break;
-                case true when code == "86":
-                    var desz3 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    MelonLoader.MelonCoroutines.Start(extensions.clientmessagewaiter(desz3.msg));
-                    break;
-                case true when code == "7":
-                    var desz4 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
-                    Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.chat.chattext.text;
-                    MelonLoader.MelonCoroutines.Start(Apis.onscreenui.showmsgienum($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
+			Ui.BigUIButton.buttonaddtag.SetActive(true);
+			yield return null;
+		}
 
-                    break;
-                case true when code == "8":                
-                       var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
-                        for (int i = 0; i < getcm.Count; i++)
-                            Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.chat.chattext.text;
-                    break;
-                case true when code == "12":
-                    MelonLoader.MelonCoroutines.Start(waitforobj());
-                    break;
-                case true when code == "11":
-                    var dezmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    Ui.objects.trustranktext.text = $"[{Ui.objects.trustranktext.text}] [{dezmsg.msg}]";
-                    break;
-                case true when code == "87":
-                    var desz2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    Ui.Qm_basic.secondtext.text = $"C Users:{desz2.msg}";
-                    break;
-                case true when code == "89":
-                   var jsond =  JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    NocturnalC.log(jsond.msg, "Server");
-                    break;
-            }
-        }
+		private static IEnumerator generatenoralplate(string st, byte[] img = null)
+		{
 
+			var deserializedmsg = JsonConvert.DeserializeObject<Settings.JsonManager.reciveplate>(st);
+			var players = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray();
 
-        internal static void tryrecconect()
-        {
-            try
-            {
-                    wss.Connect();
-            }
-            catch { }
+			for (int i2 = 0; i2 < players.Length; i2++)
+			{
+				yield return new WaitForSeconds(1.5f);
 
+				if (players[i2].field_Private_APIUser_0.id != deserializedmsg.userid) continue;
+				for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
+				{
+					yield return new WaitForSeconds(1.5f);
+					players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
+				}
+			}
 
-        }
-
-        private static IEnumerator waitforobj()
-        {
-            while (Ui.buttons_b.buttonaddtag == null)
-                yield return null;
-
-
-            Ui.buttons_b.buttonaddtag.SetActive(true);
-            yield return null;
-        }
-        
-
-
-
-            private static IEnumerator generatenoralplate(string st,byte[] img = null)
-            {
-          
-                var deserializedmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.reciveplate>(st);
-
-                var players = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray();
-
-
-            for (int i2 = 0; i2 < players.Length; i2++)
-            {
-                yield return new WaitForSeconds(1.5f);
-
-                if (players[i2].field_Private_APIUser_0.id != deserializedmsg.userid) continue;
-                for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
-                {
-                    yield return new WaitForSeconds(1.5f);
-                    players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
-
-                }
-            }
-               
-               yield return null;
-            }
-    }
+			yield return null;
+		}
+	}
 
 }
