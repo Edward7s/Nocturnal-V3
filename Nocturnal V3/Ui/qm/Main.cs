@@ -90,7 +90,17 @@ namespace Nocturnal.Ui.QM
 				});
 
 			}, true, null, 2, 7);
-			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Delete P", () => Exploits.Misc.DeletePortals(), true, null, 1, 6);
+			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Delete Portals", () => Exploits.Misc.DeletePortals(), true, null, 1, 6);
+
+			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Set Pedistals", () =>
+			{
+				Apis.InputPopup.Run("Avatar ID", value =>
+				{
+					Exploits.Misc.SetPedestals(value);
+				}, () => { });
+			}, true, null, 0, 8);
+			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Net Del Portals", () => Exploits.Misc.NetworkedDeletePortals(), true, null, 1, 8);
+			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Max Portals", () => Exploits.Misc.NetworkedMaxPortals(), true, null, 2, 8);
 			jumpImpulse = Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Jump Imp", () =>
 			{
 				try
