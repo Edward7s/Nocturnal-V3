@@ -92,7 +92,7 @@ namespace Nocturnal.Ui.QM
 			}, true, null, 2, 7);
 			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Delete Portals", () => Exploits.Misc.DeletePortals(), true, null, 1, 6);
 
-			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Set Pedistals", () =>
+			Button.Create(Settings.Wrappers.Extensions.GetMenu(mainPage), "Set Pedestals", () =>
 			{
 				Apis.InputPopup.Run("Avatar ID", value =>
 				{
