@@ -509,7 +509,7 @@
     <Compile Include="Ui\QM\Toggles.cs" />
     <Compile Include="Ui\QM\UI.cs" />
     <Compile Include="Ui\QM\World.cs" />
-    <Compile Include="Ui\QM\worldhistory.cs" />
+    <Compile Include="Ui\QM\WorldHistory.cs" />
     <Compile Include="Ui\ResourceImages.cs" />
     <Compile Include="Ui\UIColors.cs" />
   </ItemGroup>
