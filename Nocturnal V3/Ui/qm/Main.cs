@@ -12,6 +12,7 @@ using Nocturnal.Settings.wrappers;
 using Nocturnal.Settings;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Nocturnal.Ui.qm
 {
@@ -198,7 +199,9 @@ namespace Nocturnal.Ui.qm
 
             Apis.qm.Toggle.toggle("Fake Lag", extensions.getmenu(Main), () => Settings.Hooks.fakelag = true, () => Settings.Hooks.fakelag = false, stopev7);
 
+            Apis.qm.Buttons.Button(Main.getmenu(), "Item Boom ball", () => exploits.setiteminhand.create<Nocturnal.monobehaviours.boomorbit>());
 
+            Apis.qm.Buttons.Button(Main.getmenu(), "Teleport ball", () => exploits.setiteminhand.create<Nocturnal.monobehaviours.Teleportobj>());
 
             objects.qmexpand.transform.parent.gameObject.minib("Copy instance id to clipboard", () =>
               {
@@ -345,12 +348,43 @@ namespace Nocturnal.Ui.qm
             }, Settings.Download_Files.defean);
 
 
+            var menu = UnityEngine.GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window");
+            var tpbutton = Apis.qm.smallbutton.Create(menu.gameObject, () => exploits.setiteminhand.create<Nocturnal.monobehaviours.Teleportobj>(),Download_Files.teleport);
+            tpbutton.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -562.5029f, -1.0042f);
+            var boombtn = Apis.qm.smallbutton.Create(menu.gameObject, () => exploits.setiteminhand.create<Nocturnal.monobehaviours.boomorbit>(),Download_Files.items);
+            boombtn.transform.localPosition = new UnityEngine.Vector3(-825, -562.5029f, -1.0042f);
+
+            //exploits.Mirror.togglemirror(true,true)
+
+            var Mirror = Apis.qm.smallbutton.Create(menu.gameObject, () =>
+            {
+                var mirrors = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>();
+                for (int i = 0; i < mirrors.Length; i++)
+                    if (mirrors[i].name == "NocturnalMirror")
+                    {
+                        GameObject.DestroyImmediate(mirrors[i].gameObject);
+                        return;
+                    }
+                exploits.Mirror.togglemirror(true);
+
+            },Download_Files.Mirror);
+            Mirror.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -672.5029f, -1.0042f);
 
 
 
+            var Mirroroptimized = Apis.qm.smallbutton.Create(menu.gameObject, () =>
+            {
+                var mirrors = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>();
+                for (int i = 0; i < mirrors.Length; i++)
+                    if (mirrors[i].name == "NocturnalMirror")
+                    {
+                        GameObject.DestroyImmediate(mirrors[i].gameObject);
+                        return;
+                    }
+                exploits.Mirror.togglemirror(true, true);
 
-
-
+            }, Download_Files.OptimizedMirror);
+            Mirroroptimized.transform.localPosition = new UnityEngine.Vector3(-825, -672.5029f, -1.0042f);
 
             objects.qmexpand.transform.SetSiblingIndex(6);
 

@@ -383,6 +383,7 @@
     <Compile Include="Apis\qm\minibuttn.cs" />
     <Compile Include="Apis\qm\Page.cs" />
     <Compile Include="Apis\qm\Slider.cs" />
+    <Compile Include="Apis\qm\smallbutton.cs" />
     <Compile Include="Apis\qm\Submenu.cs" />
     <Compile Include="Apis\qm\Submenubutton.cs" />
     <Compile Include="Apis\qm\Toggle.cs" />
@@ -397,12 +398,15 @@
     <Compile Include="exploits\orbit.cs" />
     <Compile Include="exploits\pickups.cs" />
     <Compile Include="exploits\playerlist.cs" />
+    <Compile Include="exploits\setiteminhand.cs" />
     <Compile Include="exploits\Sitonparts.cs" />
     <Compile Include="exploits\zoom.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="monobehaviours\boomorbit.cs" />
     <Compile Include="monobehaviours\outline.cs" />
     <Compile Include="monobehaviours\pagemanager.cs" />
     <Compile Include="monobehaviours\platemanager.cs" />
+    <Compile Include="monobehaviours\teleport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="server\setup.cs" />
     <Compile Include="server\websocket-sharp\ByteOrder.cs" />

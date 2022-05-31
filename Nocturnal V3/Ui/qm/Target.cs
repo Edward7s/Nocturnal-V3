@@ -51,6 +51,13 @@ namespace Nocturnal.Ui.qm
                 GameObject.DestroyImmediate(exploits.orbit.orbitobject);
                 exploits.orbit.orbitobject = null;
             }, exploits.orbit.isorbiting);
+            Buttons.Button(extensions.getmenu(Target), "Teleport", () =>
+            {
+                if (Settings.wrappers.Target.targertuser != null)
+                VRC.Player.prop_Player_0.transform.position = Settings.wrappers.Target.targertuser.transform.position;
+
+            }, false, Settings.Download_Files.teleport);
+
 
         }
     }

@@ -44,6 +44,10 @@ namespace Nocturnal.Settings
         internal static string loadingscreenmusicpath = null;
         internal static string joinsound = null;
         internal static byte[] chat = null;
+        internal static byte[] Mirror = null;
+        internal static byte[] OptimizedMirror = null;
+        internal static byte[] teleport = null;
+
         internal static byte[] tag = null;
         internal static MethodInfo runrpc = null;
         internal static MethodInfo callback = null;
@@ -78,6 +82,9 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() +  "\\UserLibs\\discord_game_sdk.dll"))
                 webclient.DownloadFile("https://nocturnal-client.xyz/Resources/discord_game_sdk.dll", Directory.GetCurrentDirectory() + "\\UserLibs\\discord_game_sdk.dll");
 
+
+
+
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"))
             {
                 var setc = new jsonmanager.discordrpc()
@@ -92,7 +99,6 @@ namespace Nocturnal.Settings
                 };
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", Newtonsoft.Json.JsonConvert.SerializeObject(setc));
             }
-
 
 
             userwhitelist = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist");
@@ -132,7 +138,12 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
 
 
-             nameplates = webclient.DownloadData("https://nocturnal-client.xyz/Resources/namepalte.png");
+
+            Mirror = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Mirror.png");
+            OptimizedMirror = webclient.DownloadData("https://nocturnal-client.xyz/Resources/optimized%20mirror.png");
+            teleport = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Teleport.png");
+
+            nameplates = webclient.DownloadData("https://nocturnal-client.xyz/Resources/namepalte.png");
 
             shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");
 

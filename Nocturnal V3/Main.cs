@@ -183,26 +183,7 @@ namespace Nocturnal
 
             //   discord.RunCallbacks();
 
-        
-         /*   if (Input.GetKeyDown(KeyCode.K))
-            {
-               var btn =  GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup/UserProfile_Compact/PanelBG/Cell_QM_User");
-                var list = btn.GetComponent<UnityEngine.UI.Button>().onClick.m_PersistentCalls;
-              //  NocturnalC.log(btn.GetComponent<UnityEngine.UI.Button>().onClick.GetDelegate();
 
-                for (int i = 0; i < list.Count; i++)
-                {
-                   // NocturnalC.log(list[i]);
-                }
-
-             //   var bot = GameObject.Find("/Decor/Vroomba").gameObject;
-             //   var hg = VRC.Player.prop_Player_0.gameObject.transform.Find("AnimationController/HeadAndHandIK/RightEffector").GetComponent<VRCHandGrasper>();
-          //   hg.field_Internal_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
-          //    hg.field_Private_VRC_Pickup_0 = bot.GetComponent<VRC_Pickup>();
-           //   hg.Method_Public_VRC_Pickup_0();
-         //    hg.Method_Public_VRC_Pickup_1();
-
-            }*/
 
 
             try
@@ -365,6 +346,10 @@ namespace Nocturnal
              Ui.resourceimages.setupc();
              MelonCoroutines.Start(exploits.playerlist.playerlistm());
 
+            while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
+                yield return null;
+            GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(880, 712, 0.5f);
+
         }
 
         private protected static void injectories()
@@ -372,8 +357,11 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.pagemanager>();
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.outline>();
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.platemanager>();
-        }    
-      
+            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.boomorbit>();
+            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.Teleportobj>();
+
+        }
+
 
 
         private protected static void logasembl(List<MelonBase> melontblList)

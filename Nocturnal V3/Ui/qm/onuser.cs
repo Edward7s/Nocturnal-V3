@@ -57,7 +57,7 @@ namespace Nocturnal.Ui.qm
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
                            VRC.Player.prop_Player_0.transform.position = User.getuserbyid().transform.position;
               
-            });
+            },false,Settings.Download_Files.teleport);
             Buttons.Button(menu, "Force Clone", () =>
             {
                 var aviid = "";
