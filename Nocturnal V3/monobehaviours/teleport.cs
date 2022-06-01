@@ -29,11 +29,15 @@ namespace Nocturnal.monobehaviours
             firstpickup = false;
             this.GetComponent<Rigidbody>().useGravity = true;
 
+
         }
 
         void OnCollisionEnter(Collision col)
         {
             if (firstpickup) return;
+            if (this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer != null) return;
+
+
             VRC.Player.prop_Player_0.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z);
             GameObject.Destroy(gameObject);
         }

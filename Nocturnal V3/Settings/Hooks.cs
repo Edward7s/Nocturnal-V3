@@ -530,6 +530,21 @@ namespace Nocturnal.Settings
                 Style.Debbuger.debugermsg($"<color=#610000>[{username} Quest Hidden");
 
             }
+
+
+            if (vrcplayer.field_Private_APIUser_0.hasModerationPowers || vrcplayer.field_Private_APIUser_0.hasSuperPowers)
+            {
+                Style.Debbuger.debugermsg($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
+                Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
+            }
+
+
+
+
+
+
+
+
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
