@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nocturnal.Ui.qm;
+﻿
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
 using Nocturnal.Settings;
@@ -15,29 +10,29 @@ namespace Nocturnal.Ui.qm
 
         internal static void runanti()
         {
-            var AntiCrash = submenu.Submenu("AntiCrash", Main.mainpage);
-            Main.mainpage.getmenu().submenu("AntiCrash", AntiCrash, Settings.Download_Files.Anitcrash, false, 0, 2);
+            var AntiCrash = submenu.Create("AntiCrash", Main.mainpage);
+            Main.mainpage.getmenu().Create("AntiCrash", AntiCrash, Settings.Download_Files.Anitcrash, false, 0, 2);
 
-            Apis.qm.Toggle.toggle("SelfAnti", AntiCrash.getmenu(), () => ConfigVars.selfanti = true, () => ConfigVars.selfanti = false,ConfigVars.selfanti);
+            Toggle.Create("SelfAnti", AntiCrash.getmenu(), () => ConfigVars.selfanti = true, () => ConfigVars.selfanti = false,ConfigVars.selfanti);
 
-            Apis.qm.Toggle.toggle("Particles", AntiCrash.getmenu(), () => ConfigVars.particlep = true, () => ConfigVars.particlep = false, ConfigVars.particlep);
+            Toggle.Create("Particles", AntiCrash.getmenu(), () => ConfigVars.particlep = true, () => ConfigVars.particlep = false, ConfigVars.particlep);
 
-            Apis.qm.Toggle.toggle("Shaders", AntiCrash.getmenu(), () => ConfigVars.ShaderP = true, () => ConfigVars.ShaderP = false, ConfigVars.ShaderP);
+            Toggle.Create("Shaders", AntiCrash.getmenu(), () => ConfigVars.ShaderP = true, () => ConfigVars.ShaderP = false, ConfigVars.ShaderP);
 
-            Apis.qm.Toggle.toggle("Audio Sources", AntiCrash.getmenu(), () => ConfigVars.audiosourcep = true, () => ConfigVars.audiosourcep = false, ConfigVars.audiosourcep);
+            Toggle.Create("Audio Sources", AntiCrash.getmenu(), () => ConfigVars.audiosourcep = true, () => ConfigVars.audiosourcep = false, ConfigVars.audiosourcep);
 
-            Apis.qm.Toggle.toggle("Ligh Sources", AntiCrash.getmenu(), () => ConfigVars.lightsp = true, () => ConfigVars.lightsp = false, ConfigVars.lightsp);
+            Toggle.Create("Ligh Sources", AntiCrash.getmenu(), () => ConfigVars.lightsp = true, () => ConfigVars.lightsp = false, ConfigVars.lightsp);
 
-            Apis.qm.Toggle.toggle("Line Renderers", AntiCrash.getmenu(), () => ConfigVars.linerenderp = true, () => ConfigVars.linerenderp = false, ConfigVars.linerenderp);
+            Toggle.Create("Line Renderers", AntiCrash.getmenu(), () => ConfigVars.linerenderp = true, () => ConfigVars.linerenderp = false, ConfigVars.linerenderp);
 
-            Apis.qm.Toggle.toggle("Meshes", AntiCrash.getmenu(), () => ConfigVars.meshp = true, () => ConfigVars.meshp = false, ConfigVars.meshp);
+            Toggle.Create("Meshes", AntiCrash.getmenu(), () => ConfigVars.meshp = true, () => ConfigVars.meshp = false, ConfigVars.meshp);
 
-            Apis.qm.Toggle.toggle("Vertecies", AntiCrash.getmenu(), () => ConfigVars.verticiesp = true, () => ConfigVars.verticiesp = false, ConfigVars.verticiesp);
+            Toggle.Create("Vertecies", AntiCrash.getmenu(), () => ConfigVars.verticiesp = true, () => ConfigVars.verticiesp = false, ConfigVars.verticiesp);
 
-            Apis.qm.Toggle.toggle("Log Shaders in Console", AntiCrash.getmenu(), () => ConfigVars.logshaderstoconsole = true, () => ConfigVars.logshaderstoconsole = false, ConfigVars.logshaderstoconsole);
+            Toggle.Create("Log Shaders in Console", AntiCrash.getmenu(), () => ConfigVars.logshaderstoconsole = true, () => ConfigVars.logshaderstoconsole = false, ConfigVars.logshaderstoconsole);
 
             GameObject maxaud = null;
-            maxaud = Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxaudiosources}] Max Audio Sources", () =>
+            maxaud = Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxaudiosources}] Max Audio Sources", () =>
             {
                 try
                 {
@@ -49,7 +44,7 @@ namespace Nocturnal.Ui.qm
             });
             GameObject maxm = null;
 
-            maxm = Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxmaterials}] Max Materials", () =>
+            maxm = Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxmaterials}] Max Materials", () =>
             {
                 try
                 {
@@ -62,7 +57,7 @@ namespace Nocturnal.Ui.qm
             });
             GameObject maxme = null;
 
-            maxme = Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxmeshes}] Max Meshes", () =>
+            maxme = Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxmeshes}] Max Meshes", () =>
             {
                 try
                 {
@@ -75,7 +70,7 @@ namespace Nocturnal.Ui.qm
             });
             GameObject maxp = null;
 
-            maxp = Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxparticles}] Max Particles", () =>
+            maxp = Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxparticles}] Max Particles", () =>
             {
                 try
                 {
@@ -89,7 +84,7 @@ namespace Nocturnal.Ui.qm
 
             GameObject maxv = null;
 
-            maxv = Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxverticies}] Max Verticies", () =>
+            maxv = Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.maxverticies}] Max Verticies", () =>
             {
                 try
                 {
@@ -102,7 +97,7 @@ namespace Nocturnal.Ui.qm
             });
             GameObject maxpsy = null;
 
-            maxpsy=Buttons.Button(AntiCrash.getmenu(), $"[{Settings.ConfigVars.particlesystem}] Max Particle Systems", () =>
+            maxpsy=Buttons.Create(AntiCrash.getmenu(), $"[{Settings.ConfigVars.particlesystem}] Max Particle Systems", () =>
             {
                 try
                 {

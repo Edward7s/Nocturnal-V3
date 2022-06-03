@@ -13,19 +13,19 @@ namespace Nocturnal.Ui.qm
 
         internal static void pickups()
         {
-            var pickupsm = submenu.Submenu("Pickups", Main.mainpage);
-            Main.mainpage.getmenu().submenu("Pickups", pickupsm, Settings.Download_Files.items, true, 1, 2);
+            var pickupsm = submenu.Create("Pickups", Main.mainpage);
+            Main.mainpage.getmenu().Create("Pickups", pickupsm, Settings.Download_Files.items, true, 1, 2);
 
             var rigidlist = new List<UnityEngine.Rigidbody>();
 
 
-            Toggle.toggle("Max Range", extensions.getmenu(pickupsm), () => Settings.ConfigVars.itemmaxrange = true, () => Settings.ConfigVars.itemmaxrange = false, Settings.ConfigVars.itemmaxrange);
-            Toggle.toggle("Pickuble", extensions.getmenu(pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);
-            Toggle.toggle("Esp", extensions.getmenu(pickupsm), () => { Settings.ConfigVars.itemesp = true;try { exploits.itemesp.addesptoitems(true); } catch { }  }, () => { Settings.ConfigVars.itemesp = false; try { exploits.itemesp.addesptoitems(false); } catch { } }, Settings.ConfigVars.itemesp);
-            Toggle.toggle("Allow Theft", extensions.getmenu(pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
-            Toggle.toggle("Owner", extensions.getmenu(pickupsm), () => exploits.pickups.ownerobj = true, () => exploits.pickups.ownerobj = false, exploits.pickups.ownerobj);
-            Toggle.toggle("Stop", extensions.getmenu(pickupsm), () => exploits.pickups.stoppickups = true, () => exploits.pickups.stoppickups = false, exploits.pickups.stoppickups);
-            Buttons.Button(pickupsm.getmenu(), "Respawn Pickups", () =>
+            Toggle.Create("Max Range", extensions.getmenu(pickupsm), () => Settings.ConfigVars.itemmaxrange = true, () => Settings.ConfigVars.itemmaxrange = false, Settings.ConfigVars.itemmaxrange);
+            Toggle.Create("Pickuble", extensions.getmenu(pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);
+            Toggle.Create("Esp", extensions.getmenu(pickupsm), () => { Settings.ConfigVars.itemesp = true;try { exploits.itemesp.addesptoitems(true); } catch { }  }, () => { Settings.ConfigVars.itemesp = false; try { exploits.itemesp.addesptoitems(false); } catch { } }, Settings.ConfigVars.itemesp);
+            Toggle.Create("Allow Theft", extensions.getmenu(pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
+            Toggle.Create("Owner", extensions.getmenu(pickupsm), () => exploits.pickups.ownerobj = true, () => exploits.pickups.ownerobj = false, exploits.pickups.ownerobj);
+            Toggle.Create("Stop", extensions.getmenu(pickupsm), () => exploits.pickups.stoppickups = true, () => exploits.pickups.stoppickups = false, exploits.pickups.stoppickups);
+            Buttons.Create(pickupsm.getmenu(), "Respawn Pickups", () =>
               {
                   for (int i = 0; i < exploits.pickups.pickupsobs.Length; i++)
                   {

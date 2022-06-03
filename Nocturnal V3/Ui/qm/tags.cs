@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nocturnal;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
-using UnityEngine;
-using VRC.SDKBase;
 using Newtonsoft.Json;
 namespace Nocturnal.Ui.qm
 {
@@ -17,10 +10,10 @@ namespace Nocturnal.Ui.qm
 
         internal static void Tagsmenu()
         {
-            var tags = submenu.Submenu("Tags", Main.mainpage);
-            Main.mainpage.getmenu().submenu("Tags", tags, Settings.Download_Files.tag, true, 2, 3);
+            var tags = submenu.Create("Tags", Main.mainpage);
+            Main.mainpage.getmenu().Create("Tags", tags, Settings.Download_Files.tag, true, 2, 3);
             var tag = "";
-            Apis.qm.Buttons.Button(tags.getmenu(), "Add new tag", () => {
+            Buttons.Create(tags.getmenu(), "Add new tag", () => {
 
                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")) { NocturnalC.log("Cloud Not Find The Key File Please try to enter your key again", "Error", ConsoleColor.Red); return; }
 
@@ -47,7 +40,7 @@ namespace Nocturnal.Ui.qm
             });
 
 
-            Apis.qm.Buttons.Button(tags.getmenu(), "Remove Tags", () => {
+            Buttons.Create(tags.getmenu(), "Remove Tags", () => {
 
                     var RemoveTags = new Settings.jsonmanager.custommsg()
                     {

@@ -11,9 +11,8 @@ namespace Nocturnal.Apis.qm
 {
     internal class Toggle
     {
-        internal static GameObject toggle(string text, GameObject menu, Action vtrue, Action vfalse, bool prevalue = false,bool half = false,float X = 628, float Y = 628)
+        internal static void Create(string text, GameObject menu, Action vtrue, Action vfalse, bool prevalue = false,bool half = false,float X = 628, float Y = 628)
         {
-            // -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
             float yvalue = half ? -329 - (Y * (200 / 2) - 45) : -140 - Y * 200;
 
         
@@ -73,7 +72,7 @@ namespace Nocturnal.Apis.qm
             }
 
             if (!half)
-            return instanciated;
+                return;
 
             instanciated.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
             iconoff.transform.localScale = new Vector3(0.5f, 0.5f, 1);
@@ -84,7 +83,6 @@ namespace Nocturnal.Apis.qm
             textt.transform.localPosition = new Vector3(20.7601f, - 20.4598f, 0);
 
             
-            return instanciated;
 
         }
     }

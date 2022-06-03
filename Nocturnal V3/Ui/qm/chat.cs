@@ -16,11 +16,11 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void Chat()
         {
-            var chatm = submenu.Submenu("Client Chat", Main.mainpage);
-            Main.mainpage.getmenu().submenu("Client Chat", chatm, Settings.Download_Files.chat, true, 1, 4);
+            var chatm = submenu.Create("Client Chat", Main.mainpage);
+            Main.mainpage.getmenu().Create("Client Chat", chatm, Settings.Download_Files.chat, true, 1, 4);
 
             var mess = "";
-           var buttonchat = Apis.qm.Buttons.Button(chatm.getmenu(),"" ,()=> Apis.inputpopout.run("Send Message", m => mess = m, () =>
+           var buttonchat = Buttons.Create(chatm.getmenu(),"" ,()=> Apis.inputpopout.run("Send Message", m => mess = m, () =>
             {
 
                 if (mess.Length > 100) { NocturnalC.log("The message its to big","ERROR",ConsoleColor.Red);  return; }

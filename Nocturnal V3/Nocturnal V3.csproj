@@ -382,10 +382,10 @@
     <Compile Include="Apis\qm\Button.cs" />
     <Compile Include="Apis\qm\minibuttn.cs" />
     <Compile Include="Apis\qm\Page.cs" />
-    <Compile Include="Apis\qm\Slider.cs" />
     <Compile Include="Apis\qm\smallbutton.cs" />
     <Compile Include="Apis\qm\Submenu.cs" />
     <Compile Include="Apis\qm\Submenubutton.cs" />
+    <Compile Include="Apis\qm\text button.cs" />
     <Compile Include="Apis\qm\Toggle.cs" />
     <Compile Include="Apis\Slider.cs" />
     <Compile Include="exploits\anticrash.cs" />
@@ -397,7 +397,7 @@
     <Compile Include="exploits\misc.cs" />
     <Compile Include="exploits\orbit.cs" />
     <Compile Include="exploits\pickups.cs" />
-    <Compile Include="exploits\playerlist.cs" />
+    <Compile Include="exploits\hudinfo.cs" />
     <Compile Include="exploits\setiteminhand.cs" />
     <Compile Include="exploits\Sitonparts.cs" />
     <Compile Include="exploits\zoom.cs" />
@@ -478,6 +478,7 @@
     <Compile Include="server\websocket-sharp\WebSocketState.cs" />
     <Compile Include="Settings\Config.cs" />
     <Compile Include="Settings\Download Files.cs" />
+    <Compile Include="Settings\garbagecollection.cs" />
     <Compile Include="Settings\Hooks.cs" />
     <Compile Include="Settings\imports.cs" />
     <Compile Include="Settings\json.cs" />

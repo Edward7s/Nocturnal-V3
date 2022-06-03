@@ -38,7 +38,7 @@ namespace Nocturnal.Ui
             canvas.transform.Find("message").transform.localPosition = new Vector3(0, 280, 0);
             canvas.transform.Find("Join").transform.localScale = new Vector3(1.2f, 1.2f, 1);
             canvas.transform.Find("Join").transform.localPosition = new Vector3(0,-420,0);
-            Component.DestroyImmediate(canvas.GetComponent<UnityEngine.Canvas>());
+            Component.DestroyImmediate(canvas.GetComponent<Canvas>());
             clientmessage = canvas.transform.Find("message").gameObject;
             joinot = canvas.transform.Find("Join").gameObject;
             clientmessage.SetActive(false);

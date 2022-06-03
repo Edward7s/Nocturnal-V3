@@ -18,40 +18,40 @@ namespace Nocturnal.Ui.qm
 
         internal static void targetmenu()
         {
-            var Target = submenu.Submenu("Target", Main.mainpage);
-            Main.mainpage.getmenu().submenu("Target", Target, Settings.Download_Files.Target, false, 3, 2);
-            Apis.qm.Buttons.Button(extensions.getmenu(Target), "Sit On Head", () => {  Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 0; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts()); 
+            var Target = submenu.Create("Target", Main.mainpage);
+            Main.mainpage.getmenu().Create("Target", Target, Settings.Download_Files.Target, false, 3, 2);
+           Buttons.Create(extensions.getmenu(Target), "Sit On Head", () => {  Sitonparts.issiting = !Sitonparts.issiting;
+                Sitonparts.part = 0; MelonLoader.MelonCoroutines.Start(Sitonparts.sitonparts()); 
             });
-            Apis.qm.Buttons.Button(extensions.getmenu(Target), "Sit On Right Hand", () => {
+           Buttons.Create(extensions.getmenu(Target), "Sit On Right Hand", () => {
                 Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 1; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts());
+                Sitonparts.part = 1; MelonLoader.MelonCoroutines.Start(Sitonparts.sitonparts());
             });
-            Apis.qm.Buttons.Button(extensions.getmenu(Target), "Sit On Left Hand", () => {
+           Buttons.Create(extensions.getmenu(Target), "Sit On Left Hand", () => {
                 Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 2; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts());
+                Sitonparts.part = 2; MelonLoader.MelonCoroutines.Start(Sitonparts.sitonparts());
             });
-            Apis.qm.Buttons.Button(extensions.getmenu(Target), "Sit On Right Shoulder", () => {
+           Buttons.Create(extensions.getmenu(Target), "Sit On Right Shoulder", () => {
                 Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 3; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts());
+                Sitonparts.part = 3; MelonLoader.MelonCoroutines.Start(Sitonparts.sitonparts());
             });
-            Apis.qm.Buttons.Button(extensions.getmenu(Target), "Sit On Left Shoulder", () => {
+           Buttons.Create(extensions.getmenu(Target), "Sit On Left Shoulder", () => {
                 Sitonparts.issiting = !Sitonparts.issiting; 
-                Sitonparts.part = 4; MelonLoader.MelonCoroutines.Start(exploits.Sitonparts.sitonparts());
+                Sitonparts.part = 4; MelonLoader.MelonCoroutines.Start(Sitonparts.sitonparts());
             });
-            var ikb = Apis.qm.Toggle.toggle("Copy Ik", extensions.getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
-            //   Apis.qm.Toggle.toggle("Copy Voice", extensions.getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);
-            Apis.qm.Toggle.toggle("Item Orbit", extensions.getmenu(Target), () => {
-                exploits.orbit.isorbiting = true;
-                exploits.orbit.orbitobject = UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);
-                exploits.orbit.orbitobject.GetComponent<BoxCollider>().enabled = false;
-                exploits.orbit.orbitobject.GetComponent<Renderer>().enabled = false;
+        //   Toggle.Create("Copy Ik", extensions.getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
+            //  Toggle.toggle("Copy Voice", extensions.getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);
+           Toggle.Create("Item Orbit", extensions.getmenu(Target), () => {
+                orbit.isorbiting = true;
+                orbit.orbitobject = UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);
+                orbit.orbitobject.GetComponent<BoxCollider>().enabled = false;
+                orbit.orbitobject.GetComponent<Renderer>().enabled = false;
             }, () => {
-                exploits.orbit.isorbiting = false;
-                GameObject.DestroyImmediate(exploits.orbit.orbitobject);
-                exploits.orbit.orbitobject = null;
-            }, exploits.orbit.isorbiting);
-            Buttons.Button(extensions.getmenu(Target), "Teleport", () =>
+                orbit.isorbiting = false;
+                GameObject.DestroyImmediate(orbit.orbitobject);
+                orbit.orbitobject = null;
+            }, orbit.isorbiting);
+            Buttons.Create(extensions.getmenu(Target), "Teleport", () =>
             {
                 if (Settings.wrappers.Target.targertuser != null)
                 VRC.Player.prop_Player_0.transform.position = Settings.wrappers.Target.targertuser.transform.position;

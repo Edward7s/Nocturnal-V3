@@ -5,15 +5,10 @@ using System.Collections;
 using UnhollowerRuntimeLib;
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Linq;
 using VRC.SDKBase;
-using System.CodeDom.Compiler;
-using Microsoft.CSharp;
-using System.Text;
-using Newtonsoft.Json;
-using System.Diagnostics;
+using System.IO;
 namespace Nocturnal
 {
     public class RunM : MelonMod
@@ -162,6 +157,17 @@ namespace Nocturnal
             NocturnalC.log("Starting Discord RPC", "DiscordRPC");
             Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
 
+
+            NocturnalC.log("Clearing Unity Cache", "Unityengine");
+            UnityEngine.Caching.CleanCache();
+            
+            var vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
+            
+            var files = Directory.GetFiles(vrcpath + "\\Cache-WindowsPlayer");
+          
+
+            System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
+
         }
 
 
@@ -175,10 +181,10 @@ namespace Nocturnal
         public static void Update()
         {
 
+           
 
 
-
-           if (Settings.ConfigVars.discordrichpresence)
+            if (Settings.ConfigVars.discordrichpresence)
             Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
 
             //   discord.RunCallbacks();
@@ -344,7 +350,7 @@ namespace Nocturnal
              Nocturnal.Ui.buttons_b.runbuttons();
               Nocturnal.Ui.qm.Main.createmenu();
              Ui.resourceimages.setupc();
-             MelonCoroutines.Start(exploits.playerlist.playerlistm());
+             MelonCoroutines.Start(exploits.hudinfo.playerlistm());
 
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
                 yield return null;

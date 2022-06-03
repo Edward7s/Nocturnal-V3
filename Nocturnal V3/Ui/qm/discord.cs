@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nocturnal.Apis;
+﻿
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
-using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 namespace Nocturnal.Ui.qm
@@ -16,10 +10,10 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void start()
         {
-            var disc = submenu.Submenu("Discord", Main.mainpage);
-            Main.mainpage.getmenu().submenu("Discord", disc, Settings.Download_Files.Discord, true, 2, 4);
+            var disc = submenu.Create("Discord", Main.mainpage);
+            Main.mainpage.getmenu().Create("Discord", disc, Settings.Download_Files.Discord, true, 2, 4);
 
-            Apis.qm.Toggle.toggle("Discord Presence", disc.getmenu(), () =>
+            Toggle.Create("Discord Presence", disc.getmenu(), () =>
             {
                 Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
 
@@ -48,7 +42,7 @@ namespace Nocturnal.Ui.qm
             Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, new object[] { !Settings.ConfigVars.discordrichpresence });
 
 
-            Buttons.Button(disc.getmenu(), "Details", () =>
+            Buttons.Create(disc.getmenu(), "Details", () =>
             {
                    var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
@@ -60,7 +54,7 @@ namespace Nocturnal.Ui.qm
                 });
             });
 
-            Buttons.Button(disc.getmenu(), "State", () =>
+            Buttons.Create(disc.getmenu(), "State", () =>
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
@@ -71,7 +65,7 @@ namespace Nocturnal.Ui.qm
 
                 });
             });
-            Buttons.Button(disc.getmenu(), "Image", () =>
+            Buttons.Create(disc.getmenu(), "Image", () =>
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";

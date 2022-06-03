@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nocturnal.Ui;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +8,7 @@ namespace Nocturnal.Apis.qm
     public class Page
     {
         internal static GameObject lastmen;
-        internal static GameObject page(string text, GameObject opengmj, byte[] img = null)
+        internal static GameObject Create(string text, GameObject opengmj, byte[] img = null)
         {
             lastmen = opengmj;
             var instanciate = GameObject.Instantiate(objects.Page, objects.Page.transform.parent);
@@ -21,8 +17,8 @@ namespace Nocturnal.Apis.qm
             instanciate.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = text;
             instanciate.SetActive(true);
             Component.Destroy(instanciate.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            instanciate.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-            instanciate.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => {
+            instanciate.GetComponent<Button>().onClick.RemoveAllListeners();
+            instanciate.GetComponent<Button>().onClick.AddListener(new Action(() => {
                 foreach (GameObject gameobject in submenu.submenuslist)
                 {
 
@@ -62,7 +58,7 @@ namespace Nocturnal.Apis.qm
             }
 
             if (img != null)
-                Apis.Change_Image.Loadfrombytes(instanciate.transform.Find("Icon").gameObject, img);
+                Change_Image.Loadfrombytes(instanciate.transform.Find("Icon").gameObject, img);
             return instanciate;
         }
 

@@ -13,7 +13,7 @@ namespace Nocturnal.Apis.qm
     {
         private static float speed = 1f;
 
-        internal static GameObject submenu(this GameObject menu,string text, GameObject menutoopen,byte[] img = null, bool half = false, float X = 628, float Y = 628)
+        internal static GameObject Create(this GameObject menu,string text, GameObject menutoopen,byte[] img = null, bool half = false, float X = 628, float Y = 628)
         {
             float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
            

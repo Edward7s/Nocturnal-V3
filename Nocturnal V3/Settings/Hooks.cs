@@ -146,7 +146,7 @@ namespace Nocturnal.Settings
             _jumpimp = Hook<jumpimp>(jumpimp, typeof(Hooks).GetMethod(nameof(_Jumpimp), BindingFlags.Static | BindingFlags.NonPublic));
 
 
-            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_1));
+            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
 
@@ -515,13 +515,13 @@ namespace Nocturnal.Settings
             Ui.Bundles.joinot.SetActive(true);
     
 
-            if (Settings.ConfigVars.onlyfriendjoin)
+            if (ConfigVars.onlyfriendjoin)
             {
                 if (vrcplayer.IsFriend())
                     Ui.Qm_basic.audiosourcenotification.Play();
 
             }
-            else if (Settings.ConfigVars.joinsound)
+            else if (ConfigVars.joinsound)
                 Ui.Qm_basic.audiosourcenotification.Play();
 
             if (ConfigVars.hidequests && vrcplayer.prop_APIUser_0.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
@@ -537,13 +537,19 @@ namespace Nocturnal.Settings
                 Style.Debbuger.debugermsg($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
                 Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
             }
+            try
+            {
+                string vr = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
+                string platform = vrcplayer.field_Private_APIUser_0.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
+                string friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
+                Apis.qm.TextButton.Create(Ui.Qm_basic.playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id,vrcplayer);
+            }
+            catch { }
 
 
 
 
-
-
-
+            garbagecollection.clear();
 
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
@@ -560,6 +566,14 @@ namespace Nocturnal.Settings
             Ui.Bundles.joinot.SetActive(false);
             Ui.Bundles.joinot.SetActive(true);
             Apis.onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+            try
+            {
+                GameObject.DestroyImmediate(Ui.Qm_basic.playerlistmenu.transform.Find("BTN_" + vrcplayer.field_Private_APIUser_0.id).gameObject);
+
+
+            }
+            catch { }
+            garbagecollection.clear();
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }

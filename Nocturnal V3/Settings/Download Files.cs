@@ -93,7 +93,7 @@ namespace Nocturnal.Settings
 
                     State = "That's what they told me.",
 
-                    LargeImage = "https://i.pinimg.com/564x/79/99/fd/7999fdb988362d0982dc774a4e7d7d60.jpg",
+                    LargeImage = "https://i.pinimg.com/originals/56/ff/6f/56ff6fce419487efa90d2f22b347dd9d.gif",
 
                     ison = true,
                 };
@@ -249,7 +249,7 @@ namespace Nocturnal.Settings
 
             Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 0, icon.Handle);
            Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 1, icon.Handle);
-            Settings.imports.SetWindowText(Main2.hwnd, "Nocturanl[VRChat]");
+            Settings.imports.SetWindowText(Main2.hwnd, "Nocturnal[VRChat]");
 
             NocturnalC.log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
             sttime.Stop();

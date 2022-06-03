@@ -17,8 +17,8 @@ namespace Nocturnal.Ui.qm
         internal static GameObject worldhistorymenu = null;
         internal static void createrhistory()
         {
-            worldhistorymenu = submenu.Submenu("World History", Main.mainpage);
-            Main.mainpage.getmenu().submenu("World History", worldhistorymenu, Settings.Download_Files.worldhistory, true, 2, 2);
+            worldhistorymenu = submenu.Create("World History", Main.mainpage);
+            Main.mainpage.getmenu().Create("World History", worldhistorymenu, Settings.Download_Files.worldhistory, true, 2, 2);
         }
 
         internal static void updatehistory(string worldname, string wolrdid)
@@ -54,7 +54,7 @@ namespace Nocturnal.Ui.qm
             {
 
             
-                Apis.qm.Buttons.Button(worldhistorymenu.getmenu(), world.worldname, () =>
+                Apis.qm.Buttons.Create(worldhistorymenu.getmenu(), world.worldname, () =>
                  {
                     
                      try

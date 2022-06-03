@@ -25,13 +25,13 @@ namespace Nocturnal.Apis
                NocturnalC.log("Error2 : " + www.error);
                 yield break;
             }
-
             var content = DownloadHandlerTexture.GetContent(www);
             var sprite2 = Instance.sprite = Sprite.CreateSprite(content,
                 new Rect(0f, 0f, content.width, content.height), new Vector2(0f, 0f), 100000f, 1000u,
                 SpriteMeshType.FullRect, Vector4.zero, false);
            // Instance.color = Color.white;
             if (sprite2 != null) Instance.sprite = sprite2;
+            www.Dispose();
         }
 
         internal static void Loadfrombytes(this GameObject gmj, byte[] img, bool isimage = true)

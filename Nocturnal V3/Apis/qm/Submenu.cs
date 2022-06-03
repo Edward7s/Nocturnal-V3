@@ -12,7 +12,7 @@ namespace Nocturnal.Apis.qm
     {
         internal static List<GameObject> submenuslist = new List<GameObject>();
 
-        internal static GameObject Submenu(string text, GameObject indexer = null,bool selfaling = false)
+        internal static GameObject Create(string text, GameObject indexer = null,bool selfaling = false)
         {
             GameObject gam = new GameObject();
             gam.AddComponent<UnityEngine.CanvasGroup>();

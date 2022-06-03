@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Nocturnal.Settings.wrappers;
 namespace Nocturnal.monobehaviours
@@ -19,7 +16,7 @@ namespace Nocturnal.monobehaviours
 
         void Awake()
         {
-            var esp = GameObject.Instantiate(this.gameObject.transform.Find("SelectRegion").gameObject, this.gameObject.transform.Find("SelectRegion").transform).gameObject;
+            GameObject esp = GameObject.Instantiate(this.gameObject.transform.Find("SelectRegion").gameObject, this.gameObject.transform.Find("SelectRegion").transform).gameObject;
             esp.name = "ESP";
             Component.DestroyImmediate(esp.GetComponent<PlayerSelector>());
             Component.DestroyImmediate(esp.GetComponent<CapsuleCollider>());
@@ -27,11 +24,11 @@ namespace Nocturnal.monobehaviours
             esp.transform.localPosition = Vector3.zero;
             string empt = "";
             Color outlinecolor = Color.white;
-            Settings.wrappers.Ranks.gettrsutrank(this.transform.gameObject.GetComponent<VRC.Player>().field_Private_APIUser_0, ref empt, ref outlinecolor);
+            Ranks.gettrsutrank(this.transform.gameObject.GetComponent<VRC.Player>().field_Private_APIUser_0, ref empt, ref outlinecolor);
             if (this.transform.gameObject.GetComponent<VRC.Player>().IsFriend())
                    outlinecolor = new Color(Settings.ConfigVars.friend[0], Settings.ConfigVars.friend[1], Settings.ConfigVars.friend[2],Settings.ConfigVars.friend[3]);
-            var rend = esp.gameObject.GetComponentsInChildren<Renderer>();
-            var outm = new Material(Ui.Bundles.outlshader);
+            Renderer[] rend = esp.gameObject.GetComponentsInChildren<Renderer>();
+            Material outm = new Material(Ui.Bundles.outlshader);
             outm.EnableKeyword("_falloff");
             outm.SetFloat("_falloff", Settings.ConfigVars.falloff * 30);
             outm.EnableKeyword("_Color");

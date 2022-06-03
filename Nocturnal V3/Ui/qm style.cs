@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
-using System.IO;
 using Nocturnal.Apis;
 using System;
-using VRC.SDKBase;
 
 namespace Nocturnal.Ui
 {
@@ -13,13 +11,12 @@ namespace Nocturnal.Ui
        internal static Thread runs = new Thread(setupstuff);
 
         internal static TMPro.TextMeshProUGUI debugtext = null;
-        internal static TMPro.TextMeshProUGUI playerlisttext = null;
         internal static AudioSource audiosourcenotification = null;
         internal static TMPro.TextMeshProUGUI firsttext = null;
         internal static TMPro.TextMeshProUGUI secondtext = null;
         internal static TMPro.TextMeshProUGUI Thirdtext = null;
         internal static TMPro.TextMeshProUGUI GUIInfo = null;
-
+        internal static Transform playerlistmenu;
         internal static void setupstuff()
         {
             var styletimer = System.Diagnostics.Stopwatch.StartNew();
@@ -32,7 +29,7 @@ namespace Nocturnal.Ui
                 DashBoardV.Find("Header_QuickActions").gameObject.SetActive(false);
                 DashBoardV.Find("Header_QuickLinks").gameObject.SetActive(false);
 
-                var childs = DashBoardV.gameObject.GetComponentsInChildren<UnityEngine.UI.Button>(true);
+                var childs = DashBoardV.gameObject.GetComponentsInChildren<Button>(true);
                 for (int i = 0; i < childs.Length; i++)
                 {
                     //  if (childs[i].transform.Find("Background") == null)
@@ -76,8 +73,8 @@ namespace Nocturnal.Ui
                 GameObject.DestroyImmediate(debbuger.transform.Find("ThankYouMM").gameObject);
                 debbuger.name = "N_Debbuger";
                 var mask = debbuger.transform.Find("SupportVRChat").gameObject;
-                Component.DestroyImmediate(mask.GetComponent<UnityEngine.UI.Button>());
-                Component.DestroyImmediate(mask.GetComponent<UnityEngine.UI.RawImage>());
+                Component.DestroyImmediate(mask.GetComponent<Button>());
+                Component.DestroyImmediate(mask.GetComponent<RawImage>());
                 Component.DestroyImmediate(mask.GetComponent<VRC.DataModel.Core.BindingComponent>());
                 debbuger.transform.SetSiblingIndex(0);
                 debbuger.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(950, 570);
@@ -87,8 +84,8 @@ namespace Nocturnal.Ui
                 var img2 = GameObject.Instantiate(mask, mask.transform).gameObject;
                 var maskimg = mask.gameObject.GetComponent<Image>();
                 var img2i = img2.gameObject.GetComponent<Image>();
-                MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(maskimg, "https://nocturnal-client.xyz/Resources/mask%20qm.png"));
-                MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(img2i,Settings.ConfigVars.QmDebbugerImg));
+                MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(maskimg, "https://nocturnal-client.xyz/Resources/mask%20qm.png"));
+                MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(img2i,Settings.ConfigVars.QmDebbugerImg));
                 img2i.color = new Color(1, 1, 1, Settings.ConfigVars.debuggeropacity);
                 img2i.color = Color.white;
                 img2.gameObject.transform.localPosition = Vector3.zero;
@@ -98,7 +95,7 @@ namespace Nocturnal.Ui
                 var img3i = img3.gameObject.GetComponent<Image>();
               
                 img3.transform.localPosition = Vector3.zero;
-                MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(img3i, "https://nocturnal-client.xyz/Resources/border.png"));
+                MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(img3i, "https://nocturnal-client.xyz/Resources/border.png"));
                 mask.transform.localPosition = new Vector3(0, 295, 0);
                 mask.transform.localScale = new Vector3(1.05f, 2.61f, 1f);
                 var debbugertxt = new GameObject();
@@ -119,10 +116,11 @@ namespace Nocturnal.Ui
             var userblackbackground = objects.userinfpannel.transform.Find("User Panel/Panel").gameObject;
             var ldimg = objects.userinfpannel.transform.Find("User Panel/PanelHeaderBackground").gameObject.GetComponent<Image>();
             ldimg.color = Color.white;
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(ldimg, "https://nocturnal-client.xyz/cl/Download/Media/offwhite.png"));
+            MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(ldimg, "https://nocturnal-client.xyz/cl/Download/Media/offwhite.png"));
             var bgimg = userblackbackground.gameObject.GetComponent<Image>();
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(bgimg, "https://nocturnal-client.xyz/Resources/Normalborder.png"));
+            MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(bgimg, "https://nocturnal-client.xyz/Resources/Normalborder.png"));
             bgimg.color = Color.black;
+            bgimg.raycastTarget = false;
 
             userblackbackground.transform.localScale = new Vector3(1.05f, 0.6f, 1);
             userblackbackground.transform.localPosition = new Vector3(400f, -512.4001f, 0);
@@ -130,7 +128,6 @@ namespace Nocturnal.Ui
             bio.localScale = new Vector3(0.95f, 0.95f, 1);
             bio.transform.localPosition = new Vector3(365.1563f, -511.416f, 0);
             var userblackbg2 = GameObject.Instantiate(userblackbackground, userblackbackground.transform.parent).transform;
-         
 
             userblackbg2.transform.localScale = new Vector3(1.05f, 0.34f, 1);
             userblackbg2.transform.localPosition = new Vector3(400f, -135.7954f, 0);
@@ -145,75 +142,137 @@ namespace Nocturnal.Ui
             qm.playOnAwake = true;
             MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(qm, Settings.Download_Files.musicpath));
             qm.volume = Settings.ConfigVars.clientvolume;
-            var toinst = DashBoardV.transform.Find("VRC+_Banners").gameObject;
-            Transform path = Settings.ConfigVars.rightsideplayerlist ? GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button").transform : GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Button").transform;
-            Vector3 poz = Settings.ConfigVars.rightsideplayerlist? new Vector3(46, -534, 0) : new Vector3(-967, -512, 0);
             qm.GetComponent<AudioSource>().enabled = Settings.ConfigVars.qmmusic;
 
-            var playerlist = GameObject.Instantiate(toinst, path);
-            GameObject.DestroyImmediate(playerlist.transform.Find("ThankYouMM").gameObject);
-            playerlist.gameObject.SetActive(true);
-            Component.DestroyImmediate(playerlist.GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            var mask2 = playerlist.transform.Find("SupportVRChat");
-            playerlist.transform.localPosition = new Vector3(457, 1035, 1);
-            mask2.name = "Mask";
-            mask2.transform.localPosition = poz;
-            mask2.transform.localScale = new Vector3(0.9f, 4.5f, 1);
-            Component.DestroyImmediate(mask2.GetComponent<Button>());
-            Component.DestroyImmediate(mask2.GetComponent<UnityEngine.UI.RawImage>());
-            mask2.gameObject.AddComponent<Image>();
+        
+       
           
-            var image = GameObject.Instantiate(mask2, mask2.transform);
-            image.localScale = Vector3.one;
-            image.localPosition = Vector3.zero;
-            var border = GameObject.Instantiate(image, image.transform);
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(image.gameObject.GetComponent<Image>(),Settings.ConfigVars.PlayerListImg));
-            mask2.gameObject.AddComponent<UnityEngine.UI.Mask>().showMaskGraphic = false;
-            mask2.gameObject.Loadfrombytes(Settings.Download_Files.playerlistmask);
-            border.gameObject.Loadfrombytes(Settings.Download_Files.playerlistborder);
-            border.transform.localPosition = Vector3.zero;
-            image.GetComponent<UnityEngine.UI.Image>().color = new Color(0.7f, 0.7f, 0.7f, Settings.ConfigVars.playelerlistopacity);
-            border.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 0.95f);
-            var playlerlistext = GameObject.Instantiate(border.gameObject, border.transform.parent.transform);
-            Component.DestroyImmediate(playlerlistext.GetComponent<Image>());
-            playerlisttext = playlerlistext.AddComponent<TMPro.TextMeshProUGUI>();
-            playerlisttext.enableWordWrapping = false;
-            playerlisttext.richText = true;
-            playerlisttext.text = "";
-            playerlisttext.maxVisibleLines = 30;
-            playerlisttext.fontSize = 24;
-            playerlisttext.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            playerlisttext.gameObject.transform.localScale = new Vector3(0.95f, 0.21f, 1);
-            playerlisttext.gameObject.transform.localPosition = new Vector3(60, - 8, 0);
-            playerlisttext.transform.SetSiblingIndex(0);
-            playerlisttext.transform.parent.parent.parent.gameObject.SetActive(Settings.ConfigVars.playerlist);
-
+           // image.gameObject.AddComponent<VerticalLayoutGroup>();
+           // border.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            
+          
             Component.DestroyImmediate(objects.qmbackground.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             var qmimage = GameObject.Instantiate(objects.qmbackground, objects.qmbackground.transform);
             qmimage.name = "_Background";
-            var imagecomponentqm = qmimage.gameObject.GetComponent<UnityEngine.UI.Image>();
-            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(imagecomponentqm, Settings.ConfigVars.QmImg));
+            var imagecomponentqm = qmimage.gameObject.GetComponent<Image>();
+            MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(imagecomponentqm, Settings.ConfigVars.QmImg));
             imagecomponentqm.color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
-            var qmmask = objects.qmbackground.AddComponent<UnityEngine.UI.Mask>();
+            var qmmask = objects.qmbackground.AddComponent<Mask>();
             qmmask.showMaskGraphic = false;
             objects.qmbackground.gameObject.Loadfrombytes(Settings.Download_Files.quickmenumask);
             qmimage.transform.localPosition = Vector3.zero;
             qmimage.transform.localScale = Vector3.one;
 
 
- 
+            Transform pathp = Settings.ConfigVars.rightsideplayerlist ? GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button").transform : GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Button").transform;
+            Vector3 pozp = Settings.ConfigVars.rightsideplayerlist ? new Vector3(515, 0, 0) : new Vector3(-515, 0, 0);
+            var instanciatedmenu = GameObject.Instantiate(GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window"), pathp.transform);
+            instanciatedmenu.name = "Playerlist";
+            instanciatedmenu.gameObject.SetActive(Settings.ConfigVars.playerlist);
+            var recivedchilds = instanciatedmenu.GetComponentsInChildren<RectTransform>(true);
+            for (int i = 0; i < recivedchilds.Length; i++)
+            {
+                try
+                {
+
+                    if (recivedchilds[i].name == "Handle") continue;
+
+                    if (recivedchilds[i].transform.parent.gameObject.name == "QMParent" && recivedchilds[i].name != "Menu_Settings")
+                        GameObject.Destroy(recivedchilds[i].gameObject);
+
+
+                    if (recivedchilds[i].transform.parent.parent.parent.parent.gameObject.name == "Menu_Settings")
+                       GameObject.Destroy(recivedchilds[i].gameObject);
+
+                    if (recivedchilds[i].name == "Menu_Settings")
+                    {
+                      //  Component.Destroy(recivedchilds[i].GetComponent<VRC.DataModel.Core.BindingComponent>());
+                        GameObject.Destroy(recivedchilds[i].transform.Find("QMHeader_H1").gameObject);
+                        var comps = recivedchilds[i].GetComponents<Component>();
+                        for (int i2 = 0; i2 < comps.Length; i2++)
+                        {
+                            // NocturnalC.log(comps[i2].GetType());
+                            if (comps[i2].ToString().Contains(".RectTransform") || comps[i2].ToString().Contains(".CanvasGroup")) continue;
+
+                           Component.DestroyImmediate(comps[i2]);
+
+                        }
+                        recivedchilds[i].gameObject.SetActive(true);
+                       // GameObject scrollbgmj = recivedchilds[i].gameObject.transform.Find("Panel_QM_ScrollRect/Scrollbar").gameObject;
+                       // scrollbgmj.gameObject.SetActive(true);
+                     
+
+                       // NocturnalC.log(recivedchilds[i].gameObject.activeSelf);
+                    }
+
+                    if (recivedchilds[i].transform.parent.gameObject != instanciatedmenu.gameObject || recivedchilds[i].gameObject.name == "QMParent") continue;
+                    GameObject.Destroy(recivedchilds[i].gameObject);
+
+
+                }
+                catch { }
+
+
+            }
+
+            instanciatedmenu.transform.localPosition = pozp;
+
+         GameObject playerlistmask = new GameObject("Playerlistmask");
+            playerlistmask.transform.parent = instanciatedmenu.transform;
+            playerlistmask.AddComponent<Image>();
+            playerlistmask.transform.localScale = new Vector3(8.5f, 11, 1);
+            playerlistmask.transform.localPosition = Vector3.one;
+            playerlistmask.transform.localEulerAngles = Vector3.zero;
+            GameObject playerlistbackground = GameObject.Instantiate(playerlistmask, playerlistmask.transform);
+            playerlistbackground.transform.localPosition = Vector3.zero;
+            playerlistbackground.transform.localScale = Vector3.one;
+            GameObject Borrder = GameObject.Instantiate(playerlistbackground, playerlistmask.transform);
+
+            playerlistmask.gameObject.Loadfrombytes(Settings.Download_Files.playerlistmask);
+            Borrder.gameObject.Loadfrombytes(Settings.Download_Files.playerlistborder);
+            Borrder.transform.localScale = new Vector3(1.01f, 1.001f, 1);
+            Borrder.transform.localPosition = Vector3.zero;
+            MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(playerlistbackground.gameObject.GetComponent<Image>(), Settings.ConfigVars.PlayerListImg));
+            playerlistmask.AddComponent<Mask>().showMaskGraphic = false;
+            Borrder.gameObject.GetComponent<Image>().raycastTarget = false;
+
+            GameObject holderplayerlist = new GameObject("Holder");
+            holderplayerlist.transform.parent = playerlistmask.transform;
+            holderplayerlist.transform.localEulerAngles = Vector3.zero;
+            holderplayerlist.transform.localScale = new Vector3(1, 1, 1);
+            Transform qmparent = instanciatedmenu.transform.Find("QMParent").transform;
+            qmparent.parent = holderplayerlist.transform;
+            qmparent.transform.localPosition = new Vector3(-174.3137f, -46.8702f, 0);
+            qmparent.transform.localScale = new Vector3(0.09f, 0.092f, 1);
+            Component.DestroyImmediate(qmparent.GetComponent<RectMask2D>());
+            Component.DestroyImmediate(qmparent.GetComponent<UIInvisibleGraphic>());
+            holderplayerlist.transform.SetSiblingIndex(1);
+
+            GameObject holder = holderplayerlist.transform.Find("QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup").gameObject;
+            Component.DestroyImmediate(holder.GetComponent<VerticalLayoutGroup>());
+            GridLayoutGroup gridl = holder.AddComponent<GridLayoutGroup>();
+            gridl.constraintCount = 100;
+            gridl.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+            gridl.cellSize = new Vector2(0, 50); 
+            holder.transform.localPosition = new Vector3(450, 412, 0);
+            Component.DestroyImmediate(holder.transform.parent.GetComponent<RectMask2D>());
+            holderplayerlist.transform.localPosition = new Vector3(179, 9.1654f, -1.3837f);
+            Transform scrollbar = holderplayerlist.transform.Find("QMParent/Menu_Settings/Panel_QM_ScrollRect/Scrollbar").transform;
+            scrollbar.localPosition = new Vector3(-470, 0, 0);
+            scrollbar.localScale = new Vector3(1.5f, 1, 1);
+            holder.transform.parent.localPosition = Vector3.zero;
+            playerlistmenu = holder.transform;
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/BackgroundLayer02").gameObject.SetActive(false);
             Ui.uicolors.hudcolors();
             Ui.uicolors.applybutton();
             Ui.uicolors.ApplyText();
-
 
             var joinsound = new GameObject("Joinsound");
             joinsound.transform.parent = GameObject.Find("/UserInterface").transform;
             audiosourcenotification  = joinsound.AddComponent<AudioSource>();
             audiosourcenotification.playOnAwake = false;
             audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
-         MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(audiosourcenotification, Settings.Download_Files.joinsound));
+            MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(audiosourcenotification, Settings.Download_Files.joinsound));
             var infop =  GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMNotificationsArea/DebugInfoPanel");
             var secondp = GameObject.Instantiate(infop, infop.transform.parent);
             secondp.GetComponent<UnityEngine.UI.LayoutElement>().enabled = true;
@@ -245,7 +304,7 @@ namespace Nocturnal.Ui
             instanciatedpushb.transform.localPosition = new Vector3(-357, - 285.0831f, 663.0096f);
             instanciatedpushb.transform.localScale = new Vector3(1.3f, 1.5f, 1);
             var tobetext = GameObject.Instantiate(instanciatedpushb, instanciatedpushb.transform).gameObject;
-            Component.DestroyImmediate(tobetext.GetComponent<UnityEngine.UI.Image>());
+            Component.DestroyImmediate(tobetext.GetComponent<Image>());
             GUIInfo = tobetext.AddComponent<TMPro.TextMeshProUGUI>();
             GUIInfo.text = "Loading";
             GUIInfo.fontSize = 13;
@@ -258,7 +317,9 @@ namespace Nocturnal.Ui
             instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.hudUi);
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer").transform.localScale = new Vector3(0.9f,0.9f,1);
 
-        //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
+
+
+            //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
 
 
 

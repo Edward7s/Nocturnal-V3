@@ -24,7 +24,7 @@ namespace Nocturnal.monobehaviours
          void Update()
         {
             if (!firstpickup) return;
-            var owner = this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer;
+            VRCPlayerApi owner = this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer;
             if (owner == null) return;
            firstpickup = false;
            this.GetComponent<Rigidbody>().useGravity = true;
