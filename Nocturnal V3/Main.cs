@@ -9,14 +9,15 @@ using System.Threading;
 using System.Linq;
 using VRC.SDKBase;
 using System.IO;
+using System.Diagnostics;
+
 namespace Nocturnal
 {
     public class RunM : MelonMod
     {
         //Only for Debbuging
         public override void OnApplicationStart() => Main2.Start();
-        public override void OnLateUpdate() => Main2.Update();
-        public override void OnGUI() => Main2.OnGui();
+
 
     }
    
@@ -90,6 +91,33 @@ namespace Nocturnal
             
                List<MelonBase> melonmodslist = new List<MelonBase>(MelonLoader.MelonHandler.Mods);
             melonmodslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
+
+           MelonBase mod = melonmodslist.Where(mod => mod.Info.Name == "Nocturnal Loader").FirstOrDefault();
+            if (mod != null)
+            {
+                System.Net.WebClient webclient = new System.Net.WebClient();
+                string clientversion = webclient.DownloadString("https://nocturnal-client.xyz/Resources/loaderversion.txt");
+                if (mod.Info.Version != clientversion)
+                {
+                    NocturnalC.log("LOADER OUTDATED", "ERROR", ConsoleColor.Red);
+                    NocturnalC.log("Installing the new loader", "Asembly", ConsoleColor.Red);
+                    MelonLogger.Error("Installing the new loader");
+                    string filepath = mod.Location;
+                    File.Delete(filepath);
+                    webclient.DownloadFile("https://nocturnal-client.xyz/Resources/Nocturnal%20Loader.dll", filepath);
+                    string arguments = "";
+                    foreach (string stringi in Environment.GetCommandLineArgs())
+                    {
+                        arguments += $"{stringi} ";
+                    }
+                    Process vrc = new Process();
+                    vrc.StartInfo.FileName = $"{Directory.GetCurrentDirectory()}\\VRChat.exe";
+                    vrc.StartInfo.Arguments = arguments;
+                    vrc.Start();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+   
 
             List<MelonBase> melonpluginslist = new List<MelonBase>(MelonLoader.MelonHandler.Plugins);
             melonpluginslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
@@ -171,140 +199,7 @@ namespace Nocturnal
         }
 
 
-
-        internal static GameObject secondcamera = null;
-        internal static bool isthirdpersonback = false;
-        internal static bool isthirdp = false;
-
-
-
-        public static void Update()
-        {
-
-           
-
-
-            if (Settings.ConfigVars.discordrichpresence)
-            Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
-
-            //   discord.RunCallbacks();
-
-
-
-
-            try
-            {
-                if (VRC.Player.prop_Player_0.transform == null)
-                    return;
-            }
-            catch
-            {
-                return;
-            }
-
-
-
-                if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
-                if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) exploits.misc.jump();
-
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    exploits.Fly.flytoggle = !exploits.Fly.flytoggle;
-
-                    Settings.wrappers.extensions.togglecontroller(!exploits.Fly.flytoggle);
-
-                }
-
-                if (Settings.ConfigVars.Thidperson)
-                {
-                    if (Input.GetKeyDown(KeyCode.T))
-                    {
-                        if (secondcamera != null && !isthirdpersonback)
-                        {
-                            GameObject.DestroyImmediate(secondcamera);
-                            secondcamera = null;
-                            Settings.wrappers.extensions.camera().gameObject.SetActive(true);
-                            isthirdp = false;
-
-                        }
-                        else if (!isthirdpersonback)
-                        {
-
-                            secondcamera = new GameObject("Camera Holder");
-                            secondcamera.AddComponent<Camera>();
-                            secondcamera.transform.parent = Settings.wrappers.extensions.camera().transform;
-                            secondcamera.transform.localEulerAngles = Vector3.zero;
-                            secondcamera.transform.localScale = Vector3.one;
-                            secondcamera.transform.localPosition = new Vector3(0, 0, -2);
-                            Settings.wrappers.extensions.camera().gameObject.SetActive(false);
-                            isthirdpersonback = true;
-                            isthirdp = true;
-                        }
-                        else
-                        {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, 2);
-                            secondcamera.transform.localEulerAngles = new Vector3(0, -180, 0);
-                            isthirdpersonback = false;
-                        }
-                    }
-
-                    if (isthirdp)
-                    {
-                        if (Input.mouseScrollDelta.y == 1)
-                        {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, secondcamera.transform.localPosition.z - 0.15f);
-                        }
-
-
-                        if (Input.mouseScrollDelta.y == -1)
-                        {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, secondcamera.transform.localPosition.z + 0.15f);
-                        }
-                    }
-
-                }
-
-
-
-            }
-            try
-            {
-                if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton1))
-                {
-                    if (exploits.Sitonparts.issiting)
-                    {
-                        exploits.Sitonparts.issiting = false;
-                        Settings.wrappers.extensions.togglecontroller(true);
-                    }
-                    if (Settings.ConfigVars.infinitejump)
-                        exploits.misc.jump();
-
-
-                }
-
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1))
-                {
-                    if (Networking.LocalPlayer.GetJumpImpulse() == 0)
-                    Networking.LocalPlayer.SetJumpImpulse(1);
-                    if (Settings.ConfigVars.forcejump)
-                        exploits.misc.jump();
-                }
-               
-
-            }
-            catch { }
-            exploits.pickups.stopobjs();
-            exploits.pickups.ownerpickups();
-            exploits.orbit.orbituser();
-            exploits.Fly.fly();
-            exploits.zoom._zoom();
-        }
-        public static void OnGui()
-        {
-
-        }
+       
         private static Thread starsocket = new Thread(server.setup.serversetup);
         private static IEnumerator waitforuser()
         {
@@ -326,6 +221,7 @@ namespace Nocturnal
             while (GameObject.Find("/UserInterface") == null)
                yield return null;
 
+            NocturnalC.log("Founded UserInteface");
 
 
             Ui.Bundles.loadnotifications();
@@ -334,9 +230,13 @@ namespace Nocturnal
                 images[i].raycastTarget = false;
 
 
+            GameObject NocturnalUpdateManager = new GameObject("NocturnalUpdateManager");
+            NocturnalUpdateManager.AddComponent<monobehaviours.UpdateManager>();
+            NocturnalUpdateManager.transform.parent = GameObject.Find("/_Application").transform;
 
 
-            NocturnalC.log("Founded UserInteface");
+
+
            Nocturnal.Ui.LoadingScreen.runti();
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
                 yield return null;
@@ -360,6 +260,7 @@ namespace Nocturnal
 
         private protected static void injectories()
         {
+            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.UpdateManager>();
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.pagemanager>();
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.outline>();
             ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.platemanager>();

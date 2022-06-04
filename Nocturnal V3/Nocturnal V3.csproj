@@ -407,6 +407,7 @@
     <Compile Include="monobehaviours\pagemanager.cs" />
     <Compile Include="monobehaviours\platemanager.cs" />
     <Compile Include="monobehaviours\teleport.cs" />
+    <Compile Include="monobehaviours\updatemanager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="server\setup.cs" />
     <Compile Include="server\websocket-sharp\ByteOrder.cs" />
