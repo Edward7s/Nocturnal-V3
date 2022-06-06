@@ -13,7 +13,7 @@ namespace Nocturnal.Ui
     internal class buttons_b
     {
         internal static GameObject buttonaddtag;
-        internal static void runbuttons()
+        internal static void Runbuttons()
         {
             var addnewgmj = new GameObject();
             var grid = addnewgmj.AddComponent<GridLayoutGroup>();
@@ -21,7 +21,7 @@ namespace Nocturnal.Ui
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 9;
             addnewgmj.name = "N_VBTNHOLDER";
-            addnewgmj.transform.parent = objects.userinfpannel.transform.Find("User Panel").transform;
+            addnewgmj.transform.parent = Objects._userinfpannel.transform.Find("User Panel").transform;
             addnewgmj.transform.localPosition = new Vector3(49.7516f, -281.5556f, 0);
             addnewgmj.transform.localScale = Vector3.one;
             addnewgmj.transform.localEulerAngles = Vector3.zero;
@@ -50,7 +50,7 @@ namespace Nocturnal.Ui
                     if (user.field_Private_APIUser_0.id == userp.field_Private_APIUser_0.id)
                             aviid = user.prop_ApiAvatar_0.id;
                     
-                    exploits.misc.changetoavi(aviid);
+                    Exploits.Misc.Changetoavi(aviid);
                 }
                 catch{ }
               
@@ -63,7 +63,7 @@ namespace Nocturnal.Ui
                 try
                 {
                     userp.field_Private_APIUser_0.Fetch();
-                    NocturnalC.log(userp.field_Private_APIUser_0.avatarId);
+                    NocturnalC.Log(userp.field_Private_APIUser_0.avatarId);
                     System.Windows.Forms.Clipboard.SetText(userp.field_Private_APIUser_0.avatarId);
 
                 }
@@ -73,7 +73,7 @@ namespace Nocturnal.Ui
 
             BButton.NormalButton("Copy avi img", addnewgmj, () =>
             {
-                NocturnalC.log(userp.field_Private_APIUser_0.currentAvatarImageUrl);
+                NocturnalC.Log(userp.field_Private_APIUser_0.currentAvatarImageUrl);
                 System.Windows.Forms.Clipboard.SetText(userp.field_Private_APIUser_0.currentAvatarImageUrl);
             });
 
@@ -84,11 +84,11 @@ namespace Nocturnal.Ui
 
 
 
-                Apis.inputpopout.run("", value => tagtosend = value, () => {
+                Apis.Inputpopout.Run("", value => tagtosend = value, () => {
 
                     if (tagtosend.Trim().Length > 60)
                     {
-                        NocturnalC.log("Message can not be bigger then 60C");
+                        NocturnalC.Log("Message can not be bigger then 60C");
                         return;
                     }
 
@@ -114,7 +114,7 @@ namespace Nocturnal.Ui
             });
 
             buttonaddtag.gameObject.SetActive(false);
-            biguiscrollbar.setscrollbars();
+            Biguiscrollbar.setscrollbars();
             Bundles.loadrain();
 
 
@@ -137,23 +137,23 @@ namespace Nocturnal.Ui
             newworlgmj.transform.localEulerAngles = Vector3.zero;
             BButton.NormalButton("Copy Id", newworlgmj, () =>
             {
-                NocturnalC.log(worldinfo.field_Public_ApiWorldInstance_0.id);
+                NocturnalC.Log(worldinfo.field_Public_ApiWorldInstance_0.id);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Public_ApiWorldInstance_0.id);
             });
             BButton.NormalButton("Creator Id", newworlgmj, () =>
             {
-                NocturnalC.log(worldinfo.field_Public_APIUser_0.id);
+                NocturnalC.Log(worldinfo.field_Public_APIUser_0.id);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Public_APIUser_0.id);
             });
             BButton.NormalButton("Asset Url", newworlgmj, () =>
             {
-                NocturnalC.log(worldinfo.field_Private_ApiWorld_0.assetUrl);
+                NocturnalC.Log(worldinfo.field_Private_ApiWorld_0.assetUrl);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Private_ApiWorld_0.assetUrl);
                 Application.OpenURL(worldinfo.field_Private_ApiWorld_0.assetUrl);
             });
             BButton.NormalButton("Copy Img", newworlgmj, () =>
             {
-                NocturnalC.log(worldinfo.field_Private_ApiWorld_0.imageUrl);
+                NocturnalC.Log(worldinfo.field_Private_ApiWorld_0.imageUrl);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Private_ApiWorld_0.imageUrl);
             });
         }

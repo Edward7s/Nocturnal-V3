@@ -4,64 +4,77 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using System.Collections.Generic;
 namespace Nocturnal.Settings
 {
     internal class Download_Files
     {
         internal static string shaderlist = null;
         internal static string userwhitelist = null;
-        internal static byte[] nameplates = null;
-        internal static byte[] Nameplateicon = null;
-        internal static byte[] playerlistmask = null;
-        internal static byte[] playerlistborder = null;
-        internal static byte[] quickmenumask = null;
 
-        internal static byte[] Main = null;
-        internal static byte[] Saveconfig = null;
-        internal static byte[] EnterKey = null;
-        internal static byte[] ui = null;
-        internal static byte[] Toggles = null;
-        internal static byte[] Target = null;
-        internal static byte[] Anitcrash = null;
-        internal static byte[] Colors = null;
-        internal static byte[] clipboard = null;
-        internal static byte[] World = null;
-        internal static byte[] items = null;
-        internal static byte[] worldhistory = null;
-        internal static byte[] mute = null;
-        internal static byte[] defean = null;
-        internal static byte[] next = null;
-        internal static byte[] prev = null;
-        internal static byte[] stopplay = null;
+
+        private static string nameplates = "https://nocturnal-client.xyz/Resources/namepalte.png";
+        private static string Nameplateicon = "https://nocturnal-client.xyz/Resources/iconbackground.png";
+        private static string playerlistmask = "https://nocturnal-client.xyz/Resources/maskplist.png";
+        private static string playerlistborder = "https://nocturnal-client.xyz/Resources/playerlistborder.png";
+        private static string quickmenumask = "https://nocturnal-client.xyz/Resources/qmmask.png";
+        private static string Main = "https://nocturnal-client.xyz/Resources/icons/Base.png";
+        private static string Saveconfig = "https://nocturnal-client.xyz/Resources/icons/Save%20Config.png";
+        private static string EnterKey = "https://nocturnal-client.xyz/Resources/icons/Key.png";
+        private static string ui = "https://nocturnal-client.xyz/Resources/icons/Ui.png";
+        private static string Toggles = "https://nocturnal-client.xyz/Resources/icons/Toggle.png";
+        private static string Target = "https://nocturnal-client.xyz/Resources/icons/target.png";
+        private static string Anitcrash = "https://nocturnal-client.xyz/Resources/icons/anticrash.png";
+        private static string Colors = "https://nocturnal-client.xyz/Resources/icons/Colors.png";
+        private static string clipboard = "https://nocturnal-client.xyz/Resources/icons/clipboard.png";
+        private static string World = "https://nocturnal-client.xyz/Resources/icons/World.png";
+        private static string items = "https://nocturnal-client.xyz/Resources/icons/items.png";
+        private static string worldhistory = "https://nocturnal-client.xyz/Resources/icons/World%20History.png";
+        private static string mute = "https://nocturnal-client.xyz/Resources/icons/Microphone.png";
+        private static string defean = "https://nocturnal-client.xyz/Resources/icons/defean.png";
+        private static string next = "https://nocturnal-client.xyz/Resources/icons/rightarrow.png";
+        private static string prev = "https://nocturnal-client.xyz/Resources/icons/leftarrow.png";
+        private static string stopplay = "https://nocturnal-client.xyz/Resources/icons/playpause.png";
+        private static string logo = "https://nocturnal-client.xyz/Resources/Nocturnal%20logo.png";
+        private static string chatmask = "https://nocturnal-client.xyz/Resources/chatmask.png";
+        private static string chat = "https://nocturnal-client.xyz/Resources/Chat.png";
+        private static string Mirror = "https://nocturnal-client.xyz/Resources/Mirror.png";
+        private static string OptimizedMirror = "https://nocturnal-client.xyz/Resources/optimized%20mirror.png";
+        private static string teleport = "https://nocturnal-client.xyz/Resources/Teleport.png";
+        private static string tag = "https://nocturnal-client.xyz/Resources/Tagas.png";
+        private static string Discord = "https://nocturnal-client.xyz/Resources/Discord.png";
+        private static string micmenu = "https://nocturnal-client.xyz/Resources/mic%20icon.png";
+
+
+        internal static string musicpath = null;
+        internal static string loadingscreenmusicpath = null;
+        internal static string joinsound = null;
+        internal static MethodInfo runrpc = null;
+        internal static MethodInfo callback = null;
+        internal static MethodInfo activitymanager = null;
+        internal static MethodInfo setworldinfo = null;
         internal static byte[] loadingscreen = null;
         internal static byte[] shaderesp = null;
         internal static byte[] Rain = null;
         internal static byte[] uinotifications = null;
-        internal static byte[] logo = null;
-        internal static byte[] chatmask = null;
-        internal static string musicpath = null;
-        internal static string loadingscreenmusicpath = null;
-        internal static string joinsound = null;
-        internal static byte[] chat = null;
-        internal static byte[] Mirror = null;
-        internal static byte[] OptimizedMirror = null;
-        internal static byte[] teleport = null;
-
-        internal static byte[] tag = null;
-        internal static MethodInfo runrpc = null;
-        internal static MethodInfo callback = null;
-        internal static MethodInfo activitymanager = null;
-        internal static byte[] Discord = null;
-        internal static MethodInfo setworldinfo = null;
-        internal static byte[] micmenu = null;
-
+        internal static jsonmanager.downloadhandler imagehandler;
         internal static void DownloadHanler()
         {
 
             var sttime = Stopwatch.StartNew();
-            NocturnalC.log("Starting DownloadHander");
+            NocturnalC.Log("Starting DownloadHander");
             var webclient = new System.Net.WebClient();
+
+
+
+
+
+
+            Rain = webclient.DownloadData("https://nocturnal-client.xyz/Resources/rain2");
+            loadingscreen = webclient.DownloadData("https://nocturnal-client.xyz/Resources/loading");
+            shaderesp = webclient.DownloadData("https://nocturnal-client.xyz/Resources/outline");
+            uinotifications = webclient.DownloadData("https://nocturnal-client.xyz/Resources/ui");
+            shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");
 
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3"))
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3");
@@ -72,6 +85,40 @@ namespace Nocturnal.Settings
             
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json"))
                 File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json").Close();
+
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json"))
+            {
+                File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json").Close();
+
+                var jslist = new jsonmanager.downloadhandler()
+                {
+                    micmenu = Convert.ToBase64String(webclient.DownloadData("https://nocturnal-client.xyz/Resources/mic%20icon.png")),         
+                };
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json", Newtonsoft.Json.JsonConvert.SerializeObject(jslist));
+               
+            }
+            jsonmanager.downloadhandler imagemanagerdata = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.downloadhandler>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json"));
+            var downloadprivatefields = typeof(Download_Files);
+            var fieldslist = downloadprivatefields.GetFields(BindingFlags.NonPublic | BindingFlags.Static);
+            var props = imagemanagerdata.GetType().GetProperties();
+            bool needrewrite = false;
+            for (int i = 0; i < props.Length; i++)
+            {
+                if (props[i].GetValue(imagemanagerdata) == null)
+                {
+                    props[i].SetValue(imagemanagerdata, Convert.ToBase64String(webclient.DownloadData(fieldslist.Where(field => field.Name == props[i].Name).FirstOrDefault().GetValue(props).ToString())));
+                    needrewrite = true;
+                }
+
+            }
+
+            if (needrewrite)
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json", Newtonsoft.Json.JsonConvert.SerializeObject(imagemanagerdata));            
+
+
+            imagehandler = imagemanagerdata;
+
+
 
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist"))
                 File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist").Close();
@@ -135,72 +182,12 @@ namespace Nocturnal.Settings
 
 
 
-            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
+          //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
 
 
 
-            Mirror = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Mirror.png");
-            OptimizedMirror = webclient.DownloadData("https://nocturnal-client.xyz/Resources/optimized%20mirror.png");
-            teleport = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Teleport.png");
-
-            nameplates = webclient.DownloadData("https://nocturnal-client.xyz/Resources/namepalte.png");
-
-            shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");
-
-            playerlistmask = webclient.DownloadData("https://nocturnal-client.xyz/Resources/maskplist.png");
-
-            playerlistborder = webclient.DownloadData("https://nocturnal-client.xyz/Resources/playerlistborder.png");
-
-            quickmenumask = webclient.DownloadData("https://nocturnal-client.xyz/Resources/qmmask.png");
-
-            Nameplateicon = webclient.DownloadData("https://nocturnal-client.xyz/Resources/iconbackground.png");
-
-            Main = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Base.png");
-            
-            Saveconfig = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Save%20Config.png");
-
-            EnterKey = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Key.png");
-
-            ui = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Ui.png");
-
-            Toggles = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Toggle.png");
-
-            Target = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/target.png");
-
-            Anitcrash = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/anticrash.png");
-
-            Colors = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Colors.png");
-
-            worldhistory = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/World%20History.png");
-
-            World = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/World.png");
-
-            items = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/items.png");
-
-            clipboard = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/clipboard.png");
-
-            mute = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/Microphone.png");
-
-            defean = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/defean.png");
-
-            next = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/rightarrow.png");
-
-            prev = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/leftarrow.png");
-
-            stopplay = webclient.DownloadData("https://nocturnal-client.xyz/Resources/icons/playpause.png");
-
-            loadingscreen = webclient.DownloadData("https://nocturnal-client.xyz/Resources/loading");
-            shaderesp = webclient.DownloadData("https://nocturnal-client.xyz/Resources/outline");
-            Rain = webclient.DownloadData("https://nocturnal-client.xyz/Resources/rain2");
-            uinotifications = webclient.DownloadData("https://nocturnal-client.xyz/Resources/ui");
-            logo = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Nocturnal%20logo.png");
-            chatmask = webclient.DownloadData("https://nocturnal-client.xyz/Resources/chatmask.png");
-            tag = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Tagas.png");
-            chat = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Chat.png");
+        
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
-            Discord = webclient.DownloadData("https://nocturnal-client.xyz/Resources/Discord.png");
-            micmenu = webclient.DownloadData("https://nocturnal-client.xyz/Resources/mic%20icon.png");
-
 
             try
             {
@@ -214,7 +201,7 @@ namespace Nocturnal.Settings
             }
             catch (Exception ex)
             {
-                NocturnalC.log("DISCORD RICH PRESENCE FAILED: " + ex);
+                NocturnalC.Log("DISCORD RICH PRESENCE FAILED: " + ex);
             }
             var bytess = webclient.DownloadData("https://nocturnal-client.xyz/cl/Download/Nocturnal%20Circle.ico");
             Stream stream = new MemoryStream(bytess);
@@ -222,18 +209,18 @@ namespace Nocturnal.Settings
 
             try
             {
-                Main2.hwnd = Settings.imports.FindWindow(null, "VRChat");
+                Main2._hwnd = Settings.imports.FindWindow(null, "VRChat");
 
 
-                if (Main2.hwnd == IntPtr.Zero || Main2.hwnd == null)
+                if (Main2._hwnd == IntPtr.Zero || Main2._hwnd == null)
                 {
-                    Main2.hwnd = Process.GetProcessById(Main2.pid).MainWindowHandle;
+                    Main2._hwnd = Process.GetProcessById(Main2._pid).MainWindowHandle;
                 }
 
             }
             catch {
-                NocturnalC.log("Exception In Finding the VRC Window,Tryng PID","ERROR");
-                Main2.hwnd = Process.GetProcessById(Main2.pid).MainWindowHandle;
+                NocturnalC.Log("Exception In Finding the VRC Window,Tryng PID","ERROR");
+                Main2._hwnd = Process.GetProcessById(Main2._pid).MainWindowHandle;
             }
 
 
@@ -244,14 +231,14 @@ namespace Nocturnal.Settings
           
 
 
-            Settings.imports.SendMessage(Main2.hwnd, 0x0080, 0, icon.Handle);
-            Settings.imports.SendMessage(Main2.hwnd, 0x0080, 1, icon.Handle);
+            Settings.imports.SendMessage(Main2._hwnd, 0x0080, 0, icon.Handle);
+            Settings.imports.SendMessage(Main2._hwnd, 0x0080, 1, icon.Handle);
 
             Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 0, icon.Handle);
            Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 1, icon.Handle);
-            Settings.imports.SetWindowText(Main2.hwnd, "Nocturnal[VRChat]");
+            Settings.imports.SetWindowText(Main2._hwnd, "Nocturnal[VRChat]");
 
-            NocturnalC.log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
+            NocturnalC.Log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
             sttime.Stop();
             
 

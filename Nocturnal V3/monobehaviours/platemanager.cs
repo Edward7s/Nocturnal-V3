@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Nocturnal.Settings.wrappers;
-namespace Nocturnal.monobehaviours
+namespace Nocturnal.Monobehaviours
 {
-    internal class platemanager : MonoBehaviour
+    internal class Platemanager : MonoBehaviour
     {
-        public platemanager(IntPtr ptr) : base(ptr)
+        public Platemanager(IntPtr ptr) : base(ptr)
         {
 
         }

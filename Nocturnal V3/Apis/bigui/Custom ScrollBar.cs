@@ -11,7 +11,7 @@ namespace Nocturnal.Apis.bigui
     {
         internal static Scrollbar Scroll(GameObject path, float x, float y, float sizeX, float sizeY)
         {
-            var scrollbar = GameObject.Instantiate(Ui.objects.Scrollbargmj, path.transform).gameObject;
+            var scrollbar = GameObject.Instantiate(Ui.Objects._Scrollbargmj, path.transform).gameObject;
            // Component.DestroyImmediate(scrollbar.GetComponent<VRC.UI.Core.Styles.StyleElement>());
          //  Component.DestroyImmediate(scrollbar.transform.Find("Sliding Area/Handle").gameObject.GetComponent<VRC.UI.Core.Styles.StyleElement>());
 

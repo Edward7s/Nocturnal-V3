@@ -2,11 +2,11 @@
 using System.Linq;
 using UnityEngine;
 using Nocturnal.Settings.wrappers;
-namespace Nocturnal.monobehaviours
+namespace Nocturnal.Monobehaviours
 {
-    internal class outline : MonoBehaviour
+    internal class Outline : MonoBehaviour
     {
-        public outline(IntPtr ptr) : base(ptr)
+        public Outline(IntPtr ptr) : base(ptr)
         {
 
         }

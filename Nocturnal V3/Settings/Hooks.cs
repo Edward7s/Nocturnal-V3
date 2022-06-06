@@ -8,7 +8,7 @@ using System.Reflection;
 using UnhollowerBaseLib;
 using MelonLoader;
 using System.Collections;
-using Nocturnal.exploits;
+using Nocturnal.Exploits;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
@@ -90,7 +90,7 @@ namespace Nocturnal.Settings
         }
         //ForegroundColor
 
-        unsafe internal static void StartHooks()
+         internal static void StartHooks()
         {
            
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
@@ -162,7 +162,7 @@ namespace Nocturnal.Settings
             MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
             _apiuserpage = Hook<apiuserpage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
 
-            NocturnalC.log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
+            NocturnalC.Log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
             hooktimer.Stop();
 
 
@@ -225,8 +225,8 @@ namespace Nocturnal.Settings
                 }
 
             }
-            // NocturnalC.log(code);
-            if (Ui.qm.Main.stopev7 && code == 7)
+            // NocturnalC.Log(code);
+            if (Ui.qm.Main._stopev7 && code == 7)
                 return IntPtr.Zero;
 
             /*
@@ -235,7 +235,7 @@ namespace Nocturnal.Settings
 
             if (code == 202)
             {
-                 NocturnalC.log("/////////////////////////////////////////////////////////////////////////////////// " + code.ToString());
+                 NocturnalC.Log("/////////////////////////////////////////////////////////////////////////////////// " + code.ToString());
 
                     var bytes = photon_extentions.ToByteArray(obj);
                     var bytesl = "";
@@ -243,7 +243,7 @@ namespace Nocturnal.Settings
                     {
                         bytesl += " " + bytes[i].ToString();
                     }
-                    NocturnalC.log(bytesl);
+                    NocturnalC.Log(bytesl);
                 
             }*/
 
@@ -307,7 +307,7 @@ namespace Nocturnal.Settings
             if (!ConfigVars.speed)
                 return _Speed(_instance, speed, _nativeMethodInfoPtr);
             var methodinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<MethodInfo>(_nativeMethodInfoPtr);
-          NocturnalC.log(methodinfo.Name);
+          NocturnalC.Log(methodinfo.Name);
             switch (true)
             {
                 case true when methodinfo.Name == "SetRunSpeed":
@@ -328,7 +328,7 @@ namespace Nocturnal.Settings
             try
             {
                 var data = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<EventData>(eventData);
-                // NocturnalC.log(data.Code);
+                // NocturnalC.Log(data.Code);
                 if (data.Code == 35 || data.Code == 210)
                     return _onevent(_instance, eventData, _nativeMethodInfoPtr);
 
@@ -345,12 +345,12 @@ namespace Nocturnal.Settings
 
 
 
-                // NocturnalC.log($"{Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId}   {data.Sender}");
+                // NocturnalC.Log($"{Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId}   {data.Sender}");
 
-                if (data.Code == 1 && Ui.qm.Target.copyivoice && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
+                if (data.Code == 1 && Ui.qm.Target._copyivoice && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
                     data.Sender.OpRaiseEvent(1, new RaiseEventOptions() { field_Public_EventCaching_0 = EventCaching.DoNotCache , field_Public_ReceiverGroup_0 = ReceiverGroup.Others }, sendOptions: default) ;
 
-                if (data.Code == 7 && Ui.qm.Target.copyik && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
+                if (data.Code == 7 && Ui.qm.Target._copyik && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
                 {
                     int Pid = int.Parse(Networking.LocalPlayer.playerId + "00001");
                     byte[] Pidb = BitConverter.GetBytes(Pid);
@@ -409,38 +409,15 @@ namespace Nocturnal.Settings
 
                 }
 
-                if (ConfigVars.meshp)
-                    if (!anticrash.meshp(user, avi)) return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
 
-
-
-                if (ConfigVars.verticiesp)
-                    if (!anticrash.verticies(user, avi)) return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
-
-
-                if (ConfigVars.ShaderP)
-                    anticrash.Shaderp(avi);
-
-                if (ConfigVars.linerenderp)
-                    anticrash.linerender(user, avi);
-
-                if (ConfigVars.particlep)
-                    anticrash.particlesp(user, avi);
-
-                if (ConfigVars.lightsp)
-                    anticrash.lights(user, avi);
-
-                if (ConfigVars.audiosourcep)
-                    anticrash.audiosourcep(avi);
-                avi.SetActive(true);
-
+                var antic = new Anticrash(avi, user);
 
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
 
             }
             catch (Exception ex)
             {
-               // NocturnalC.log(ex);
+               // NocturnalC.Log(ex);
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
             }
 
@@ -479,7 +456,7 @@ namespace Nocturnal.Settings
             }
             catch { }
             if (vrcplayer.field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
-                vrcplayer.gameObject.gameObject.AddComponent<monobehaviours.outline>();
+                vrcplayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
             string rank = "";
             var color = UnityEngine.Color.white;
             var username = vrcplayer.field_Private_APIUser_0.displayName;
@@ -488,22 +465,22 @@ namespace Nocturnal.Settings
             if (vrcplayer.field_Private_APIUser_0.IsOnMobile)
             {
 
-                Style.Debbuger.debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
-                Apis.onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
+                Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
+                Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
 
             }
             else
             {
-                Style.Debbuger.debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
+                Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
 
-                Apis.onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
+                Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
 
             }
 
 
 
 
-            vrcplayer.gameObject.AddComponent<monobehaviours.platemanager>();
+            vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
 
 
             Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
@@ -518,23 +495,23 @@ namespace Nocturnal.Settings
             if (ConfigVars.onlyfriendjoin)
             {
                 if (vrcplayer.IsFriend())
-                    Ui.Qm_basic.audiosourcenotification.Play();
+                    Ui.Qm_basic._audiosourcenotification.Play();
 
             }
             else if (ConfigVars.joinsound)
-                Ui.Qm_basic.audiosourcenotification.Play();
+                Ui.Qm_basic._audiosourcenotification.Play();
 
             if (ConfigVars.hidequests && vrcplayer.prop_APIUser_0.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
             {
                 vrcplayer.gameObject.SetActive(false);
-                Style.Debbuger.debugermsg($"<color=#610000>[{username} Quest Hidden");
+                Style.Debbuger.Debugermsg($"<color=#610000>[{username} Quest Hidden");
 
             }
 
 
             if (vrcplayer.field_Private_APIUser_0.hasModerationPowers || vrcplayer.field_Private_APIUser_0.hasSuperPowers)
             {
-                Style.Debbuger.debugermsg($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
+                Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
                 Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
             }
             try
@@ -542,7 +519,7 @@ namespace Nocturnal.Settings
                 string vr = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
                 string platform = vrcplayer.field_Private_APIUser_0.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
                 string friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-                Apis.qm.TextButton.Create(Ui.Qm_basic.playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id,vrcplayer);
+                Apis.qm.TextButton.Create(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id,vrcplayer);
             }
             catch { }
 
@@ -557,7 +534,7 @@ namespace Nocturnal.Settings
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
             VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
-            Style.Debbuger.debugermsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+            Style.Debbuger.Debugermsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
             Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.red;
             var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
             text.color = Color.red;
@@ -565,10 +542,10 @@ namespace Nocturnal.Settings
 
             Ui.Bundles.joinot.SetActive(false);
             Ui.Bundles.joinot.SetActive(true);
-            Apis.onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+            Apis.Onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
             try
             {
-                GameObject.DestroyImmediate(Ui.Qm_basic.playerlistmenu.transform.Find("BTN_" + vrcplayer.field_Private_APIUser_0.id).gameObject);
+                GameObject.DestroyImmediate(Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + vrcplayer.field_Private_APIUser_0.id).gameObject);
 
 
             }
@@ -583,23 +560,23 @@ namespace Nocturnal.Settings
             while (VRC.SDKBase.Networking.LocalPlayer == null)
                 yield return null;
 
-            Nocturnal.Style.Debbuger.debugermsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
-            Ui.qm.worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
-            exploits.pickups.pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC.SDKBase.VRC_Pickup>().ToArray();
+            Nocturnal.Style.Debbuger.Debugermsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
+            Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+            Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC.SDKBase.VRC_Pickup>().ToArray();
 
             if (Settings.ConfigVars.itemmaxrange)
-                for (int i = 0; i < exploits.pickups.pickupsobs.Length; i++)
-                    exploits.pickups.pickupsobs[i].proximity = 9999;
+                for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
+                    Exploits.Pickups.Pickupsobs[i].proximity = 9999;
 
 
             if (Settings.ConfigVars.allowitemtheft)
-                for (int i = 0; i < exploits.pickups.pickupsobs.Length; i++)
-                    exploits.pickups.pickupsobs[i].DisallowTheft = false;
+                for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
+                    Exploits.Pickups.Pickupsobs[i].DisallowTheft = false;
 
             if (Settings.ConfigVars.itemesp)
-                itemesp.addesptoitems(true);
+                Itemesp.addesptoitems(true);
 
-            Apis.onscreenui.showmsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
+            Apis.Onscreenui.showmsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
 
 
             typeofworld = RoomManager.field_Internal_Static_ApiWorldInstance_0.type.ToString();

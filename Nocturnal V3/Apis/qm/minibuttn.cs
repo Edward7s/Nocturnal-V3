@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Nocturnal.Apis.qm
 {
-    internal static class minibuttn
+    internal static class Minibuttn
     {
-        internal static GameObject Create(this GameObject path,string text,Action action,byte[] icon)
+        internal static GameObject Create(this GameObject path,string text,Action action,string icon)
         {
-            var insts = GameObject.Instantiate(Ui.objects.qmexpand, path.transform);
+            var insts = GameObject.Instantiate(Ui.Objects._qmexpand, path.transform);
             var buttoncompf = insts.gameObject.GetComponent<Button>();
             Component.DestroyImmediate(insts.GetComponent<VRC.DataModel.Core.BindingComponent>());
             buttoncompf.onClick.RemoveAllListeners();

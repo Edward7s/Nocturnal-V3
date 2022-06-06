@@ -12,9 +12,9 @@ using VRC;
 
 namespace Nocturnal.Ui.qm
 {
-    internal class onuser
+    internal class Onuser
     {
-        internal static void Onuser()
+        internal static void _Onuser()
         {
             var menu = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_UserActions").gameObject;
             Buttons.Create(menu, "Whitelist Anticrash", () => {
@@ -57,7 +57,7 @@ namespace Nocturnal.Ui.qm
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
                            Player.prop_Player_0.transform.position = User.getuserbyid().transform.position;
               
-            },false,Settings.Download_Files.teleport);
+            },false,Settings.Download_Files.imagehandler.teleport);
             Buttons.Create(menu, "Force Clone", () =>
             {
                 var aviid = "";
@@ -69,7 +69,7 @@ namespace Nocturnal.Ui.qm
                     if (user.field_Private_APIUser_0.id == User)
                             aviid = user.prop_ApiAvatar_0.id;
   
-                    exploits.misc.changetoavi(aviid);
+                    Exploits.Misc.Changetoavi(aviid);
                 }
                 catch { }
 
@@ -80,7 +80,7 @@ namespace Nocturnal.Ui.qm
             Buttons.Create(menu, "Lewd", () => {
 
                     var id = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
-                exploits.forcelewd.foreelwed(extensions.getuserbyid(id));
+                Exploits.Forcelewd.Foreelwed(extensions.getuserbyid(id));
             });
 
         }

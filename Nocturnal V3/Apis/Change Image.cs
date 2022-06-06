@@ -22,7 +22,7 @@ namespace Nocturnal.Apis
             yield return new WaitUntil(func);
             if (www.isHttpError || www.isNetworkError)
             {
-               NocturnalC.log("Error2 : " + www.error);
+               NocturnalC.Log("Error2 : " + www.error);
                 yield break;
             }
             var content = DownloadHandlerTexture.GetContent(www);
@@ -56,8 +56,32 @@ namespace Nocturnal.Apis
             image2.prop_Sprite_0 = Sprite.CreateSprite(texture2,
             new Rect(0f, 0f, texture2.width, texture2.height), new Vector2(0f, 0f), 100000f, 1000u,
             SpriteMeshType.FullRect, new Vector4(255,0,255,0), false);
+            
+        }
+        internal static void Loadfrombytes(this GameObject gmj, string img, bool isimage = true)
+        {
+            byte[] bytes = System.Convert.FromBase64String(img);
+            if (isimage)
+            {
+                var image = gmj.GetComponent<Image>();
+                var texture = new Texture2D(256, 256);
+                ImageConversion.LoadImage(texture, bytes);
+                texture.Apply();
+
+                image.sprite = Sprite.CreateSprite(texture,
+                new Rect(0f, 0f, texture.width, texture.height), new Vector2(0f, 0f), 100000f, 1000u,
+                SpriteMeshType.FullRect, Vector4.zero, false);
+                return;
+            }
+            var image2 = gmj.GetComponent<ImageThreeSlice>();
+            var texture2 = new Texture2D(256, 256);
+            ImageConversion.LoadImage(texture2, bytes);
+            texture2.Apply();
+
+            image2.prop_Sprite_0 = Sprite.CreateSprite(texture2,
+            new Rect(0f, 0f, texture2.width, texture2.height), new Vector2(0f, 0f), 100000f, 1000u,
+            SpriteMeshType.FullRect, new Vector4(255, 0, 255, 0), false);
 
         }
-
     }
 }

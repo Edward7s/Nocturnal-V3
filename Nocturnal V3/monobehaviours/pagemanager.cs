@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-namespace Nocturnal.monobehaviours
+namespace Nocturnal.Monobehaviours
 {
-    internal class pagemanager : MonoBehaviour
+    internal class Pagemanager : MonoBehaviour
     {
-        public pagemanager(IntPtr ptr) : base(ptr)
+        public Pagemanager(IntPtr ptr) : base(ptr)
         {
 
         }
@@ -17,16 +17,16 @@ namespace Nocturnal.monobehaviours
        
         public void OnEnable()
         {
-              // NocturnalC.log($"Opend: {this.gameObject.name}");
+              // NocturnalC.Log($"Opend: {this.gameObject.name}");
             switch (true)
             {
                 case true when this.name == "Social":
-                    Ui.objects.onlinefriendstext.text = $"Online Friends        [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_1.Count} / {Ui.objects.friendlistmanager.field_Private_List_1_IUser_0.Count}]";
-                  Ui.objects.friendreqeusts.text = $"Friend Requests        [{Ui.objects.notmanager.field_Private_List_1_InterfacePublicAbstractStOb1StTeVaSt1Te2Unique_1.Count}]";
+                    Ui.Objects._onlinefriendstext.text = $"Online Friends        [{Ui.Objects._friendlistmanager.field_Private_List_1_IUser_1.Count} / {Ui.Objects._friendlistmanager.field_Private_List_1_IUser_0.Count}]";
+                  Ui.Objects._friendreqeusts.text = $"Friend Requests        [{Ui.Objects._notmanager.field_Private_List_1_InterfacePublicAbstractStOb1StTeVaSt1Te2Unique_1.Count}]";
                   //  Ui.objects.group1.text = Ui.objects.friendlistmanager.prop_String_0 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_3.Count} / 64]";
                   //  Ui.objects.group2.text = Ui.objects.friendlistmanager.prop_String_1 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_4.Count} / 64]";
                   //  Ui.objects.group3.text = Ui.objects.friendlistmanager.prop_String_2 + $"  [{Ui.objects.friendlistmanager.field_Private_List_1_IUser_5.Count} / 64]";
-                    Ui.objects.offlinefriends.text = $"Offline Friends (Expand to Show)        [{Ui.objects.friendlistmanager.prop_List_1_IUser_2.Count}]";
+                    Ui.Objects._offlinefriends.text = $"Offline Friends (Expand to Show)        [{Ui.Objects._friendlistmanager.prop_List_1_IUser_2.Count}]";
                     break;
                 case true when this.name == "UserInfo":
                  
@@ -37,8 +37,8 @@ namespace Nocturnal.monobehaviours
                 case true when this.name == "Menu_SelectedUser_Local":
                     break;
                 case true when this.name == "Canvas_QuickMenu(Clone)":
-                    Ui.Qm_basic.firsttext.text = string.Format("{0:hh:mm:ss tt}", DateTime.Now);
-                    Ui.Qm_basic.Thirdtext.text = $"Friends: {Ui.objects.friendlistmanager.field_Private_List_1_IUser_1.Count}/{Ui.objects.friendlistmanager.field_Private_List_1_IUser_0.Count}";
+                    Ui.Qm_basic._firsttext.text = string.Format("{0:hh:mm:ss tt}", DateTime.Now);
+                    Ui.Qm_basic._Thirdtext.text = $"Friends: {Ui.Objects._friendlistmanager.field_Private_List_1_IUser_1.Count}/{Ui.Objects._friendlistmanager.field_Private_List_1_IUser_0.Count}";
                     var getm = new Settings.jsonmanager.custommsg()
                     {
                         code = "87",

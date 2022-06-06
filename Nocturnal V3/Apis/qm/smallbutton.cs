@@ -9,10 +9,16 @@ namespace Nocturnal.Apis.qm
 {
     internal class smallbutton
     {
-        internal static GameObject Create(GameObject path, Action action, byte[] img = null)
+
+        internal static GameObject Create(GameObject path, Action action, string img = null) => Create(path,action,System.Convert.FromBase64String(img));
+
+
+
+
+            internal static GameObject Create(GameObject path, Action action, byte[] img = null)
         {
 
-            var button = GameObject.Instantiate(objects.ButtonPrefab, path.transform);
+            var button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
             button.transform.Find("Text_H4").gameObject.SetActive(false);
             button.name = "_Button_Small";
             var buttoncomp = button.gameObject.GetComponent<UnityEngine.UI.Button>();

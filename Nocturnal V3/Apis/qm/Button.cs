@@ -7,11 +7,14 @@ namespace Nocturnal.Apis.qm
 {
     internal  class Buttons
     {
-        internal static GameObject Create(GameObject path, string name, Action action,bool half = false,byte[] img = null, float X = 628, float Y = 628)
+
+
+
+            internal static GameObject Create(GameObject path, string name, Action action,bool half = false, string img = null, float X = 628, float Y = 628)
         {
             float yvalue = half ? -140 - (Y * (200 /2) -45) : -140 - Y * 200;
          
-            var button = GameObject.Instantiate(objects.ButtonPrefab, path.transform);
+            var button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
             button.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = name;
             button.name = "_Button_" + name;
             var buttoncomp = button.gameObject.GetComponent<Button>();

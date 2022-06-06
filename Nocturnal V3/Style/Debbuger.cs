@@ -1,61 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.UI;
+﻿
 using Nocturnal.Ui;
 namespace Nocturnal.Style
 {
     internal class Debbuger
     {
-        private static string lastlines = "";
+        private static string _lastlines = "";
 
-        public static string debugermsg(string text)
+        public static string Debugermsg(string text)
         {
             if (!Settings.ConfigVars.qmdebug)
                 return null;
 
-            while (Qm_basic.debugtext.text == null)
+            while (Qm_basic._debugtext.text == null)
                 return null;
 
 
-            if (lastlines != string.Empty)
+            if (_lastlines != string.Empty)
             {
                 var today = System.DateTime.Now;
                 var stringtime = today.ToString("HH:mm:ss");
-                Qm_basic.debugtext.text = "";
-                Qm_basic.debugtext.text = $"</color>[<color=#ff1f53>{stringtime}</color>] - {text}\n{lastlines}";
-                lastlines = Qm_basic.debugtext.text;
+                Qm_basic._debugtext.text = "";
+                Qm_basic._debugtext.text = $"</color>[<color=#ff1f53>{stringtime}</color>] - {text}\n{_lastlines}";
+                _lastlines = Qm_basic._debugtext.text;
             }
             else
             {
                 var today = System.DateTime.Now;
                 var stringtime = today.ToString("HH:mm:ss");
-                Qm_basic.debugtext.text = $"</color>[<color=#ff1f53>{stringtime}</color>] - {text}\n";
-                lastlines = Qm_basic.debugtext.text;
+                Qm_basic._debugtext.text = $"</color>[<color=#ff1f53>{stringtime}</color>] - {text}\n";
+                _lastlines = Qm_basic._debugtext.text;
             }
-            if (lastlines.Split('\n').Length > 15)
+            if (_lastlines.Split('\n').Length > 15)
             {
                 string stringi = "";
                 int ab = 0;
-                foreach (var line in lastlines.Split('\n'))
+                foreach (var line in _lastlines.Split('\n'))
                 {
                     ab += 1;
                     if (ab < 17)
                         stringi += $"{line}\n";
            
                 }
-                lastlines = stringi;
+                _lastlines = stringi;
             }
-            Qm_basic.debugtext.text = lastlines;
+            Qm_basic._debugtext.text = _lastlines;
 
 
 
 
 
-            return lastlines;
+            return _lastlines;
         }
     }
 }

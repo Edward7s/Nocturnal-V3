@@ -21,7 +21,7 @@ namespace Nocturnal.Ui
             var myLoadedAssetBundle = AssetBundle.LoadFromMemory(Settings.Download_Files.uinotifications);
             if (myLoadedAssetBundle == null)
             {
-                NocturnalC.log("Failed to load AssetBundle!");
+                NocturnalC.Log("Failed to load AssetBundle!");
                 return;
             }
             var uim = myLoadedAssetBundle.LoadAsset<GameObject>("ui");
@@ -45,13 +45,13 @@ namespace Nocturnal.Ui
             joinot.SetActive(false);
         }
 
-        internal static void loadingscreen()
+        internal static void Loadingscreen()
         {
           
             var myLoadedAssetBundle = AssetBundle.LoadFromMemory(Settings.Download_Files.loadingscreen);
             if (myLoadedAssetBundle == null)
             {
-                NocturnalC.log("Failed to load AssetBundle!");
+                NocturnalC.Log("Failed to load AssetBundle!");
                 return;
             }
             var loadinscreen = myLoadedAssetBundle.LoadAsset<GameObject>("loadingscreen");
@@ -78,13 +78,13 @@ namespace Nocturnal.Ui
          MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(aud,Settings.Download_Files.loadingscreenmusicpath));
         }
 
-        internal static void loadshader()
+        internal static void Loadshader()
         {
           
             var myLoadedAssetBundle = AssetBundle.LoadFromMemory(Settings.Download_Files.shaderesp);
             if (myLoadedAssetBundle == null)
             {
-                NocturnalC.log("Failed to load AssetBundle!");
+                NocturnalC.Log("Failed to load AssetBundle!");
                 return;
             }
             var shadergmj = myLoadedAssetBundle.LoadAsset<GameObject>("shdaers");
@@ -99,7 +99,7 @@ namespace Nocturnal.Ui
             var myLoadedAssetBundle = AssetBundle.LoadFromMemory(Settings.Download_Files.Rain);
             if (myLoadedAssetBundle == null)
             {
-                NocturnalC.log("Failed to load AssetBundle!");
+                NocturnalC.Log("Failed to load AssetBundle!");
                 return;
             }
             var rain = myLoadedAssetBundle.LoadAsset<GameObject>("Rain");

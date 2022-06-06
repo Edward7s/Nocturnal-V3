@@ -33,7 +33,7 @@ namespace Nocturnal.Apis.qm
             textcomp.fontSize = 49;
             textcomp.transform.localPosition = new Vector3(-40, 0, 0);
             buttoncomp.onClick.AddListener(new Action(() =>  VRC.DataModel.UserSelectionManager.field_Private_Static_UserSelectionManager_0.Method_Public_Void_APIUser_2(user.field_Private_APIUser_0) ));
-            Apis.Change_Image.Loadfrombytes(img, Settings.Download_Files.quickmenumask);
+            Apis.Change_Image.Loadfrombytes(img, Settings.Download_Files.imagehandler.quickmenumask);
             
         }
     }

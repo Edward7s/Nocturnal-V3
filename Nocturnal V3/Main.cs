@@ -25,15 +25,35 @@ namespace Nocturnal
     {
       
 
-        internal static int pid = 123;
-        internal static Thread mainthread = null;
-        internal static IntPtr hwnd = IntPtr.Zero;
+        internal static int _pid = 123;
+        internal static Thread _mainthread = null;
+        internal static IntPtr _hwnd = IntPtr.Zero;
+        private static Thread _runcallback = new Thread(loopcallback);
 
+
+        private static void loopcallback()
+        {
+          
+
+            while (true)
+            {
+               
+                if (!Settings.ConfigVars.discordrichpresence)
+                {
+                    Thread.Sleep(10000);
+                    continue;
+                }
+
+                Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
+
+                Thread.Sleep(5000);
+            }
+        }
         public static void Start()
         {
            
 
-            pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+            _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Clear();
@@ -99,8 +119,8 @@ namespace Nocturnal
                 string clientversion = webclient.DownloadString("https://nocturnal-client.xyz/Resources/loaderversion.txt");
                 if (mod.Info.Version != clientversion)
                 {
-                    NocturnalC.log("LOADER OUTDATED", "ERROR", ConsoleColor.Red);
-                    NocturnalC.log("Installing the new loader", "Asembly", ConsoleColor.Red);
+                    NocturnalC.Log("LOADER OUTDATED", "ERROR", ConsoleColor.Red);
+                    NocturnalC.Log("Installing the new loader", "Asembly", ConsoleColor.Red);
                     MelonLogger.Error("Installing the new loader");
                     string filepath = mod.Location;
                     File.Delete(filepath);
@@ -122,17 +142,17 @@ namespace Nocturnal
             List<MelonBase> melonpluginslist = new List<MelonBase>(MelonLoader.MelonHandler.Plugins);
             melonpluginslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
 
-            NocturnalC.log("Loaded Plugins:", "Assembly's", ConsoleColor.DarkRed);
+            NocturnalC.Log("Loaded Plugins:", "Assembly's", ConsoleColor.DarkRed);
             Console.WriteLine();
 
             logasembl(melonpluginslist);
 
 
-            NocturnalC.log("Loaded Mods:", "Assembly's",ConsoleColor.DarkRed);
+            NocturnalC.Log("Loaded Mods:", "Assembly's",ConsoleColor.DarkRed);
             Console.WriteLine();
             logasembl(melonmodslist);
 
-            mainthread = System.Threading.Thread.CurrentThread;
+            _mainthread = System.Threading.Thread.CurrentThread;
             AppDomain currentDomain = AppDomain.CurrentDomain;
 
             Assembly[] assems = currentDomain.GetAssemblies();
@@ -149,21 +169,23 @@ namespace Nocturnal
                             if (types[i2].Name != "main") continue;
                                     var minute = types[i2].GetField("minute", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
                                     var secondsandm = types[i2].GetField("second", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
-                                    NocturnalC.log($"Loaded in M:{float.Parse(DateTimeOffset.Now.ToString("mm")) - (float)minute} S:{float.Parse(DateTimeOffset.Now.ToString("ss.fff")) - (float)secondsandm}", "Start Up", ConsoleColor.Green);
+                                    NocturnalC.Log($"Loaded in M:{float.Parse(DateTimeOffset.Now.ToString("mm")) - (float)minute} S:{float.Parse(DateTimeOffset.Now.ToString("ss.fff")) - (float)secondsandm}", "Start Up", ConsoleColor.Green);
                             }
                         }
                 }
                 catch { }
             }
-            NocturnalC.log("Client Loading","Start Up");
+            NocturnalC.Log("Client Loading","Start Up");
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var dateb = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            NocturnalC.log($"Builded on: [{dateb}]","Assembly",ConsoleColor.Green);
+            NocturnalC.Log($"Builded on: [{dateb}]","Assembly",ConsoleColor.Green);
            
 
-            NocturnalC.log("///////////////////////////////\nRember Using stuff in murder can lead to a crashs\nMurder and prison breack got a custom anticheat for it from what it seams like><\n//////////////////////////////////////////////////////////////", "Start Up",ConsoleColor.Red);
-            NocturnalC.log("Join the Discord server if u are not in it\nhttps://discord.nocturnal-client.xyz/", "Start Up", ConsoleColor.Green);
-            
+            NocturnalC.Log("///////////////////////////////\n-Rember Using stuff in murder can lead to a crashs\n-Murder and prison breack got a custom anticheat for it from what it seams like><\n///////////////////////////////////////////////////////////////", "Start Up",ConsoleColor.Red);
+            NocturnalC.Log("///////////////////////////////\n-Also Check Out NanoSDK (The best VRChat SDK).\n-https://nanosdk.net/discord\n///////////////////////////////////////////////////////////////", "Start Up", ConsoleColor.Yellow);
+
+            NocturnalC.Log("Join the Discord server if u are not in it\nhttps://discord.nocturnal-client.xyz/", "Start Up", ConsoleColor.Green);
+
             Settings.Download_Files.DownloadHanler();
             Settings.LoadConfig.load();
             injectories();
@@ -182,11 +204,12 @@ namespace Nocturnal
                 return;
 
 
-            NocturnalC.log("Starting Discord RPC", "DiscordRPC");
+            NocturnalC.Log("Starting Discord RPC", "DiscordRPC");
+
             Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
+            _runcallback.Start();
 
-
-            NocturnalC.log("Clearing Unity Cache", "Unityengine");
+            NocturnalC.Log("Clearing Unity Cache", "Unityengine");
             UnityEngine.Caching.CleanCache();
             
             var vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
@@ -206,7 +229,7 @@ namespace Nocturnal
             while (VRC.Core.APIUser.CurrentUser == null)
                 yield return null;
 
-            NocturnalC.log("User Logged in");
+            NocturnalC.Log("User Logged in");
             Console.Title = $"Nocturnal V3 {{Welcome: [{VRC.Core.APIUser.CurrentUser.displayName}]}}";
 
             starsocket.Start();
@@ -221,7 +244,7 @@ namespace Nocturnal
             while (GameObject.Find("/UserInterface") == null)
                yield return null;
 
-            NocturnalC.log("Founded UserInteface");
+            NocturnalC.Log("Founded UserInteface");
 
 
             Ui.Bundles.loadnotifications();
@@ -231,7 +254,7 @@ namespace Nocturnal
 
 
             GameObject NocturnalUpdateManager = new GameObject("NocturnalUpdateManager");
-            NocturnalUpdateManager.AddComponent<monobehaviours.UpdateManager>();
+            NocturnalUpdateManager.AddComponent<Monobehaviours.UpdateManager>();
             NocturnalUpdateManager.transform.parent = GameObject.Find("/_Application").transform;
 
 
@@ -241,16 +264,16 @@ namespace Nocturnal
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
                 yield return null;
 
-            NocturnalC.log("Founded QuickMenu");
-            Ui.Bundles.loadshader();
-            Ui.Bundles.loadingscreen();
-            Nocturnal.Ui.objects.collectobjs();
-            Nocturnal.Ui.Qm_basic.setupstuff();
-            Nocturnal.Ui.Inject_monos.inject();
-             Nocturnal.Ui.buttons_b.runbuttons();
-              Nocturnal.Ui.qm.Main.createmenu();
-             Ui.resourceimages.setupc();
-             MelonCoroutines.Start(exploits.hudinfo.playerlistm());
+            NocturnalC.Log("Founded QuickMenu");
+            Ui.Bundles.Loadshader();
+            Ui.Bundles.Loadingscreen();
+            Nocturnal.Ui.Objects.Collectobjs();
+            Nocturnal.Ui.Qm_basic.Setupstuff();
+            Nocturnal.Ui.Inject_monos.Inject();
+            Nocturnal.Ui.buttons_b.Runbuttons();
+            Nocturnal.Ui.qm.Main.Createmenu();
+            Ui.resourceimages.Setupc();
+            MelonCoroutines.Start(Exploits.Hudinfo.Playerlistm());
 
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
                 yield return null;
@@ -260,12 +283,12 @@ namespace Nocturnal
 
         private protected static void injectories()
         {
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.UpdateManager>();
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.pagemanager>();
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.outline>();
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.platemanager>();
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.boomorbit>();
-            ClassInjector.RegisterTypeInIl2Cpp<monobehaviours.Teleportobj>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.UpdateManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Pagemanager>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Outline>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Platemanager>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Boomorbit>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Teleportobj>();
 
         }
 
@@ -275,7 +298,7 @@ namespace Nocturnal
         {
             if (melontblList.Count == 0)
             {
-                NocturnalC.log("None Loaded.", "Assembly's", ConsoleColor.DarkRed);
+                NocturnalC.Log("None Loaded.", "Assembly's", ConsoleColor.DarkRed);
                 Console.WriteLine();
                 return;
             }

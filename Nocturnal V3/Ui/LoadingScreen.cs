@@ -28,7 +28,7 @@ namespace Nocturnal.Ui
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/3DElements/LoadingInfoPanel").gameObject.SetActive(false);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/LoadingPopup/3DElements/LoadingBackground_TealGradient/SkyCube_Baked").gameObject.SetActive(false);
             var vrclogo = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Authentication/StoreLoginPrompt/VRChat_LOGO (1)").gameObject;
-            vrclogo.Loadfrombytes(Settings.Download_Files.logo);
+            vrclogo.Loadfrombytes(Settings.Download_Files.imagehandler.logo);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/StandardPopup/RingGlow").GetComponent<Image>().color = Color.black;
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/StandardPopup/Rectangle").gameObject.SetActive(false);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/StandardPopup/InnerDashRing").GetComponent<Image>().color =new Color(0,0,0,0.8f);

@@ -9,7 +9,7 @@ using Nocturnal.Apis.bigui;
 using System.Windows.Forms;
 namespace Nocturnal.Ui
 {
-    internal class biguiscrollbar
+    internal class Biguiscrollbar
     {
         internal static void setscrollbars()
         {
@@ -35,7 +35,7 @@ namespace Nocturnal.Ui
             {
                 var qmaudio = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject.GetComponent<AudioSource>();
                 qmaudio.volume = Settings.ConfigVars.clientvolume;
-                Ui.Qm_basic.audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
+                Ui.Qm_basic._audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
             });
             sld.transform.localPosition = new Vector3(-50.7518f, -333.4202f, 1);
             var sldtitle = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/VolumePanel/VolumeGameAvatars/Label").gameObject;

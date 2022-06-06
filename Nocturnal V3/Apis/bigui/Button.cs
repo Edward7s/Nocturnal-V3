@@ -12,7 +12,7 @@ namespace Nocturnal.Apis.bigui
     {
         internal static GameObject NormalButton(string name,GameObject path, Action action)
         {
-            var _Button = GameObject.Instantiate(objects.Bbutton, path.transform);
+            var _Button = GameObject.Instantiate(Objects._Bbutton, path.transform);
             Component.DestroyImmediate(_Button.GetComponent<VRCUiButton>());
             _Button.name = "NBTN_" + name;
             _Button.transform.Find("Image/Text").gameObject.GetComponent<Text>().text = name;

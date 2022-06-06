@@ -11,8 +11,7 @@ namespace Nocturnal
     class NocturnalC
     {
      
-        private string art = " ";
-        internal static string log(object message, string types = "Blank", ConsoleColor color = ConsoleColor.White,bool msg = true)
+        internal static string Log(object message, string types = "Blank", ConsoleColor color = ConsoleColor.White,bool msg = true)
         {
             if (!msg) return null; 
             var time = System.DateTime.Now;

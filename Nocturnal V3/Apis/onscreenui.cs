@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using Nocturnal.Settings;
 namespace Nocturnal.Apis
 {
-    internal class onscreenui
+    internal class Onscreenui
     {
         private static GameObject textgameobj;
         private static TMPro.TextMeshProUGUI tmpro;

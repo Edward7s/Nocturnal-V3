@@ -8,16 +8,16 @@ namespace Nocturnal.Ui
 {
      class Qm_basic
     {
-       internal static Thread runs = new Thread(setupstuff);
+       internal static Thread runs = new Thread(Setupstuff);
 
-        internal static TMPro.TextMeshProUGUI debugtext = null;
-        internal static AudioSource audiosourcenotification = null;
-        internal static TMPro.TextMeshProUGUI firsttext = null;
-        internal static TMPro.TextMeshProUGUI secondtext = null;
-        internal static TMPro.TextMeshProUGUI Thirdtext = null;
-        internal static TMPro.TextMeshProUGUI GUIInfo = null;
-        internal static Transform playerlistmenu;
-        internal static void setupstuff()
+        internal static TMPro.TextMeshProUGUI _debugtext = null;
+        internal static AudioSource _audiosourcenotification = null;
+        internal static TMPro.TextMeshProUGUI _firsttext = null;
+        internal static TMPro.TextMeshProUGUI _secondtext = null;
+        internal static TMPro.TextMeshProUGUI _Thirdtext = null;
+        internal static TMPro.TextMeshProUGUI _GUIInfo = null;
+        internal static Transform _playerlistmenu;
+        internal static void Setupstuff()
         {
             var styletimer = System.Diagnostics.Stopwatch.StartNew();
 
@@ -99,22 +99,22 @@ namespace Nocturnal.Ui
                 mask.transform.localPosition = new Vector3(0, 295, 0);
                 mask.transform.localScale = new Vector3(1.05f, 2.61f, 1f);
                 var debbugertxt = new GameObject();
-                debugtext = debbugertxt.AddComponent<TMPro.TextMeshProUGUI>();
-                debugtext.text = "";
-                debugtext.enableWordWrapping = false;
-                debugtext.fontSize = 8;
-                debugtext.maxVisibleLines = 18;
+                _debugtext = debbugertxt.AddComponent<TMPro.TextMeshProUGUI>();
+                _debugtext.text = "";
+                _debugtext.enableWordWrapping = false;
+                _debugtext.fontSize = 8;
+                _debugtext.maxVisibleLines = 18;
                 debbugertxt.gameObject.transform.parent = img3.transform;
                 debbugertxt.transform.localPosition = new Vector3(-150f, -53.86f, 1);
                 debbugertxt.transform.localScale = new Vector3(2.65f,1,1);
-                Style.Debbuger.debugermsg($"<color=#2700c2>Nocturnal V3</color> Made by <color=#ff1934>Edward7");
+                Style.Debbuger.Debugermsg($"<color=#2700c2>Nocturnal V3</color> Made by <color=#ff1934>Edward7");
 
             }
 
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 80);
-            objects.userinfpannel.transform.Find("User Panel").transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-            var userblackbackground = objects.userinfpannel.transform.Find("User Panel/Panel").gameObject;
-            var ldimg = objects.userinfpannel.transform.Find("User Panel/PanelHeaderBackground").gameObject.GetComponent<Image>();
+            Objects._userinfpannel.transform.Find("User Panel").transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+            var userblackbackground = Objects._userinfpannel.transform.Find("User Panel/Panel").gameObject;
+            var ldimg = Objects._userinfpannel.transform.Find("User Panel/PanelHeaderBackground").gameObject.GetComponent<Image>();
             ldimg.color = Color.white;
             MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(ldimg, "https://nocturnal-client.xyz/cl/Download/Media/offwhite.png"));
             var bgimg = userblackbackground.gameObject.GetComponent<Image>();
@@ -124,7 +124,7 @@ namespace Nocturnal.Ui
 
             userblackbackground.transform.localScale = new Vector3(1.05f, 0.6f, 1);
             userblackbackground.transform.localPosition = new Vector3(400f, -512.4001f, 0);
-            var bio = objects.userinfpannel.transform.Find("User Panel/UserBio").transform;
+            var bio = Objects._userinfpannel.transform.Find("User Panel/UserBio").transform;
             bio.localScale = new Vector3(0.95f, 0.95f, 1);
             bio.transform.localPosition = new Vector3(365.1563f, -511.416f, 0);
             var userblackbg2 = GameObject.Instantiate(userblackbackground, userblackbackground.transform.parent).transform;
@@ -151,15 +151,15 @@ namespace Nocturnal.Ui
            // border.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
             
           
-            Component.DestroyImmediate(objects.qmbackground.GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            var qmimage = GameObject.Instantiate(objects.qmbackground, objects.qmbackground.transform);
+            Component.DestroyImmediate(Objects._qmbackground.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+            var qmimage = GameObject.Instantiate(Objects._qmbackground, Objects._qmbackground.transform);
             qmimage.name = "_Background";
             var imagecomponentqm = qmimage.gameObject.GetComponent<Image>();
             MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(imagecomponentqm, Settings.ConfigVars.QmImg));
             imagecomponentqm.color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
-            var qmmask = objects.qmbackground.AddComponent<Mask>();
+            var qmmask = Objects._qmbackground.AddComponent<Mask>();
             qmmask.showMaskGraphic = false;
-            objects.qmbackground.gameObject.Loadfrombytes(Settings.Download_Files.quickmenumask);
+            Objects._qmbackground.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.quickmenumask);
             qmimage.transform.localPosition = Vector3.zero;
             qmimage.transform.localScale = Vector3.one;
 
@@ -191,7 +191,7 @@ namespace Nocturnal.Ui
                         var comps = recivedchilds[i].GetComponents<Component>();
                         for (int i2 = 0; i2 < comps.Length; i2++)
                         {
-                            // NocturnalC.log(comps[i2].GetType());
+                            // NocturnalC.Log(comps[i2].GetType());
                             if (comps[i2].ToString().Contains(".RectTransform") || comps[i2].ToString().Contains(".CanvasGroup")) continue;
 
                            Component.DestroyImmediate(comps[i2]);
@@ -202,7 +202,7 @@ namespace Nocturnal.Ui
                        // scrollbgmj.gameObject.SetActive(true);
                      
 
-                       // NocturnalC.log(recivedchilds[i].gameObject.activeSelf);
+                       // NocturnalC.Log(recivedchilds[i].gameObject.activeSelf);
                     }
 
                     if (recivedchilds[i].transform.parent.gameObject != instanciatedmenu.gameObject || recivedchilds[i].gameObject.name == "QMParent") continue;
@@ -228,8 +228,8 @@ namespace Nocturnal.Ui
             playerlistbackground.transform.localScale = Vector3.one;
             GameObject Borrder = GameObject.Instantiate(playerlistbackground, playerlistmask.transform);
 
-            playerlistmask.gameObject.Loadfrombytes(Settings.Download_Files.playerlistmask);
-            Borrder.gameObject.Loadfrombytes(Settings.Download_Files.playerlistborder);
+            playerlistmask.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistmask);
+            Borrder.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistborder);
             Borrder.transform.localScale = new Vector3(1.01f, 1.001f, 1);
             Borrder.transform.localPosition = Vector3.zero;
             MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(playerlistbackground.gameObject.GetComponent<Image>(), Settings.ConfigVars.PlayerListImg));
@@ -261,7 +261,7 @@ namespace Nocturnal.Ui
             scrollbar.localPosition = new Vector3(-470, 0, 0);
             scrollbar.localScale = new Vector3(1.5f, 1, 1);
             holder.transform.parent.localPosition = Vector3.zero;
-            playerlistmenu = holder.transform;
+            _playerlistmenu = holder.transform;
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/BackgroundLayer02").gameObject.SetActive(false);
             Ui.uicolors.hudcolors();
             Ui.uicolors.applybutton();
@@ -269,10 +269,10 @@ namespace Nocturnal.Ui
 
             var joinsound = new GameObject("Joinsound");
             joinsound.transform.parent = GameObject.Find("/UserInterface").transform;
-            audiosourcenotification  = joinsound.AddComponent<AudioSource>();
-            audiosourcenotification.playOnAwake = false;
-            audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
-            MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(audiosourcenotification, Settings.Download_Files.joinsound));
+            _audiosourcenotification = joinsound.AddComponent<AudioSource>();
+            _audiosourcenotification.playOnAwake = false;
+            _audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
+            MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(_audiosourcenotification, Settings.Download_Files.joinsound));
             var infop =  GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMNotificationsArea/DebugInfoPanel");
             var secondp = GameObject.Instantiate(infop, infop.transform.parent);
             secondp.GetComponent<UnityEngine.UI.LayoutElement>().enabled = true;
@@ -280,16 +280,16 @@ namespace Nocturnal.Ui
             Component.DestroyImmediate(secondp.GetComponent<VRC.DataModel.Core.BindingComponent>());
             secondp.gameObject.SetActive(Settings.ConfigVars.qminfopannel);
             secondp.transform.SetSiblingIndex(2);
-            firsttext = secondp.transform.Find("Panel/Text_FPS").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-            secondtext = secondp.transform.Find("Panel/Text_Ping").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-            Thirdtext = GameObject.Instantiate(secondtext, secondtext.transform.parent);
-            Thirdtext.transform.localPosition = new Vector3(380,0,0);
+            _firsttext = secondp.transform.Find("Panel/Text_FPS").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+            _secondtext = secondp.transform.Find("Panel/Text_Ping").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+            _Thirdtext = GameObject.Instantiate(_secondtext, _secondtext.transform.parent);
+            _Thirdtext.transform.localPosition = new Vector3(380,0,0);
             secondp.transform.Find("Panel/Background").transform.localPosition = new Vector3(300, 0, 0);
             secondp.transform.Find("Panel/Background").GetComponent<RectTransform>().sizeDelta = new Vector2(200, 0);
-            Thirdtext.enableWordWrapping = false;
-            secondtext.enableWordWrapping = false;
-            firsttext.transform.localPosition = new Vector3(firsttext.transform.localPosition.x - 30, 0, 0);
-            secondtext.transform.localPosition = new Vector3(secondtext.transform.localPosition.x - 30, 0, 0);
+            _Thirdtext.enableWordWrapping = false;
+            _secondtext.enableWordWrapping = false;
+            _firsttext.transform.localPosition = new Vector3(_firsttext.transform.localPosition.x - 30, 0, 0);
+            _secondtext.transform.localPosition = new Vector3(_secondtext.transform.localPosition.x - 30, 0, 0);
             var texts = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_AvInteractions/Button_ToggleSelfInteract/Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
             texts.text = texts.text += " /Self ERP";
 
@@ -305,15 +305,15 @@ namespace Nocturnal.Ui
             instanciatedpushb.transform.localScale = new Vector3(1.3f, 1.5f, 1);
             var tobetext = GameObject.Instantiate(instanciatedpushb, instanciatedpushb.transform).gameObject;
             Component.DestroyImmediate(tobetext.GetComponent<Image>());
-            GUIInfo = tobetext.AddComponent<TMPro.TextMeshProUGUI>();
-            GUIInfo.text = "Loading";
-            GUIInfo.fontSize = 13;
-            GUIInfo.alignment = TMPro.TextAlignmentOptions.Center;
-            GUIInfo.transform.localPosition = Vector3.zero;
-            GUIInfo.color = new Color(Settings.ConfigVars.HuDColor[0], Settings.ConfigVars.HuDColor[1], Settings.ConfigVars.HuDColor[2]);
+            _GUIInfo = tobetext.AddComponent<TMPro.TextMeshProUGUI>();
+            _GUIInfo.text = "Loading";
+            _GUIInfo.fontSize = 13;
+            _GUIInfo.alignment = TMPro.TextAlignmentOptions.Center;
+            _GUIInfo.transform.localPosition = Vector3.zero;
+            _GUIInfo.color = new Color(Settings.ConfigVars.HuDColor[0], Settings.ConfigVars.HuDColor[1], Settings.ConfigVars.HuDColor[2]);
             tobetext.transform.localPosition = Vector3.zero;
             tobetext.transform.localScale = Vector3.one;
-            Apis.onscreenui.generateuimsg();
+            Apis.Onscreenui.generateuimsg();
             instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.hudUi);
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer").transform.localScale = new Vector3(0.9f,0.9f,1);
 
@@ -324,7 +324,7 @@ namespace Nocturnal.Ui
 
 
             styletimer.Stop();
-            NocturnalC.log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
+            NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 
         }
     }

@@ -13,12 +13,13 @@ namespace Nocturnal.Apis.qm
     {
         private static float speed = 1f;
 
-        internal static GameObject Create(this GameObject menu,string text, GameObject menutoopen,byte[] img = null, bool half = false, float X = 628, float Y = 628)
+
+        internal static GameObject Create(this GameObject menu,string text, GameObject menutoopen, string img = null, bool half = false, float X = 628, float Y = 628)
         {
             float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
            
 
-            var instanciated = GameObject.Instantiate(objects.ButtonPrefab, menu.transform).gameObject;
+            var instanciated = GameObject.Instantiate(Objects._ButtonPrefab, menu.transform).gameObject;
             Component.DestroyImmediate(instanciated.transform.Find("Icon").gameObject.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             instanciated.name = $"SubBtn_{text}";
             instanciated.transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -26,21 +27,23 @@ namespace Nocturnal.Apis.qm
             buttoni.onClick.RemoveAllListeners();
             buttoni.onClick.AddListener(new Action(() =>
             {
-                foreach (GameObject gmj in qm.submenu.submenuslist)
-                    if (gmj != menutoopen)
+                for (int i = 0; i < submenu.submenuslist.Count; i++)
+                {
+                    if (submenu.submenuslist[i] != menutoopen)
                     {
 
-                        gmj.SetActive(false);
+                        submenu.submenuslist[i].SetActive(false);
                     }
                     else
                     {
-                        Page.lastmen = gmj;
-                        gmj.SetActive(true);
-                        MelonCoroutines.Start(timedeltaspeed(gmj));
+                        Page.lastmen = submenu.submenuslist[i];
+                        submenu.submenuslist[i].SetActive(true);
+                        MelonCoroutines.Start(timedeltaspeed(submenu.submenuslist[i]));
                     }
+                }
+            }
 
-
-            }));
+            ));
             instanciated.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
             instanciated.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = text;
             if (img != null)

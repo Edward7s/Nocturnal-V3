@@ -18,9 +18,9 @@ namespace Nocturnal.Ui.qm
 {
     internal class Main
     {
-        internal static UnityEngine.GameObject mainpage = null;
-        internal static TMPro.TextMeshProUGUI jumpimpulse = null;
-        internal static bool stopev7 = false;
+        internal static UnityEngine.GameObject _mainpage = null;
+        internal static TMPro.TextMeshProUGUI _jumpimpulse = null;
+        internal static bool _stopev7 = false;
 
         [DllImport("user32.dll")] //Set the active window
 
@@ -29,27 +29,28 @@ namespace Nocturnal.Ui.qm
 
 
      
-        internal static void createmenu()
+        internal static void Createmenu()
         {
 
-            mainpage = submenu.Create("Nocturnal", null,true);
-            var Main = submenu.Create("Main", mainpage);
-            var pg = Page.Create("Nocturnal", mainpage, Download_Files.logo);
+            _mainpage = submenu.Create("Nocturnal", null,true);
+            var Main = submenu.Create("Main", _mainpage);
+            var pg = Page.Create("Nocturnal", _mainpage, Download_Files.imagehandler.logo);
           //  MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(pg.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>(),""));
-            Anticrash.runanti();
-            Toggles.runantoggles();
-            ui.runui();
-            Target.targetmenu();
+            Anticrash.runanti(); NocturnalC.Log("1");
+            Toggles.Runantoggles(); NocturnalC.Log("2");
+            Ui.runui(); NocturnalC.Log("3");
+            Target.tarGetmenu(); NocturnalC.Log("4");
             Pickups.pickups();
-            world.World();
-            onuser.Onuser();
-            worldhistory.createrhistory();
-            tags.Tagsmenu();
-            chat.Chat();
+            World._World();
+            Onuser._Onuser();
+            Worldhistory.createrhistory();
+            Tags.Tagsmenu(); NocturnalC.Log("5");
+            Chat._Chat();
             Discord.start();
-            mic.start();
-            Buttons.Create(extensions.getmenu(mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null,3, 6);
-            Buttons.Create(extensions.getmenu(mainpage), "Restart", () => 
+            Mic.start();
+            NocturnalC.Log("8");
+            Buttons.Create(extensions.Getmenu(_mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null,3, 6);
+            Buttons.Create(extensions.Getmenu(_mainpage), "Restart", () => 
             {
                 string arguments = "";
                 foreach (string stringi in Environment.GetCommandLineArgs())
@@ -63,13 +64,13 @@ namespace Nocturnal.Ui.qm
                 Process.GetCurrentProcess().Kill();
 
             }, true, null, 3, 7);
-            Buttons.Create(extensions.getmenu(mainpage), "Change avi", () => 
+            Buttons.Create(extensions.Getmenu(_mainpage), "Change avi", () => 
             {
                 try
                 {
                     string aviid = "";
-                    Apis.inputpopout.run("Avatar id", value => aviid = value, () => {
-                       exploits.misc.changetoavi(aviid);
+                    Apis.Inputpopout.Run("Avatar id", value => aviid = value, () => {
+                       Exploits.Misc.Changetoavi(aviid);
                     });
 
 
@@ -77,15 +78,15 @@ namespace Nocturnal.Ui.qm
 
                 catch
                 {
-                  NocturnalC.log("Cloud not change into that avatar");
+                  NocturnalC.Log("Cloud not change into that avatar");
                 }
 
 
             }, true, null, 2, 6);
-            Buttons.Create(extensions.getmenu(mainpage), "Join By Id", () => 
+            Buttons.Create(extensions.Getmenu(_mainpage), "Join By Id", () => 
             {
                 string roomid = "";
-                Apis.inputpopout.run("Room Instance Id", value => roomid = value, () => {
+                Apis.Inputpopout.Run("Room Instance Id", value => roomid = value, () => {
                     if (!Networking.GoToRoom(roomid))
                     {
                         string[] array = roomid.Split(':');
@@ -94,28 +95,28 @@ namespace Nocturnal.Ui.qm
                 });
 
             }, true, null, 2, 7);
-            Buttons.Create(extensions.getmenu(mainpage), "Delete P", () => exploits.misc.deletportals(), true,null, 1, 6);
-            jumpimpulse = Buttons.Create(extensions.getmenu(mainpage), "Jump Imp", () => 
+            Buttons.Create(extensions.Getmenu(_mainpage), "Delete P", () => Exploits.Misc.Deletportals(), true,null, 1, 6);
+            _jumpimpulse = Buttons.Create(extensions.Getmenu(_mainpage), "Jump Imp", () => 
             {
                 try
                 {
-                    Apis.inputpopout.run("Jump Impulse", value => ConfigVars.jumpimpulse = float.Parse(value), () => { });
+                    Apis.Inputpopout.Run("Jump Impulse", value => ConfigVars.jumpimpulse = float.Parse(value), () => { });
                     Networking.LocalPlayer.SetJumpImpulse(ConfigVars.jumpimpulse);
-                    jumpimpulse.text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
+                    _jumpimpulse.text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
                 }
                 catch { }
               
             }, true, null, 1, 7).gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            Buttons.Create(extensions.getmenu(mainpage), "Save Config", () => { ConfigVars.saveconfig($"{Directory.GetCurrentDirectory()}\\Nocturnal V3\\Config\\Config.json"); NocturnalC.log("Saved Config", "Settings", ConsoleColor.Green);
-            }, false, Download_Files.Saveconfig, 1, 0);
+            Buttons.Create(extensions.Getmenu(_mainpage), "Save Config", () => { ConfigVars.saveconfig($"{Directory.GetCurrentDirectory()}\\Nocturnal V3\\Config\\Config.json"); NocturnalC.Log("Saved Config", "Settings", ConsoleColor.Green);
+            }, false, Download_Files.imagehandler.Saveconfig, 1, 0);
 
-            Buttons.Create(extensions.getmenu(mainpage), "Enter Key", () => 
+            Buttons.Create(extensions.Getmenu(_mainpage), "Enter Key", () => 
             {
                 imports.SetForegroundWindow(imports.GetConsoleWindow());
 
-                NocturnalC.log("Enter Your Key", "Verification", ConsoleColor.Green);
+                NocturnalC.Log("Enter Your Key", "Verification", ConsoleColor.Green);
                 string getkey = Console.ReadLine();
-                NocturnalC.log("Enter A Username u want", "Verification", ConsoleColor.Red);
+                NocturnalC.Log("Enter A Username u want", "Verification", ConsoleColor.Red);
                 string getusername = Console.ReadLine();
 
                 var sendinfo = new jsonmanager.custommsg2()
@@ -142,19 +143,19 @@ namespace Nocturnal.Ui.qm
 
                 server.setup.sendmessage(JsonConvert.SerializeObject(newmsg));
 
-            }, false, Download_Files.EnterKey, 2, 0);
+            }, false, Download_Files.imagehandler.EnterKey, 2, 0);
 
-            Toggle.Create("Fly", extensions.getmenu(mainpage), () => {
-                exploits.Fly.flytoggle = true;
-                extensions.togglecontroller(!exploits.Fly.flytoggle);
+            Toggle.Create("Fly", extensions.Getmenu(_mainpage), () => {
+                Exploits.Fly.flytoggle = true;
+                extensions.togglecontroller(!Exploits.Fly.flytoggle);
 
             }, () => {
-                exploits.Fly.flytoggle = false;
-                extensions.togglecontroller(!exploits.Fly.flytoggle);
+                Exploits.Fly.flytoggle = false;
+                extensions.togglecontroller(!Exploits.Fly.flytoggle);
 
 
-            }, exploits.Fly.flytoggle, true, 0, 6);
-            Toggle.Create("Esp", extensions.getmenu(mainpage), () =>
+            }, Exploits.Fly.flytoggle, true, 0, 6);
+            Toggle.Create("Esp", extensions.Getmenu(_mainpage), () =>
             {
                 ConfigVars.esp = true;
                 var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
@@ -178,7 +179,7 @@ namespace Nocturnal.Ui.qm
                 }
 
             }, ConfigVars.esp, true, 0, 7);
-            mainpage.getmenu().Create("Main", Main, Download_Files.Main, false, 0, 0);
+            _mainpage.Getmenu().Create("Main", Main, Download_Files.imagehandler.Main, false, 0, 0);
 
 
 
@@ -186,32 +187,32 @@ namespace Nocturnal.Ui.qm
 
 
 
-            Apis.Slider.slider(extensions.getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
+            Apis.Slider.slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
             {
             }, true, "Fly Speed");
 
 
-            Toggle.Create("Mirror", extensions.getmenu(Main), () => exploits.Mirror.togglemirror(true), () => exploits.Mirror.togglemirror(false));
+            Toggle.Create("Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));
 
-            Toggle.Create("Optimized Mirror", extensions.getmenu(Main), () => exploits.Mirror.togglemirror(true,true), () => exploits.Mirror.togglemirror(false));
+            Toggle.Create("Optimized Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true,true), () => Exploits.Mirror.Togglemirror(false));
 
-            Toggle.Create("Ghost Mode", extensions.getmenu(Main), () => stopev7 = true, () => stopev7 = false, Hooks.fakelag);
+            Toggle.Create("Ghost Mode", extensions.Getmenu(Main), () => _stopev7 = true, () => _stopev7 = false, _stopev7);
 
-            Toggle.Create("Fake Lag", extensions.getmenu(Main), () => Hooks.fakelag = true, () => Hooks.fakelag = false, stopev7);
+            Toggle.Create("Fake Lag", extensions.Getmenu(Main), () => Hooks.fakelag = true, () => Hooks.fakelag = false, Hooks.fakelag);
 
-            Buttons.Create(Main.getmenu(), "Item Boom ball", () => exploits.setiteminhand.create<Nocturnal.monobehaviours.boomorbit>());
+            Buttons.Create(Main.Getmenu(), "Item Boom ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>());
 
-            Buttons.Create(Main.getmenu(), "Teleport ball", () => exploits.setiteminhand.create<Nocturnal.monobehaviours.Teleportobj>());
+            Buttons.Create(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>(),false,null);
 
-            objects.qmexpand.transform.parent.gameObject.Create("Copy instance id to clipboard", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Copy instance id to clipboard", () =>
               {
                   var worldid = RoomManager.prop_String_0;
-                  NocturnalC.log(worldid);
+                  NocturnalC.Log(worldid);
                   System.Windows.Forms.Clipboard.SetText(worldid);
-              }, Download_Files.clipboard);
+              }, Download_Files.imagehandler.clipboard);
 
 
-            objects.qmexpand.transform.parent.gameObject.Create("Previous Track (Spotify)", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Previous Track (Spotify)", () =>
             {
                 var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
 
@@ -234,10 +235,10 @@ namespace Nocturnal.Ui.qm
 
 
 
-                imports.SetForegroundWindow(Main2.hwnd);
-            }, Download_Files.prev);
+                imports.SetForegroundWindow(Main2._hwnd);
+            }, Download_Files.imagehandler.prev);
 
-            objects.qmexpand.transform.parent.gameObject.Create("Play Pause (Spotify)", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Play Pause (Spotify)", () =>
             {
                 var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
 
@@ -256,11 +257,11 @@ namespace Nocturnal.Ui.qm
                 Thread.Sleep(100);
 
 
-                imports.SetForegroundWindow(Main2.hwnd);
-            }, Download_Files.stopplay);
+                imports.SetForegroundWindow(Main2._hwnd);
+            }, Download_Files.imagehandler.stopplay);
 
 
-            objects.qmexpand.transform.parent.gameObject.Create("Next Track (Spotify)", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Next Track (Spotify)", () =>
             {
                 var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
 
@@ -280,11 +281,11 @@ namespace Nocturnal.Ui.qm
                 Thread.Sleep(100);
 
 
-                imports.SetForegroundWindow(Main2.hwnd);
-            }, Download_Files.next);
+                imports.SetForegroundWindow(Main2._hwnd);
+            }, Download_Files.imagehandler.next);
 
 
-            objects.qmexpand.transform.parent.gameObject.Create("Mute (Discord)", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Mute (Discord)", () =>
             {
               //  var p = Process.GetProcesses().Where(pname => pname.ProcessName.Contains("Discord")).FirstOrDefault();
                 var p = Process.GetProcessesByName("Discord").FirstOrDefault();
@@ -307,16 +308,16 @@ namespace Nocturnal.Ui.qm
 
 
                 }
-                catch (Exception ex) { NocturnalC.log(ex); }
+                catch (Exception ex) { NocturnalC.Log(ex); }
                 Thread.Sleep(100);
 
 
-                imports.SetForegroundWindow(Main2.hwnd);
+                imports.SetForegroundWindow(Main2._hwnd);
 
-            }, Download_Files.mute);
+            }, Download_Files.imagehandler.mute);
 
 
-            objects.qmexpand.transform.parent.gameObject.Create("Defean (Discord)", () =>
+            Objects._qmexpand.transform.parent.gameObject.Create("Defean (Discord)", () =>
             {
                 var p = Process.GetProcessesByName("Discord").FirstOrDefault();
 
@@ -337,21 +338,21 @@ namespace Nocturnal.Ui.qm
 
 
                 }
-                catch (Exception ex) { NocturnalC.log(ex); }
+                catch (Exception ex) { NocturnalC.Log(ex); }
 
 
 
                 Thread.Sleep(100);
 
 
-                imports.SetForegroundWindow(Main2.hwnd);
-            }, Download_Files.defean);
+                imports.SetForegroundWindow(Main2._hwnd);
+            }, Download_Files.imagehandler.defean);
 
 
             var menu = UnityEngine.GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window");
-            var tpbutton = smallbutton.Create(menu.gameObject, () => exploits.setiteminhand.create<Nocturnal.monobehaviours.Teleportobj>(),Download_Files.teleport);
+            var tpbutton = smallbutton.Create(menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>(),Download_Files.imagehandler.teleport);
             tpbutton.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -562.5029f, -1.0042f);
-            var boombtn = smallbutton.Create(menu.gameObject, () => exploits.setiteminhand.create<Nocturnal.monobehaviours.boomorbit>(),Download_Files.items);
+            var boombtn = smallbutton.Create(menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>(),Download_Files.imagehandler.items);
             boombtn.transform.localPosition = new UnityEngine.Vector3(-825, -562.5029f, -1.0042f);
 
             //exploits.Mirror.togglemirror(true,true)
@@ -365,9 +366,9 @@ namespace Nocturnal.Ui.qm
                         GameObject.DestroyImmediate(mirrors[i].gameObject);
                         return;
                     }
-                exploits.Mirror.togglemirror(true);
+                Exploits.Mirror.Togglemirror(true);
 
-            },Download_Files.Mirror);
+            },Download_Files.imagehandler.Mirror);
             Mirror.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -672.5029f, -1.0042f);
 
 
@@ -381,12 +382,12 @@ namespace Nocturnal.Ui.qm
                         GameObject.DestroyImmediate(mirrors[i].gameObject);
                         return;
                     }
-                exploits.Mirror.togglemirror(true, true);
+                Exploits.Mirror.Togglemirror(true, true);
 
-            }, Download_Files.OptimizedMirror);
+            }, Download_Files.imagehandler.OptimizedMirror);
             Mirroroptimized.transform.localPosition = new UnityEngine.Vector3(-825, -672.5029f, -1.0042f);
 
-            objects.qmexpand.transform.SetSiblingIndex(6);
+            Objects._qmexpand.transform.SetSiblingIndex(6);
 
         }
 

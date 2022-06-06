@@ -99,156 +99,28 @@ namespace Nocturnal.Settings
      
         internal static void saveconfig(string path)
         {
-            var conf = new Config()
+            var conf = new Config();
+            var props = conf.GetType().GetProperties();
+            var getc = typeof(ConfigVars).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            for (int i = 0; i < props.Length; i++)
             {
-                QmDebbugerImg = QmDebbugerImg,
-                clientvolume = clientvolume,
-                BiguiImg = BiguiImg,
-                PlayerListImg = PlayerListImg,
-                BigImgOpacity = BigImgOpacity,
-                esp = esp,
-                Flyspeed = Flyspeed,
-                jumpimpulse = jumpimpulse,
-                espwidth = espwidth,
-                debuggeropacity = debuggeropacity,
-                qmdebug = qmdebug,
-                thunderbigui = thunderbigui,
-                falloff = falloff,
-                itemmaxrange = itemmaxrange,
-                itempickup = itempickup,
-                qmmusic = qmmusic,
-                maxmeshes = maxmeshes,
-                maxverticies = maxverticies,
-                maxmaterials = maxmaterials,
-                maxaudiosources = maxaudiosources,
-                audiosourcep = audiosourcep,
-                lightsp = lightsp,
-                linerenderp = linerenderp,
-                meshp = meshp,
-                particlep = particlep,
-                ShaderP = ShaderP,
-                verticiesp = verticiesp,
-                maxparticles = maxparticles,
-                particlesystem = particlesystem,
-                selfanti = selfanti,
-                logshaderstoconsole = logshaderstoconsole,
-                friend = friend,
-                known = known,
-                Moderator = Moderator,
-                superpowers = superpowers,
-                newuser = newuser,
-                trusted = trusted,
-                user = user,
-                visitor = visitor,
-                playerlist = playerlist,
-                rightsideplayerlist = rightsideplayerlist,
-                QmImg = QmImg,
-                QMopacity = QMopacity,
-                playelerlistopacity = playelerlistopacity,
-                ButtonColor = ButtonColor,
-                textcolor = textcolor,
-                HuDColor = HuDColor,
-                speed = speed,
-                speedvalue = speedvalue,
-                forcejump = forcejump,
-                infinitejump = infinitejump,
-                Thidperson = Thidperson,
-                onlyfriendjoin = onlyfriendjoin,
-                joinsound = joinsound,
-                hidequests = hidequests,
-                bhop = bhop,
-                itemesp = itemesp,
-                allowitemtheft = allowitemtheft,
-                murdergoldweapon = murdergoldweapon,
-                murdergodmod = murdergodmod,
-                everyonegoldgun = everyonegoldgun,
-                amongusgodmod = amongusgodmod,
-                continuesfire = continuesfire,
-                everyonecontinuesfire = everyonecontinuesfire,
-                qminfopannel = qminfopannel,
-                chatimage = chatimage,
-                rainbackground = rainbackground,
-                discordrichpresence = discordrichpresence,
-                udonblock = udonblock,
-                hudUi = hudUi,
-                toggleonscreenlogger = toggleonscreenlogger,
-            };
-            File.WriteAllText(path, $"{Newtonsoft.Json.JsonConvert.SerializeObject(conf)}");
-
+                var fieldobject = getc.Where(obj => obj.Name == props[i].Name).FirstOrDefault();
+                if (fieldobject == null) continue;
+                props[i].SetValue(conf, fieldobject.GetValue(getc));
+            }
+            File.WriteAllText(path, $"{Newtonsoft.Json.JsonConvert.SerializeObject(conf)}"); 
         }
         internal static void applyconfig(string path, Config config)
         {
-            QmDebbugerImg = (string)config.QmDebbugerImg;
-            clientvolume = (float)config.clientvolume;
-            BiguiImg = (string)config.BiguiImg;
-            PlayerListImg = (string)config.PlayerListImg;
-            BigImgOpacity = (float)config.BigImgOpacity;
-            esp = (bool)config.esp;
-            Flyspeed =(float)config.Flyspeed;
-            jumpimpulse = (float)config.jumpimpulse;
-            espwidth =(float)config.espwidth;
-            debuggeropacity = (float)config.debuggeropacity;
-            qmdebug = (bool)config.qmdebug;
-            thunderbigui = (bool)config.thunderbigui; 
-            falloff = (float)config.falloff;
-            itemmaxrange = (bool)config.itemmaxrange;
-            itempickup = (bool)config.itempickup;
-            qmmusic = (bool)config.qmmusic;
-            maxaudiosources = (int)config.maxaudiosources;
-            maxmaterials = (int)config.maxmaterials;
-            maxverticies = (int)config.maxverticies;
-            maxmeshes = (int)config.maxmeshes;
-            verticiesp = (bool)config.verticiesp;
-            meshp = (bool)config.meshp;
-            ShaderP = (bool)config.ShaderP;
-            audiosourcep = (bool)config.audiosourcep;
-            particlep = (bool)config.particlep;
-            linerenderp = (bool)config.linerenderp;
-            lightsp = (bool)config.lightsp;
-            maxparticles = (int)config.maxparticles;
-            particlesystem = (int)config.particlesystem;
-            selfanti = (bool)config.selfanti;
-            logshaderstoconsole = (bool)config.logshaderstoconsole;
-            friend = (float[])config.friend;
-            known = (float[])config.known;
-            Moderator = (float[])config.Moderator;
-            superpowers = (float[])config.superpowers;
-            newuser = (float[])config.newuser;
-            trusted = (float[])config.trusted;
-            user = (float[])config.user;
-            visitor = (float[])config.visitor;
-            playerlist = (bool)config.playerlist;
-            rightsideplayerlist = (bool)config.rightsideplayerlist;
-            QMopacity = (float)config.QMopacity;
-            QmImg = (string)config.QmImg;
-            playelerlistopacity = (float)config.playelerlistopacity;
-            ButtonColor = (float[])config.ButtonColor;
-            HuDColor = (float[])config.HuDColor;
-            textcolor = (float[])config.textcolor;
-            speed = (bool)config.speed;
-            speedvalue = (float)config.speedvalue;
-            Thidperson = (bool)config.Thidperson;
-            bhop = (bool)config.bhop;
-            forcejump = (bool)config.forcejump;
-            infinitejump = (bool)config.infinitejump;
-            onlyfriendjoin = (bool)config.onlyfriendjoin;
-            joinsound = (bool)config.joinsound;
-            hidequests = (bool)config.hidequests;
-            itemesp = (bool)config.itemesp;
-            allowitemtheft = (bool)config.allowitemtheft;
-            murdergoldweapon = (bool)config.murdergoldweapon;
-            murdergodmod = (bool)config.murdergodmod;
-            everyonegoldgun = (bool)config.everyonegoldgun;
-            amongusgodmod = (bool)config.amongusgodmod;
-            continuesfire = (bool)config.continuesfire;
-            everyonecontinuesfire = (bool)config.everyonecontinuesfire;
-            qminfopannel = (bool)config.qminfopannel;
-            chatimage = (string)config.chatimage;
-            rainbackground = (bool)config.rainbackground;
-            discordrichpresence = (bool)config.discordrichpresence;
-            udonblock = (bool)config.udonblock;
-            hudUi = (bool)config.hudUi;
-            toggleonscreenlogger = (bool)config.toggleonscreenlogger;
+            var props = config.GetType().GetProperties();
+            var getc = typeof(ConfigVars);
+            var fields = getc.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            for (int i = 0; i < fields.Length; i++)
+            {
+                var propobj = props.Where(obj => obj.Name == fields[i].Name).FirstOrDefault();
+                if (propobj == null) continue;
+                fields[i].SetValue(getc, propobj.GetValue(config));
+            }
             saveconfig(path);
         }
         public static string QmDebbugerImg = "https://cutewallpaper.org/21/black-aesthetic-anime/Image-about-girl-in-black-aesthetic-by-Quantis.png";

@@ -17,7 +17,7 @@ namespace Nocturnal.Apis.qm
 
         
 
-            var instanciated = GameObject.Instantiate(objects.TogglePrebab, menu.transform).gameObject;
+            var instanciated = GameObject.Instantiate(Objects._TogglePrebab, menu.transform).gameObject;
             Component.DestroyImmediate(instanciated.GetComponent<VRC.DataModel.Core.BindingComponent>());
             instanciated.name = $"Toggle_{text}";
             var toggle = instanciated.GetComponent<UnityEngine.UI.Toggle>();

@@ -20,7 +20,7 @@ namespace Nocturnal.Apis.qm
             gam.transform.rotation = new Quaternion(0, 0, 0, 0);
             gam.transform.localPosition = new Vector3(0, 512, 0);
             gam.name = $"_Submenu_{text}";
-            gam.transform.parent = objects.Submenu.transform;
+            gam.transform.parent = Objects._Submenu.transform;
             gam.SetActive(false);
             var mask = new GameObject();
             mask.transform.parent = gam.transform;
@@ -31,10 +31,10 @@ namespace Nocturnal.Apis.qm
             mask.transform.localPosition = new Vector3(0f, -554.4909f, 0);
             mask.transform.localRotation = new Quaternion(0, 0, 0, 0);
             mask.name = "Masked";
-            var instanciateds = GameObject.Instantiate(objects.Submenu.transform.Find("Header_DevTools").gameObject, gam.transform);
+            var instanciateds = GameObject.Instantiate(Objects._Submenu.transform.Find("Header_DevTools").gameObject, gam.transform);
             instanciateds.transform.Find("LeftItemContainer/Text_Title").GetComponent<TMPro.TextMeshProUGUI>().text = text;
             instanciateds.transform.localPosition = new Vector3(-514, 0, 0);
-            var instanciated = GameObject.Instantiate(objects.Submenu.transform.Find("Scrollrect").gameObject, mask.transform);
+            var instanciated = GameObject.Instantiate(Objects._Submenu.transform.Find("Scrollrect").gameObject, mask.transform);
             instanciated.transform.localPosition = new Vector3(0, 50, 0);
             instanciated.transform.localScale = new Vector3(0.095f, 0.11f, 1f);
             instanciated.gameObject.SetActive(true);

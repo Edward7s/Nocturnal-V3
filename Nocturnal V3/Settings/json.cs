@@ -6,37 +6,37 @@ using System.Threading.Tasks;
 
 namespace Nocturnal.Settings
 {
-    internal static class jsonmanager
+    public static class jsonmanager
     {
         [Serializable]
-        internal class worldhistory
+        public class worldhistory
         {
             public string worldname { get; set; }
 
             public string worldid { get; set; }
         }
-        internal class custommsg
+        public class custommsg
         {
             public string msg { get; set; }
 
             public string code { get; set; }
         }
 
-        internal class custommsgarr
+        public class custommsgarr
         {
             public custommsg2[] msg { get; set; }
 
             public string code { get; set; }
         }
 
-        internal class custommsg2
+        public class custommsg2
         {
             public string msg { get; set; }
             public string msg2 { get; set; }
 
             public string code { get; set; }
         }
-        internal class reciveplate
+        public class reciveplate
         {
             public string code { get; set; }
 
@@ -45,7 +45,7 @@ namespace Nocturnal.Settings
             public string[] tagslist { get; set; }
         }
 
-        internal class discordrpc
+        public class discordrpc
         {
             public string Details { get; set; }
 
@@ -58,7 +58,40 @@ namespace Nocturnal.Settings
         }
 
 
-     
+          public class downloadhandler
+        {
+            public string nameplates { get; set; }
+            public string Nameplateicon  { get; set; }
+            public string playerlistmask  { get; set; }
+            public string playerlistborder  { get; set; }
+            public string quickmenumask  { get; set; }
+            public string Main  { get; set; }
+            public string Saveconfig  { get; set; }
+            public string EnterKey  { get; set; }
+            public string ui  { get; set; }
+            public string Toggles  { get; set; }
+            public string Target  { get; set; }
+            public string Anitcrash  { get; set; }
+            public string Colors  { get; set; }
+            public string clipboard  { get; set; }
+            public string World  { get; set; }
+            public string items  { get; set; }
+            public string worldhistory  { get; set; }
+            public string mute  { get; set; }
+            public string defean  { get; set; }
+            public string next  { get; set; }
+            public string prev  { get; set; }
+            public string stopplay  { get; set; }
+            public string logo  { get; set; }
+            public string chatmask  { get; set; }
+            public string chat  { get; set; }
+            public string Mirror  { get; set; }
+            public string OptimizedMirror  { get; set; }
+            public string teleport  { get; set; }
+            public string tag  { get; set; }
+            public string Discord  { get; set; }
+            public string micmenu  { get; set; }
+        }
     }
 
   

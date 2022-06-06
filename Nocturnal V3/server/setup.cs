@@ -96,8 +96,8 @@ namespace Nocturnal.server
             else
                 code = message.Substring(9, 1);
 
-             // NocturnalC.log(code);
-       //   NocturnalC.log(message);
+             // NocturnalC.Log(code);
+       //   NocturnalC.Log(message);
 
             switch (true)
             {
@@ -106,7 +106,7 @@ namespace Nocturnal.server
                     MelonLoader.MelonCoroutines.Start(generatenoralplate(message));
                     break;
                 case true when code == "5":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.logo));
+                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.imagehandler.logo));
                     break;
                 case true when code == "86":
                     var desz3 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
@@ -114,29 +114,29 @@ namespace Nocturnal.server
                     break;
                 case true when code == "7":
                     var desz4 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
-                    Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.chat.chattext.text;
-                    MelonLoader.MelonCoroutines.Start(Apis.onscreenui.showmsgienum($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
+                    Ui.qm.Chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.Chat.chattext.text;
+                    MelonLoader.MelonCoroutines.Start(Apis.Onscreenui.showmsgienum($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
 
                     break;
                 case true when code == "8":                
                        var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
                         for (int i = 0; i < getcm.Count; i++)
-                            Ui.qm.chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.chat.chattext.text;
+                            Ui.qm.Chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.Chat.chattext.text;
                     break;
                 case true when code == "12":
                     MelonLoader.MelonCoroutines.Start(waitforobj());
                     break;
                 case true when code == "11":
                     var dezmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    Ui.objects.trustranktext.text = $"[{Ui.objects.trustranktext.text}] [{dezmsg.msg}]";
+                    Ui.Objects._trustranktext.text = $"[{Ui.Objects._trustranktext.text}] [{dezmsg.msg}]";
                     break;
                 case true when code == "87":
                     var desz2 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    Ui.Qm_basic.secondtext.text = $"C Users:{desz2.msg}";
+                    Ui.Qm_basic._secondtext.text = $"C Users:{desz2.msg}";
                     break;
                 case true when code == "89":
                    var jsond =  JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
-                    NocturnalC.log(jsond.msg, "Server");
+                    NocturnalC.Log(jsond.msg, "Server");
                     break;
             }
         }
@@ -166,7 +166,7 @@ namespace Nocturnal.server
 
 
 
-            private static IEnumerator generatenoralplate(string st,byte[] img = null)
+            private static IEnumerator generatenoralplate(string st,string img = null)
             {
           
                 var deserializedmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.reciveplate>(st);

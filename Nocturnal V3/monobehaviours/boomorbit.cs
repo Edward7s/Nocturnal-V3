@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VRC.SDKBase;
-namespace Nocturnal.monobehaviours
+namespace Nocturnal.Monobehaviours
 {
-    internal class boomorbit : MonoBehaviour
+    internal class Boomorbit : MonoBehaviour
     {
 
         private static bool firstpickup = true;
-        public boomorbit(IntPtr ptr) : base(ptr)
+        public Boomorbit(IntPtr ptr) : base(ptr)
         {
 
         }
@@ -36,10 +36,10 @@ namespace Nocturnal.monobehaviours
             if (firstpickup) return;
             if (this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer != null) return;
 
-            for (int i = 0; i < exploits.pickups.pickupsobs.Length; i++)
+            for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
             {
-                VRC.SDKBase.Networking.SetOwner(VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0, exploits.pickups.pickupsobs[i].gameObject);
-                exploits.pickups.pickupsobs[i].transform.position = this.transform.position;
+                VRC.SDKBase.Networking.SetOwner(VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0, Exploits.Pickups.Pickupsobs[i].gameObject);
+                Exploits.Pickups.Pickupsobs[i].transform.position = this.transform.position;
             }
             GameObject.Destroy(gameObject);
         }

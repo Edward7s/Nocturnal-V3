@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using VRC.SDKBase;
-namespace Nocturnal.monobehaviours
+namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Nocturnal.monobehaviours
 
         void Start()
         {
-           NocturnalC.log("Initializing OnUpdate And OnGui", "Monobehaviour",ConsoleColor.Green);
+           NocturnalC.Log("Initializing OnUpdate And OnGui", "Monobehaviour",ConsoleColor.Green);
         }
 
 
@@ -23,16 +23,6 @@ namespace Nocturnal.monobehaviours
 
         void LateUpdate()
         {
-
-
-            if (Settings.ConfigVars.discordrichpresence)
-                Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
-
-            //   discord.RunCallbacks();
-
-
-
-
             try
             {
                 if (VRC.Player.prop_Player_0.transform == null)
@@ -46,15 +36,15 @@ namespace Nocturnal.monobehaviours
 
 
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
-                if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) exploits.misc.jump();
+                if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
 
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    exploits.Fly.flytoggle = !exploits.Fly.flytoggle;
+                    Exploits.Fly.flytoggle = !Exploits.Fly.flytoggle;
 
-                    Settings.wrappers.extensions.togglecontroller(!exploits.Fly.flytoggle);
+                    Settings.wrappers.extensions.togglecontroller(!Exploits.Fly.flytoggle);
 
                 }
 
@@ -114,13 +104,13 @@ namespace Nocturnal.monobehaviours
             {
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton1))
                 {
-                    if (exploits.Sitonparts.issiting)
+                    if (Exploits.Sitonparts.issiting)
                     {
-                        exploits.Sitonparts.issiting = false;
+                        Exploits.Sitonparts.issiting = false;
                         Settings.wrappers.extensions.togglecontroller(true);
                     }
                     if (Settings.ConfigVars.infinitejump)
-                        exploits.misc.jump();
+                        Exploits.Misc.Jump();
 
 
                 }
@@ -130,17 +120,17 @@ namespace Nocturnal.monobehaviours
                     if (Networking.LocalPlayer.GetJumpImpulse() == 0)
                         Networking.LocalPlayer.SetJumpImpulse(1);
                     if (Settings.ConfigVars.forcejump)
-                        exploits.misc.jump();
+                        Exploits.Misc.Jump();
                 }
 
 
             }
             catch { }
-            exploits.pickups.stopobjs();
-            exploits.pickups.ownerpickups();
-            exploits.orbit.orbituser();
-            exploits.Fly.fly();
-            exploits.zoom._zoom();
+            Exploits.Pickups.Stopobjs();
+            Exploits.Pickups.Ownerpickups();
+            Exploits.Orbit.orbituser();
+            Exploits.Fly.fly();
+            Exploits.Zoom._Zoom();
 
         }
 

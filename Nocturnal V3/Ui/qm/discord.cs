@@ -10,10 +10,10 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void start()
         {
-            var disc = submenu.Create("Discord", Main.mainpage);
-            Main.mainpage.getmenu().Create("Discord", disc, Settings.Download_Files.Discord, true, 2, 4);
+            var disc = submenu.Create("Discord", Main._mainpage);
+            Main._mainpage.Getmenu().Create("Discord", disc, Settings.Download_Files.imagehandler.Discord, true, 2, 4);
 
-            Toggle.Create("Discord Presence", disc.getmenu(), () =>
+            Toggle.Create("Discord Presence", disc.Getmenu(), () =>
             {
                 Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
 
@@ -42,11 +42,11 @@ namespace Nocturnal.Ui.qm
             Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, new object[] { !Settings.ConfigVars.discordrichpresence });
 
 
-            Buttons.Create(disc.getmenu(), "Details", () =>
+            Buttons.Create(disc.Getmenu(), "Details", () =>
             {
                    var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.inputpopout.run("Details", value => tobstring = value, () => {
+                Apis.Inputpopout.Run("Details", value => tobstring = value, () => {
                 str.Details = tobstring;
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc",JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, new object[] {false});
@@ -54,22 +54,22 @@ namespace Nocturnal.Ui.qm
                 });
             });
 
-            Buttons.Create(disc.getmenu(), "State", () =>
+            Buttons.Create(disc.Getmenu(), "State", () =>
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.inputpopout.run("State", value => tobstring = value, () => {
+                Apis.Inputpopout.Run("State", value => tobstring = value, () => {
                     str.State = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, new object[] { false });
 
                 });
             });
-            Buttons.Create(disc.getmenu(), "Image", () =>
+            Buttons.Create(disc.Getmenu(), "Image", () =>
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.inputpopout.run("Image", value => tobstring = value, () => {
+                Apis.Inputpopout.Run("Image", value => tobstring = value, () => {
                     str.LargeImage = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, new object[] { false });

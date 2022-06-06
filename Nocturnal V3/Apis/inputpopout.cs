@@ -8,9 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Nocturnal.Apis
 {
-    internal class inputpopout
+    internal class Inputpopout
     {
-        internal static string run(string name, Action<string> setOutput, Action action)
+        internal static string Run(string name, Action<string> setOutput, Action action)
         {
             string returned = "";
             //  VRC.Player.prop_Player_0.gameObject.GetComponent<CharacterController>().enabled = false;

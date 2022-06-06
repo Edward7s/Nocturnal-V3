@@ -23,7 +23,7 @@ namespace Nocturnal.Settings
         {
             var configtimer = System.Diagnostics.Stopwatch.StartNew();
 
-            NocturnalC.log("Checking Config", "Config Setup");
+            NocturnalC.Log("Checking Config", "Config Setup");
 
             if (File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json") == string.Empty)
               ConfigVars.saveconfig(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json");
@@ -36,11 +36,11 @@ namespace Nocturnal.Settings
 
                     var bcc = bbc.GetValue(mainl);
                     bcc.ToString();
-                   // NocturnalC.log($"{bbc.Name}:{bcc}", "Config Setup", ConsoleColor.Yellow);
+                   // NocturnalC.Log($"{bbc.Name}:{bcc}", "Config Setup", ConsoleColor.Yellow);
                 }
                 catch
                 {
-                 //   NocturnalC.log(bbc.Name + " FAILED", "Config Setup", ConsoleColor.DarkRed);
+                 //   NocturnalC.Log(bbc.Name + " FAILED", "Config Setup", ConsoleColor.DarkRed);
                     var getfields = typeof(ConfigVars).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                     foreach (var a in getfields)
                     {
@@ -52,7 +52,7 @@ namespace Nocturnal.Settings
 
                             }
                         }
-                        catch { NocturnalC.log($"BIG FAIL {bbc.Name}", "Config Setup", ConsoleColor.Red); }
+                        catch { NocturnalC.Log($"BIG FAIL {bbc.Name}", "Config Setup", ConsoleColor.Red); }
                     }
 
                 }
@@ -67,7 +67,7 @@ namespace Nocturnal.Settings
 
 
 
-            NocturnalC.log($"Config Applied in {configtimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Config Setup", ConsoleColor.Green);
+            NocturnalC.Log($"Config Applied in {configtimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Config Setup", ConsoleColor.Green);
 
 
     

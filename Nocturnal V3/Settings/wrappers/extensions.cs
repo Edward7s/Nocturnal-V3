@@ -29,11 +29,11 @@ namespace Nocturnal.Settings.wrappers
             }
             catch { return null; }
         }
-        internal static GameObject GeneratePlate(this VRC.Player player, string text, byte[] img = null) => GeneratePlate(player._vrcplayer, text, img);
+        internal static GameObject GeneratePlate(this VRC.Player player, string text, string img = null) => GeneratePlate(player._vrcplayer, text, img);
 
 
 
-            internal static GameObject GeneratePlate(this VRCPlayer player, string text, byte[] img = null)
+            internal static GameObject GeneratePlate(this VRCPlayer player, string text, string img = null)
         {
             //
             //field_Public_MonoBehaviourPublicSiCoSiGaCoTeGrCoGaHoUnique_0
@@ -52,7 +52,7 @@ namespace Nocturnal.Settings.wrappers
             icon.gameObject.SetActive(true);
             return newplate;
         }
-        internal static GameObject getmenu(this GameObject gameobj) { return gameobj.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject; }
+        internal static GameObject Getmenu(this GameObject gameobj) { return gameobj.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject; }
 
         internal static void togglecontroller(bool onoroff)
         {
@@ -83,7 +83,7 @@ namespace Nocturnal.Settings.wrappers
                     }
                     
 
-                        NocturnalC.log($"Method: [{methods[i].Name}]\n" +
+                        NocturnalC.Log($"Method: [{methods[i].Name}]\n" +
                        $"Return parameter: {methods[i].ReturnParameter.Name} / {methods[i].ReturnParameter.ParameterType}\n" +
                        $"Parameters: {prml}\n" +
                        $"Optional Parameters: {methods[i]}\n" +
@@ -97,28 +97,28 @@ namespace Nocturnal.Settings.wrappers
             var props = theclass.GetProperties(BindingFlags.Public);
             for (int i = 0; i < props.Length; i++)
             {
-                NocturnalC.log($"Public Proopriety: [{props[i].Name}]\n" +
+                NocturnalC.Log($"Public Proopriety: [{props[i].Name}]\n" +
                $"Optional Parameters: {props[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
             var propspri = theclass.GetProperties(BindingFlags.NonPublic);
             for (int i = 0; i < propspri.Length; i++)
             {
-                NocturnalC.log($"nonpublic Proopriety: [{propspri[i].Name}]\n" +
+                NocturnalC.Log($"nonpublic Proopriety: [{propspri[i].Name}]\n" +
                $"Optional Parameters: {propspri[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
             var propsst = theclass.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < propsst.Length; i++)
             {
-                NocturnalC.log($"Public Instance Proopriety: [{propsst[i].Name}]\n" +
+                NocturnalC.Log($"Public Instance Proopriety: [{propsst[i].Name}]\n" +
                $"Optional Parameters: {propsst[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
             var propsprist = theclass.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
             for (int i = 0; i < propsprist.Length; i++)
             {
-                NocturnalC.log($"nonpublic Instance Proopriety: [{propsprist[i].Name}]\n" +
+                NocturnalC.Log($"nonpublic Instance Proopriety: [{propsprist[i].Name}]\n" +
                $"Optional Parameters: {propsprist[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
@@ -126,14 +126,14 @@ namespace Nocturnal.Settings.wrappers
             var propssts = theclass.GetProperties(BindingFlags.Public | BindingFlags.Static);
             for (int i = 0; i < propssts.Length; i++)
             {
-                NocturnalC.log($"Public Static Proopriety: [{propssts[i].Name}]\n" +
+                NocturnalC.Log($"Public Static Proopriety: [{propssts[i].Name}]\n" +
                $"Optional Parameters: {propssts[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
             var propsprists = theclass.GetProperties(BindingFlags.NonPublic | BindingFlags.Static);
             for (int i = 0; i < propsprists.Length; i++)
             {
-                NocturnalC.log($"nonpublic Static Proopriety: [{propsprists[i].Name}]\n" +
+                NocturnalC.Log($"nonpublic Static Proopriety: [{propsprists[i].Name}]\n" +
                $"Optional Parameters: {propsprists[i]}\n", "Debbugging", ConsoleColor.Yellow
               );
             }
