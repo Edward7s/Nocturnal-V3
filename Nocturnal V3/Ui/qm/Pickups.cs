@@ -14,18 +14,17 @@ namespace Nocturnal.Ui.qm
         internal static void pickups()
         {
             var _pickupsm = submenu.Create("Pickups", Main._mainpage);
-            Main._mainpage.Getmenu().Create("Pickups", _pickupsm, Settings.Download_Files.imagehandler.items, true, 1, 2);
+            new Submenubutton(Main._mainpage.Getmenu(), "Pickups", _pickupsm, Settings.Download_Files.imagehandler.items, true, 1, 2);
 
             var rigidlist = new List<UnityEngine.Rigidbody>();
 
-
-            Toggle.Create("Max Range", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itemmaxrange = true, () => Settings.ConfigVars.itemmaxrange = false, Settings.ConfigVars.itemmaxrange);
-            Toggle.Create("Pickuble", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);
-            Toggle.Create("Esp", extensions.Getmenu(_pickupsm), () => { Settings.ConfigVars.itemesp = true;try { Exploits.Itemesp.addesptoitems(true); } catch { }  }, () => { Settings.ConfigVars.itemesp = false; try { Exploits.Itemesp.addesptoitems(false); } catch { } }, Settings.ConfigVars.itemesp);
-            Toggle.Create("Allow Theft", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
-            Toggle.Create("Owner", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Ownerobj = true, () => Exploits.Pickups._Ownerobj = false, Exploits.Pickups._Ownerobj);
-            Toggle.Create("Stop", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Stoppickups = true, () => Exploits.Pickups._Stoppickups = false, Exploits.Pickups._Stoppickups);
-            Buttons.Create(_pickupsm.Getmenu(), "Respawn Pickups", () =>
+            new NToggle("Max Range", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itemmaxrange = true, () => Settings.ConfigVars.itemmaxrange = false, Settings.ConfigVars.itemmaxrange);
+            new NToggle("Pickuble", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);
+            new NToggle("Esp", extensions.Getmenu(_pickupsm), () => { Settings.ConfigVars.itemesp = true;try { Exploits.Itemesp.addesptoitems(true); } catch { }  }, () => { Settings.ConfigVars.itemesp = false; try { Exploits.Itemesp.addesptoitems(false); } catch { } }, Settings.ConfigVars.itemesp);
+            new NToggle("Allow Theft", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
+            new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Ownerobj = true, () => Exploits.Pickups._Ownerobj = false, Exploits.Pickups._Ownerobj);
+            new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Stoppickups = true, () => Exploits.Pickups._Stoppickups = false, Exploits.Pickups._Stoppickups);
+             new NButton(_pickupsm.Getmenu(), "Respawn Pickups", () =>
               {
                   for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
                   {

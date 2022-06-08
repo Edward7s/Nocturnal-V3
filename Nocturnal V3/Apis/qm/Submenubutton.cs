@@ -9,15 +9,14 @@ using MelonLoader;
 using Nocturnal.Ui;
 namespace Nocturnal.Apis.qm
 {
-    internal static class Submenubutton
+    internal class Submenubutton
     {
         private static float speed = 1f;
 
-
-        internal static GameObject Create(this GameObject menu,string text, GameObject menutoopen, string img = null, bool half = false, float X = 628, float Y = 628)
+        public Submenubutton(GameObject menu, string text, GameObject menutoopen, string img = null, bool half = false, float X = 628, float Y = 628)
         {
             float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
-           
+
 
             var instanciated = GameObject.Instantiate(Objects._ButtonPrefab, menu.transform).gameObject;
             Component.DestroyImmediate(instanciated.transform.Find("Icon").gameObject.GetComponent<VRC.UI.Core.Styles.StyleElement>());
@@ -38,7 +37,6 @@ namespace Nocturnal.Apis.qm
                     {
                         Page.lastmen = submenu.submenuslist[i];
                         submenu.submenuslist[i].SetActive(true);
-                        MelonCoroutines.Start(timedeltaspeed(submenu.submenuslist[i]));
                     }
                 }
             }
@@ -52,7 +50,7 @@ namespace Nocturnal.Apis.qm
                 instanciated.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
 
             }
-            
+
             //  if (!settings.nconfig.Overwritetextcolor)
             //  instanciated.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.gray;
             if (X != 628 && Y != 628)
@@ -60,7 +58,7 @@ namespace Nocturnal.Apis.qm
                 instanciated.transform.localPosition = new Vector3(-350 + X * 240, yvalue);
             }
             if (!half)
-                return instanciated;
+                return;
 
             instanciated.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
             var ico = instanciated.transform.Find("Icon").gameObject;
@@ -69,31 +67,8 @@ namespace Nocturnal.Apis.qm
             var texts = instanciated.transform.Find("Text_H4").gameObject;
             texts.transform.localScale = new Vector3(0.9f, 0.9f, 1);
             texts.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
-            return instanciated;
         }
-        internal static IEnumerator timedeltaspeed(GameObject gmj)
-        {
-            for (; ; )
-            {
-                speed += Time.deltaTime * 7000;
-                if (gmj.name != "Main menu")
-                    gmj.transform.localPosition = new Vector3(1000 - speed, gmj.transform.localPosition.y, 0);
-
-                else
-                    gmj.transform.localPosition = new Vector3(1000 - speed, gmj.transform.localPosition.y, 0);
-                if (gmj.transform.localPosition.x <= 0)
-                {
-                    if (gmj.name != "Main menu")
-                        gmj.transform.localPosition = new Vector3(0, gmj.transform.localPosition.y, 0);
-                    else
-                        gmj.transform.localPosition = new Vector3(0, gmj.transform.localPosition.y, 0);
-                    speed = 1;
-                    yield break;
-                }
-
-
-                yield return new WaitForSeconds(0.01f);
-            }
-        }
+        
+       
     }
 }

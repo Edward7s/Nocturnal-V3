@@ -17,13 +17,14 @@ namespace Nocturnal.Ui.qm
         internal static void _Chat()
         {
             var chatm = submenu.Create("Client Chat", Main._mainpage);
-            Main._mainpage.Getmenu().Create("Client Chat", chatm, Settings.Download_Files.imagehandler.chat, true, 1, 4);
+            new Submenubutton(Main._mainpage.Getmenu(), "Client Chat", chatm, Settings.Download_Files.imagehandler.chat, true, 1, 4);
 
             var mess = "";
-           var buttonchat = Buttons.Create(chatm.Getmenu(),"" ,()=> Apis.Inputpopout.Run("Send Message", m => mess = m, () =>
+            GameObject buttonchat;
+            new NButton(out buttonchat, chatm.Getmenu(), "", () => Apis.Inputpopout.Run("Send Message", m => mess = m, () =>
             {
 
-                if (mess.Length > 100) { NocturnalC.Log("The message its to big","ERROR",ConsoleColor.Red);  return; }
+                if (mess.Length > 100) { NocturnalC.Log("The message its to big", "ERROR", ConsoleColor.Red); return; }
 
                 if (mess.Contains("\n")) { NocturnalC.Log("U Can not use multiple lines", "ERROR", ConsoleColor.Red); return; }
 
@@ -37,7 +38,7 @@ namespace Nocturnal.Ui.qm
                     msg = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
 
                     msg2 = mess.Trim(),
-                    
+
                 };
 
                 server.setup.sendmessage(JsonConvert.SerializeObject(Tobecomemsg));
@@ -47,7 +48,6 @@ namespace Nocturnal.Ui.qm
             var background = buttonchat.transform.Find("Background");
             background.transform.localPosition = new Vector3(324.8195f, -316.8002f, 0);
             background.transform.localScale = new Vector3(4.56f, 4.84f, 1);
-            //  Component.DestroyImmediate(background.GetComponent<UnityEngine.UI.Image>());
             background.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.chatmask);
             var background2 = GameObject.Instantiate(background, background.transform);
             background.gameObject.AddComponent<UnityEngine.UI.Mask>().showMaskGraphic = false;

@@ -16,17 +16,14 @@ namespace Nocturnal.Apis.qm
         {
             GameObject gam = new GameObject();
             gam.AddComponent<UnityEngine.CanvasGroup>();
-            gam.transform.localPosition = Vector3.one;
-            gam.transform.rotation = new Quaternion(0, 0, 0, 0);
-            gam.transform.localPosition = new Vector3(0, 512, 0);
+           
             gam.name = $"_Submenu_{text}";
-            gam.transform.parent = Objects._Submenu.transform;
+            gam.transform.parent = Objects._Submenu.transform.parent.transform.Find("Menu_Nocturanl").transform;
             gam.SetActive(false);
             var mask = new GameObject();
             mask.transform.parent = gam.transform;
             mask.AddComponent<UIInvisibleGraphic>();
             mask.AddComponent<UnityEngine.UI.RectMask2D>();
-
             mask.transform.localScale = new Vector3(10.5f, 9.2f, 1);
             mask.transform.localPosition = new Vector3(0f, -554.4909f, 0);
             mask.transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -39,10 +36,13 @@ namespace Nocturnal.Apis.qm
             instanciated.transform.localScale = new Vector3(0.095f, 0.11f, 1f);
             instanciated.gameObject.SetActive(true);
             instanciated.GetComponent<ScrollRect>().enabled = true;
-            foreach (var ab in instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").GetComponentsInChildren<UnityEngine.UI.LayoutElement>(true))
-            {
-                GameObject.DestroyImmediate(ab.gameObject);
-            }
+            gam.transform.localScale = Vector3.one;
+            gam.transform.rotation = new Quaternion(0, 0, 0, 0);
+            gam.transform.localPosition = new Vector3(0, 512, 0);
+            var childs = instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").GetComponentsInChildren<LayoutElement>(true);
+            for (int i = 0; i < childs.Length; i++)
+                GameObject.DestroyImmediate(childs[i].gameObject);
+            
 
             instanciated.transform.Find("Viewport/VerticalLayoutGroup").gameObject.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().childControlHeight = true;
             Component.DestroyImmediate(instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").gameObject.GetComponent<GridLayoutGroup>());
@@ -62,21 +62,16 @@ namespace Nocturnal.Apis.qm
                 buttoni.onClick.AddListener(new Action(() =>
                 {
 
-                    foreach (GameObject gameobject in submenuslist)
+                    for (int i = 0; i < submenuslist.Count; i++)
                     {
-
-                        if (gameobject != indexer.gameObject)
-                            gameobject.SetActive(false);
+                        if (submenuslist[i] != indexer.gameObject)
+                            submenuslist[i].SetActive(false);
                         else
                         {
-                            Page.lastmen = gameobject;
-                            gameobject.SetActive(true);
-                            Submenubutton.timedeltaspeed(gameobject.gameObject);
-
+                            Page.lastmen = submenuslist[i];
+                            submenuslist[i].SetActive(true);
                         }
-
                     }
-
                 }));
             }
             if (selfaling == true)
@@ -99,8 +94,6 @@ namespace Nocturnal.Apis.qm
             gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.GetComponent<ScrollRect>().content = gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject.GetComponent<RectTransform>();
             gam.transform.Find("Masked/Scrollrect(Clone)").transform.localPosition = new Vector3(-38, 42.06f, 0);
             return gam;
-
-
         }
     }
 }

@@ -66,58 +66,57 @@ namespace Nocturnal.Settings.wrappers
         internal static void convertotcolorank(ref string stringg, ref string? changestringcolor)
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
+            var cb = new Color(1, 0.5f, 1);
+            string color;
+
             switch (stringg)
-            {
+            {                   
                 case "Moderator":
-                    stringg = "<color=#ff0000ff>Moderator</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.Moderator[0], ConfigVars.Moderator[1], ConfigVars.Moderator[2])).ToLower();
+                    stringg = $"<color=#{color}>Moderator</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#ff0000ff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "Super powers":
-                    stringg = "<color=#ffa500ff>Super powers</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.superpowers[0], ConfigVars.superpowers[1], ConfigVars.superpowers[2])).ToLower();
+                    stringg = $"<color=#{color}>Super powers</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#ffa500ff>{changestringcolor}</color>";
-                    break;
-                case "Legendary":
-                    stringg = "<color=#00ffffff>Legendary</color>";
-                    if (changestringcolor != null)
-                        changestringcolor = $"<color=#00ffffff>{changestringcolor}</color>";
-                    break;
-                case "Veteran":
-                    stringg = "<color=#808000ff>Veteran</color>";
-                    if (changestringcolor != null)
-                        changestringcolor = $"<color=#808000ff>{changestringcolor}</color>";
-
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "Trusted":
-                    stringg = "<color=#800080ff>Trusted</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.trusted[0], ConfigVars.trusted[1], ConfigVars.trusted[2])).ToLower();
+                    stringg = $"<color=#{color}>Trusted</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#800080ff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "Known":
-                    stringg = "<color=#ffa500ff>Known</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.known[0], ConfigVars.known[1], ConfigVars.known[2])).ToLower();
+                    stringg = $"<color=#{color}>Known</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#ffa500ff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "User":
-                    stringg = "<color=#008000ff>User</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.user[0], ConfigVars.user[1], ConfigVars.user[2])).ToLower();
+                    stringg = $"<color=#{color}>User</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#008000ff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "New User":
-                    stringg = "<color=#00ffffff>New User</color>";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.newuser[0], ConfigVars.newuser[1], ConfigVars.newuser[2])).ToLower();
+                    stringg = $"<color=#{color}>New User</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#00ffffff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "Visitor":
-                    stringg = "Visitor";
+                    color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.visitor[0], ConfigVars.visitor[1], ConfigVars.visitor[2])).ToLower();
+                    stringg = $"<color=#{color}>Visitor</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"{changestringcolor}";
+                        changestringcolor = $"<color=#{color}>{changestringcolor}</color>";
                     break;
                 case "Nuisance":
-                    stringg = "<color=#800000ff>Nuisance</color>";
+                    stringg = $"<color=#red>Nuisance</color>";
                     if (changestringcolor != null)
-                        changestringcolor = $"<color=#800000ff>{changestringcolor}</color>";
+                        changestringcolor = $"<color=#red>{changestringcolor}</color>";
                     break;
             }
 

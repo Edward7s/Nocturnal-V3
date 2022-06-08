@@ -400,6 +400,7 @@
     <Compile Include="Exploits\hudinfo.cs" />
     <Compile Include="Exploits\Setiteminhand.cs" />
     <Compile Include="Exploits\Sitonparts.cs" />
+    <Compile Include="Exploits\Udon.cs" />
     <Compile Include="Exploits\Zoom.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="monobehaviours\Boomorbit.cs" />

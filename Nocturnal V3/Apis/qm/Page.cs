@@ -2,72 +2,53 @@
 using Nocturnal.Ui;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 namespace Nocturnal.Apis.qm
 {
     public class Page
     {
         internal static GameObject lastmen;
+        private static bool onetimeb = true;
 
-
-        internal static GameObject Create(string text, GameObject opengmj, string img = null) => Create(text, opengmj, System.Convert.FromBase64String(img));
-
-
-
-            internal static GameObject Create(string text, GameObject opengmj, byte[] img = null)
+        public Page(string menuname,string image = null)
         {
-            lastmen = opengmj;
-            var instanciate = GameObject.Instantiate(Objects._Page, Objects._Page.transform.parent);
-            instanciate.name = $"_Page_{text}";
-            instanciate.transform.rotation = new Quaternion(0, 0, 0, 0);
-            instanciate.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = text;
-            instanciate.SetActive(true);
-            Component.Destroy(instanciate.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            instanciate.GetComponent<Button>().onClick.RemoveAllListeners();
-            instanciate.GetComponent<Button>().onClick.AddListener(new Action(() => {
+          var instanciate = GameObject.Instantiate(Objects._Page, Objects._Page.transform.parent);
+          instanciate.name = $"_Page_{menuname}";
+          instanciate.transform.rotation = new Quaternion(0, 0, 0, 0);
+          UnityEngine.UI.Button btn = instanciate.GetComponent<UnityEngine.UI.Button>();
+            btn.onClick.RemoveAllListeners();
+            instanciate.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = menuname;
+          VRC.UI.Elements.Controls.MenuTab tab = instanciate.gameObject.GetComponent<VRC.UI.Elements.Controls.MenuTab>();
+          GameObject newmenu = GameObject.Instantiate(Objects._Submenu, Objects._Submenu.transform.parent);
+          newmenu.name = "Menu_Nocturanl";
+            Component.DestroyImmediate(instanciate.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
 
-                for (int i = 0; i < submenu.submenuslist.Count; i++)
-                {
-
-                    if (submenu.submenuslist[i] != lastmen.gameObject)
-                        submenu.submenuslist[i].SetActive(false);
-                    else
-                        submenu.submenuslist[i].SetActive(true);
-
-                }
-                Objects._Submenu.transform.Find("Header_DevTools").gameObject.SetActive(false);
-                Objects._Submenu.transform.Find("Scrollrect").gameObject.SetActive(false);
-                opengmj.SetActive(true);
-
-
-                for (int i = 0; i < Objects._Submenu.transform.childCount; ++i)
-                {
-                    Transform child = Objects._Submenu.transform.GetChild(i);
-                    if (child.gameObject.name.Contains("_Submenu_") && opengmj.name != child.gameObject.name)
-                        child.gameObject.SetActive(false);
-
-                }
-            }));
-            //VRC.UI.Elements.Controls.MenuTab
-            //MonoBehaviourPublicStInBoGaObObUnique
-            foreach (var btn in GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Page_Buttons_QM/HorizontalLayoutGroup").GetComponentsInChildren<VRC.UI.Elements.Controls.MenuTab>(true))
-            {
-                if (btn.name != "_Page_Nocturnal")
-                {
-                    foreach (var btnn in submenu.submenuslist)
-                    {
-                        btnn.SetActive(false);
-                    }
-                    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/Header_DevTools").gameObject.SetActive(true);
-                    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/Scrollrect").gameObject.SetActive(true);
-
-                }
-            }
-
-            if (img != null)
-                Change_Image.Loadfrombytes(instanciate.transform.Find("Icon").gameObject, img);
-            return instanciate;
+            if (image != null)
+                Change_Image.Loadfrombytes(instanciate.transform.Find("Icon").gameObject, image);
+            var devtools = newmenu.GetComponent<VRC.UI.Elements.Menus.DevMenu>();
+          devtools.field_Public_String_0 = "QuickMenuNocturnal";
+          instanciate.gameObject.SetActive(true);
+          tab.field_Public_String_0 = "QuickMenuNocturnal";
+          tab.field_Private_MenuStateController_0.field_Private_Dictionary_2_String_UIPage_0.Add("QuickMenuNocturnal", newmenu.GetComponent<VRC.UI.Elements.Menus.DevMenu>());
+          var newlist = tab.field_Private_MenuStateController_0.field_Public_ArrayOf_UIPage_0.ToList();
+          newlist.Add(devtools);
+          tab.field_Private_MenuStateController_0.field_Public_ArrayOf_UIPage_0 = newlist.ToArray();
+          newmenu.gameObject.SetActive(true);
+          newmenu.gameObject.transform.localPosition = new Vector3(9000, 0, 0);
+          btn.onClick.AddListener(new Action(() => { if (onetimeb)
+         {
+          newmenu.gameObject.transform.localPosition = new Vector3(0, 512, 0);
+          onetimeb = false;
+         }
+         }));
+            GameObject.DestroyImmediate(newmenu.transform.Find("Header_DevTools").gameObject);
+            GameObject.DestroyImmediate(newmenu.transform.Find("Scrollrect").gameObject);
         }
+
+
+
+
+    
 
     }
 }

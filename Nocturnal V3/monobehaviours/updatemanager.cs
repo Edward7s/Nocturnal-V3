@@ -23,6 +23,7 @@ namespace Nocturnal.Monobehaviours
 
         void LateUpdate()
         {
+
             try
             {
                 if (VRC.Player.prop_Player_0.transform == null)

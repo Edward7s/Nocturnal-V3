@@ -17,7 +17,7 @@ namespace Nocturnal.Ui.qm
         internal static void _Onuser()
         {
             var menu = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_UserActions").gameObject;
-            Buttons.Create(menu, "Whitelist Anticrash", () => {
+             new NButton(menu, "Whitelist Anticrash", () => {
                 var id = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
 
                 if (!File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist").Contains(id))
@@ -28,7 +28,7 @@ namespace Nocturnal.Ui.qm
 
             });
 
-            Buttons.Create(menu, "Remove Whitelist Anticrash", () => {
+             new NButton(menu, "Remove Whitelist Anticrash", () => {
                 var id = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
 
                 if (File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist").Contains(id))
@@ -50,15 +50,15 @@ namespace Nocturnal.Ui.qm
             });
 
 
-            Buttons.Create(menu, "Target User", () => Nocturnal.Settings.wrappers.Target.Targetuser(GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id));
-            Buttons.Create(menu, "Teleport", () =>
+             new NButton(menu, "Target User", () => Nocturnal.Settings.wrappers.Target.Targetuser(GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id));
+             new NButton(menu, "Teleport", () =>
             {
 
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
                            Player.prop_Player_0.transform.position = User.getuserbyid().transform.position;
               
             },false,Settings.Download_Files.imagehandler.teleport);
-            Buttons.Create(menu, "Force Clone", () =>
+             new NButton(menu, "Force Clone", () =>
             {
                 var aviid = "";
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
@@ -75,9 +75,9 @@ namespace Nocturnal.Ui.qm
 
 
             });
-            Buttons.Create(menu, "Copy uid", () => System.Windows.Forms.Clipboard.SetText(GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id));
+             new NButton(menu, "Copy uid", () => System.Windows.Forms.Clipboard.SetText(GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id));
 
-            Buttons.Create(menu, "Lewd", () => {
+             new NButton(menu, "Lewd", () => {
 
                     var id = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
                 Exploits.Forcelewd.Foreelwed(extensions.getuserbyid(id));

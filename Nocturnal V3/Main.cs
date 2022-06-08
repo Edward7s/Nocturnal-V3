@@ -28,30 +28,12 @@ namespace Nocturnal
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
-        private static Thread _runcallback = new Thread(loopcallback);
 
 
-        private static void loopcallback()
-        {
-          
-
-            while (true)
-            {
-               
-                if (!Settings.ConfigVars.discordrichpresence)
-                {
-                    Thread.Sleep(10000);
-                    continue;
-                }
-
-                Settings.Download_Files.callback.Invoke(Settings.Download_Files.callback, null);
-
-                Thread.Sleep(5000);
-            }
-        }
+      
         public static void Start()
         {
-           
+
 
             _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
 
@@ -187,6 +169,7 @@ namespace Nocturnal
             NocturnalC.Log("Join the Discord server if u are not in it\nhttps://discord.nocturnal-client.xyz/", "Start Up", ConsoleColor.Green);
 
             Settings.Download_Files.DownloadHanler();
+            Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
             Settings.LoadConfig.load();
             injectories();
             MelonCoroutines.Start(waitforuser());
@@ -204,10 +187,8 @@ namespace Nocturnal
                 return;
 
 
-            NocturnalC.Log("Starting Discord RPC", "DiscordRPC");
 
-            Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
-            _runcallback.Start();
+          
 
             NocturnalC.Log("Clearing Unity Cache", "Unityengine");
             UnityEngine.Caching.CleanCache();
@@ -235,14 +216,14 @@ namespace Nocturnal
             starsocket.Start();
             MelonCoroutines.Start(Settings.wrappers.extensions.clientmessagewaiter($"Hi {VRC.Core.APIUser.CurrentUser.displayName} <3"));
 
-         
+            yield break;
         }
 
 
         private static IEnumerator waitforui()
         {
             while (GameObject.Find("/UserInterface") == null)
-               yield return null;
+                yield return null;
 
             NocturnalC.Log("Founded UserInteface");
 
@@ -271,13 +252,21 @@ namespace Nocturnal
             Nocturnal.Ui.Qm_basic.Setupstuff();
             Nocturnal.Ui.Inject_monos.Inject();
             Nocturnal.Ui.buttons_b.Runbuttons();
-            Nocturnal.Ui.qm.Main.Createmenu();
-            Ui.resourceimages.Setupc();
-            MelonCoroutines.Start(Exploits.Hudinfo.Playerlistm());
-
+         
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
                 yield return null;
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(880, 712, 0.5f);
+
+
+            while(GameObject.FindObjectOfType<VRC.UI.Elements.MenuStateController>() == null)
+                yield return null;
+            new Apis.qm.Page("Nocturnal Menu",Settings.Download_Files.imagehandler.logo);
+            Nocturnal.Ui.qm.Main.Createmenu();
+            Ui.resourceimages.Setupc();
+
+
+            MelonCoroutines.Start(Exploits.Hudinfo.Playerlistm());
+            yield break;
 
         }
 

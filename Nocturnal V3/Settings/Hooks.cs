@@ -16,6 +16,7 @@ using Nocturnal.Settings.wrappers;
 using VRC.SDKBase;
 using UnityEngine;
 using VRC.Networking;
+using VRC;
 
 namespace Nocturnal.Settings
 {
@@ -26,7 +27,7 @@ namespace Nocturnal.Settings
         internal static int fakevcnumb = 0;
         private static bool time = true;
         internal static bool fakelag = false;
-
+        private static bool onetime = true;
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
 
         private static UserJ _User;
@@ -519,14 +520,13 @@ namespace Nocturnal.Settings
                 string vr = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
                 string platform = vrcplayer.field_Private_APIUser_0.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
                 string friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-                Apis.qm.TextButton.Create(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id,vrcplayer);
+                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id, vrcplayer);
             }
             catch { }
 
 
-
-
-            garbagecollection.clear();
+            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
+            garbagecollection.clear();;
 
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
@@ -543,14 +543,13 @@ namespace Nocturnal.Settings
             Ui.Bundles.joinot.SetActive(false);
             Ui.Bundles.joinot.SetActive(true);
             Apis.Onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
-            try
+            try 
             {
                 GameObject.DestroyImmediate(Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + vrcplayer.field_Private_APIUser_0.id).gameObject);
-
-
             }
             catch { }
             garbagecollection.clear();
+            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
@@ -561,7 +560,6 @@ namespace Nocturnal.Settings
                 yield return null;
 
             Nocturnal.Style.Debbuger.Debugermsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
-            Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
             Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC.SDKBase.VRC_Pickup>().ToArray();
 
             if (Settings.ConfigVars.itemmaxrange)
@@ -581,11 +579,30 @@ namespace Nocturnal.Settings
 
             typeofworld = RoomManager.field_Internal_Static_ApiWorldInstance_0.type.ToString();
 
-
+            if (onetime)
+            {
+                Ui.Qm_basic.playercounter.enableWordWrapping = false;
+                onetime = false;
+            }
             Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] {RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{RoomManager.field_Internal_Static_ApiWorld_0.name}] [{typeofworld}]" });
+            Udon.udonbeh = GameObject.FindObjectsOfType<VRC.Udon.UdonBehaviour>();
+
+
+            if (Ui.qm.Worldhistory.worldhistorymenu == null)
+            {
+                while (Ui.qm.Worldhistory.worldhistorymenu == null)
+                    yield return null;
+
+                updatewh();
+                yield break;
+            }
+            updatewh();
+            yield break;
         }
 
-        
+
+        private static void updatewh() => Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+
     }
 
 

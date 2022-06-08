@@ -18,7 +18,8 @@ namespace Nocturnal.Ui.qm
         internal static void createrhistory()
         {
             worldhistorymenu = submenu.Create("World History", Main._mainpage);
-            Main._mainpage.Getmenu().Create("World History", worldhistorymenu, Settings.Download_Files.imagehandler.worldhistory, true, 2, 2);
+            new Submenubutton(Main._mainpage.Getmenu(), "World History", worldhistorymenu, Settings.Download_Files.imagehandler.worldhistory, true, 2, 2);
+
         }
 
         internal static void updatehistory(string worldname, string wolrdid)
@@ -53,24 +54,21 @@ namespace Nocturnal.Ui.qm
            foreach (var world in getworldsfromfile)
             {
 
-            
-                Apis.qm.Buttons.Create(worldhistorymenu.Getmenu(), world.worldname, () =>
-                 {
-                    
-                     try
-                     {
-                         if (!Networking.GoToRoom(world.worldid))
-                         {
-                             string[] array = world.worldid.Split(':');
-                             new PortalInternal().Method_Private_Void_String_String_PDM_0(array[0], array[1]);
-                         }
-                     }
-                     catch (Exception e) {  NocturnalC.Log(e); }
-                  
-                 },true);
+                new NButton(worldhistorymenu.Getmenu(), world.worldname, () =>
+                {
 
+                    try
+                    {
+                        if (!Networking.GoToRoom(world.worldid))
+                        {
+                            string[] array = world.worldid.Split(':');
+                            new PortalInternal().Method_Private_Void_String_String_PDM_0(array[0], array[1]);
+                        }
+                    }
+                    catch (Exception e) { NocturnalC.Log(e); }
 
-              
+                }, true);
+
             }
          }
         }

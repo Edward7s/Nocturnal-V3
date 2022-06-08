@@ -14,15 +14,16 @@ namespace Nocturnal.Ui.qm
         internal static void Runantoggles()
         {
             var toggles = submenu.Create("Toggles", Main._mainpage);
-            Main._mainpage.Getmenu().Create("Toggles", toggles, Settings.Download_Files.imagehandler.Toggles, false, 3, 1);
+            new Submenubutton(Main._mainpage.Getmenu(), "Toggles", toggles, Settings.Download_Files.imagehandler.Toggles, false, 3, 1);
 
-            Toggle.Create("Force Jump", toggles.Getmenu(), () => ConfigVars.forcejump = true, () => ConfigVars.forcejump = false, ConfigVars.forcejump);
-            Toggle.Create("Infinite Jump", toggles.Getmenu(), () => ConfigVars.infinitejump = true, () => ConfigVars.infinitejump = false, ConfigVars.infinitejump);
-            Toggle.Create("Third Person", toggles.Getmenu(), () => ConfigVars.Thidperson = true, () => ConfigVars.Thidperson = false, ConfigVars.Thidperson);
-            Toggle.Create("Bhop", toggles.Getmenu(), () => ConfigVars.bhop = true, () => ConfigVars.bhop = false, ConfigVars.bhop);
-            Toggle.Create("Join Sound", toggles.Getmenu(), () => ConfigVars.joinsound = true, () => ConfigVars.joinsound = false, ConfigVars.joinsound);
-            Toggle.Create("Join Friends Sound Only", toggles.Getmenu(), () => ConfigVars.onlyfriendjoin = true, () => ConfigVars.onlyfriendjoin = false, ConfigVars.onlyfriendjoin);
-            Toggle.Create("Hide Questies", toggles.Getmenu(), () =>{
+
+            new NToggle("Force Jump", toggles.Getmenu(), () => ConfigVars.forcejump = true, () => ConfigVars.forcejump = false, ConfigVars.forcejump);
+            new NToggle("Infinite Jump", toggles.Getmenu(), () => ConfigVars.infinitejump = true, () => ConfigVars.infinitejump = false, ConfigVars.infinitejump);
+            new NToggle("Third Person", toggles.Getmenu(), () => ConfigVars.Thidperson = true, () => ConfigVars.Thidperson = false, ConfigVars.Thidperson);
+            new NToggle("Bhop", toggles.Getmenu(), () => ConfigVars.bhop = true, () => ConfigVars.bhop = false, ConfigVars.bhop);
+            new NToggle("Join Sound", toggles.Getmenu(), () => ConfigVars.joinsound = true, () => ConfigVars.joinsound = false, ConfigVars.joinsound);
+            new NToggle("Join Friends Sound Only", toggles.Getmenu(), () => ConfigVars.onlyfriendjoin = true, () => ConfigVars.onlyfriendjoin = false, ConfigVars.onlyfriendjoin);
+            new NToggle("Hide Questies", toggles.Getmenu(), () =>{
                 ConfigVars.hidequests = true;
                 var playes = extensions.getallplayers();
                 for (int i = 0; i < playes.Length; i++)
@@ -39,7 +40,7 @@ namespace Nocturnal.Ui.qm
                         playes[i].gameObject.SetActive(true);
                 }
             }, ConfigVars.hidequests);
-            Toggle.Create("Udon Block", toggles.Getmenu(), () => Settings.ConfigVars.udonblock = true, () => Settings.ConfigVars.udonblock = false, Settings.ConfigVars.udonblock);
+            new NToggle("Udon Block", toggles.Getmenu(), () => Settings.ConfigVars.udonblock = true, () => Settings.ConfigVars.udonblock = false, Settings.ConfigVars.udonblock);
             
         }
 

@@ -17,6 +17,8 @@ namespace Nocturnal.Ui
         internal static TMPro.TextMeshProUGUI _Thirdtext = null;
         internal static TMPro.TextMeshProUGUI _GUIInfo = null;
         internal static Transform _playerlistmenu;
+        internal static TMPro.TextMeshProUGUI playercounter = null;
+
         internal static void Setupstuff()
         {
             var styletimer = System.Diagnostics.Stopwatch.StartNew();
@@ -228,10 +230,29 @@ namespace Nocturnal.Ui
             playerlistbackground.transform.localScale = Vector3.one;
             GameObject Borrder = GameObject.Instantiate(playerlistbackground, playerlistmask.transform);
 
+
+            GameObject becomingg = GameObject.Instantiate(Borrder, Borrder.transform.parent.parent);
+            becomingg.GetComponent<Image>().color = new Color(0, 0, 0, 0.6f);
+            GameObject title = GameObject.Instantiate(becomingg, becomingg.transform);
+            Component.DestroyImmediate(title.GetComponent<Image>());
+
+            playercounter = title.AddComponent<TMPro.TextMeshProUGUI>();
+            playercounter.alignment = TMPro.TextAlignmentOptions.Center;
+            playercounter.richText = true;
+            becomingg.transform.localPosition = new Vector3(0, 562f, 0);
+            becomingg.transform.localScale = new Vector3(6.1f, 0.5f, 1);
+            playercounter.transform.localScale = new Vector3(0.17f, 2.1f, 1);
+            playercounter.transform.localPosition = Vector3.zero;
             playerlistmask.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistmask);
             Borrder.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistborder);
             Borrder.transform.localScale = new Vector3(1.01f, 1.001f, 1);
             Borrder.transform.localPosition = Vector3.zero;
+
+
+
+
+
+            Borrder.GetComponent<Image>().color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
             MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(playerlistbackground.gameObject.GetComponent<Image>(), Settings.ConfigVars.PlayerListImg));
             playerlistmask.AddComponent<Mask>().showMaskGraphic = false;
             Borrder.gameObject.GetComponent<Image>().raycastTarget = false;
@@ -322,7 +343,7 @@ namespace Nocturnal.Ui
             //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
 
 
-
+            playercounter.enableWordWrapping = false;
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

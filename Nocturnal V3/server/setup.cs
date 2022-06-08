@@ -96,8 +96,8 @@ namespace Nocturnal.server
             else
                 code = message.Substring(9, 1);
 
-             // NocturnalC.Log(code);
-       //   NocturnalC.Log(message);
+      // NocturnalC.Log(code);
+      //NocturnalC.Log(message);
 
             switch (true)
             {
@@ -116,12 +116,9 @@ namespace Nocturnal.server
                     var desz4 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
                     Ui.qm.Chat.chattext.text = $"<color=#f0a1ff>[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}]</color><color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>\n"+ Ui.qm.Chat.chattext.text;
                     MelonLoader.MelonCoroutines.Start(Apis.Onscreenui.showmsgienum($"<color=#f3b5ff>{desz4.msg2}</color><color=white>: {desz4.msg}</color>"));
-
                     break;
                 case true when code == "8":                
-                       var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
-                        for (int i = 0; i < getcm.Count; i++)
-                            Ui.qm.Chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.Chat.chattext.text;
+                    MelonLoader.MelonCoroutines.Start(recivechat(message));
                     break;
                 case true when code == "12":
                     MelonLoader.MelonCoroutines.Start(waitforobj());
@@ -142,11 +139,24 @@ namespace Nocturnal.server
         }
 
 
+        internal static IEnumerator recivechat(string message)
+        {
+            while (Ui.qm.Chat.chattext == null)
+                yield return null;
+
+            var getcm = JsonConvert.DeserializeObject<List<Settings.jsonmanager.custommsg2>>(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
+            for (int i = 0; i < getcm.Count; i++)
+                Ui.qm.Chat.chattext.text = $"<color=#f0a1ff>[Old Message]</color><color=#f3b5ff>{getcm[i].msg}</color><color=white>: {getcm[i].msg2}</color>\n" + Ui.qm.Chat.chattext.text;
+            
+
+            yield break;
+        }
+
         internal static void tryrecconect()
         {
             try
             {
-                    wss.Connect();
+                wss.Connect();
             }
             catch { }
 
@@ -160,7 +170,7 @@ namespace Nocturnal.server
 
 
             Ui.buttons_b.buttonaddtag.SetActive(true);
-            yield return null;
+            yield break;
         }
         
 
@@ -186,8 +196,8 @@ namespace Nocturnal.server
 
                 }
             }
-               
-               yield return null;
+
+             yield break;
             }
     }
 

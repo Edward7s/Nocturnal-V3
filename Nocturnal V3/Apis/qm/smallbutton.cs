@@ -7,17 +7,13 @@ using UnityEngine;
 using Nocturnal.Ui;
 namespace Nocturnal.Apis.qm
 {
-    internal class smallbutton
+    internal class SmallButton
     {
 
-        internal static GameObject Create(GameObject path, Action action, string img = null) => Create(path,action,System.Convert.FromBase64String(img));
 
 
-
-
-            internal static GameObject Create(GameObject path, Action action, byte[] img = null)
+        public SmallButton(out GameObject instance,GameObject path, Action action, string img = null)
         {
-
             var button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
             button.transform.Find("Text_H4").gameObject.SetActive(false);
             button.name = "_Button_Small";
@@ -28,14 +24,15 @@ namespace Nocturnal.Apis.qm
             button.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(-98, -76);
             button.transform.Find("Icon").transform.localScale = new Vector3(0.9f, 0.9f, 1);
             button.transform.Find("Icon").transform.localPosition = new Vector3(0, 35, 0);
-
+            instance = button;
             if (img != null)
             {
                 Component.DestroyImmediate(button.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
                 button.transform.Find("Icon").gameObject.Loadfrombytes(img);
                 button.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
-            return button;
         }
+
+         
     }
 }

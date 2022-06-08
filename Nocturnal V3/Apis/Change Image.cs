@@ -14,7 +14,6 @@ namespace Nocturnal.Apis
     {
         internal static IEnumerator LoadIMGTSprite(Image Instance, string url)
         {
-
             var www = UnityWebRequestTexture.GetTexture(url);
             _ = www.downloadHandler;
             var asyncOperation = www.SendWebRequest();
@@ -32,6 +31,7 @@ namespace Nocturnal.Apis
            // Instance.color = Color.white;
             if (sprite2 != null) Instance.sprite = sprite2;
             www.Dispose();
+            yield break;
         }
 
         internal static void Loadfrombytes(this GameObject gmj, byte[] img, bool isimage = true)

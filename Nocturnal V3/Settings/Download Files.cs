@@ -50,7 +50,6 @@ namespace Nocturnal.Settings
         internal static string loadingscreenmusicpath = null;
         internal static string joinsound = null;
         internal static MethodInfo runrpc = null;
-        internal static MethodInfo callback = null;
         internal static MethodInfo activitymanager = null;
         internal static MethodInfo setworldinfo = null;
         internal static byte[] loadingscreen = null;
@@ -140,7 +139,7 @@ namespace Nocturnal.Settings
 
                     State = "That's what they told me.",
 
-                    LargeImage = "https://i.pinimg.com/originals/56/ff/6f/56ff6fce419487efa90d2f22b347dd9d.gif",
+                    LargeImage = "https://nocturnal-client.xyz/Resources/guysmoke.gif",
 
                     ison = true,
                 };
@@ -195,7 +194,6 @@ namespace Nocturnal.Settings
                 Type[] types = asembly.GetTypes();
                 var callclass = types.Where(clname => clname.Name == "RPCM").FirstOrDefault();
                 runrpc = callclass.GetMethod("startrpc", BindingFlags.NonPublic | BindingFlags.Static);
-                callback = callclass.GetMethod("runcallback", BindingFlags.NonPublic | BindingFlags.Static);
                 activitymanager = callclass.GetMethod("updateRPC", BindingFlags.NonPublic | BindingFlags.Static);
                 setworldinfo = callclass.GetMethod("setworld", BindingFlags.NonPublic | BindingFlags.Static);
             }
