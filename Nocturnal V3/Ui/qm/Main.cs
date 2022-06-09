@@ -151,9 +151,13 @@ namespace Nocturnal.Ui.qm
             new NToggle("Fly", extensions.Getmenu(_mainpage), () => {
                 Exploits.Fly.flytoggle = true;
                 extensions.togglecontroller(!Exploits.Fly.flytoggle);
+                GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
+
             }, () => {
                 Exploits.Fly.flytoggle = false;
                 extensions.togglecontroller(!Exploits.Fly.flytoggle);
+                GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
+
             }, Exploits.Fly.flytoggle, true, 0, 6);
 
             new NToggle("Esp", extensions.Getmenu(_mainpage), () =>
@@ -188,6 +192,7 @@ namespace Nocturnal.Ui.qm
 
             Apis.Slider.slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
             {
+
             }, true, "Fly Speed");
 
             new NToggle("Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));

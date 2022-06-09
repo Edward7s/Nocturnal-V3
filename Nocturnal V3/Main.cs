@@ -278,6 +278,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Platemanager>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Boomorbit>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Teleportobj>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Fly>();
 
         }
 

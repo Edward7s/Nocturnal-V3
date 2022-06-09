@@ -20,15 +20,7 @@ namespace Nocturnal.Settings.wrappers
 {
     internal static class extensions
     {
-        internal static Transform camera()
-        {
-            try
-            {
-                return GameObject.Find("Camera (eye)").transform;
-
-            }
-            catch { return null; }
-        }
+      
         internal static GameObject GeneratePlate(this VRC.Player player, string text, string img = null) => GeneratePlate(player._vrcplayer, text, img);
 
 

@@ -11,7 +11,6 @@ namespace Nocturnal.Apis.qm
 {
     internal class Submenubutton
     {
-        private static float speed = 1f;
 
         public Submenubutton(GameObject menu, string text, GameObject menutoopen, string img = null, bool half = false, float X = 628, float Y = 628)
         {

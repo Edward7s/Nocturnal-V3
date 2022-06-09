@@ -19,21 +19,10 @@ namespace Nocturnal.Monobehaviours
         }
 
 
-
-
         void LateUpdate()
         {
-
-            try
-            {
-                if (VRC.Player.prop_Player_0.transform == null)
-                    return;
-            }
-            catch
-            {
+            if (VRC.Player.prop_Player_0.transform == null)
                 return;
-            }
-
 
 
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
@@ -46,7 +35,7 @@ namespace Nocturnal.Monobehaviours
                     Exploits.Fly.flytoggle = !Exploits.Fly.flytoggle;
 
                     Settings.wrappers.extensions.togglecontroller(!Exploits.Fly.flytoggle);
-
+                    GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
                 }
 
                 if (Settings.ConfigVars.Thidperson)
@@ -57,7 +46,7 @@ namespace Nocturnal.Monobehaviours
                         {
                             GameObject.DestroyImmediate(secondcamera);
                             secondcamera = null;
-                            Settings.wrappers.extensions.camera().gameObject.SetActive(true);
+                            Settings.Hooks.cameraeye.gameObject.SetActive(true);
                             isthirdp = false;
 
                         }
@@ -66,11 +55,11 @@ namespace Nocturnal.Monobehaviours
 
                             secondcamera = new GameObject("Camera Holder");
                             secondcamera.AddComponent<Camera>();
-                            secondcamera.transform.parent = Settings.wrappers.extensions.camera().transform;
+                            secondcamera.transform.parent = Settings.Hooks.cameraeye.transform;
                             secondcamera.transform.localEulerAngles = Vector3.zero;
                             secondcamera.transform.localScale = Vector3.one;
                             secondcamera.transform.localPosition = new Vector3(0, 0, -2);
-                            Settings.wrappers.extensions.camera().gameObject.SetActive(false);
+                            Settings.Hooks.cameraeye.gameObject.SetActive(false);
                             isthirdpersonback = true;
                             isthirdp = true;
                         }
@@ -130,10 +119,10 @@ namespace Nocturnal.Monobehaviours
             Exploits.Pickups.Stopobjs();
             Exploits.Pickups.Ownerpickups();
             Exploits.Orbit.orbituser();
-            Exploits.Fly.fly();
             Exploits.Zoom._Zoom();
-
         }
+
+       
 
        
     }

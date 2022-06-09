@@ -15,8 +15,7 @@ namespace Nocturnal.Apis.qm
         internal static GameObject Create(string text, GameObject indexer = null,bool selfaling = false)
         {
             GameObject gam = new GameObject();
-            gam.AddComponent<UnityEngine.CanvasGroup>();
-           
+            gam.AddComponent<CanvasGroup>();
             gam.name = $"_Submenu_{text}";
             gam.transform.parent = Objects._Submenu.transform.parent.transform.Find("Menu_Nocturanl").transform;
             gam.SetActive(false);

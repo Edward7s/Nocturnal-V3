@@ -25,9 +25,11 @@ namespace Nocturnal.Settings
         internal static string typeofworld = "";
         internal static int fakelagnumb = 0;
         internal static int fakevcnumb = 0;
-        private static bool time = true;
+       // private static bool time = true;
         internal static bool fakelag = false;
         private static bool onetime = true;
+        internal static Camera cameraeye; 
+
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
 
         private static UserJ _User;
@@ -54,7 +56,7 @@ namespace Nocturnal.Settings
 
         private static pickups _pickups;
 
-        private delegate IntPtr avatarchanged(IntPtr _instance, IntPtr gmj, IntPtr avatardescriptor,bool boleanv, IntPtr _nativeMethodInfoPtr);
+        private delegate IntPtr avatarchanged(IntPtr _instance, IntPtr gmj, IntPtr avatardescriptor, bool boleanv, IntPtr _nativeMethodInfoPtr);
 
         private static avatarchanged _avatarchanged;
 
@@ -62,11 +64,11 @@ namespace Nocturnal.Settings
 
         private static onevent _onevent;
 
-        private delegate IntPtr globaludon(IntPtr _instance, IntPtr eventname,IntPtr player , IntPtr _nativeMethodInfoPtr);
+        private delegate IntPtr globaludon(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr);
 
         private static globaludon _globaludon;
 
-        private delegate IntPtr opraiseevent(IntPtr _instance,byte eventcode,IntPtr il2object,IntPtr raiseoption, IntPtr _nativeMethodInfoPtr);
+        private delegate IntPtr opraiseevent(IntPtr _instance, byte eventcode, IntPtr il2object, IntPtr raiseoption, IntPtr _nativeMethodInfoPtr);
 
         private static opraiseevent _opraiseevent;
 
@@ -91,9 +93,9 @@ namespace Nocturnal.Settings
         }
         //ForegroundColor
 
-         internal static void StartHooks()
+        internal static void StartHooks()
         {
-           
+
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
 
             MethodInfo[] methodsinfo = new MethodInfo[2];
@@ -129,7 +131,7 @@ namespace Nocturnal.Settings
 
                     if (xrefedmethods[i2].ReadAsObject().ToString().Contains("Avatar is Ready"))
                     {
-                       _avatarchanged = Hook<avatarchanged>(methods[i], typeof(Hooks).GetMethod(nameof(_OnaviChanged), BindingFlags.Static | BindingFlags.NonPublic));
+                        _avatarchanged = Hook<avatarchanged>(methods[i], typeof(Hooks).GetMethod(nameof(_OnaviChanged), BindingFlags.Static | BindingFlags.NonPublic));
                     }
 
                 }
@@ -143,7 +145,7 @@ namespace Nocturnal.Settings
              _consolecolor = Hook<consolecolor>(methodd, typeof(Hooks).GetMethod(nameof(consolecolorm), BindingFlags.Static | BindingFlags.NonPublic));*/
             // Console.ForegroundColor = ConsoleColor.Green;
 
-            MethodInfo jumpimp = typeof(VRC.SDKBase.VRCPlayerApi).GetMethod(nameof(Networking.LocalPlayer.SetJumpImpulse), BindingFlags.Instance |BindingFlags.Public);
+            MethodInfo jumpimp = typeof(VRC.SDKBase.VRCPlayerApi).GetMethod(nameof(Networking.LocalPlayer.SetJumpImpulse), BindingFlags.Instance | BindingFlags.Public);
             _jumpimp = Hook<jumpimp>(jumpimp, typeof(Hooks).GetMethod(nameof(_Jumpimp), BindingFlags.Static | BindingFlags.NonPublic));
 
 
@@ -157,8 +159,8 @@ namespace Nocturnal.Settings
             MethodInfo udonevent = typeof(UdonSync).GetMethod("UdonSyncRunProgramAsRPC");
             _globaludon = Hook<globaludon>(udonevent, typeof(Hooks).GetMethod(nameof(udonsyncedevents), BindingFlags.Static | BindingFlags.NonPublic));
 
-           MethodInfo raiseev = typeof(LoadBalancingClient).GetMethod(nameof(LoadBalancingClient.Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
-          _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
+            MethodInfo raiseev = typeof(LoadBalancingClient).GetMethod(nameof(LoadBalancingClient.Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0));
+            _opraiseevent = Hook<opraiseevent>(raiseev, typeof(Hooks).GetMethod(nameof(RaiseEvent), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
             _apiuserpage = Hook<apiuserpage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
@@ -186,12 +188,12 @@ namespace Nocturnal.Settings
             }
             catch { };
 
-          
+
             return _apiuserpage(_instance, apiuseri, _nativeMethodInfoPtr);
         }
 
 
-            private static IntPtr RaiseEvent(IntPtr _instance,byte code,IntPtr il2obj,IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
+        private static IntPtr RaiseEvent(IntPtr _instance, byte code, IntPtr il2obj, IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
         {
             var isteruned = true;
             if (fakelag)
@@ -254,7 +256,7 @@ namespace Nocturnal.Settings
             else
                 return IntPtr.Zero;
         }
-       
+
         private static IntPtr udonsyncedevents(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr)
         {
 
@@ -298,24 +300,24 @@ namespace Nocturnal.Settings
                     return IntPtr.Zero;
             }
             catch { }
-          
+
 
             return _globaludon(_instance, eventname, player, _nativeMethodInfoPtr);
         }
-            private static IntPtr _Speedm(IntPtr _instance, float speed, IntPtr _nativeMethodInfoPtr)
+        private static IntPtr _Speedm(IntPtr _instance, float speed, IntPtr _nativeMethodInfoPtr)
         {
-      
+
             if (!ConfigVars.speed)
                 return _Speed(_instance, speed, _nativeMethodInfoPtr);
             var methodinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<MethodInfo>(_nativeMethodInfoPtr);
-          NocturnalC.Log(methodinfo.Name);
+            NocturnalC.Log(methodinfo.Name);
             switch (true)
             {
                 case true when methodinfo.Name == "SetRunSpeed":
                     break;
             }
 
-            
+
 
 
             return _Speed(_instance, speed, _nativeMethodInfoPtr);
@@ -349,7 +351,7 @@ namespace Nocturnal.Settings
                 // NocturnalC.Log($"{Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId}   {data.Sender}");
 
                 if (data.Code == 1 && Ui.qm.Target._copyivoice && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
-                    data.Sender.OpRaiseEvent(1, new RaiseEventOptions() { field_Public_EventCaching_0 = EventCaching.DoNotCache , field_Public_ReceiverGroup_0 = ReceiverGroup.Others }, sendOptions: default) ;
+                    data.Sender.OpRaiseEvent(1, new RaiseEventOptions() { field_Public_EventCaching_0 = EventCaching.DoNotCache, field_Public_ReceiverGroup_0 = ReceiverGroup.Others }, sendOptions: default);
 
                 if (data.Code == 7 && Ui.qm.Target._copyik && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
                 {
@@ -369,7 +371,7 @@ namespace Nocturnal.Settings
                             field_Public_EventCaching_0 = Photon.Realtime.EventCaching.DoNotCache,
                         },
                    default);
-                    
+
 
                 }
 
@@ -387,16 +389,11 @@ namespace Nocturnal.Settings
 
         private static IntPtr _OnaviChanged(IntPtr _instance, IntPtr gmj, IntPtr avatardescriptor, bool boleanv, IntPtr _nativeMethodInfoPtr)
         {
-
-
             try
             {
                 var avi = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCAvatarManager>(avatardescriptor).transform.parent.gameObject;
                 var user = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
                 avi.SetActive(false);
-
-
-
                 if (!Settings.ConfigVars.selfanti && user == VRC.Player.prop_Player_0._vrcplayer)
                 {
                     avi.SetActive(true);
@@ -406,19 +403,14 @@ namespace Nocturnal.Settings
                 {
                     avi.SetActive(true);
                     return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
-
-
                 }
 
-
                 var antic = new Anticrash(avi, user);
-
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
-
             }
             catch (Exception ex)
             {
-               // NocturnalC.Log(ex);
+                // NocturnalC.Log(ex);
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
             }
 
@@ -433,8 +425,8 @@ namespace Nocturnal.Settings
         private static IntPtr _WorldJoin(IntPtr _instance, IntPtr Apiworld, IntPtr _nativeMethodInfoPtr)
         {
             var apiworld = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.ApiWorld>(Apiworld);
-          
-            
+
+
 
             MelonCoroutines.Start(waitforworldtoinitialize());
 
@@ -444,7 +436,7 @@ namespace Nocturnal.Settings
         private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
 
-              VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+            VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
             var senduser = new Settings.jsonmanager.custommsg()
             {
                 code = "2",
@@ -465,17 +457,13 @@ namespace Nocturnal.Settings
             Settings.wrappers.Ranks.convertotcolorank(ref rank, ref username);
             if (vrcplayer.field_Private_APIUser_0.IsOnMobile)
             {
-
                 Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
                 Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
-
             }
             else
             {
                 Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
-
                 Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
-
             }
 
 
@@ -488,10 +476,10 @@ namespace Nocturnal.Settings
             var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
             text.color = color;
             text.text = vrcplayer.field_Private_APIUser_0.displayName;
-       
+
             Ui.Bundles.joinot.SetActive(false);
             Ui.Bundles.joinot.SetActive(true);
-    
+
 
             if (ConfigVars.onlyfriendjoin)
             {
@@ -526,34 +514,51 @@ namespace Nocturnal.Settings
 
 
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
-            garbagecollection.clear();;
+            garbagecollection.clear(); ;
 
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
-            VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
-            Style.Debbuger.Debugermsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
-            Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
-            text.color = Color.red;
-            text.text = vrcplayer.field_Private_APIUser_0.displayName;
 
-            Ui.Bundles.joinot.SetActive(false);
-            Ui.Bundles.joinot.SetActive(true);
-            Apis.Onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
-            try 
+
+            VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+
+            try
+            {
+                Style.Debbuger.Debugermsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+                Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
+                text.color = Color.red;
+                text.text = vrcplayer.field_Private_APIUser_0.displayName;
+
+                Ui.Bundles.joinot.SetActive(false);
+                Ui.Bundles.joinot.SetActive(true);
+                Apis.Onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+
+            }
+            catch(Exception err) { NocturnalC.Log(err); }
+
+            try
             {
                 GameObject.DestroyImmediate(Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + vrcplayer.field_Private_APIUser_0.id).gameObject);
+
             }
             catch { }
-            garbagecollection.clear();
-            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
+
+            try
+            {
+
+            }
+            catch
+            {
+                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
+            }
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
-        private static IntPtr _Jumpimp(IntPtr _instance, float jumpimp, IntPtr _nativeMethodInfoPtr) =>  _jumpimp(_instance, Settings.ConfigVars.jumpimpulse, _nativeMethodInfoPtr);
+        private static IntPtr _Jumpimp(IntPtr _instance, float jumpimp, IntPtr _nativeMethodInfoPtr) => _jumpimp(_instance, Settings.ConfigVars.jumpimpulse, _nativeMethodInfoPtr);
         private static IEnumerator waitforworldtoinitialize()
         {
             while (VRC.SDKBase.Networking.LocalPlayer == null)
@@ -584,24 +589,32 @@ namespace Nocturnal.Settings
                 Ui.Qm_basic.playercounter.enableWordWrapping = false;
                 onetime = false;
             }
-            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] {RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{RoomManager.field_Internal_Static_ApiWorld_0.name}] [{typeofworld}]" });
+            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{RoomManager.field_Internal_Static_ApiWorld_0.name}] [{typeofworld}]" });
             Udon.udonbeh = GameObject.FindObjectsOfType<VRC.Udon.UdonBehaviour>();
+
+         
+
+
+
+            cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
 
 
             if (Ui.qm.Worldhistory.worldhistorymenu == null)
-            {
-                while (Ui.qm.Worldhistory.worldhistorymenu == null)
-                    yield return null;
+                {
+                    while (Ui.qm.Worldhistory.worldhistorymenu == null)
+                        yield return null;
 
-                updatewh();
-                yield break;
-            }
+                    updatewh();
+                    yield break;
+                }
+
             updatewh();
             yield break;
         }
 
 
-        private static void updatewh() => Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+        private static void updatewh() =>  Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+            
 
     }
 

@@ -404,6 +404,7 @@
     <Compile Include="Exploits\Zoom.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="monobehaviours\Boomorbit.cs" />
+    <Compile Include="monobehaviours\Fly.cs" />
     <Compile Include="monobehaviours\Outline.cs" />
     <Compile Include="monobehaviours\Pagemanager.cs" />
     <Compile Include="monobehaviours\Platemanager.cs" />
