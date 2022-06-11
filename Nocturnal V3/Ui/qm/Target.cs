@@ -53,6 +53,7 @@ namespace Nocturnal.Ui.qm
                 GameObject.DestroyImmediate(Orbit.orbitobject);
                 Orbit.orbitobject = null;
             }, Orbit.isorbiting);
+
              new NButton(extensions.Getmenu(Target), "Teleport", () =>
             {
                 if (Settings.wrappers.Target.targertuser != null)
@@ -60,7 +61,13 @@ namespace Nocturnal.Ui.qm
 
             }, false, Settings.Download_Files.imagehandler.teleport);
 
+            GameObject svasticaobj = new GameObject();
+            new NToggle("Svastica", extensions.Getmenu(Target), () => {
+                svasticaobj = new GameObject().AddComponent<Monobehaviours.Svastica>().gameObject;
+            }, () => {
+                GameObject.DestroyImmediate(svasticaobj);
 
+            });
         }
     }
 }

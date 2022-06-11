@@ -92,6 +92,12 @@ namespace Nocturnal.Settings
         public bool? udonblock { get; set; }
         public bool? hudUi { get; set; }
         public bool? toggleonscreenlogger { get; set; }
+        public bool? UdonNameSpoof { get; set; }
+        public string? Customanmespoof { get; set; }
+        public bool? onlywauthornamespoof { get; set; }
+        public bool? joinnotif { get; set; }
+       // public bool? HwidSpoof { get; set; }
+      //  public string? SpoofedHWID { get; set; }
 
     }
     internal class ConfigVars
@@ -196,5 +202,11 @@ namespace Nocturnal.Settings
         public static bool udonblock = false;
         public static bool hudUi = true;
         public static bool toggleonscreenlogger = true;
+        public static bool UdonNameSpoof  = false;
+        public static string Customanmespoof = "Edward7";
+        public static bool onlywauthornamespoof = true;
+        public static bool joinnotif = true;
+       // public static bool HwidSpoof = false;
+      //  public static string SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3");
     }
 }

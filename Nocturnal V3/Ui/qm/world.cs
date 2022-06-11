@@ -22,6 +22,17 @@ namespace Nocturnal.Ui.qm
             var worldmenu = submenu.Create("World", Main._mainpage);
             new Submenubutton(Main._mainpage.Getmenu(), "World", worldmenu, Settings.Download_Files.imagehandler.World, true, 1, 3);
 
+
+            new NButton(worldmenu.Getmenu(), "Custom Name Spoof", () =>
+            {
+                    Apis.Inputpopout.Run("Enter The Name U Want", value => ConfigVars.Customanmespoof = value, () => {
+                        if (ConfigVars.onlywauthornamespoof) return;
+                        VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName = ConfigVars.Customanmespoof;
+                    });                
+            }, true, null, 2, 6);
+            new NToggle("Only Author Name Spoof", worldmenu.Getmenu(), () => ConfigVars.onlywauthornamespoof = true, () => ConfigVars.onlywauthornamespoof = false, ConfigVars.onlywauthornamespoof);
+            new NToggle("Udon Name Spoof", worldmenu.Getmenu(), () => ConfigVars.UdonNameSpoof = true, () => ConfigVars.UdonNameSpoof = false, ConfigVars.UdonNameSpoof);
+
             var Murderexploits  = submenu.Create("Warrning u will probably crash", worldmenu);
             new Submenubutton(worldmenu.Getmenu(), "Murder", Murderexploits, null);
 

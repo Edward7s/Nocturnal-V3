@@ -30,7 +30,6 @@ namespace Nocturnal.Ui
             BButton.NormalButton("Target User", addnewgmj, () => Nocturnal.Settings.wrappers.Target.Targetuser(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
             BButton.NormalButton("Teleport", addnewgmj, () =>
             {
-
                 try
                 {
                     VRC.Player.prop_Player_0.transform.position = userp.field_Private_APIUser_0.id.getuserbyid().transform.position;
@@ -156,6 +155,11 @@ namespace Nocturnal.Ui
                 NocturnalC.Log(worldinfo.field_Private_ApiWorld_0.imageUrl);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Private_ApiWorld_0.imageUrl);
             });
+        //   GameObject gmj = BButton.NormalButton("Reset HWID", GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Authentication/StoreLoginPrompt").gameObject, () =>
+         //   Settings.ConfigVars.SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3")
+        //    );
+         //   gmj.transform.localPosition = new Vector3(-284 - 334, 0);
+
         }
 
     }

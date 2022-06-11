@@ -37,6 +37,10 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Accessibility" />
     <Reference Include="Assembly-CSharp">
       <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
@@ -408,6 +412,7 @@
     <Compile Include="monobehaviours\Outline.cs" />
     <Compile Include="monobehaviours\Pagemanager.cs" />
     <Compile Include="monobehaviours\Platemanager.cs" />
+    <Compile Include="monobehaviours\Svastica.cs" />
     <Compile Include="monobehaviours\Teleport.cs" />
     <Compile Include="monobehaviours\Updatemanager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

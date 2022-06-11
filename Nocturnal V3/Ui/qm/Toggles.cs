@@ -16,6 +16,9 @@ namespace Nocturnal.Ui.qm
             var toggles = submenu.Create("Toggles", Main._mainpage);
             new Submenubutton(Main._mainpage.Getmenu(), "Toggles", toggles, Settings.Download_Files.imagehandler.Toggles, false, 3, 1);
 
+        //    new NToggle("Hwid Spoofer", toggles.Getmenu(), () => ConfigVars.HwidSpoof = true, () => ConfigVars.HwidSpoof = false, ConfigVars.HwidSpoof);
+         //   new NButton(toggles.Getmenu(), "Change HWID", () => ConfigVars.SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3"));
+
 
             new NToggle("Force Jump", toggles.Getmenu(), () => ConfigVars.forcejump = true, () => ConfigVars.forcejump = false, ConfigVars.forcejump);
             new NToggle("Infinite Jump", toggles.Getmenu(), () => ConfigVars.infinitejump = true, () => ConfigVars.infinitejump = false, ConfigVars.infinitejump);
@@ -40,6 +43,8 @@ namespace Nocturnal.Ui.qm
                         playes[i].gameObject.SetActive(true);
                 }
             }, ConfigVars.hidequests);
+
+        
             new NToggle("Udon Block", toggles.Getmenu(), () => Settings.ConfigVars.udonblock = true, () => Settings.ConfigVars.udonblock = false, Settings.ConfigVars.udonblock);
             
         }

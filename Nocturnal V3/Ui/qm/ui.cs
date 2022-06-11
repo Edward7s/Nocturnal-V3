@@ -179,6 +179,16 @@ namespace Nocturnal.Ui.qm
 
 
 
+            new NToggle("Join Leave Logs", extensions.Getmenu(uipg), () => {
+
+                Settings.ConfigVars.joinnotif = true;
+
+            }, () => {
+                Settings.ConfigVars.joinnotif = false;
+            }, Settings.ConfigVars.toggleonscreenlogger);
+            GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(Settings.ConfigVars.toggleonscreenlogger);
+
+
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             var Colors = submenu.Create("Colors", Main._mainpage);

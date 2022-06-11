@@ -216,6 +216,8 @@ namespace Nocturnal
             starsocket.Start();
             MelonCoroutines.Start(Settings.wrappers.extensions.clientmessagewaiter($"Hi {VRC.Core.APIUser.CurrentUser.displayName} <3"));
 
+
+
             yield break;
         }
 
@@ -279,6 +281,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Boomorbit>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Teleportobj>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Fly>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Svastica>();
 
         }
 
