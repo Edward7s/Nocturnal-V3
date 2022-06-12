@@ -239,17 +239,14 @@ namespace Nocturnal.Ui
             playercounter = title.AddComponent<TMPro.TextMeshProUGUI>();
             playercounter.alignment = TMPro.TextAlignmentOptions.Center;
             playercounter.richText = true;
-            becomingg.transform.localPosition = new Vector3(0, 562f, 0);
-            becomingg.transform.localScale = new Vector3(6.1f, 0.5f, 1);
-            playercounter.transform.localScale = new Vector3(0.17f, 2.1f, 1);
+            becomingg.transform.localPosition = new Vector3(0, 575, 0);
+            becomingg.transform.localScale = new Vector3(6.1f, 0.7f, 1);
+            playercounter.transform.localScale = new Vector3(0.145f, 1.25f, 1);
             playercounter.transform.localPosition = Vector3.zero;
             playerlistmask.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistmask);
             Borrder.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.playerlistborder);
             Borrder.transform.localScale = new Vector3(1.01f, 1.001f, 1);
             Borrder.transform.localPosition = Vector3.zero;
-
-
-
 
 
             Borrder.GetComponent<Image>().color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
@@ -343,7 +340,6 @@ namespace Nocturnal.Ui
             //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
 
 
-            playercounter.enableWordWrapping = false;
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

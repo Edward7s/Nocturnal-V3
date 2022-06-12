@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using UnhollowerBaseLib;
+﻿using ExitGames.Client.Photon;
 using MelonLoader;
-using System.Collections;
 using Nocturnal.Exploits;
-using Photon.Pun;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
 using Nocturnal.Settings.wrappers;
-using VRC.SDKBase;
+using Photon.Realtime;
+using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using UnhollowerBaseLib;
 using UnityEngine;
-using VRC.Networking;
 using VRC;
 using VRC.Core;
+using VRC.Networking;
+using VRC.SDKBase;
 
 namespace Nocturnal.Settings
 {
@@ -26,9 +22,7 @@ namespace Nocturnal.Settings
         internal static string typeofworld = "";
         internal static int fakelagnumb = 0;
         internal static int fakevcnumb = 0;
-       // private static bool time = true;
         internal static bool fakelag = false;
-        private static bool onetime = true;
         internal static Camera cameraeye; 
 
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
@@ -39,23 +33,11 @@ namespace Nocturnal.Settings
 
         private static UserL _user;
 
-        private delegate IntPtr jumpimp(IntPtr _instance, float jumpimp, IntPtr _nativeMethodInfoPtr);
-
-        private static jumpimp _jumpimp;
-
-        private delegate IntPtr Speed(IntPtr _instance, float Speed, IntPtr _nativeMethodInfoPtr);
-
-        private static Speed _Speed;
 
 
         private delegate IntPtr WorldJoin(IntPtr _instance, IntPtr Apiworld, IntPtr _nativeMethodInfoPtr);
 
         private static WorldJoin _Worldjoin;
-
-
-        private delegate IntPtr pickups(IntPtr _instance, bool value, IntPtr _nativeMethodInfoPtr);
-
-        private static pickups _pickups;
 
         private delegate IntPtr avatarchanged(IntPtr _instance, IntPtr gmj, IntPtr avatardescriptor, bool boleanv, IntPtr _nativeMethodInfoPtr);
 
@@ -85,18 +67,56 @@ namespace Nocturnal.Settings
 
         private static hwid _hwid;
 
-        internal static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
+
+        private static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
-            var method = *(IntPtr*)(IntPtr)UnhollowerUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod(targetMethod).GetValue(null);
-            MelonLoader.MelonUtils.NativeHookAttach((IntPtr)(&method), patch!.MethodHandle.GetFunctionPointer());
-            return Marshal.GetDelegateForFunctionPointer<TDelegate>(method);
+
+
+            try
+            {
+                var method = *(IntPtr*)(IntPtr)UnhollowerUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod(targetMethod).GetValue(null);
+                MelonLoader.MelonUtils.NativeHookAttach((IntPtr)(&method), patch!.MethodHandle.GetFunctionPointer());
+                return Marshal.GetDelegateForFunctionPointer<TDelegate>(method);
+            }
+            finally
+            {
+                NocturnalC.Log("Hooked: " + targetMethod.Name,"Hooks",ConsoleColor.Green);
+            }
+       
 
         }
 
-        internal static unsafe TDelegate Hook<TDelegate>(IntPtr pointer, MethodInfo patch) where TDelegate : Delegate
+        private static unsafe TDelegate DetachHook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
-            MelonLoader.MelonUtils.NativeHookAttach((IntPtr)(void*)(&pointer), patch!.MethodHandle.GetFunctionPointer());
-            return Marshal.GetDelegateForFunctionPointer<TDelegate>(pointer);
+
+
+            try
+            {
+                var method = *(IntPtr*)(IntPtr)UnhollowerUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod(targetMethod).GetValue(null);
+                MelonLoader.MelonUtils.NativeHookDetach((IntPtr)(&method), patch!.MethodHandle.GetFunctionPointer());
+                return Marshal.GetDelegateForFunctionPointer<TDelegate>(method);
+            }
+            finally
+            {
+                NocturnalC.Log("UnHooked: " + targetMethod.Name, "Hooks", ConsoleColor.Green);
+            }
+
+
+        }
+
+
+
+        private static unsafe TDelegate Hook<TDelegate>(IntPtr pointer, MethodInfo patch) where TDelegate : Delegate
+        {
+            try
+            {
+                MelonLoader.MelonUtils.NativeHookAttach((IntPtr)(void*)(&pointer), patch!.MethodHandle.GetFunctionPointer());
+                return Marshal.GetDelegateForFunctionPointer<TDelegate>(pointer);
+            }
+            finally
+            {
+            }
+         
 
         }
         //ForegroundColor
@@ -104,13 +124,13 @@ namespace Nocturnal.Settings
         internal static void StartHooks()
         {
 
+            //"Harmony = No Bithces"
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------------------------");
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
-
             MethodInfo[] methodsinfo = new MethodInfo[2];
-
             methodsinfo[0] = typeof(NetworkManager).GetMethod("Method_Public_Void_Player_0");
             methodsinfo[1] = typeof(NetworkManager).GetMethod("Method_Public_Void_Player_1");
-
             for (int i = 0; i < methodsinfo.Length; i++)
             {
                 var xrefedmethod = UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(methodsinfo[i]).ToArray();
@@ -153,18 +173,8 @@ namespace Nocturnal.Settings
              _consolecolor = Hook<consolecolor>(methodd, typeof(Hooks).GetMethod(nameof(consolecolorm), BindingFlags.Static | BindingFlags.NonPublic));*/
             // Console.ForegroundColor = ConsoleColor.Green;
 
-              MethodInfo displaynamemethodi = typeof(APIUser).GetProperty(nameof(APIUser.displayName)).GetSetMethod();
-            _dispalyname = Hook<dispalyname>(displaynamemethodi, typeof(Hooks).GetMethod(nameof(DisplayNameM), BindingFlags.Static | BindingFlags.NonPublic));
-
-
-
-            MethodInfo jumpimp = typeof(VRC.SDKBase.VRCPlayerApi).GetMethod(nameof(Networking.LocalPlayer.SetJumpImpulse), BindingFlags.Instance | BindingFlags.Public);
-            _jumpimp = Hook<jumpimp>(jumpimp, typeof(Hooks).GetMethod(nameof(_Jumpimp), BindingFlags.Static | BindingFlags.NonPublic));
-
-
-            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
+             MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
-
 
             MethodInfo onevent = typeof(Photon.Realtime.LoadBalancingClient).GetMethod("OnEvent");
             _onevent = Hook<onevent>(onevent, typeof(Hooks).GetMethod(nameof(oneventm), BindingFlags.Static | BindingFlags.NonPublic));
@@ -178,18 +188,32 @@ namespace Nocturnal.Settings
             MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
             _apiuserpage = Hook<apiuserpage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
 
-            /*   MethodInfo[] methodsarr = typeof(UnityEngine.SystemInfo).GetMethods(BindingFlags.Static | BindingFlags.Public).Where(m => m.Name.StartsWith("GetDevice") && m.ReturnType == typeof(string)).ToArray();
-               for (int i = 0; i < methodsarr.Length; i++)
-               {
-                   NocturnalC.Log(methodsarr[i].Name);
-                   System.IntPtr value = IL2CPP.il2cpp_resolve_icall("UnityEngine.SystemInfo::" + methodsarr[i].Name);
-                   _hwid = Hook<hwid>((System.IntPtr)((void*)(&value)), typeof(Hooks).GetMethod(nameof(Spoofer), BindingFlags.Static | BindingFlags.NonPublic));
 
-               }*/
 
-            /*  if (ConfigVars.HwidSpoof)
+            try
+            {
+
+            MethodInfo displaymethod = typeof(APIUser).GetProperty(nameof(APIUser.displayName)).SetMethod;
+            _dispalyname = Hook<dispalyname>(displaymethod, typeof(Hooks).GetMethod(nameof(DisplayNameM), BindingFlags.Static | BindingFlags.NonPublic));
+
+            }
+            catch (Exception ex) { NocturnalC.Log(ex, "HOOKS ERROR",ConsoleColor.Red); }
+         
+
+
+            //    MethodInfo platfrommethodinfo = typeof(APIUser).GetProperty(nameof(APIUser.location)).SetMethod;
+            //   _Platform = Hook<Platform>(platfrommethodinfo, typeof(Hooks).GetMethod(nameof(PlatformM), BindingFlags.Static | BindingFlags.NonPublic));
+
+
+
+
+
+
+            Console.WriteLine();
+
+           if (ConfigVars.HwidSpoof)
               {
-                  hwidspoofed = ((Il2CppSystem.String)Settings.ConfigVars.SpoofedHWID)).Pointer;
+                hwidspoofed = ((Il2CppSystem.String)ConfigVars.SpoofedHWID).Pointer;
                   NocturnalC.Log("Current Hwid: " + SystemInfo.deviceUniqueIdentifier, "Hooks", ConsoleColor.Red);
                   NocturnalC.Log("Spofed Hwid: " + new Il2CppSystem.String(hwidspoofed), "Hooks", ConsoleColor.Green);
                   _hwid = Hook<hwid>(IL2CPP.il2cpp_resolve_icall("UnityEngine.SystemInfo::GetDeviceUniqueIdentifier"), typeof(Hooks).GetMethod(nameof(Spoofer), BindingFlags.Static | BindingFlags.NonPublic));
@@ -197,21 +221,73 @@ namespace Nocturnal.Settings
               }
               else
                   NocturnalC.Log("WARRNING: HWID Spoof Is OFF If u use other mods to spoof I recomand it to keep it off if u don't use other mods i recommand to tur it on", "Hooks", ConsoleColor.Yellow);
-            */
-
+         
             NocturnalC.Log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
             hooktimer.Stop();
+            Console.WriteLine("------------------------------------------------------------------------");
+            Console.WriteLine();
 
         }
-     /*   private static IntPtr Spoofer()
+
+
+     /*   private static IntPtr PlatformM(IntPtr _instance, IntPtr Location, IntPtr _nativeMethodInfoPtr)
+        {
+
+            // return _Platform(_instance, ((Il2CppSystem.String)"android").Pointer, _nativeMethodInfoPtr);
+            try
+            {
+
+              if (APIUser.CurrentUser == null)
+                    return _Platform(_instance, Location, _nativeMethodInfoPtr);
+
+                var usr = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<APIUser>(_instance);
+
+                try
+                {
+                    if (!usr.id.StartsWith("usr_"))
+                        return _Platform(_instance, Location, _nativeMethodInfoPtr);
+                }
+                catch { }
+              
+
+                string _location = (string)new Il2CppSystem.String(Location);
+
+                if (_location == "offline")
+                    return _Platform(_instance, Location, _nativeMethodInfoPtr);
+
+
+
+                NocturnalC.Log($"{usr.displayName}   /    {_location}");
+
+
+            }
+            catch
+            {
+                try
+                {
+                    var usr = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<APIUser>(_instance);
+                    NocturnalC.Log($"{usr.displayName}");
+
+                }
+                catch (Exception ex) { NocturnalC.Log(ex); }
+                
+                }
+
+            return _Platform(_instance, Location, _nativeMethodInfoPtr);
+        }*/
+
+
+        private static IntPtr Spoofer()
         {
             return hwidspoofed;
-        }*/
+        }
 
         private static void donothing(object str) => str.ToString();
 
             private static IntPtr DisplayNameM(IntPtr _instance, IntPtr name, IntPtr _nativeMethodInfoPtr)
         {
+
+
             if (!ConfigVars.UdonNameSpoof)
                 return _dispalyname(_instance, name, _nativeMethodInfoPtr);
             try
@@ -222,8 +298,13 @@ namespace Nocturnal.Settings
 
             var usr = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<APIUser>(_instance);
 
+
             if (APIUser.CurrentUser == null)
               return _dispalyname(_instance, name, _nativeMethodInfoPtr);
+
+            if (usr.id != APIUser.CurrentUser.id)
+                return _dispalyname(_instance, name, _nativeMethodInfoPtr);
+
 
             if (ConfigVars.onlywauthornamespoof)
             {
@@ -372,25 +453,7 @@ namespace Nocturnal.Settings
 
             return _globaludon(_instance, eventname, player, _nativeMethodInfoPtr);
         }
-        private static IntPtr _Speedm(IntPtr _instance, float speed, IntPtr _nativeMethodInfoPtr)
-        {
-
-            if (!ConfigVars.speed)
-                return _Speed(_instance, speed, _nativeMethodInfoPtr);
-            var methodinfo = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<MethodInfo>(_nativeMethodInfoPtr);
-            NocturnalC.Log(methodinfo.Name);
-            switch (true)
-            {
-                case true when methodinfo.Name == "SetRunSpeed":
-                    break;
-            }
-
-
-
-
-            return _Speed(_instance, speed, _nativeMethodInfoPtr);
-
-        }
+ 
 
 
         private static IntPtr oneventm(IntPtr _instance, IntPtr eventData, IntPtr _nativeMethodInfoPtr)
@@ -492,12 +555,7 @@ namespace Nocturnal.Settings
 
         private static IntPtr _WorldJoin(IntPtr _instance, IntPtr Apiworld, IntPtr _nativeMethodInfoPtr)
         {
-            var apiworld = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Core.ApiWorld>(Apiworld);
-
-
-
             MelonCoroutines.Start(waitforworldtoinitialize());
-
             return _Worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
         }
 
@@ -505,10 +563,12 @@ namespace Nocturnal.Settings
         {
 
             VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+            string userid = vrcplayer.field_Private_APIUser_0.id;
+            APIUser apiuser = vrcplayer.field_Private_APIUser_0;
             var senduser = new Settings.jsonmanager.custommsg()
             {
                 code = "2",
-                msg = vrcplayer.field_Private_APIUser_0.id,
+                msg = userid,
             };
             try
             {
@@ -516,39 +576,35 @@ namespace Nocturnal.Settings
 
             }
             catch { }
-            if (vrcplayer.field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
+            if (userid != APIUser.CurrentUser.id)
                 vrcplayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
             string rank = "";
             var color = UnityEngine.Color.white;
-            var username = vrcplayer.field_Private_APIUser_0.displayName;
-            Settings.wrappers.Ranks.gettrsutrank(vrcplayer.field_Private_APIUser_0, ref rank, ref color);
+            var username = apiuser.displayName;
+            Settings.wrappers.Ranks.gettrsutrank(apiuser, ref rank, ref color);
             Settings.wrappers.Ranks.convertotcolorank(ref rank, ref username);
-            if (vrcplayer.field_Private_APIUser_0.IsOnMobile)
+            if (apiuser.IsOnMobile)
             {
                 Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
-                if (Settings.ConfigVars.joinnotif)
                    Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
             }
             else
             {
                 Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
-                if (Settings.ConfigVars.joinnotif)
                     Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
             }
 
-
-
-
             vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
+            if (Settings.ConfigVars.joinnotif)
+            {
+                Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
+                var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
+                text.color = color;
+                text.text = apiuser.displayName;
+                Ui.Bundles.joinot.SetActive(false);
+                Ui.Bundles.joinot.SetActive(true);
+            }
 
-
-            Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
-            var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
-            text.color = color;
-            text.text = vrcplayer.field_Private_APIUser_0.displayName;
-
-            Ui.Bundles.joinot.SetActive(false);
-            Ui.Bundles.joinot.SetActive(true);
 
 
             if (ConfigVars.onlyfriendjoin)
@@ -560,52 +616,49 @@ namespace Nocturnal.Settings
             else if (ConfigVars.joinsound)
                 Ui.Qm_basic._audiosourcenotification.Play();
 
-            if (ConfigVars.hidequests && vrcplayer.prop_APIUser_0.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
+            if (ConfigVars.hidequests && apiuser.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
             {
                 vrcplayer.gameObject.SetActive(false);
                 Style.Debbuger.Debugermsg($"<color=#610000>[{username} Quest Hidden");
-
             }
-
-
-            if (vrcplayer.field_Private_APIUser_0.hasModerationPowers || vrcplayer.field_Private_APIUser_0.hasSuperPowers)
+            if (apiuser.hasModerationPowers || apiuser.hasSuperPowers)
             {
-                Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
-                Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {vrcplayer.field_Private_APIUser_0.displayName}");
+                Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {username}");
+                Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {username}");
             }
             try
             {
                 string vr = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
-                string platform = vrcplayer.field_Private_APIUser_0.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
+                string platform = apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
                 string friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", vrcplayer.field_Private_APIUser_0.id, vrcplayer);
+                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", userid, vrcplayer);
             }
             catch { }
-
-
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
-            garbagecollection.clear(); ;
-
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
-
-
             VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
 
+            string displayname = vrcplayer.field_Private_APIUser_0.displayName;
             try
             {
-                Style.Debbuger.Debugermsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
-                Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.red;
-                var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
-                text.color = Color.red;
-                text.text = vrcplayer.field_Private_APIUser_0.displayName;
+                Style.Debbuger.Debugermsg($"<color=#610000>[{displayname}] Left");
 
-                Ui.Bundles.joinot.SetActive(false);
-                Ui.Bundles.joinot.SetActive(true);
-                Apis.Onscreenui.showmsg($"<color=#610000>[{vrcplayer.field_Private_APIUser_0.displayName}] Left");
+                if (Settings.ConfigVars.joinnotif)
+                {
+                    Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
+                    text.color = Color.red;
+                    text.text = displayname;
+                    Ui.Bundles.joinot.SetActive(false);
+                    Ui.Bundles.joinot.SetActive(true);
+                }
+
+                
+                Apis.Onscreenui.showmsg($"<color=#610000>[{displayname}] Left");
 
             }
             catch(Exception err) { NocturnalC.Log(err); }
@@ -628,14 +681,16 @@ namespace Nocturnal.Settings
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
-        private static IntPtr _Jumpimp(IntPtr _instance, float jumpimp, IntPtr _nativeMethodInfoPtr) => _jumpimp(_instance, Settings.ConfigVars.jumpimpulse, _nativeMethodInfoPtr);
         private static IEnumerator waitforworldtoinitialize()
         {
             while (VRC.SDKBase.Networking.LocalPlayer == null)
-                yield return null;
+                yield return new WaitForEndOfFrame();
 
-            Nocturnal.Style.Debbuger.Debugermsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
-            Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC.SDKBase.VRC_Pickup>().Where(pickup => pickup.gameObject.activeSelf == true).ToArray();
+            string name = RoomManager.field_Internal_Static_ApiWorld_0.name;
+
+            Nocturnal.Style.Debbuger.Debugermsg($"<color=yellow>Joined on</color>: " + name);
+            Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC_Pickup>().ToArray();
+            Udon.udonbeh = GameObject.FindObjectsOfType<VRC.Udon.UdonBehaviour>();
 
             if (Settings.ConfigVars.itemmaxrange)
                 for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
@@ -649,43 +704,29 @@ namespace Nocturnal.Settings
             if (Settings.ConfigVars.itemesp)
                 Itemesp.addesptoitems(true);
 
-            Apis.Onscreenui.showmsg($"<color=yellow>Joined on</color>: [{RoomManager.field_Internal_Static_ApiWorld_0.name}");
-
+            Apis.Onscreenui.showmsg($"<color=yellow>Joined on</color>: " + name);
 
             typeofworld = RoomManager.field_Internal_Static_ApiWorldInstance_0.type.ToString();
 
-            if (onetime)
-            {
-                Ui.Qm_basic.playercounter.enableWordWrapping = false;
-                onetime = false;
-            }
-            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{RoomManager.field_Internal_Static_ApiWorld_0.name}] [{typeofworld}]" });
-            Udon.udonbeh = GameObject.FindObjectsOfType<VRC.Udon.UdonBehaviour>();
+         Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{name}] [{typeofworld}]" });
 
-         
-
-
-
-            cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
-
+            cameraeye = GameObject.Find("/_Application").transform.Find("TrackingVolume/TrackingSteam(Clone)/SteamCamera/[CameraRig]/Neck/Camera (head)/Camera (eye)").gameObject.GetComponent<Camera>();
 
             if (Ui.qm.Worldhistory.worldhistorymenu == null)
                 {
                     while (Ui.qm.Worldhistory.worldhistorymenu == null)
-                        yield return null;
+                    yield return new WaitForSeconds(1f);
 
-                    updatewh();
+                Ui.qm.Worldhistory.updatehistory(name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id); 
                 yield break;
                 }
-            updatewh();
+            Ui.qm.Worldhistory.updatehistory(name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
 
-         
 
             yield break;
         }
 
 
-        private static void updatewh() =>  Ui.qm.Worldhistory.updatehistory(RoomManager.field_Internal_Static_ApiWorld_0.name + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
             
 
     }

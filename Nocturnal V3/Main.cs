@@ -161,12 +161,12 @@ namespace Nocturnal
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var dateb = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             NocturnalC.Log($"Builded on: [{dateb}]","Assembly",ConsoleColor.Green);
-           
-
-            NocturnalC.Log("///////////////////////////////\n-Rember Using stuff in murder can lead to a crashs\n-Murder and prison breack got a custom anticheat for it from what it seams like><\n///////////////////////////////////////////////////////////////", "Start Up",ConsoleColor.Red);
-            NocturnalC.Log("///////////////////////////////\n-Also Check Out NanoSDK (The best VRChat SDK).\n-https://nanosdk.net/discord\n///////////////////////////////////////////////////////////////", "Start Up", ConsoleColor.Yellow);
-
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------------------------");
+            NocturnalC.Log("///////////////////////////////\n-Also Check Out NanoSDK (The best VRChat SDK).\n-https://nanosdk.net/discord\n///////////////////////////////////////////////////////////////", "Start Up", ConsoleColor.Green);
             NocturnalC.Log("Join the Discord server if u are not in it\nhttps://discord.nocturnal-client.xyz/", "Start Up", ConsoleColor.Green);
+            Console.WriteLine("------------------------------------------------------------------------");
+            Console.WriteLine();
 
             Settings.Download_Files.DownloadHanler();
             Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
@@ -245,7 +245,7 @@ namespace Nocturnal
 
            Nocturnal.Ui.LoadingScreen.runti();
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
-                yield return null;
+                yield return new WaitForEndOfFrame();
 
             NocturnalC.Log("Founded QuickMenu");
             Ui.Bundles.Loadshader();
@@ -256,12 +256,12 @@ namespace Nocturnal
             Nocturnal.Ui.buttons_b.Runbuttons();
          
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
-                yield return null;
+                yield return new WaitForEndOfFrame();
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(880, 712, 0.5f);
 
 
             while(GameObject.FindObjectOfType<VRC.UI.Elements.MenuStateController>() == null)
-                yield return null;
+                yield return new WaitForEndOfFrame();
             new Apis.qm.Page("Nocturnal Menu",Settings.Download_Files.imagehandler.logo);
             Nocturnal.Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
