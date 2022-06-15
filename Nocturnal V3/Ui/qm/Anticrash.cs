@@ -27,7 +27,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Audio Sources", value => ConfigVars.maxaudiosources = int.Parse(value), () => { maxaud.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Settings.ConfigVars.maxaudiosources}] Max Audio Sources"; });
+                    new Apis.Inputpopout("Max Audio Sources", value => ConfigVars.maxaudiosources = int.Parse(value), () => { maxaud.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Settings.ConfigVars.maxaudiosources}] Max Audio Sources"; });
                 }
                 catch { }
             });
@@ -37,7 +37,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Materials", value => ConfigVars.maxmaterials = int.Parse(value), () => {
+                    new Apis.Inputpopout("Max Materials", value => ConfigVars.maxmaterials = int.Parse(value), () => {
                         maxm.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{ConfigVars.maxmaterials}] Max Audio Sources";
                     });
 
@@ -50,7 +50,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Meshes", value => ConfigVars.maxmeshes = int.Parse(value), () => {
+                    new Apis.Inputpopout("Max Meshes", value => ConfigVars.maxmeshes = int.Parse(value), () => {
                         maxme.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{ConfigVars.maxmeshes}] Max Audio Sources";
                     });
 
@@ -64,7 +64,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Particles", value => ConfigVars.maxparticles = int.Parse(value), () => {
+                    new Apis.Inputpopout("Max Particles", value => ConfigVars.maxparticles = int.Parse(value), () => {
                         maxp.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Settings.ConfigVars.maxparticles}] Max Audio Sources";
                     });
 
@@ -76,7 +76,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Verticies", value => ConfigVars.maxverticies = int.Parse(value), () => {
+                    new Apis.Inputpopout("Max Verticies", value => ConfigVars.maxverticies = int.Parse(value), () => {
                         maxv.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{ConfigVars.maxverticies}] Max Audio Sources";
                     });
 
@@ -90,7 +90,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Max Particle Systems", value => Settings.ConfigVars.particlesystem = int.Parse(value), () => {
+                    new Apis.Inputpopout("Max Particle Systems", value => Settings.ConfigVars.particlesystem = int.Parse(value), () => {
                         maxpsy.transform.Find("Text_H4").GetComponent<TMPro.TextMeshProUGUI>().text = $"[{ConfigVars.particlesystem}] Max Audio Sources";
                     });
 

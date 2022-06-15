@@ -83,7 +83,7 @@ namespace Nocturnal.Ui
 
 
 
-                Apis.Inputpopout.Run("", value => tagtosend = value, () => {
+               new Apis.Inputpopout("", value => tagtosend = value, () => {
 
                     if (tagtosend.Trim().Length > 60)
                     {

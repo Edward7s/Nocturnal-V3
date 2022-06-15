@@ -12,6 +12,8 @@ namespace Nocturnal.Apis
 {
     internal static class Change_Image
     {
+   
+
         internal static IEnumerator LoadIMGTSprite(Image Instance, string url)
         {
             var www = UnityWebRequestTexture.GetTexture(url);
@@ -25,63 +27,52 @@ namespace Nocturnal.Apis
                 yield break;
             }
             var content = DownloadHandlerTexture.GetContent(www);
-            var sprite2 = Instance.sprite = Sprite.CreateSprite(content,
+           Instance.sprite = Instance.sprite = Sprite.CreateSprite(content,
                 new Rect(0f, 0f, content.width, content.height), new Vector2(0f, 0f), 100000f, 1000u,
                 SpriteMeshType.FullRect, Vector4.zero, false);
-           // Instance.color = Color.white;
-            if (sprite2 != null) Instance.sprite = sprite2;
             www.Dispose();
             yield break;
         }
 
-        internal static void Loadfrombytes(this GameObject gmj, byte[] img, bool isimage = true)
+        internal static void Loadfrombytes(this GameObject gmj, string img, bool isimage = true) => Loadfrombytes(gmj, System.Convert.FromBase64String(img), isimage);
+        internal static void Loadfrombytes(this GameObject gmj, byte[] img, bool isimage = true) => new ImageHandler(gmj, img, isimage);
+
+        internal class ImageHandler : IDisposable
         {
-            if (isimage)
-            {
-                var image = gmj.GetComponent<Image>();
-                var texture = new Texture2D(256, 256);
-                ImageConversion.LoadImage(texture, img);
-                texture.Apply();
-
-                image.sprite = Sprite.CreateSprite(texture,
-                new Rect(0f, 0f, texture.width, texture.height), new Vector2(0f, 0f), 100000f, 1000u,
-                SpriteMeshType.FullRect, Vector4.zero, false);
-                return;
+            private  Image _ImageComponent { get; set; }
+            private  Texture2D _Texture2d { get; set; }
+            private  ImageThreeSlice _ImageThreeSliceCompnent { get; set; }
+            ~ImageHandler() =>this.Dispose();
+            public void Dispose() {
+               this._ImageComponent = null;
+               this._Texture2d = null;
+               this._ImageThreeSliceCompnent = null;
             }
-            var image2 = gmj.GetComponent<ImageThreeSlice>();
-            var texture2 = new Texture2D(256, 256);
-            ImageConversion.LoadImage(texture2, img);
-            texture2.Apply();
 
-            image2.prop_Sprite_0 = Sprite.CreateSprite(texture2,
-            new Rect(0f, 0f, texture2.width, texture2.height), new Vector2(0f, 0f), 100000f, 1000u,
-            SpriteMeshType.FullRect, new Vector4(255,0,255,0), false);
-            
-        }
-        internal static void Loadfrombytes(this GameObject gmj, string img, bool isimage = true)
-        {
-            byte[] bytes = System.Convert.FromBase64String(img);
-            if (isimage)
+            public ImageHandler(GameObject gmj, byte[] img, bool isimage = true)
             {
-                var image = gmj.GetComponent<Image>();
-                var texture = new Texture2D(256, 256);
-                ImageConversion.LoadImage(texture, bytes);
-                texture.Apply();
-
-                image.sprite = Sprite.CreateSprite(texture,
-                new Rect(0f, 0f, texture.width, texture.height), new Vector2(0f, 0f), 100000f, 1000u,
-                SpriteMeshType.FullRect, Vector4.zero, false);
-                return;
+                if (isimage)
+                {
+                    _ImageComponent = gmj.GetComponent<Image>();
+                    _Texture2d = new Texture2D(256, 256);
+                    ImageConversion.LoadImage(_Texture2d, img);
+                    _Texture2d.Apply();
+                    _ImageComponent.sprite = Sprite.CreateSprite(_Texture2d,
+                    new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), 100000f, 1000u,
+                    SpriteMeshType.FullRect, Vector4.zero, false);
+                    return;
+                }
+                _ImageThreeSliceCompnent = gmj.GetComponent<ImageThreeSlice>();
+                _Texture2d = new Texture2D(256, 256);
+                ImageConversion.LoadImage(_Texture2d, img);
+                _Texture2d.Apply();
+                _ImageThreeSliceCompnent.prop_Sprite_0 = Sprite.CreateSprite(_Texture2d,
+                new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), 100000f, 1000u,
+                SpriteMeshType.FullRect, new Vector4(255, 0, 255, 0), false);
             }
-            var image2 = gmj.GetComponent<ImageThreeSlice>();
-            var texture2 = new Texture2D(256, 256);
-            ImageConversion.LoadImage(texture2, bytes);
-            texture2.Apply();
-
-            image2.prop_Sprite_0 = Sprite.CreateSprite(texture2,
-            new Rect(0f, 0f, texture2.width, texture2.height), new Vector2(0f, 0f), 100000f, 1000u,
-            SpriteMeshType.FullRect, new Vector4(255, 0, 255, 0), false);
-
         }
     }
-}
+
+
+
+    }

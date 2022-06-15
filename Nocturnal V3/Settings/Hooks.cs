@@ -69,7 +69,6 @@ namespace Nocturnal.Settings
 
         private static hwid _hwid;
 
-
         private static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
 
@@ -705,6 +704,11 @@ namespace Nocturnal.Settings
 
             if (Settings.ConfigVars.itemesp)
                 Itemesp.addesptoitems(true);
+
+
+            if (Settings.ConfigVars.ItemThrowBoost)
+                for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
+                    Exploits.Pickups.Pickupsobs[i].ThrowVelocityBoostScale = Settings.ConfigVars.ItemThrowBoostValue;
 
             Apis.Onscreenui.showmsg($"<color=yellow>Joined on</color>: " + name);
 

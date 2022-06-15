@@ -51,7 +51,6 @@ namespace Nocturnal.Monobehaviours
             icon.gameObject.SetActive(false);
             prefabplate.transform.Find("Trust Text").name = "Text";
             prefabplate.name = "PrefabPlate";
-
             var platem = plategmj.transform.Find("Main/Background").gameObject.GetComponent<ImageThreeSlice>();
             platem.color = color;
             plategmj.transform.Find("Icon/Background").gameObject.GetComponent<UnityEngine.UI.Image>().color = color;

@@ -33,6 +33,27 @@ namespace Nocturnal.Ui.qm
 
                   }
               });
+            new NToggle("Velocity Throw", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.ItemThrowBoost = true, () => Settings.ConfigVars.ItemThrowBoost = false, Settings.ConfigVars.ItemThrowBoost);
+
+            UnityEngine.GameObject VelocityB = null;
+            new NButton(out VelocityB, _pickupsm.Getmenu(), "Velocity V: " + Settings.ConfigVars.ItemThrowBoostValue, () =>
+            {
+                if (!Settings.ConfigVars.ItemThrowBoost)
+                {
+                    NocturnalC.Log("If u want to change the Velocity Boost Turn on Velocity Throw");
+                    return;
+                }
+                new Apis.Inputpopout("State", value => Settings.ConfigVars.ItemThrowBoostValue = int.Parse(value), () => {
+                    for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
+                        Exploits.Pickups.Pickupsobs[i].ThrowVelocityBoostScale = Settings.ConfigVars.ItemThrowBoostValue;
+                    VelocityB.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Velocity V: " + Settings.ConfigVars.ItemThrowBoostValue;
+                });
+              
+            });
+
+
+
+          
 
         }
 

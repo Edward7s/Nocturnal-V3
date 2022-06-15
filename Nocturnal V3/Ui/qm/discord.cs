@@ -39,7 +39,7 @@ namespace Nocturnal.Ui.qm
             {
                    var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.Inputpopout.Run("Details", value => tobstring = value, () => {
+               new Apis.Inputpopout("Details", value => tobstring = value, () => {
                 str.Details = tobstring;
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc",JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);
@@ -51,7 +51,7 @@ namespace Nocturnal.Ui.qm
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.Inputpopout.Run("State", value => tobstring = value, () => {
+                new Apis.Inputpopout("State", value => tobstring = value, () => {
                     str.State = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);
@@ -62,7 +62,7 @@ namespace Nocturnal.Ui.qm
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                Apis.Inputpopout.Run("Image", value => tobstring = value, () => {
+                new Apis.Inputpopout("Image", value => tobstring = value, () => {
                     str.LargeImage = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);

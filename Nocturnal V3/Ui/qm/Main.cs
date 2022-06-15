@@ -69,7 +69,7 @@ namespace Nocturnal.Ui.qm
                 try
                 {
                     string aviid = "";
-                    Apis.Inputpopout.Run("Avatar id", value => aviid = value, () => {
+                    new Apis.Inputpopout("Avatar id", value => aviid = value, () => {
                         Exploits.Misc.Changetoavi(aviid);
                     });
                 }
@@ -82,7 +82,7 @@ namespace Nocturnal.Ui.qm
             new NButton(extensions.Getmenu(_mainpage), "Join By Id", () =>
             {
                 string roomid = "";
-                Apis.Inputpopout.Run("Room Instance Id", value => roomid = value, () => {
+                new Apis.Inputpopout("Room Instance Id", value => roomid = value, () => {
                     if (!Networking.GoToRoom(roomid))
                     {
                         string[] array = roomid.Split(':');
@@ -99,7 +99,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    Apis.Inputpopout.Run("Jump Impulse", value => ConfigVars.jumpimpulse = float.Parse(value), () => { });
+                    new Apis.Inputpopout("Jump Impulse", value => ConfigVars.jumpimpulse = float.Parse(value), () => { });
                     Networking.LocalPlayer.SetJumpImpulse(ConfigVars.jumpimpulse);
                     _jumpimpulse.GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
                 }
@@ -191,7 +191,7 @@ namespace Nocturnal.Ui.qm
             }, ConfigVars.esp, true, 0, 7);
             new Submenubutton(_mainpage.Getmenu(), "Main", Main, Download_Files.imagehandler.Main, false, 0, 0);
 
-            Apis.Slider.slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
+            new Apis.Slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
             {
 
             }, true, "Fly Speed");

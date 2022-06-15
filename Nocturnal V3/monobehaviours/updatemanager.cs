@@ -1,13 +1,17 @@
 ﻿using System;
 using UnityEngine;
+using VRC;
 using VRC.SDKBase;
 namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
     {
-        internal static GameObject secondcamera = null;
-        internal static bool isthirdpersonback = false;
-        internal static bool isthirdp = false;
+        private static GameObject _SecondCamera = null;
+        private static bool _Isthirdpersonback = false;
+        private static bool _Isthirdp = false;
+        private static VRC.UI.FriendsListManager _Friends { get; set; }
+        private static System.Diagnostics.Process _CurentProcess { get; set; }
+
         public UpdateManager(IntPtr ptr) : base(ptr)
         {
 
@@ -16,7 +20,35 @@ namespace Nocturnal.Monobehaviours
         void Start()
         {
            NocturnalC.Log("Initializing OnUpdate And OnGui", "Monobehaviour",ConsoleColor.Green);
+
+            _Friends = Ui.Objects._friendlistmanager;
+            _CurentProcess = System.Diagnostics.Process.GetCurrentProcess();
+
+            InvokeRepeating(nameof(updatehud), -1, 1.5f);
+            
         }
+
+        void updatehud()
+        {
+            
+
+
+            if (!Settings.ConfigVars.hudUi)
+                return;
+                
+     
+                int player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+                try
+                {
+                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {player}\nF: {_Friends.field_Private_List_1_IUser_1.Count}/{_Friends.field_Private_List_1_IUser_0.Count}\nIn: {Settings.Hooks.typeofworld}" +
+                        $"\nGtime: {_CurentProcess.UserProcessorTime.Hours}:{_CurentProcess.UserProcessorTime.Minutes}:{_CurentProcess.UserProcessorTime.Seconds}";
+
+                }
+                catch { }
+
+
+        }
+
 
 
         void LateUpdate()
@@ -30,9 +62,6 @@ namespace Nocturnal.Monobehaviours
             {
                 return;
             }
-
-
-
           
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
                 if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
@@ -51,46 +80,46 @@ namespace Nocturnal.Monobehaviours
                 {
                     if (Input.GetKeyDown(KeyCode.T))
                     {
-                        if (secondcamera != null && !isthirdpersonback)
+                        if (_SecondCamera != null && !_Isthirdpersonback)
                         {
-                            GameObject.DestroyImmediate(secondcamera);
-                            secondcamera = null;
+                            GameObject.DestroyImmediate(_SecondCamera);
+                            _SecondCamera = null;
                             Settings.Hooks.cameraeye.gameObject.SetActive(true);
-                            isthirdp = false;
+                            _Isthirdp = false;
 
                         }
-                        else if (!isthirdpersonback)
+                        else if (!_Isthirdpersonback)
                         {
 
-                            secondcamera = new GameObject("Camera Holder");
-                            secondcamera.AddComponent<Camera>();
-                            secondcamera.transform.parent = Settings.Hooks.cameraeye.transform;
-                            secondcamera.transform.localEulerAngles = Vector3.zero;
-                            secondcamera.transform.localScale = Vector3.one;
-                            secondcamera.transform.localPosition = new Vector3(0, 0, -2);
+                            _SecondCamera = new GameObject("Camera Holder");
+                            _SecondCamera.AddComponent<Camera>();
+                            _SecondCamera.transform.parent = Settings.Hooks.cameraeye.transform;
+                            _SecondCamera.transform.localEulerAngles = Vector3.zero;
+                            _SecondCamera.transform.localScale = Vector3.one;
+                            _SecondCamera.transform.localPosition = new Vector3(0, 0, -2);
                             Settings.Hooks.cameraeye.gameObject.SetActive(false);
-                            isthirdpersonback = true;
-                            isthirdp = true;
+                            _Isthirdpersonback = true;
+                            _Isthirdp = true;
                         }
                         else
                         {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, 2);
-                            secondcamera.transform.localEulerAngles = new Vector3(0, -180, 0);
-                            isthirdpersonback = false;
+                            _SecondCamera.transform.localPosition = new Vector3(0, 0, 2);
+                            _SecondCamera.transform.localEulerAngles = new Vector3(0, -180, 0);
+                            _Isthirdpersonback = false;
                         }
                     }
 
-                    if (isthirdp)
+                    if (_Isthirdp)
                     {
                         if (Input.mouseScrollDelta.y == 1)
                         {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, secondcamera.transform.localPosition.z - 0.15f);
+                            _SecondCamera.transform.localPosition = new Vector3(0, 0, _SecondCamera.transform.localPosition.z - 0.15f);
                         }
 
 
                         if (Input.mouseScrollDelta.y == -1)
                         {
-                            secondcamera.transform.localPosition = new Vector3(0, 0, secondcamera.transform.localPosition.z + 0.15f);
+                            _SecondCamera.transform.localPosition = new Vector3(0, 0, _SecondCamera.transform.localPosition.z + 0.15f);
                         }
                     }
 

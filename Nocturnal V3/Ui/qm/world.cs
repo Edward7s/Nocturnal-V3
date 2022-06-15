@@ -25,7 +25,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(worldmenu.Getmenu(), "Custom Name Spoof", () =>
             {
-                    Apis.Inputpopout.Run("Enter The Name U Want", value => ConfigVars.Customanmespoof = value, () => {
+                    new Apis.Inputpopout("Enter The Name U Want", value => ConfigVars.Customanmespoof = value, () => {
                         if (ConfigVars.onlywauthornamespoof) return;
                         VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName = ConfigVars.Customanmespoof;
                     });                

@@ -146,6 +146,7 @@ namespace Nocturnal.Settings.wrappers
                 AudioType.MPEG);
             audioc.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             auds.clip = audioc;
+            www.Dispose();
         }
 
         internal static bool IsFriend(this VRC.Player player) => APIUser.CurrentUser.friendIDs.Contains(player.field_Private_APIUser_0.id);

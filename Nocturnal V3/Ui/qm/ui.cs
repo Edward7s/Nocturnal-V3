@@ -22,7 +22,7 @@ namespace Nocturnal.Ui.qm
         {
             var uipg = submenu.Create("UI",Main._mainpage);
             new Submenubutton(Main._mainpage.Getmenu(), "UI", uipg, Settings.Download_Files.imagehandler.ui, false, 3, 0);
-            Apis.Slider.slider(extensions.Getmenu(uipg), value => Settings.ConfigVars.espwidth = value, Settings.ConfigVars.espwidth, () => 
+            new Apis.Slider(extensions.Getmenu(uipg), value => Settings.ConfigVars.espwidth = value, Settings.ConfigVars.espwidth, () => 
             {
                 var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
                 for (int i = 0; i < player.Count; i++)
@@ -37,7 +37,7 @@ namespace Nocturnal.Ui.qm
                 }//_falloff
             }, true,"Esp Width");
 
-            Apis.Slider.slider(extensions.Getmenu(uipg), value => Settings.ConfigVars.falloff = value, Settings.ConfigVars.falloff, () =>
+            new Apis.Slider(extensions.Getmenu(uipg), value => Settings.ConfigVars.falloff = value, Settings.ConfigVars.falloff, () =>
             {
                 var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
                 for (int i = 0; i < player.Count; i++)
@@ -195,12 +195,12 @@ namespace Nocturnal.Ui.qm
             new Submenubutton(Main._mainpage.Getmenu(), "Colors", Colors, Settings.Download_Files.imagehandler.Colors, false, 0, 1);
 
 
-            Apis.Slider.slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.BigImgOpacity = value, Settings.ConfigVars.BigImgOpacity, () =>
+            new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.BigImgOpacity = value, Settings.ConfigVars.BigImgOpacity, () =>
             {
                 GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop/Rain/Rain(Clone)").gameObject.GetComponent<Image>().color = new Color(1, 1, 1, Settings.ConfigVars.BigImgOpacity);
             }, true, "Big Img Opacity");
             
-           Apis.Slider.slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.debuggeropacity = value, Settings.ConfigVars.debuggeropacity, () =>
+           new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.debuggeropacity = value, Settings.ConfigVars.debuggeropacity, () =>
            {
                try
                {
@@ -211,7 +211,7 @@ namespace Nocturnal.Ui.qm
            }, true, "Debbuger Opacity");
 
 
-            Apis.Slider.slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.playelerlistopacity = value, Settings.ConfigVars.playelerlistopacity, () =>
+            new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.playelerlistopacity = value, Settings.ConfigVars.playelerlistopacity, () =>
             {
                 if (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button/Playerlist/Playerlistmask/Playerlistmask(Clone)") != null)
                 {
@@ -230,7 +230,7 @@ namespace Nocturnal.Ui.qm
 
             }, true, "Player List Opacity");
 
-            Apis.Slider.slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.QMopacity = value, Settings.ConfigVars.QMopacity, () =>
+            new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.QMopacity = value, Settings.ConfigVars.QMopacity, () =>
             {
                Objects._qmbackground.transform.Find("_Background").gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, Settings.ConfigVars.QMopacity);
             }, true, "Qm Opacity");
@@ -238,7 +238,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(extensions.Getmenu(Colors), "Big Image", () =>
            {
-               Apis.Inputpopout.Run("Big Image", value => Settings.ConfigVars.BiguiImg = value, () => {
+               new Apis.Inputpopout("Big Image", value => Settings.ConfigVars.BiguiImg = value, () => {
                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                        GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop/Rain/Rain(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.BiguiImg
                        ));
@@ -249,7 +249,7 @@ namespace Nocturnal.Ui.qm
            {
                try
                {
-                   Apis.Inputpopout.Run("Debbuger Image", value => Settings.ConfigVars.QmDebbugerImg = value, () => {
+                   new Apis.Inputpopout("Debbuger Image", value => Settings.ConfigVars.QmDebbugerImg = value, () => {
                        MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                            GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/N_Debbuger/SupportVRChat/SupportVRChat(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.QmDebbugerImg
                            ));
@@ -262,7 +262,7 @@ namespace Nocturnal.Ui.qm
 
              new NButton(extensions.Getmenu(Colors), "Qm Image", () =>
             {
-                Apis.Inputpopout.Run("Qm Image", value => Settings.ConfigVars.QmImg = value, () => {
+                new Apis.Inputpopout("Qm Image", value => Settings.ConfigVars.QmImg = value, () => {
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                        Objects._qmbackground.transform.Find("_Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.QmImg
                         )) ;
@@ -272,7 +272,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(extensions.Getmenu(Colors), "Playerlist Image", () =>
             {
-                Apis.Inputpopout.Run("Player List Image", value => Settings.ConfigVars.PlayerListImg = value, () => {
+                new Apis.Inputpopout("Player List Image", value => Settings.ConfigVars.PlayerListImg = value, () => {
 
                     if (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button/Playerlist/Playerlistmask/Playerlistmask(Clone)") != null)
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
@@ -294,37 +294,49 @@ namespace Nocturnal.Ui.qm
             float a = 0;
 
             _sliderarray = new UnityEngine.UI.Slider[4];
+            GameObject sliderR = null;
+            new Apis.Slider(out sliderR, extensions.Getmenu(Colors), value => r = value, 0, () =>
+           {
+               if (_tochange == null)
+                   return;
+               extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b, a });
+               _btnt.color = new Color(r, g, b, a);
+           }, true, "Red");
+            _sliderarray[0] = sliderR.GetComponent<UnityEngine.UI.Slider>();
 
-            _sliderarray[0] = Apis.Slider.slider(extensions.Getmenu(Colors), value => r = value, 0, () =>
+            GameObject sliderG = null;
+            new Apis.Slider(out sliderG, extensions.Getmenu(Colors), value => g = value, 0, () =>
             {
                 if (_tochange == null)
                     return;
-                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b ,a});
-                _btnt.color = new Color(r, g, b,a);
-            }, true, "Red").GetComponent<UnityEngine.UI.Slider>();
+                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b, a });
+                _btnt.color = new Color(r, g, b, a);
+            }, true, "Green");
+            _sliderarray[1] = sliderG.GetComponent<UnityEngine.UI.Slider>();
 
-            _sliderarray[1]= Apis.Slider.slider(extensions.Getmenu(Colors), value => g = value, 0, () =>
-            {
-                if (_tochange == null)
-                    return;
-                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b ,a});
-                _btnt.color = new Color(r, g, b,a);
-            }, true, "Green").GetComponent<UnityEngine.UI.Slider>();
 
-            _sliderarray[2] = Apis.Slider.slider(extensions.Getmenu(Colors), value => b = value, 0, () =>
+
+            GameObject sliderB = null;
+            new Apis.Slider(out sliderB, extensions.Getmenu(Colors), value => b = value, 0, () =>
             {
                 if (_tochange == null)
                     return;
-                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b,a });
-                _btnt.color = new Color(r, g, b,a);
-            }, true, "Blue").GetComponent<UnityEngine.UI.Slider>();
-            _sliderarray[3] = Apis.Slider.slider(extensions.Getmenu(Colors), value => a = value, 0, () =>
-            {
-                if (_tochange == null)
-                    return;
-                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b ,a});
-                _btnt.color = new Color(r, g, b,a);
-            }, true, "Alpha").GetComponent<UnityEngine.UI.Slider>();
+                extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b, a });
+                _btnt.color = new Color(r, g, b, a);
+            }, true, "Blue");
+            _sliderarray[2] = sliderB.GetComponent<UnityEngine.UI.Slider>();
+
+            GameObject sliderA = null;
+            new Apis.Slider(out sliderA, extensions.Getmenu(Colors), value => a = value, 0, () =>
+           {
+               if (_tochange == null)
+                   return;
+               extensions.setconfigfieldvalue(_tochange, new float[] { r, g, b, a });
+               _btnt.color = new Color(r, g, b, a);
+           }, true, "Alpha");
+            _sliderarray[3] = sliderA.GetComponent<UnityEngine.UI.Slider>();
+
+
 
             GameObject bc;
             new NButton(out bc,extensions.Getmenu(Colors), "Color View(Refresh)", () =>
@@ -367,7 +379,7 @@ namespace Nocturnal.Ui.qm
 
              new NButton(extensions.Getmenu(Colors), "Client Chat Image", () =>
             {
-                Apis.Inputpopout.Run("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
+                new Apis.Inputpopout("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                       GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/_Submenu_Client Chat/Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup/_Button_/Background/Background(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.chatimage
                         ));

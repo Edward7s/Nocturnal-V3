@@ -395,13 +395,11 @@
     <Compile Include="Exploits\Anticrash.cs" />
     <Compile Include="Exploits\Fly.cs" />
     <Compile Include="Exploits\forcelewd.cs" />
-    <Compile Include="Exploits\Item man ager.cs" />
     <Compile Include="Exploits\Itemesp.cs" />
     <Compile Include="Exploits\Mirror.cs" />
     <Compile Include="Exploits\Misc.cs" />
     <Compile Include="Exploits\Orbit.cs" />
     <Compile Include="Exploits\Pickups.cs" />
-    <Compile Include="Exploits\hudinfo.cs" />
     <Compile Include="Exploits\Setiteminhand.cs" />
     <Compile Include="Exploits\Sitonparts.cs" />
     <Compile Include="Exploits\Udon.cs" />

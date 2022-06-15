@@ -101,15 +101,16 @@ namespace Nocturnal.Settings
             var fieldslist = downloadprivatefields.GetFields(BindingFlags.NonPublic | BindingFlags.Static);
             var props = imagemanagerdata.GetType().GetProperties();
             bool needrewrite = false;
-            for (int i = 0; i < props.Length; i++)
+            using (var client = new System.Net.WebClient())
             {
-                if (props[i].GetValue(imagemanagerdata) == null)
+                for (int i = 0; i < props.Length; i++)
                 {
-                    props[i].SetValue(imagemanagerdata, Convert.ToBase64String(webclient.DownloadData(fieldslist.Where(field => field.Name == props[i].Name).FirstOrDefault().GetValue(props).ToString())));
+                    if (props[i].GetValue(imagemanagerdata) != null) continue;
+                    props[i].SetValue(imagemanagerdata, Convert.ToBase64String(client.DownloadData(fieldslist.Where(field => field.Name == props[i].Name).FirstOrDefault().GetValue(props).ToString())));
                     needrewrite = true;
                 }
-
             }
+              
 
             if (needrewrite)
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json", Newtonsoft.Json.JsonConvert.SerializeObject(imagemanagerdata));            
@@ -187,7 +188,7 @@ namespace Nocturnal.Settings
 
         
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
-
+            
             try
             {
                 Assembly asembly = Assembly.Load(bytes);
@@ -208,34 +209,21 @@ namespace Nocturnal.Settings
             try
             {
                 Main2._hwnd = Settings.imports.FindWindow(null, "VRChat");
-
-
                 if (Main2._hwnd == IntPtr.Zero || Main2._hwnd == null)
                 {
                     Main2._hwnd = Process.GetProcessById(Main2._pid).MainWindowHandle;
                 }
-
             }
             catch {
                 NocturnalC.Log("Exception In Finding the VRC Window,Tryng PID","ERROR");
                 Main2._hwnd = Process.GetProcessById(Main2._pid).MainWindowHandle;
             }
-
-
-
-
-
-            
-          
-
-
             Settings.imports.SendMessage(Main2._hwnd, 0x0080, 0, icon.Handle);
             Settings.imports.SendMessage(Main2._hwnd, 0x0080, 1, icon.Handle);
-
             Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 0, icon.Handle);
-           Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 1, icon.Handle);
+            Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 1, icon.Handle);
             Settings.imports.SetWindowText(Main2._hwnd, "Nocturnal[VRChat]");
-
+            webclient.Dispose();
             NocturnalC.Log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
             sttime.Stop();
             

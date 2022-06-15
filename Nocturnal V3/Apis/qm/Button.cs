@@ -2,81 +2,90 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Nocturnal.Ui;
+using Il2CppMicrosoft.Win32;
+
 namespace Nocturnal.Apis.qm
 {
-    internal  class NButton
+    internal class NButton
     {
-        public NButton(out GameObject instance,GameObject path, string name, Action action, bool half = false, string img = null, float X = 628, float Y = 628)
+        private GameObject _ButtonGameObj { get; set; }
+        private Button _ButtonComp { get; set; }
+        private GameObject _ImageGameObj { get; set; }
+        private GameObject _TextGameobj { get; set; }
+        private float _YValue { get; set; }
+        ~NButton()
         {
-            
-            float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
-
-            var button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
-            button.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = name;
-            button.name = "_Button_" + name;
-            var buttoncomp = button.gameObject.GetComponent<Button>();
-            buttoncomp.onClick.RemoveAllListeners();
-            buttoncomp.onClick.AddListener(action);
-            button.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = name;
+            this._ButtonGameObj = null;
+            this._ButtonComp = null;
+            this._TextGameobj = null;
+            this._ImageGameObj = null;
+        }
+      
+        public NButton(out GameObject instance, GameObject path, string name, Action action, bool half = false, string img = null, float X = 628, float Y = 628)
+        {
+            _YValue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
+            _ButtonGameObj = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
+            _ButtonGameObj.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = name;
+            _ButtonGameObj.name = "_Button_" + name;
+            _ButtonComp = _ButtonGameObj.gameObject.GetComponent<Button>();
+            _ButtonComp.onClick.RemoveAllListeners();
+            _ButtonComp.onClick.AddListener(action);
+            _ButtonGameObj.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = name;
             if (X != 628 && Y != 628)
-                button.transform.localPosition = new Vector3(-350 + X * 240, yvalue);
-            
+                _ButtonGameObj.transform.localPosition = new Vector3(-350 + X * 240, _YValue);
             if (img != null)
             {
-                GameObject Image = button.transform.Find("Icon").gameObject;
-                Component.DestroyImmediate(Image.GetComponent<VRC.UI.Core.Styles.StyleElement>());
-                Image.Loadfrombytes(img);
-                Image.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+                _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
+                Component.DestroyImmediate(_ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+                _ImageGameObj.Loadfrombytes(img);
+                _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
-            instance = button;
+            instance = _ButtonGameObj;
             if (!half)
                 return;
-
-            button.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
-            var ico = button.transform.Find("Icon").gameObject;
-            ico.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-            ico.transform.localPosition = new Vector3(-75.5186f, 18.8227f, 0);
-            var text = button.transform.Find("Text_H4").gameObject;
-            text.transform.localScale = new Vector3(0.9f, 0.9f, 1);
-            text.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
-
-
+            _ButtonGameObj.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
+            _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
+            _ImageGameObj.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+            _ImageGameObj.transform.localPosition = new Vector3(-75.5186f, 18.8227f, 0);
+            _TextGameobj = _ButtonGameObj.transform.Find("Text_H4").gameObject;
+            _TextGameobj.transform.localScale = new Vector3(0.9f, 0.9f, 1);
+            _TextGameobj.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
         }
-
-
-
         public NButton(GameObject path, string name, Action action, bool half = false, string img = null, float X = 628, float Y = 628)
         {
-            float yvalue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
-            GameObject button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
-            button.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = name;
-            button.name = "_Button_" + name;
-            var buttoncomp = button.GetComponent<Button>();
-            buttoncomp.onClick.RemoveAllListeners();
-            buttoncomp.onClick.AddListener(action);
-            button.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = name;
+            _YValue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
+            _ButtonGameObj = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
+            _ButtonGameObj.transform.Find("Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = name;
+            _ButtonGameObj.name = "_Button_" + name;
+            _ButtonComp = _ButtonGameObj.GetComponent<Button>();
+            _ButtonComp.onClick.RemoveAllListeners();
+            _ButtonComp.onClick.AddListener(action);
+            _ButtonGameObj.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = name;
             if (X != 628 && Y != 628)
-                button.transform.localPosition = new Vector3(-350 + X * 240, yvalue);
-            
+                _ButtonGameObj.transform.localPosition = new Vector3(-350 + X * 240, _YValue);
             if (img != null)
             {
-                GameObject Image = button.transform.Find("Icon").gameObject;
-                Image.GetComponent<VRC.UI.Core.Styles.StyleElement>();
-                Image.Loadfrombytes(img);
-                Image.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+                _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
+                _ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>();
+                _ImageGameObj.Loadfrombytes(img);
+                _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
             if (!half)
                 return;
+            _ButtonGameObj.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
+            _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
+            _ImageGameObj.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+            _ImageGameObj.transform.localPosition = new Vector3(-75.5186f, 18.8227f, 0);
+            _TextGameobj = _ButtonGameObj.transform.Find("Text_H4").gameObject;
+            _TextGameobj.transform.localScale = new Vector3(0.9f, 0.9f, 1);
+            _TextGameobj.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
 
-            button.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
-            var ico = button.transform.Find("Icon").gameObject;
-            ico.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-            ico.transform.localPosition = new Vector3(-75.5186f, 18.8227f, 0);
-            var text = button.transform.Find("Text_H4").gameObject;
-            text.transform.localScale = new Vector3(0.9f, 0.9f, 1);
-            text.transform.localPosition = new Vector3(18.58f, -21.0801f, 0);
         }
-
        
+          
+        
     }
+
+
+
 }

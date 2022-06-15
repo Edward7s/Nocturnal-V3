@@ -7,8 +7,10 @@ namespace Nocturnal.Apis.qm
 {
     public class Page
     {
+        internal static string MenuName { get; set; }
         public Page(string menuname,string image = null)
         {
+          MenuName = "Menu_" + menuname;
           GameObject instanciated = GameObject.Instantiate(Objects._Page, Objects._Page.transform.parent);
           instanciated.name = $"_Page_{menuname}";
           instanciated.transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -17,12 +19,12 @@ namespace Nocturnal.Apis.qm
           instanciated.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = menuname;
           VRC.UI.Elements.Controls.MenuTab tab = instanciated.GetComponent<VRC.UI.Elements.Controls.MenuTab>();
           GameObject newmenu = GameObject.Instantiate(Objects._Submenu, Objects._Submenu.transform.parent);
-          newmenu.name = "Menu_Nocturanl";
+            newmenu.name = MenuName;
            var devtools = newmenu.GetComponent<VRC.UI.Elements.Menus.DevMenu>();
-          devtools.field_Public_String_0 = "QuickMenuNocturnal";
+          devtools.field_Public_String_0 = "QuickMenu" + menuname;
           instanciated.gameObject.SetActive(true);
-          tab.field_Public_String_0 = "QuickMenuNocturnal";
-          tab.field_Private_MenuStateController_0.field_Private_Dictionary_2_String_UIPage_0.Add("QuickMenuNocturnal", newmenu.GetComponent<VRC.UI.Elements.Menus.DevMenu>());
+          tab.field_Public_String_0 = "QuickMenu" + menuname;
+            tab.field_Private_MenuStateController_0.field_Private_Dictionary_2_String_UIPage_0.Add("QuickMenu" + menuname, newmenu.GetComponent<VRC.UI.Elements.Menus.DevMenu>());
           var newlist = tab.field_Private_MenuStateController_0.field_Public_ArrayOf_UIPage_0.ToList();
           newlist.Add(devtools);
           tab.field_Private_MenuStateController_0.field_Public_ArrayOf_UIPage_0 = newlist.ToArray();

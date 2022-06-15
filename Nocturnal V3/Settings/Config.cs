@@ -97,6 +97,8 @@ namespace Nocturnal.Settings
         public bool? joinnotif { get; set; }
        public bool? HwidSpoof { get; set; }
         public string? SpoofedHWID { get; set; }
+        public bool? ItemThrowBoost { get; set; }
+        public float? ItemThrowBoostValue { get; set; }
 
     }
     internal class ConfigVars
@@ -204,7 +206,10 @@ namespace Nocturnal.Settings
         public static string Customanmespoof = "Edward7";
         public static bool onlywauthornamespoof = true;
         public static bool joinnotif = true;
-       public static bool HwidSpoof = false;
+        public static bool HwidSpoof = false;
         public static string SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3");
+        public static bool ItemThrowBoost = false;
+        public static float ItemThrowBoostValue = 7f;
+        
     }
 }

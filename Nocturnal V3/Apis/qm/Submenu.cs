@@ -17,7 +17,7 @@ namespace Nocturnal.Apis.qm
             GameObject gam = new GameObject();
             gam.AddComponent<CanvasGroup>();
             gam.name = $"_Submenu_{text}";
-            gam.transform.parent = Objects._Submenu.transform.parent.transform.Find("Menu_Nocturanl").transform;
+            gam.transform.parent = Objects._Submenu.transform.parent.transform.Find(Page.MenuName).transform;
             gam.SetActive(false);
             var mask = new GameObject();
             mask.transform.parent = gam.transform;

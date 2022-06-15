@@ -16,8 +16,6 @@ namespace Nocturnal.Ui
             var socialv = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View");
             var scrollbarsocial = Custom_ScrollBar.Scroll(socialv.gameObject, -78, 0.4f, 1.1f, 0.95f);
             socialv.GetComponent<ScrollRect>().verticalScrollbar = scrollbarsocial;
-
-
             var pannelvolumes = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/VolumePanel").gameObject;
             var volm = pannelvolumes.transform.Find("VolumeMaster").transform;
             volm.localScale = new Vector3(0.8f, 1, 1);
@@ -31,13 +29,14 @@ namespace Nocturnal.Ui
             pannelvolumes.transform.Find("VolumeMaster/SliderLabel").transform.localPosition = new Vector3(136.0805f, 20, -1);
             pannelvolumes.transform.Find("Panel_Header Side").transform.localScale = new Vector3(1,1.5f,  1);
             pannelvolumes.transform.Find("Panel_Header Side").transform.localPosition = new Vector3(-186.8599f, -75f, 1);
-            var sld =  Apis.Slider.slider(pannelvolumes.gameObject, value => Settings.ConfigVars.clientvolume = value, Settings.ConfigVars.clientvolume,()=> 
+            GameObject _Slider = null;
+            new Apis.Slider(out _Slider, pannelvolumes.gameObject, value => Settings.ConfigVars.clientvolume = value, Settings.ConfigVars.clientvolume,()=> 
             {
                 var qmaudio = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject.GetComponent<AudioSource>();
                 qmaudio.volume = Settings.ConfigVars.clientvolume;
                 Ui.Qm_basic._audiosourcenotification.volume = Settings.ConfigVars.clientvolume / 6;
             });
-            sld.transform.localPosition = new Vector3(-50.7518f, -333.4202f, 1);
+            _Slider.transform.localPosition = new Vector3(-50.7518f, -333.4202f, 1);
             var sldtitle = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/VolumePanel/VolumeGameAvatars/Label").gameObject;
             var titleinst = GameObject.Instantiate(sldtitle, sldtitle.transform);
             titleinst.GetComponent<Text>().text = "Client";

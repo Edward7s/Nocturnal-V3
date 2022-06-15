@@ -20,8 +20,8 @@ namespace Nocturnal.Ui.qm
             new Submenubutton(Main._mainpage.Getmenu(), "Client Chat", chatm, Settings.Download_Files.imagehandler.chat, true, 1, 4);
 
             var mess = "";
-            GameObject buttonchat;
-            new NButton(out buttonchat, chatm.Getmenu(), "", () => Apis.Inputpopout.Run("Send Message", m => mess = m, () =>
+            GameObject buttonchat = null;
+            new NButton(out buttonchat, chatm.Getmenu(), "", () => new Inputpopout("Send Message", m => mess = m, () =>
             {
 
                 if (mess.Length > 100) { NocturnalC.Log("The message its to big", "ERROR", ConsoleColor.Red); return; }
