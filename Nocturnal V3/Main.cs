@@ -192,13 +192,16 @@ namespace Nocturnal
 
             NocturnalC.Log("Clearing Unity Cache", "Unityengine");
             UnityEngine.Caching.CleanCache();
-            
-            var vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
-            
-            var files = Directory.GetFiles(vrcpath + "\\Cache-WindowsPlayer");
+            try
+            {
+                string vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
+                System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
+
+            }
+            catch { }
+    
           
 
-            System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
 
         }
 
@@ -262,7 +265,6 @@ namespace Nocturnal
 
             while(GameObject.FindObjectOfType<VRC.UI.Elements.MenuStateController>() == null)
                 yield return new WaitForEndOfFrame();
-            new Apis.qm.Page("Nocturnal Menu",Settings.Download_Files.imagehandler.logo);
             Nocturnal.Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
 

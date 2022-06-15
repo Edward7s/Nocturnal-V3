@@ -31,9 +31,10 @@ namespace Nocturnal.Ui.qm
      
         internal static void Createmenu()
         {
+            new Page("Nocturnal Menu", Settings.Download_Files.imagehandler.logo);
             _mainpage = submenu.Create("Nocturnal", null,true);
             var Main = submenu.Create("Main", _mainpage);
-            _mainpage.gameObject.SetActive(true);
+            _mainpage.SetActive(true);
             Anticrash.runanti(); 
             Toggles.Runantoggles();
             Ui.runui(); 

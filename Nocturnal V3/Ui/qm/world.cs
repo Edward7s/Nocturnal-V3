@@ -31,7 +31,7 @@ namespace Nocturnal.Ui.qm
                     });                
             }, true, null, 2, 6);
             new NToggle("Only Author Name Spoof", worldmenu.Getmenu(), () => ConfigVars.onlywauthornamespoof = true, () => ConfigVars.onlywauthornamespoof = false, ConfigVars.onlywauthornamespoof);
-            new NToggle("Udon Name Spoof", worldmenu.Getmenu(), () => ConfigVars.UdonNameSpoof = true, () => ConfigVars.UdonNameSpoof = false, ConfigVars.UdonNameSpoof);
+            new NToggle("Udon Name Spoof", worldmenu.Getmenu(), () => Hooks.udonnamespoof = true, () => Hooks.udonnamespoof = false);
 
             var Murderexploits  = submenu.Create("Warrning u will probably crash", worldmenu);
             new Submenubutton(worldmenu.Getmenu(), "Murder", Murderexploits, null);

@@ -18,7 +18,7 @@ namespace Nocturnal.Apis.qm
             var instanciated = GameObject.Instantiate(Objects._TogglePrebab, menu.transform).gameObject;
             Component.DestroyImmediate(instanciated.GetComponent<VRC.DataModel.Core.BindingComponent>());
             instanciated.name = $"Toggle_{text}";
-            var toggle = instanciated.GetComponent<UnityEngine.UI.Toggle>();
+            var toggle = instanciated.GetComponent<Toggle>();
             toggle.onValueChanged.RemoveAllListeners();
             toggle.onValueChanged.AddListener((UnityEngine.Events.UnityAction<bool>)Gettoggle);
             var iconoff = instanciated.transform.Find("Icon_Off");
@@ -44,8 +44,8 @@ namespace Nocturnal.Apis.qm
             }
             void Gettoggle(bool value)
             {
-                var iconoff = instanciated.transform.Find("Icon_Off");
-                var iconon = instanciated.transform.Find("Icon_On");
+                Transform iconoff = instanciated.transform.Find("Icon_Off");
+                Transform iconon = instanciated.transform.Find("Icon_On");
                 if (value)
                 {
                     iconon.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
@@ -65,10 +65,8 @@ namespace Nocturnal.Apis.qm
             if (X != 628 && Y != 628)
                 instanciated.transform.localPosition = new Vector3(-350 + X * 240, yvalue);
             
-
             if (!half)
                 return;
-
             instanciated.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -90);
             iconoff.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             iconoff.transform.localPosition = new Vector3(-77, -0.7f, 0);

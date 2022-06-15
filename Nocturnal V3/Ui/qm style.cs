@@ -249,8 +249,9 @@ namespace Nocturnal.Ui
             Borrder.transform.localPosition = Vector3.zero;
 
 
-            Borrder.GetComponent<Image>().color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
+            Borrder.GetComponent<Image>().color = new Color(1, 1, 1, Settings.ConfigVars.playelerlistopacity);
             MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(playerlistbackground.gameObject.GetComponent<Image>(), Settings.ConfigVars.PlayerListImg));
+            playerlistbackground.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, Settings.ConfigVars.playelerlistopacity);
             playerlistmask.AddComponent<Mask>().showMaskGraphic = false;
             Borrder.gameObject.GetComponent<Image>().raycastTarget = false;
 

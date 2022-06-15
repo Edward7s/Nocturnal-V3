@@ -11,18 +11,14 @@ namespace Nocturnal.Apis.qm
             GameObject geng = new GameObject("BTN_" + id);
             geng.transform.parent = path;
             geng.transform.localScale = new Vector3(8.7f, 0.7f, 1);
-
             geng.transform.localPosition = Vector3.zero;
             geng.transform.localEulerAngles = Vector3.zero;
             GameObject img = GameObject.Instantiate(geng, geng.transform).gameObject;
             GameObject textg = GameObject.Instantiate(img, img.transform).gameObject;
-
             img.transform.localPosition = new Vector3(-1.6f, 0, 0);
             img.transform.localScale = new Vector3(0.93f, 0.7f, 1);
-            //  img.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(90, 70);
             img.gameObject.AddComponent<UnityEngine.UI.Image>().color = new Color(0, 0, 0, 0.5f);
             Button buttoncomp = geng.AddComponent<Button>();
-            //  geng.AddComponent<UnityEngine.UI.Image>();
             geng.AddComponent<Button>();
             geng.AddComponent<LayoutElement>();
             var textcomp = textg.AddComponent<TMPro.TextMeshProUGUI>();

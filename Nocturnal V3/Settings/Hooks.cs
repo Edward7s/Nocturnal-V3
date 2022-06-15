@@ -23,6 +23,8 @@ namespace Nocturnal.Settings
         internal static int fakelagnumb = 0;
         internal static int fakevcnumb = 0;
         internal static bool fakelag = false;
+        internal static bool udonnamespoof = false;
+
         internal static Camera cameraeye; 
 
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
@@ -288,7 +290,7 @@ namespace Nocturnal.Settings
         {
 
 
-            if (!ConfigVars.UdonNameSpoof)
+            if (!udonnamespoof)
                 return _dispalyname(_instance, name, _nativeMethodInfoPtr);
             try
             {

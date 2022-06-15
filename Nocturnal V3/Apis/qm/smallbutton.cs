@@ -9,9 +9,6 @@ namespace Nocturnal.Apis.qm
 {
     internal class SmallButton
     {
-
-
-
         public SmallButton(out GameObject instance,GameObject path, Action action, string img = null)
         {
             var button = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
@@ -22,14 +19,15 @@ namespace Nocturnal.Apis.qm
             buttoncomp.onClick.AddListener(action);
             button.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().enabled = false;
             button.transform.Find("Background").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(-98, -76);
-            button.transform.Find("Icon").transform.localScale = new Vector3(0.9f, 0.9f, 1);
-            button.transform.Find("Icon").transform.localPosition = new Vector3(0, 35, 0);
+            Transform Icon = button.transform.Find("Icon");
+            Icon.localScale = new Vector3(0.9f, 0.9f, 1);
+            Icon.localPosition = new Vector3(0, 35, 0);
             instance = button;
             if (img != null)
             {
                 Component.DestroyImmediate(button.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
-                button.transform.Find("Icon").gameObject.Loadfrombytes(img);
-                button.transform.Find("Icon").gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+                Icon.gameObject.Loadfrombytes(img);
+                Icon.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
         }
 

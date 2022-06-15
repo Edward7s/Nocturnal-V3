@@ -38,60 +38,44 @@ namespace Nocturnal.Apis.qm
             gam.transform.localScale = Vector3.one;
             gam.transform.rotation = new Quaternion(0, 0, 0, 0);
             gam.transform.localPosition = new Vector3(0, 512, 0);
-            var childs = instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").GetComponentsInChildren<LayoutElement>(true);
-            for (int i = 0; i < childs.Length; i++)
-                GameObject.DestroyImmediate(childs[i].gameObject);
-            
-
-            instanciated.transform.Find("Viewport/VerticalLayoutGroup").gameObject.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().childControlHeight = true;
-            Component.DestroyImmediate(instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").gameObject.GetComponent<GridLayoutGroup>());
-            instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").gameObject.AddComponent<GridLayoutGroup>().cellSize = new Vector2(1100, 150);
-            instanciated.transform.Find("Viewport/VerticalLayoutGroup/Buttons").gameObject.SetActive(false);
+            GameObject LayoutGrop = instanciated.transform.Find("Viewport/VerticalLayoutGroup").gameObject;
+            GameObject.DestroyImmediate(LayoutGrop.transform.Find("Buttons").gameObject);
             submenuslist.Add(gam.gameObject);
 
             if (indexer != null)
             {
-
                 var buttoni = instanciateds.transform.Find("LeftItemContainer/Button_Back").gameObject.GetComponent<UnityEngine.UI.Button>();
 
                 buttoni.gameObject.SetActive(true);
 
                 buttoni.onClick.RemoveAllListeners();
-
                 buttoni.onClick.AddListener(new Action(() =>
                 {
-
-                    for (int i = 0; i < submenuslist.Count; i++)
-                    {
-                        if (submenuslist[i] != indexer.gameObject)
-                            submenuslist[i].SetActive(false);
-                        else
-                        {
-                            Page.lastmen = submenuslist[i];
-                            submenuslist[i].SetActive(true);
-                        }
-                    }
+                    GameObject[] submenus = submenuslist.Where(x => x != indexer).ToArray();
+                    for (int i = 0; i < submenus.Length; i++)
+                        submenus[i].SetActive(false);
+                    indexer.SetActive(true);
                 }));
             }
             if (selfaling == true)
             {
-                Component.DestroyImmediate(gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.GetComponent<ScrollRect>());
-                Component.DestroyImmediate(gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject.GetComponent<VerticalLayoutGroup>());
+                Component.DestroyImmediate(instanciated.GetComponent<ScrollRect>());
+                Component.DestroyImmediate(LayoutGrop.GetComponent<VerticalLayoutGroup>());
                 return gam;
             }
-            Component.DestroyImmediate(gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject.GetComponent<VerticalLayoutGroup>());
-            var grid = gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject.AddComponent<GridLayoutGroup>();
+            Component.DestroyImmediate(LayoutGrop.GetComponent<VerticalLayoutGroup>());
+            var grid = LayoutGrop.AddComponent<GridLayoutGroup>();
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.cellSize = new Vector2(200, 175);
             grid.spacing = new Vector2(30, 30);
             grid.constraintCount = 4;
-            gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup/Spacer_8pt").gameObject.SetActive(false);
-            Component.DestroyImmediate(gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.GetComponent<ScrollRect>());
-            gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.AddComponent<ScrollRect>();
+            GameObject.Destroy(LayoutGrop.transform.Find("Spacer_8pt").gameObject);
+            Component.DestroyImmediate(instanciated.GetComponent<ScrollRect>());
+            instanciated.AddComponent<ScrollRect>();
             var scrollbar =  bigui.Custom_ScrollBar.Scroll(gam.transform.Find("Masked").gameObject, 4.6f, 0.0f, 0.1f, 0.98f);
-            gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.GetComponent<ScrollRect>().verticalScrollbar = scrollbar;
-            gam.transform.Find("Masked/Scrollrect(Clone)").gameObject.GetComponent<ScrollRect>().content = gam.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject.GetComponent<RectTransform>();
-            gam.transform.Find("Masked/Scrollrect(Clone)").transform.localPosition = new Vector3(-38, 42.06f, 0);
+            instanciated.GetComponent<ScrollRect>().verticalScrollbar = scrollbar;
+            instanciated.GetComponent<ScrollRect>().content = LayoutGrop.gameObject.GetComponent<RectTransform>();
+            instanciated.transform.localPosition = new Vector3(-38, 42.06f, 0);
             return gam;
         }
     }
