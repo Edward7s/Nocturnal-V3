@@ -106,10 +106,10 @@ namespace Nocturnal
             melonpluginslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
             NocturnalC.Log("Loaded Plugins:", "Assembly's", ConsoleColor.DarkRed);
             Console.WriteLine();
-            logasembl(melonpluginslist);
+            LogAsembleis(melonpluginslist);
             NocturnalC.Log("Loaded Mods:", "Assembly's", ConsoleColor.DarkRed);
             Console.WriteLine();
-            logasembl(melonmodslist);
+            LogAsembleis(melonmodslist);
             _mainthread = Thread.CurrentThread;
             AppDomain currentDomain = AppDomain.CurrentDomain;
             Assembly[] assems = currentDomain.GetAssemblies();
@@ -144,7 +144,7 @@ namespace Nocturnal
             Settings.Download_Files.DownloadHanler();
             Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
             Settings.LoadConfig.load();
-            injectories();
+            Injectories();
             MelonCoroutines.Start(waitforuser());
             MelonCoroutines.Start(waitforui());
             Settings.Hooks.StartHooks();
@@ -179,28 +179,28 @@ namespace Nocturnal
             var images = Resources.FindObjectsOfTypeAll<ImageThreeSlice>().ToArray();
             for (int i = 0; i < images.Length; i++)
                 images[i].raycastTarget = false;
-            Nocturnal.Ui.LoadingScreen.runti();
+            Ui.LoadingScreen.runti();
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
                 yield return new WaitForEndOfFrame();
             NocturnalC.Log("Founded QuickMenu");
             Ui.Bundles.Loadshader();
             Ui.Bundles.Loadingscreen();
-            Nocturnal.Ui.Objects.Collectobjs();
-            Nocturnal.Ui.Qm_basic.Setupstuff();
-            Nocturnal.Ui.Inject_monos.Inject();
-            Nocturnal.Ui.buttons_b.Runbuttons();
+            Ui.Objects.Collectobjs();
+            Ui.Qm_basic.Setupstuff();
+            Ui.Inject_monos.Inject();
+            Ui.buttons_b.Runbuttons();
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
                 yield return new WaitForEndOfFrame();
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(880, 712, 0.5f);
             while (GameObject.FindObjectOfType<VRC.UI.Elements.MenuStateController>() == null)
                 yield return new WaitForEndOfFrame();
             NocturnalC.Log("Initializing Custom Menu");
-            Nocturnal.Ui.qm.Main.Createmenu();
+            Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
             yield break;
            
         }
-        private protected static void injectories()
+        private protected static void Injectories()
         {
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.UpdateManager>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Pagemanager>();
@@ -211,8 +211,9 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Fly>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Svastica>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemMover>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.TagAnimation>();
         }
-        private protected static void logasembl(List<MelonBase> melontblList)
+        private protected static void LogAsembleis(List<MelonBase> melontblList)
         {
             if (melontblList.Count == 0)
             {

@@ -44,6 +44,7 @@ namespace Nocturnal.Settings
         private static string tag = "https://nocturnal-client.xyz/Resources/Tagas.png";
         private static string Discord = "https://nocturnal-client.xyz/Resources/Discord.png";
         private static string micmenu = "https://nocturnal-client.xyz/Resources/mic%20icon.png";
+        private static string PremiumIcon = "https://nocturnal-client.xyz/Resources/Gold%20Tags.png";
 
 
         internal static string musicpath = null;
@@ -59,16 +60,9 @@ namespace Nocturnal.Settings
         internal static jsonmanager.downloadhandler imagehandler;
         internal static void DownloadHanler()
         {
-
             var sttime = Stopwatch.StartNew();
             NocturnalC.Log("Starting DownloadHander");
             var webclient = new System.Net.WebClient();
-
-
-
-
-
-
             Rain = webclient.DownloadData("https://nocturnal-client.xyz/Resources/rain2");
             loadingscreen = webclient.DownloadData("https://nocturnal-client.xyz/Resources/loading");
             shaderesp = webclient.DownloadData("https://nocturnal-client.xyz/Resources/outline");

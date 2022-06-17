@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Reflection;
 using System.Collections;
 using UnityEngine.Networking;
 using VRC.Core;
 using VRC;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
 using Photon.Pun;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Net;
 
 namespace Nocturnal.Settings.wrappers
 {
@@ -40,7 +36,7 @@ namespace Nocturnal.Settings.wrappers
                 return newplate;
 
             var icon = newplate.transform.Find("PrefabPlate/Icon").gameObject;
-            Apis.Change_Image.Loadfrombytes(icon, img);
+            Apis.Change_Image.Loadfrombytes(icon, img,true,Color.white);
             icon.gameObject.SetActive(true);
             return newplate;
         }
@@ -182,7 +178,20 @@ namespace Nocturnal.Settings.wrappers
             yield return null;
         }
 
+        private static HttpWebRequest _Req { get; set; }
+        internal static string SendGetRequest(string url,Dictionary<string,string> hearstoadd)
+        {
+            _Req = (HttpWebRequest)WebRequest.Create(url);
+            for (int i = 0; i < hearstoadd.Count; i++)
+            {
+                var Curent = hearstoadd.ElementAt(i);
+                _Req.Headers.Add(Curent.Key,Curent.Value);
+            }
+            _Req.AutomaticDecompression = DecompressionMethods.GZip;
+            using (var res = (HttpWebResponse)_Req.GetResponse())
+            using (var stream = res.GetResponseStream())
+            using (var Reader = new StreamReader(stream))
+               return(Reader.ReadToEnd());
+        }
     }
-
-
 }

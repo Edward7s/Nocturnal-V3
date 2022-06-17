@@ -102,11 +102,9 @@ namespace Nocturnal.server
             switch (true)
             {
 
-                case true when code == "2":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message));
-                    break;
+    
                 case true when code == "5":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.imagehandler.logo));
+                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.imagehandler.logo));                
                     break;
                 case true when code == "86":
                     var desz3 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);

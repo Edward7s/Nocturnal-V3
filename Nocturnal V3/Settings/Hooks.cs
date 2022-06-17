@@ -5,7 +5,9 @@ using Nocturnal.Settings.wrappers;
 using Photon.Realtime;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using UnhollowerBaseLib;
@@ -514,16 +516,26 @@ namespace Nocturnal.Settings
             return _Worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
         }
 
+        private static string _Userid { get; set; }
+        private static APIUser _Apiuser { get; set; }
+        private static VRC.Player _VRCPlayer { get; set; }
+
+        private static jsonmanager.user _UserPlates { get; set; }
+
+        private static string Tags { get; set; }
+        private static string Tags2 { get; set; }
+        private static GameObject AnimatedTag { get; set; }
+
         private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
 
-            VRC.Player vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
-            string userid = vrcplayer.field_Private_APIUser_0.id;
-            APIUser apiuser = vrcplayer.field_Private_APIUser_0;
+            _VRCPlayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+            _Userid = _VRCPlayer.field_Private_APIUser_0.id;
+            _Apiuser = _VRCPlayer.field_Private_APIUser_0;
             var senduser = new Settings.jsonmanager.custommsg()
             {
                 code = "2",
-                msg = userid,
+                msg = _Userid,
             };
             try
             {
@@ -531,14 +543,14 @@ namespace Nocturnal.Settings
 
             }
             catch { }
-            if (userid != APIUser.CurrentUser.id)
-                vrcplayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
+            if (_Userid != APIUser.CurrentUser.id)
+                _VRCPlayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
             string rank = "";
             var color = UnityEngine.Color.white;
-            var username = apiuser.displayName;
-            Settings.wrappers.Ranks.gettrsutrank(apiuser, ref rank, ref color);
+            var username = _Apiuser.displayName;
+            Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref rank, ref color);
             Settings.wrappers.Ranks.convertotcolorank(ref rank, ref username);
-            if (apiuser.IsOnMobile)
+            if (_Apiuser.IsOnMobile)
             {
                 Style.Debbuger.Debugermsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
                    Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
@@ -549,13 +561,13 @@ namespace Nocturnal.Settings
                     Apis.Onscreenui.showmsg($"[{username}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
             }
 
-            vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
+            _VRCPlayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
             if (Settings.ConfigVars.joinnotif)
             {
                 Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
                 var text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
                 text.color = color;
-                text.text = apiuser.displayName;
+                text.text = _Apiuser.displayName;
                 Ui.Bundles.joinot.SetActive(false);
                 Ui.Bundles.joinot.SetActive(true);
             }
@@ -564,32 +576,67 @@ namespace Nocturnal.Settings
 
             if (ConfigVars.onlyfriendjoin)
             {
-                if (vrcplayer.IsFriend())
+                if (_VRCPlayer.IsFriend())
                     Ui.Qm_basic._audiosourcenotification.Play();
 
             }
             else if (ConfigVars.joinsound)
                 Ui.Qm_basic._audiosourcenotification.Play();
 
-            if (ConfigVars.hidequests && apiuser.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
+            if (ConfigVars.hidequests && _Apiuser.last_platform != "standalonewindows" && !_VRCPlayer.IsFriend())
             {
-                vrcplayer.gameObject.SetActive(false);
+                _VRCPlayer.gameObject.SetActive(false);
                 Style.Debbuger.Debugermsg($"<color=#610000>[{username} Quest Hidden");
             }
-            if (apiuser.hasModerationPowers || apiuser.hasSuperPowers)
+            if (_Apiuser.hasModerationPowers || _Apiuser.hasSuperPowers)
             {
                 Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {username}");
                 Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {username}");
             }
             try
             {
-                string vr = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
-                string platform = apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
-                string friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", userid, vrcplayer);
+                string vr = _VRCPlayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
+                string platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
+                string friends = _VRCPlayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
+                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{friends}[{platform}] [{vr}] [{username}]", _Userid, _VRCPlayer);
             }
             catch { }
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{RoomManager.field_Internal_Static_ApiWorld_0.capacity}";
+
+
+            try
+            {
+                var Dictionary = new Dictionary<string, string>();
+                Dictionary.Add("x-userid", _Userid);
+                Tags = wrappers.extensions.SendGetRequest("https://napi.nocturnal-client.xyz/PremiumTags", Dictionary);
+                if (Tags != "None")
+                {
+                    _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags);
+                    for (int i = 0; i < _UserPlates.tags.Length; i++)
+                    {
+                        if (_UserPlates.tags[i].StartsWith("#animatedtag#"))
+                        {
+                            AnimatedTag = _VRCPlayer.GeneratePlate(_UserPlates.tags[i].Replace("#animatedtag#",""), Settings.Download_Files.imagehandler.PremiumIcon);
+                            AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlates.tags[i].Replace("#animatedtag#", "");
+                            continue;
+                        }
+                        _VRCPlayer.GeneratePlate(_UserPlates.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
+                    }
+                }
+
+                Tags2 = wrappers.extensions.SendGetRequest("https://napi.nocturnal-client.xyz/CustomTags", Dictionary);
+                if (Tags2 != "None")
+                {
+                    _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags2);
+                    for (int i = 0; i < _UserPlates.tags.Length; i++)
+                        _VRCPlayer.GeneratePlate(_UserPlates.tags[i]);
+                }
+
+
+            }
+            catch { }
+
+
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
