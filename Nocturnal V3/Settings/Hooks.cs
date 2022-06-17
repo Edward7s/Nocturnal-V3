@@ -24,6 +24,9 @@ namespace Nocturnal.Settings
         internal static int fakevcnumb = 0;
         internal static bool fakelag = false;
         internal static bool udonnamespoof = false;
+        internal static bool PickupMover = false;
+
+        internal static GameObject _Pickup { get; set; }
 
         internal static Camera cameraeye; 
 
@@ -68,6 +71,11 @@ namespace Nocturnal.Settings
         private delegate IntPtr hwid(IntPtr _instance, IntPtr _nativeMethodInfoPtr);
 
         private static hwid _hwid;
+
+        private delegate IntPtr PickupObject(IntPtr _instance, VRC_Trigger.TriggerType rigidbody ,IntPtr _nativeMethodInfoPtr);
+
+        private static PickupObject _PickupObject;
+
 
         private static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
@@ -148,7 +156,6 @@ namespace Nocturnal.Settings
                 }
             }
 
-
             MethodInfo[] methods = typeof(VRCPlayer).GetMethods().Where(mt => mt.Name.StartsWith("Method_Private_Void_GameObject_VRC_AvatarDescriptor_Boolean_PDM_")).ToArray();
             for (int i = 0; i < methods.Length; i++)
             {
@@ -166,14 +173,6 @@ namespace Nocturnal.Settings
                 }
             }
 
-
-
-
-            /* MethodInfo consolecolor = typeof(System.Console).GetProperty("ForegroundColor").GetSetMethod();
-             var methodd = *(IntPtr*)consolecolor.MethodHandle.GetFunctionPointer();
-             _consolecolor = Hook<consolecolor>(methodd, typeof(Hooks).GetMethod(nameof(consolecolorm), BindingFlags.Static | BindingFlags.NonPublic));*/
-            // Console.ForegroundColor = ConsoleColor.Green;
-
              MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
@@ -189,105 +188,59 @@ namespace Nocturnal.Settings
             MethodInfo apiuserpage = typeof(VRC.UI.PageUserInfo).GetMethod(nameof(VRC.UI.PageUserInfo.Method_Private_Void_APIUser_0), BindingFlags.Public | BindingFlags.Instance);
             _apiuserpage = Hook<apiuserpage>(apiuserpage, typeof(Hooks).GetMethod(nameof(onpageapiuser), BindingFlags.Static | BindingFlags.NonPublic));
 
-
+            MethodInfo Handgasper = typeof(VRCHandGrasper).GetMethod(nameof(VRCHandGrasper.Method_Private_Void_TriggerType_0));
+            _PickupObject = Hook<PickupObject>(Handgasper, typeof(Hooks).GetMethod(nameof(PickupsM), BindingFlags.Static | BindingFlags.NonPublic));
 
             try
             {
-
-            MethodInfo displaymethod = typeof(APIUser).GetProperty(nameof(APIUser.displayName)).SetMethod;
-            _dispalyname = Hook<dispalyname>(displaymethod, typeof(Hooks).GetMethod(nameof(DisplayNameM), BindingFlags.Static | BindingFlags.NonPublic));
-
+                MethodInfo displaymethod = typeof(APIUser).GetProperty(nameof(APIUser.displayName)).SetMethod;
+                _dispalyname = Hook<dispalyname>(displaymethod, typeof(Hooks).GetMethod(nameof(DisplayNameM), BindingFlags.Static | BindingFlags.NonPublic));
             }
-            catch (Exception ex) { NocturnalC.Log(ex, "HOOKS ERROR",ConsoleColor.Red); }
-         
-
-
-            //    MethodInfo platfrommethodinfo = typeof(APIUser).GetProperty(nameof(APIUser.location)).SetMethod;
-            //   _Platform = Hook<Platform>(platfrommethodinfo, typeof(Hooks).GetMethod(nameof(PlatformM), BindingFlags.Static | BindingFlags.NonPublic));
-
-
-
-
-
+            catch (Exception ex) { NocturnalC.Log(ex, "HOOKS ERROR", ConsoleColor.Red); }
 
             Console.WriteLine();
 
-           if (ConfigVars.HwidSpoof)
-              {
+            if (ConfigVars.HwidSpoof)
+            {
                 hwidspoofed = ((Il2CppSystem.String)ConfigVars.SpoofedHWID).Pointer;
-                  NocturnalC.Log("Current Hwid: " + SystemInfo.deviceUniqueIdentifier, "Hooks", ConsoleColor.Red);
-                  NocturnalC.Log("Spofed Hwid: " + new Il2CppSystem.String(hwidspoofed), "Hooks", ConsoleColor.Green);
-                  _hwid = Hook<hwid>(IL2CPP.il2cpp_resolve_icall("UnityEngine.SystemInfo::GetDeviceUniqueIdentifier"), typeof(Hooks).GetMethod(nameof(Spoofer), BindingFlags.Static | BindingFlags.NonPublic));
-                  NocturnalC.Log("If U Want To Change the HWID u have 2 buttons, one in QM and one In Log in Window","Hooks",ConsoleColor.Green);
-              }
-              else
-                  NocturnalC.Log("WARRNING: HWID Spoof Is OFF If u use other mods to spoof I recomand it to keep it off if u don't use other mods i recommand to tur it on", "Hooks", ConsoleColor.Yellow);
-         
+                NocturnalC.Log("Current Hwid: " + SystemInfo.deviceUniqueIdentifier, "Hooks", ConsoleColor.Red);
+                NocturnalC.Log("Spofed Hwid: " + new Il2CppSystem.String(hwidspoofed), "Hooks", ConsoleColor.Green);
+                _hwid = Hook<hwid>(IL2CPP.il2cpp_resolve_icall("UnityEngine.SystemInfo::GetDeviceUniqueIdentifier"), typeof(Hooks).GetMethod(nameof(Spoofer), BindingFlags.Static | BindingFlags.NonPublic));
+                NocturnalC.Log("If U Want To Change the HWID u have 2 buttons, one in QM and one In Log in Window", "Hooks", ConsoleColor.Green);
+            }
+            else
+                NocturnalC.Log("WARRNING: HWID Spoof Is OFF If u use other mods to spoof I recomand it to keep it off if u don't use other mods i recommand to tur it on", "Hooks", ConsoleColor.Yellow);
+
             NocturnalC.Log($"Hooks Attached in {hooktimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Hooks", ConsoleColor.Green);
             hooktimer.Stop();
             Console.WriteLine("------------------------------------------------------------------------");
             Console.WriteLine();
 
         }
-
-
-     /*   private static IntPtr PlatformM(IntPtr _instance, IntPtr Location, IntPtr _nativeMethodInfoPtr)
+        private static IntPtr PickupsM(IntPtr _Instance, VRC_Trigger.TriggerType _Rigibody, IntPtr _nativemethodinfo)
         {
 
-            // return _Platform(_instance, ((Il2CppSystem.String)"android").Pointer, _nativeMethodInfoPtr);
-            try
+            if (!PickupMover)
+                return _PickupObject(_Instance, _Rigibody, _nativemethodinfo);
+
+            if (_Rigibody.ToString() == "OnPickup")
             {
-
-              if (APIUser.CurrentUser == null)
-                    return _Platform(_instance, Location, _nativeMethodInfoPtr);
-
-                var usr = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<APIUser>(_instance);
-
-                try
-                {
-                    if (!usr.id.StartsWith("usr_"))
-                        return _Platform(_instance, Location, _nativeMethodInfoPtr);
-                }
-                catch { }
-              
-
-                string _location = (string)new Il2CppSystem.String(Location);
-
-                if (_location == "offline")
-                    return _Platform(_instance, Location, _nativeMethodInfoPtr);
-
-
-
-                NocturnalC.Log($"{usr.displayName}   /    {_location}");
-
-
+                VRCHandGrasper HandGasper = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCHandGrasper>(_Instance);
+                _Pickup = HandGasper.field_Private_Rigidbody_0.gameObject;
+                Ui.Inject_monos._ItemMover.SetActive(true);
+                Ui.Inject_monos._UpdateManager.SetActive(false);
             }
-            catch
-            {
-                try
-                {
-                    var usr = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<APIUser>(_instance);
-                    NocturnalC.Log($"{usr.displayName}");
 
-                }
-                catch (Exception ex) { NocturnalC.Log(ex); }
-                
-                }
-
-            return _Platform(_instance, Location, _nativeMethodInfoPtr);
-        }*/
-
-
+            return _PickupObject(_Instance, _Rigibody, _nativemethodinfo);
+        }
         private static IntPtr Spoofer()
         {
             return hwidspoofed;
         }
-
         private static void donothing(object str) => str.ToString();
 
-            private static IntPtr DisplayNameM(IntPtr _instance, IntPtr name, IntPtr _nativeMethodInfoPtr)
+        private static IntPtr DisplayNameM(IntPtr _instance, IntPtr name, IntPtr _nativeMethodInfoPtr)
         {
-
 
             if (!udonnamespoof)
                 return _dispalyname(_instance, name, _nativeMethodInfoPtr);
@@ -301,7 +254,7 @@ namespace Nocturnal.Settings
 
 
             if (APIUser.CurrentUser == null)
-              return _dispalyname(_instance, name, _nativeMethodInfoPtr);
+                return _dispalyname(_instance, name, _nativeMethodInfoPtr);
 
             if (usr.id != APIUser.CurrentUser.id)
                 return _dispalyname(_instance, name, _nativeMethodInfoPtr);
@@ -313,7 +266,8 @@ namespace Nocturnal.Settings
                 {
                     return _dispalyname(_instance, ((Il2CppSystem.String)RoomManager.field_Internal_Static_ApiWorld_0.authorName).Pointer, _nativeMethodInfoPtr);
                 }
-                catch {
+                catch
+                {
                     return _dispalyname(_instance, name, _nativeMethodInfoPtr);
                 }
             }
@@ -687,10 +641,11 @@ namespace Nocturnal.Settings
             while (VRC.SDKBase.Networking.LocalPlayer == null)
                 yield return new WaitForEndOfFrame();
 
+            Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC_Pickup>().ToArray();
+
             string name = RoomManager.field_Internal_Static_ApiWorld_0.name;
 
             Nocturnal.Style.Debbuger.Debugermsg($"<color=yellow>Joined on</color>: " + name);
-            Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC_Pickup>().ToArray();
             Udon.udonbeh = GameObject.FindObjectsOfType<VRC.Udon.UdonBehaviour>();
 
             if (Settings.ConfigVars.itemmaxrange)

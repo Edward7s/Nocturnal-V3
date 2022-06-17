@@ -179,9 +179,6 @@ namespace Nocturnal
             var images = Resources.FindObjectsOfTypeAll<ImageThreeSlice>().ToArray();
             for (int i = 0; i < images.Length; i++)
                 images[i].raycastTarget = false;
-            GameObject NocturnalUpdateManager = new GameObject("NocturnalUpdateManager");
-            NocturnalUpdateManager.AddComponent<Monobehaviours.UpdateManager>();
-            NocturnalUpdateManager.transform.parent = GameObject.Find("/_Application").transform;
             Nocturnal.Ui.LoadingScreen.runti();
             while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
                 yield return new WaitForEndOfFrame();
@@ -201,6 +198,7 @@ namespace Nocturnal
             Nocturnal.Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
             yield break;
+           
         }
         private protected static void injectories()
         {
@@ -212,6 +210,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Teleportobj>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Fly>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Svastica>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemMover>();
         }
         private protected static void logasembl(List<MelonBase> melontblList)
         {

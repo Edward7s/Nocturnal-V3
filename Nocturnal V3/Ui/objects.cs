@@ -8,27 +8,31 @@ namespace Nocturnal.Ui
 {
     internal class Objects
     {
-        internal static VRC.UI.FriendsListManager _friendlistmanager;
-        internal static UnityEngine.UI.Text _onlinefriendstext;
-        internal static GameObject _userinfpannel;
-        internal static GameObject _Bbutton;
-        internal static NotificationManager _notmanager;
-        internal static UnityEngine.UI.Text _friendreqeusts;
-     //   internal static UnityEngine.UI.Text group1;
-      //  internal static UnityEngine.UI.Text group2;
-      //  internal static UnityEngine.UI.Text group3;
-        internal static UnityEngine.UI.Text _offlinefriends;
-        internal static GameObject _Scrollbargmj;
-        internal static GameObject _Page;
-        internal static GameObject _Submenu;
-        internal static GameObject _ButtonPrefab;
-        internal static GameObject _TogglePrebab;
-        internal static GameObject _qmbackground;
-        internal static GameObject _qmexpand;
-        internal static UnityEngine.UI.Text _trustranktext;
+        internal static VRC.UI.FriendsListManager _friendlistmanager { get; set; }
+        internal static UnityEngine.UI.Text _onlinefriendstext { get; set; }
+        internal static GameObject _userinfpannel { get; set; }
+        internal static GameObject _Bbutton { get; set; }
+        internal static NotificationManager _notmanager { get; set; }
+        internal static UnityEngine.UI.Text _friendreqeusts { get; set; }
+        //   internal static UnityEngine.UI.Text group1{ get; set; }
+        //  internal static UnityEngine.UI.Text group2{ get; set; }
+        //  internal static UnityEngine.UI.Text group3{ get; set; }
+        internal static UnityEngine.UI.Text _offlinefriends { get; set; }
+        internal static GameObject _Scrollbargmj { get; set; }
+        internal static GameObject _Page { get; set; }
+        internal static GameObject _Submenu { get; set; }
+        internal static GameObject _ButtonPrefab { get; set; }
+        internal static GameObject _TogglePrebab { get; set; }
+        internal static GameObject _qmbackground { get; set; }
+        internal static GameObject _QMexpand { get; set; }
+        internal static UnityEngine.UI.Text _trustranktext { get; set; }
+        internal static GameObject _QuickMenuCanvas { get; set; }
 
         internal static void Collectobjs()
         {
+
+            _QuickMenuCanvas = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject;
+
             _friendlistmanager = GameObject.Find("/_Application/FriendsListManager").gameObject.GetComponent<VRC.UI.FriendsListManager>();
 
             _onlinefriendstext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content/OnlineFriends/Button/TitleText").gameObject.GetComponent<UnityEngine.UI.Text>();
@@ -61,7 +65,7 @@ namespace Nocturnal.Ui
 
             _qmbackground = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/BackgroundLayer01").gameObject;
 
-            _qmexpand = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand").gameObject;
+            _QMexpand = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand").gameObject;
 
             _trustranktext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo/User Panel/TrustLevel/TrustText").gameObject.GetComponent<UnityEngine.UI.Text>();
         }

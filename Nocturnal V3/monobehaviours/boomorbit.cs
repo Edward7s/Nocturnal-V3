@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using VRC.SDKBase;
 namespace Nocturnal.Monobehaviours
@@ -16,12 +12,9 @@ namespace Nocturnal.Monobehaviours
 
         }
 
-        void Start()
-        {
-            firstpickup = true;
-        }
+        void Start() => firstpickup = true;
 
-         void Update()
+        void Update()
         {
             if (!firstpickup) return;
             VRCPlayerApi owner = this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer;
@@ -34,7 +27,7 @@ namespace Nocturnal.Monobehaviours
         void OnCollisionEnter(Collision col)
         {
             if (firstpickup) return;
-            if (this.gameObject.GetComponent<VRC.SDKBase.VRC_Pickup>().currentPlayer != null) return;
+            if (this.gameObject.GetComponent<VRC_Pickup>().currentPlayer != null) return;
 
             for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
             {

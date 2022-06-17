@@ -210,14 +210,14 @@ namespace Nocturnal.Ui.qm
 
             new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.spamudon());
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Copy instance id to clipboard", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Copy instance id to clipboard", () =>
             {
                 var worldid = RoomManager.prop_String_0;
                 NocturnalC.Log(worldid);
                 System.Windows.Forms.Clipboard.SetText(worldid);
             }, Download_Files.imagehandler.clipboard);
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Previous Track (Spotify)", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Previous Track (Spotify)", () =>
              {
                  var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
 
@@ -237,7 +237,7 @@ namespace Nocturnal.Ui.qm
              }, Download_Files.imagehandler.prev);
 
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Play Pause (Spotify)", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Play Pause (Spotify)", () =>
             {
                 var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
 
@@ -260,7 +260,7 @@ namespace Nocturnal.Ui.qm
             }, Download_Files.imagehandler.stopplay);
 
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Next Track (Spotify)", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Next Track (Spotify)", () =>
             {
                 var p = Process.GetProcessesByName("Spotify").FirstOrDefault();
                 try
@@ -279,7 +279,7 @@ namespace Nocturnal.Ui.qm
             }, Download_Files.imagehandler.next);
 
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Mute (Discord)", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Mute (Discord)", () =>
             {
                 var p = Process.GetProcessesByName("Discord").FirstOrDefault();
                 try
@@ -299,7 +299,7 @@ namespace Nocturnal.Ui.qm
                 imports.SetForegroundWindow(Main2._hwnd);
             }, Download_Files.imagehandler.mute);
 
-            new Minibuttn(Objects._qmexpand.transform.parent.gameObject, "Defean (Discord)", () =>
+            new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Defean (Discord)", () =>
             {
                 var p = Process.GetProcessesByName("Discord").FirstOrDefault();
                 try
@@ -365,7 +365,7 @@ namespace Nocturnal.Ui.qm
 
          
 
-            Objects._qmexpand.transform.SetSiblingIndex(6);
+            Objects._QMexpand.transform.SetSiblingIndex(6);
 
         }
 

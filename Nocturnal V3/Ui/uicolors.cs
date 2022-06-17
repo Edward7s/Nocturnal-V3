@@ -78,8 +78,6 @@ namespace Nocturnal.Ui
             {
                 try
                 {
-
-
                     switch (true)
                     {
                         case true when imgi[i].gameObject.name == "TitlePanel":
@@ -125,7 +123,6 @@ namespace Nocturnal.Ui
                             imgi[i].color = new Color(0, 0, 0, 0.572f);
                             break;
                     }
-
                 }
                 catch { }
             }

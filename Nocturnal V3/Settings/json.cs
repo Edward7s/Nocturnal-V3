@@ -22,6 +22,13 @@ namespace Nocturnal.Settings
             public string code { get; set; }
         }
 
+        public class user
+        {
+            public string uid { get; set; }
+
+            public string[] tags { get; set; }
+        }
+
         public class custommsgarr
         {
             public custommsg2[] msg { get; set; }

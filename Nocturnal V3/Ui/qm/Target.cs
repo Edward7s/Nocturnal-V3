@@ -66,8 +66,10 @@ namespace Nocturnal.Ui.qm
                 svasticaobj = new GameObject().AddComponent<Monobehaviours.Svastica>().gameObject;
             }, () => {
                 GameObject.DestroyImmediate(svasticaobj);
-
             });
+
+            new Apis.Slider(extensions.Getmenu(Target), val => Monobehaviours.Svastica.size = val, Monobehaviours.Svastica.size);
+
         }
     }
 }

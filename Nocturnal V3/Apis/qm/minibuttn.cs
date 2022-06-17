@@ -17,7 +17,7 @@ namespace Nocturnal.Apis.qm
         }
         public Minibuttn(GameObject path, string text, Action action, string icon)
         {
-            _ButtonGameobject = GameObject.Instantiate(Ui.Objects._qmexpand, path.transform);
+            _ButtonGameobject = GameObject.Instantiate(Ui.Objects._QMexpand, path.transform);
             _ButtonComponent = _ButtonGameobject.gameObject.GetComponent<Button>();
             Component.DestroyImmediate(_ButtonGameobject.GetComponent<VRC.DataModel.Core.BindingComponent>());
             _ButtonComponent.onClick.RemoveAllListeners();
