@@ -208,7 +208,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
 
-            new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.spamudon());
+            new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
 
             new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Copy instance id to clipboard", () =>
             {

@@ -1,9 +1,5 @@
 ﻿using System;
-using UnhollowerRuntimeLib;
 using UnityEngine;
-using UnityEngine.UI;
-using VRC;
-using VRC.SDKBase;
 namespace Nocturnal.Monobehaviours
 {
     internal class TagAnimation : MonoBehaviour
@@ -51,6 +47,12 @@ namespace Nocturnal.Monobehaviours
 
                 if (_TextPoz == 0)
                     _Deacreasing = false;
+            }
+
+            if (_CurentText.Length == 0)
+            {
+                _TextMeshPro.text = "";
+                return;
             }
 
             _TextMeshPro.text = _Color + _CurentText;

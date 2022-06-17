@@ -634,7 +634,7 @@ namespace Nocturnal.Settings
 
 
             }
-            catch { }
+            catch(Exception ex){ NocturnalC.Log(ex); }
 
 
             return _User(_instance, user, _nativeMethodInfoPtr);
