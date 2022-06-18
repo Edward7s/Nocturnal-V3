@@ -147,19 +147,11 @@ namespace Nocturnal.Ui.qm
 
             }, false, Download_Files.imagehandler.EnterKey, 2, 0);
 
-
-
-            new NToggle("Fly", extensions.Getmenu(_mainpage), () => {
-                Exploits.Fly.flytoggle = true;
-                extensions.togglecontroller(!Exploits.Fly.flytoggle);
-                GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
-
-            }, () => {
-                Exploits.Fly.flytoggle = false;
-                extensions.togglecontroller(!Exploits.Fly.flytoggle);
-                GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
-
-            }, Exploits.Fly.flytoggle, true, 0, 6);
+            new NToggle("Fly", extensions.Getmenu(_mainpage), () => 
+            Inject_monos._FlyManager.gameObject.SetActive(!Inject_monos._FlyManager.activeSelf)
+            , () =>
+            Inject_monos._FlyManager.gameObject.SetActive(!Inject_monos._FlyManager.activeSelf),
+            false, true, 0, 6);
 
             new NToggle("Esp", extensions.Getmenu(_mainpage), () =>
             {

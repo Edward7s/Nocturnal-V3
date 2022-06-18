@@ -14,20 +14,21 @@ namespace Nocturnal.Ui.qm
 {
     internal class Worldhistory
     {
-        internal static GameObject worldhistorymenu = null;
+        internal static GameObject worldhistorymenu { get; set; }
+        internal static List<Settings.jsonmanager.worldhistory> _WorldHistory { get; set; }
+        internal static UnityEngine.UI.Button[] _Buttons { get; set; }
         internal static void createrhistory()
         {
             worldhistorymenu = submenu.Create("World History", Main._mainpage);
             new Submenubutton(Main._mainpage.Getmenu(), "World History", worldhistorymenu, Settings.Download_Files.imagehandler.worldhistory, true, 2, 2);
 
         }
-
         internal static void updatehistory(string worldname, string wolrdid)
         {
 
-            var filewh = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Settings.jsonmanager.worldhistory>>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\WorldHistory.json"));
-            if (filewh.Any())
-                filewh.RemoveAt(filewh.Count - 1);
+            _WorldHistory = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Settings.jsonmanager.worldhistory>>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\WorldHistory.json"));
+            if (_WorldHistory.Any())
+                _WorldHistory.RemoveAt(_WorldHistory.Count - 1);
 
             var newworldh = new Settings.jsonmanager.worldhistory()
             {
@@ -36,27 +37,25 @@ namespace Nocturnal.Ui.qm
                 worldname = worldname,
             };
 
-            filewh.Insert(0, newworldh);
+            _WorldHistory.Insert(0, newworldh);
 
-            var serialized = Newtonsoft.Json.JsonConvert.SerializeObject(filewh);
+            var serialized = Newtonsoft.Json.JsonConvert.SerializeObject(_WorldHistory);
             File.WriteAllText((Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\WorldHistory.json"), serialized);
 
-            var gmj = worldhistorymenu.Getmenu().GetComponentsInChildren<UnityEngine.UI.Button>(true).Where(gmj => gmj.gameObject != worldhistorymenu.Getmenu().gameObject).ToArray();
-            for (int i = 0; i < gmj.Length; i++)
+            _Buttons = worldhistorymenu.Getmenu().GetComponentsInChildren<UnityEngine.UI.Button>(true).Where(gmj => gmj.gameObject != worldhistorymenu.Getmenu().gameObject).ToArray();
+            for (int i = 0; i < _Buttons.Length; i++)
             {
                 try
                 {
-                    GameObject.DestroyImmediate(gmj[i].gameObject);
+                    GameObject.DestroyImmediate(_Buttons[i].gameObject);
                 }
                 catch { }
             }
-            var getworldsfromfile = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Settings.jsonmanager.worldhistory>>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\WorldHistory.json")).ToArray();
-           foreach (var world in getworldsfromfile)
+            _WorldHistory = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Settings.jsonmanager.worldhistory>>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\WorldHistory.json"));
+           foreach (var world in _WorldHistory)
             {
-
                 new NButton(worldhistorymenu.Getmenu(), world.worldname, () =>
                 {
-
                     try
                     {
                         if (!Networking.GoToRoom(world.worldid))
@@ -68,7 +67,6 @@ namespace Nocturnal.Ui.qm
                     catch (Exception e) { NocturnalC.Log(e); }
 
                 }, true);
-
             }
          }
         }

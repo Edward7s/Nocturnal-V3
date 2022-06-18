@@ -42,7 +42,7 @@ namespace Nocturnal.Monobehaviours
                 int player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
                 try
                 {
-                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {player}\nF: {_Friends.field_Private_List_1_IUser_1.Count}/{_Friends.field_Private_List_1_IUser_0.Count}\nIn: {Settings.Hooks.typeofworld}" +
+                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {player}\nF: {_Friends.field_Private_List_1_IUser_1.Count}/{_Friends.field_Private_List_1_IUser_0.Count}\nIn: {Settings.Hooks._TypeOfWorld}" +
                         $"\nGtime: {_CurentProcess.UserProcessorTime.Hours}:{_CurentProcess.UserProcessorTime.Minutes}:{_CurentProcess.UserProcessorTime.Seconds}";
 
                 }
@@ -64,12 +64,8 @@ namespace Nocturnal.Monobehaviours
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 if (Input.GetKeyDown(KeyCode.F))
-                {
-                    Exploits.Fly.flytoggle = !Exploits.Fly.flytoggle;
+                    Ui.Inject_monos._FlyManager.SetActive(!Ui.Inject_monos._FlyManager.activeSelf);
 
-                    Settings.wrappers.extensions.togglecontroller(!Exploits.Fly.flytoggle);
-                    GameObject.Find("/_Application").transform.Find("Nocturnal Fly").gameObject.SetActive(Exploits.Fly.flytoggle);
-                }
 
                 if (Settings.ConfigVars.Thidperson)
                 {
@@ -127,9 +123,9 @@ namespace Nocturnal.Monobehaviours
             {
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton1))
                 {
-                    if (Exploits.Sitonparts.issiting)
+                    if (Exploits.Sitonparts._IsSiting)
                     {
-                        Exploits.Sitonparts.issiting = false;
+                        Exploits.Sitonparts._IsSiting = false;
                         Settings.wrappers.extensions.togglecontroller(true);
                     }
                     if (Settings.ConfigVars.infinitejump)

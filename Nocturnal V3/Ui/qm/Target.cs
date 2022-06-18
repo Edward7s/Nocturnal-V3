@@ -22,24 +22,24 @@ namespace Nocturnal.Ui.qm
             new Submenubutton(Main._mainpage.Getmenu(), "Target", Target, Settings.Download_Files.imagehandler.Target, false, 3, 2);
 
             new NButton(extensions.Getmenu(Target), "Sit On Head", () => {
-                Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 0; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
+                Sitonparts._IsSiting = !Sitonparts._IsSiting;
+                Sitonparts._Part = 0; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
             new NButton(extensions.Getmenu(Target), "Sit On Right Hand", () => {
-                Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 1; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
+                Sitonparts._IsSiting = !Sitonparts._IsSiting;
+                Sitonparts._Part = 1; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
             new NButton(extensions.Getmenu(Target), "Sit On Left Hand", () => {
-                Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 2; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
+                Sitonparts._IsSiting = !Sitonparts._IsSiting;
+                Sitonparts._Part = 2; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
             new NButton(extensions.Getmenu(Target), "Sit On Right Shoulder", () => {
-                Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 3; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
+                Sitonparts._IsSiting = !Sitonparts._IsSiting;
+                Sitonparts._Part = 3; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
             new NButton(extensions.Getmenu(Target), "Sit On Left Shoulder", () => {
-                Sitonparts.issiting = !Sitonparts.issiting;
-                Sitonparts.part = 4; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
+                Sitonparts._IsSiting = !Sitonparts._IsSiting;
+                Sitonparts._Part = 4; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
             //   new NToggle("Copy Ik", extensions.Getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
             //  Toggle.toggle("Copy Voice", extensions.Getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);

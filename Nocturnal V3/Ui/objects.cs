@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using VRC.UI;
+
 namespace Nocturnal.Ui
 {
     internal class Objects
@@ -27,13 +29,18 @@ namespace Nocturnal.Ui
         internal static GameObject _QMexpand { get; set; }
         internal static UnityEngine.UI.Text _trustranktext { get; set; }
         internal static GameObject _QuickMenuCanvas { get; set; }
+        internal static PageAvatar _AvatarPage { get; set; }
 
+        internal static GameObject _HudMesh { get; set; }
         internal static void Collectobjs()
         {
+            _AvatarPage = GameObject.Find("Screens").transform.Find("Avatar").GetComponent<PageAvatar>();
+
+            _HudMesh = GameObject.Find("/UserInterface").transform.Find("PlayerDisplay/WorldHudDisplay/MenuMesh").gameObject;
 
             _QuickMenuCanvas = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject;
 
-            _friendlistmanager = GameObject.Find("/_Application/FriendsListManager").gameObject.GetComponent<VRC.UI.FriendsListManager>();
+            _friendlistmanager = GameObject.Find("/_Application/FriendsListManager").gameObject.GetComponent<FriendsListManager>();
 
             _onlinefriendstext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content/OnlineFriends/Button/TitleText").gameObject.GetComponent<UnityEngine.UI.Text>();
 
