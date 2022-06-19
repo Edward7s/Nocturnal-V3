@@ -201,6 +201,46 @@ namespace Nocturnal.Ui.qm
             new NButton(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
 
             new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
+            //                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+
+            new NToggle("Self Trail", extensions.Getmenu(Main), () => {
+                ConfigVars.SelfTrail = true;
+                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+            }, () => {
+                ConfigVars.SelfTrail = false;
+                try
+                {
+                    Component.DestroyImmediate(VRC.Player.prop_Player_0.gameObject.GetComponent<TrailRenderer>());
+                } catch { }
+            }, ConfigVars.SelfTrail);
+
+            new NToggle("Everyone Trail", extensions.Getmenu(Main), () => {
+                ConfigVars.EveryoneTrail = true;
+                try
+                {
+                    var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
+                    for (int i = 0; i < player.Count; i++)
+                    {
+                        if (player[i].field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
+                            extensions._AddTrailRender(player[i].gameObject);
+                    }
+                }
+                catch { }
+                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+            }, () => {
+                ConfigVars.EveryoneTrail = false;
+                try
+                {
+                    var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
+                    for (int i = 0; i < player.Count; i++)
+                    {
+                        if (player[i].field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
+                            Component.DestroyImmediate(player[i].gameObject.GetComponent<TrailRenderer>());
+                    }
+                }
+                catch { }
+            }, ConfigVars.SelfTrail);
+
 
             new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Copy instance id to clipboard", () =>
             {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,12 +53,20 @@ namespace Nocturnal.Monobehaviours
 
         }
 
+  
 
-
-        void LateUpdate()
+        async void LateUpdate()
         {
+           
+
+
+            if (Input.GetKeyDown(KeyCode.J))
+    
 
             try { if (VRC.Player.prop_Player_0.transform == null) return; } catch { return; }
+            
+       
+
 
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
                 if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();

@@ -95,10 +95,12 @@ namespace Nocturnal.Settings
         public string? Customanmespoof { get; set; }
         public bool? onlywauthornamespoof { get; set; }
         public bool? joinnotif { get; set; }
-       public bool? HwidSpoof { get; set; }
+        public bool? HwidSpoof { get; set; }
         public string? SpoofedHWID { get; set; }
         public bool? ItemThrowBoost { get; set; }
         public float? ItemThrowBoostValue { get; set; }
+        public bool? SelfTrail { get; set; }
+        public bool? EveryoneTrail { get; set; }
 
     }
     internal class ConfigVars
@@ -136,7 +138,6 @@ namespace Nocturnal.Settings
         public static string QmImg = "https://i.pinimg.com/564x/54/24/3b/54243bfa9ea67ed8be8ee4dc4e015e6e.jpg";
         public static float QMopacity = 0.8f;
         public static float playelerlistopacity = 0.8f;
-
         public static float clientvolume = 0.4f;
         public static float BigImgOpacity = 0.7f;
         public static bool esp = true;
@@ -210,6 +211,7 @@ namespace Nocturnal.Settings
         public static string SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3");
         public static bool ItemThrowBoost = false;
         public static float ItemThrowBoostValue = 7f;
-        
+        public static bool SelfTrail = false;
+        public static bool EveryoneTrail = false; 
     }
 }

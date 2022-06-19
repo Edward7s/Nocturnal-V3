@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using UnhollowerBaseLib;
 using UnityEngine;
 using VRC;
@@ -526,7 +527,11 @@ namespace Nocturnal.Settings
            server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(_SendUser));
 
             if (_Userid != APIUser.CurrentUser.id)
+            {
                 _VRCPlayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
+                if (ConfigVars.EveryoneTrail)
+                    extensions._AddTrailRender(_VRCPlayer.gameObject);
+            }
             _UserName = _Apiuser.displayName;
             Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref _Rank, ref _Color);
             Settings.wrappers.Ranks.convertotcolorank(ref _Rank, ref _UserName);
@@ -582,12 +587,11 @@ namespace Nocturnal.Settings
             catch { }
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
-
             try
             {
-                var Dictionary = new Dictionary<string, string>();
-                Dictionary.Add("x-userid", _Userid);
-                Tags = wrappers.extensions.SendGetRequest("https://napi.nocturnal-client.xyz/PremiumTags", Dictionary);
+                _Dictionary = new Dictionary<string, string>();
+                _Dictionary.Add("x-userid", _Userid);
+                Tags = Task.Run(()=> wrappers.extensions.SendGetRequestAsync("https://napi.nocturnal-client.xyz/PremiumTags", _Dictionary)).Result;
                 if (Tags != "None")
                 {
                     _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags);
@@ -602,7 +606,7 @@ namespace Nocturnal.Settings
                         _VRCPlayer.GeneratePlate(_UserPlates.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
                     }
                 }
-                Tags2 = wrappers.extensions.SendGetRequest("https://napi.nocturnal-client.xyz/CustomTags", Dictionary);
+                Tags2 = Task.Run(() => wrappers.extensions.SendGetRequestAsync("https://napi.nocturnal-client.xyz/CustomTags", _Dictionary)).Result;
                 if (Tags2 != "None")
                 {
                     _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags2);
@@ -657,6 +661,9 @@ namespace Nocturnal.Settings
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
+
+    
+
         private static IEnumerator waitforworldtoinitialize()
         {
             while (VRC.SDKBase.Networking.LocalPlayer == null)
@@ -710,7 +717,11 @@ namespace Nocturnal.Settings
             }
             Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{_WorldName}] [{_TypeOfWorld}]" });
             cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
- 
+
+            if (Settings.ConfigVars.SelfTrail)
+                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+
+
             if (Ui.qm.Worldhistory.worldhistorymenu == null)
             {
                 while (Ui.qm.Worldhistory.worldhistorymenu == null)
@@ -723,7 +734,7 @@ namespace Nocturnal.Settings
 
             yield break;
         }
-
+        private static Dictionary<string,string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }
         private static VRCPlayer _VRCPLAYER { get; set; }
         private static string _RoomCapacity { get; set; }
