@@ -11,9 +11,6 @@ namespace Nocturnal.Monobehaviours
 
         }
 
-        //
-
-
         void Awake()
         {
             GameObject esp = GameObject.Instantiate(this.gameObject.transform.Find("SelectRegion").gameObject, this.gameObject.transform.Find("SelectRegion").transform).gameObject;

@@ -207,7 +207,7 @@ namespace Nocturnal.Settings.wrappers
             using (var res = (HttpWebResponse)_Req.GetResponse())
             using (var stream = res.GetResponseStream())
             using (var Reader = new StreamReader(stream))
-                 return await Reader.ReadToEndAsync();
+                return await Reader.ReadToEndAsync();
         }
 
         private static TrailRenderer _TrailRenderer { get; set; }
@@ -215,11 +215,16 @@ namespace Nocturnal.Settings.wrappers
 
         internal static void _AddTrailRender(GameObject gameobj)
         {
-            _TrailRenderer = gameobj.gameObject.AddComponent<TrailRenderer>();
-            _Material = _TrailRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended"));
-            _Material.SetColor("_TintColor", new Color(ConfigVars.HuDColor[0], ConfigVars.HuDColor[1], ConfigVars.HuDColor[2], 0.1f));
-            _TrailRenderer.startWidth = 0.01f;
-            _TrailRenderer.endWidth = 0.008f;
+            try
+            {
+                _TrailRenderer = gameobj.gameObject.AddComponent<TrailRenderer>();
+                _Material = _TrailRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended"));
+                _Material.SetColor("_TintColor", new Color(ConfigVars.HuDColor[0], ConfigVars.HuDColor[1], ConfigVars.HuDColor[2], 0.1f));
+                _TrailRenderer.startWidth = 0.01f;
+                _TrailRenderer.endWidth = 0.008f;
+            }
+            catch { }
+         
         }
     }
 }

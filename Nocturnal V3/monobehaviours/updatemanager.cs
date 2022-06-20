@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Nocturnal.Settings;
+using Nocturnal.Settings.wrappers;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using UnhollowerRuntimeLib;
 using UnityEngine;
@@ -55,19 +60,28 @@ namespace Nocturnal.Monobehaviours
 
   
 
-        async void LateUpdate()
+
+
+
+
+       
+
+     
+
+       
+
+        void LateUpdate()
         {
-           
+            if (Main2._Queue.Count != 0)
+            {
+                for (int i = 0; i < Main2._Queue.ToArray().Length; i++)
+                    Main2._Queue.ToArray()[i].Invoke();
 
-
-            if (Input.GetKeyDown(KeyCode.J))
-    
+                Main2._Queue.Dequeue();
+            }
 
             try { if (VRC.Player.prop_Player_0.transform == null) return; } catch { return; }
             
-       
-
-
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
                 if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
 

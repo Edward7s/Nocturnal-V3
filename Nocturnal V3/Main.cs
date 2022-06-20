@@ -22,8 +22,10 @@ namespace Nocturnal
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
+        internal static Queue<Action> _Queue;
         public static void Start()
         {
+            Main2._Queue = new Queue<Action>();
             _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Clear();
@@ -102,6 +104,10 @@ namespace Nocturnal
                     Process.GetCurrentProcess().Kill();
                 }
             }
+
+
+
+
             List<MelonBase> melonpluginslist = new List<MelonBase>(MelonLoader.MelonHandler.Plugins);
             melonpluginslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
             NocturnalC.Log("Loaded Plugins:", "Assembly's", ConsoleColor.DarkRed);

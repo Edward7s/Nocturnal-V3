@@ -6,6 +6,7 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -80,10 +81,11 @@ namespace Nocturnal.Settings
         private static PickupObject _PickupObject;
 
 
+
+    
+
         private static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
-
-
             try
             {
                 var method = *(IntPtr*)(IntPtr)UnhollowerUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod(targetMethod).GetValue(null);
@@ -587,11 +589,9 @@ namespace Nocturnal.Settings
             catch { }
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
-            try
-            {
-                _Dictionary = new Dictionary<string, string>();
-                _Dictionary.Add("x-userid", _Userid);
-                Tags = Task.Run(()=> wrappers.extensions.SendGetRequestAsync("https://napi.nocturnal-client.xyz/PremiumTags", _Dictionary)).Result;
+            _Dictionary = new Dictionary<string, string>();
+            _Dictionary.Add("x-userid", _Userid);
+            Task.Run(() => GetTags(_Dictionary, "https://napi.nocturnal-client.xyz/PremiumTags",ref Tags, new Action(() => {
                 if (Tags != "None")
                 {
                     _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags);
@@ -599,26 +599,50 @@ namespace Nocturnal.Settings
                     {
                         if (_UserPlates.tags[i].StartsWith("#animatedtag#"))
                         {
-                            AnimatedTag = _VRCPlayer.GeneratePlate(_UserPlates.tags[i].Replace("#animatedtag#",""), Settings.Download_Files.imagehandler.PremiumIcon);
+                            AnimatedTag = _VRCPlayer.GeneratePlate(_UserPlates.tags[i].Replace("#animatedtag#", ""), Settings.Download_Files.imagehandler.PremiumIcon);
                             AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlates.tags[i].Replace("#animatedtag#", "");
                             continue;
                         }
                         _VRCPlayer.GeneratePlate(_UserPlates.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
                     }
                 }
-                Tags2 = Task.Run(() => wrappers.extensions.SendGetRequestAsync("https://napi.nocturnal-client.xyz/CustomTags", _Dictionary)).Result;
+            })));
+
+            Task.Run(() => GetTags(_Dictionary, "https://napi.nocturnal-client.xyz/CustomTags",ref Tags2, new Action(() => {
                 if (Tags2 != "None")
                 {
                     _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags2);
                     for (int i = 0; i < _UserPlates.tags.Length; i++)
                         _VRCPlayer.GeneratePlate(_UserPlates.tags[i]);
                 }
-            }
-            catch(Exception ex){ NocturnalC.Log(ex); }
+            })));
+
+         
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
-        
+        private static HttpWebRequest _Req { get; set; }
+
+        private static Task GetTags(Dictionary<string, string> Headers, string url,ref string stringref, Action action)
+        {
+
+            var _Req = (HttpWebRequest)WebRequest.Create(url);
+            for (int i = 0; i < Headers.Count; i++)
+            {
+                var Curent = Headers.ElementAt(i);
+                _Req.Headers.Add(Curent.Key, Curent.Value);
+            }
+            _Req.AutomaticDecompression = DecompressionMethods.GZip;
+            using (var res = (HttpWebResponse)_Req.GetResponse())
+            using (var stream = res.GetResponseStream())
+            using (var Reader = new StreamReader(stream))
+            {
+                stringref = Reader.ReadToEnd();
+                Main2._Queue.Enqueue(action);
+                return null;
+            }
+        }
+
 
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
@@ -745,8 +769,8 @@ namespace Nocturnal.Settings
         private static APIUser _Apiuser { get; set; }
         private static VRC.Player _VRCPlayer { get; set; }
         private static jsonmanager.user _UserPlates { get; set; }
-        private static string Tags { get; set; }
-        private static string Tags2 { get; set; }
+        private static string Tags;
+        private static string Tags2;
         private static GameObject AnimatedTag { get; set; }
         private static Settings.jsonmanager.custommsg _SendUser { get; set; }
         private static string _UserName;
