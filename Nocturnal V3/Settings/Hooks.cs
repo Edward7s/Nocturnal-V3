@@ -591,42 +591,15 @@ namespace Nocturnal.Settings
 
             _Dictionary = new Dictionary<string, string>();
             _Dictionary.Add("x-userid", _Userid);
-            Task.Run(() => GetTags(_Dictionary, "https://napi.nocturnal-client.xyz/PremiumTags",ref Tags, new Action(() => {
-                if (Tags != "None")
-                {
-                    _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags);
-                    for (int i = 0; i < _UserPlates.tags.Length; i++)
-                    {
-                        if (_UserPlates.tags[i].StartsWith("#animatedtag#"))
-                        {
-                            AnimatedTag = _VRCPlayer.GeneratePlate(_UserPlates.tags[i].Replace("#animatedtag#", ""), Settings.Download_Files.imagehandler.PremiumIcon);
-                            AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlates.tags[i].Replace("#animatedtag#", "");
-                            continue;
-                        }
-                        _VRCPlayer.GeneratePlate(_UserPlates.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
-                    }
-                }
-            })));
-
-            Task.Run(() => GetTags(_Dictionary, "https://napi.nocturnal-client.xyz/CustomTags",ref Tags2, new Action(() => {
-                if (Tags2 != "None")
-                {
-                    _UserPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(Tags2);
-                    for (int i = 0; i < _UserPlates.tags.Length; i++)
-                        _VRCPlayer.GeneratePlate(_UserPlates.tags[i]);
-                }
-            })));
-
-         
+            Task.Run(() => GetPremiumTags(_Dictionary));
+            Task.Run(() => GetCustomTags(_Dictionary));
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
-        private static HttpWebRequest _Req { get; set; }
 
-        private static Task GetTags(Dictionary<string, string> Headers, string url,ref string stringref, Action action)
+        private static Task GetPremiumTags(Dictionary<string, string> Headers)
         {
-
-            var _Req = (HttpWebRequest)WebRequest.Create(url);
+            var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/PremiumTags");
             for (int i = 0; i < Headers.Count; i++)
             {
                 var Curent = Headers.ElementAt(i);
@@ -637,11 +610,59 @@ namespace Nocturnal.Settings
             using (var stream = res.GetResponseStream())
             using (var Reader = new StreamReader(stream))
             {
-                stringref = Reader.ReadToEnd();
-                Main2._Queue.Enqueue(action);
+                var stringuser = Reader.ReadToEnd();
+
+                Main2._Queue.Enqueue(new Action(() =>
+                {
+                    if (stringuser != "None")
+                    {
+                        var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringuser);
+                       for (int i = 0; i < _UserPlate.tags.Length; i++)
+                       {
+                           if (_UserPlate.tags[i].StartsWith("#animatedtag#"))
+                           {
+                               var AnimatedTag = _VRCPlayer.GeneratePlate(_UserPlate.tags[i].Replace("#animatedtag#", ""), Settings.Download_Files.imagehandler.PremiumIcon);
+                               AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlate.tags[i].Replace("#animatedtag#", "");
+                               continue;
+                           }
+                           _VRCPlayer.GeneratePlate(_UserPlate.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
+                       }
+                   }
+               }));
+               return null;
+           }
+       }
+
+       private static Task GetCustomTags(Dictionary<string, string> Headers)
+       {
+           var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/CustomTags");
+           for (int i = 0; i < Headers.Count; i++)
+           {
+               var Curent = Headers.ElementAt(i);
+               _Req.Headers.Add(Curent.Key, Curent.Value);
+           }
+           _Req.AutomaticDecompression = DecompressionMethods.GZip;
+           using (var res = (HttpWebResponse)_Req.GetResponse())
+           using (var stream = res.GetResponseStream())
+           using (var Reader = new StreamReader(stream))
+           {
+               var stringref = Reader.ReadToEnd();
+
+               Main2._Queue.Enqueue(new Action(() =>
+               {
+                  if (stringref != "None")
+                   {
+                      var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
+                      for (int i = 0; i < GetPlates.tags.Length; i++)
+                           _VRCPlayer.GeneratePlate(GetPlates.tags[i]);
+                   }
+                }));
                 return null;
             }
         }
+
+
+
 
 
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
@@ -768,7 +789,6 @@ namespace Nocturnal.Settings
         private static string _Userid { get; set; }
         private static APIUser _Apiuser { get; set; }
         private static VRC.Player _VRCPlayer { get; set; }
-        private static jsonmanager.user _UserPlates { get; set; }
         private static string Tags;
         private static string Tags2;
         private static GameObject AnimatedTag { get; set; }

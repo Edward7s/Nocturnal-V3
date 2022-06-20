@@ -17,12 +17,18 @@ namespace Nocturnal
     {
         public override void OnApplicationStart() => Main2.Start();
     }
+
+ 
+
+
     public class Main2
     {
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
         internal static Queue<Action> _Queue;
+
+
         public static void Start()
         {
             Main2._Queue = new Queue<Action>();

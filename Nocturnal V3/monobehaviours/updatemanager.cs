@@ -74,9 +74,10 @@ namespace Nocturnal.Monobehaviours
         {
             if (Main2._Queue.Count != 0)
             {
-                for (int i = 0; i < Main2._Queue.ToArray().Length; i++)
-                    Main2._Queue.ToArray()[i].Invoke();
-
+                foreach (var que in Main2._Queue)
+                {
+                    que.Invoke();
+                }
                 Main2._Queue.Dequeue();
             }
 
