@@ -15,7 +15,7 @@ namespace Nocturnal.Ui.qm
     {
         internal static bool _copyik = false;
         internal static bool _copyivoice = false;
-
+        internal static UnityEngine.UI.LayoutElement[] _LayoutElements { get; set; }
         internal static void tarGetmenu()
         {
             var Target = submenu.Create("Target", Main._mainpage);
@@ -73,10 +73,60 @@ namespace Nocturnal.Ui.qm
             new NButton(extensions.Getmenu(Target), "Spam Udon", () => Exploits.Udon.SpamTarget());
 
 
+            
+            var Lewed = submenu.Create("Lewd Options", Target);
+            new Submenubutton(Target.Getmenu(), "Lewed Options", Lewed, null, false, 3, 2);
 
+            new Apis.qm.NButton(Lewed.Getmenu(), "NRefresh", () =>
+            {
+                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>();
+                if (_LayoutElements.Length != 0)
+                    for (int i = 0; i < _LayoutElements.Length; i++)
+                    {
+                        if (_LayoutElements[i].name == "_Button_NRefresh") continue;
+                        if (_LayoutElements[i].name == "_Button_NDestroy") continue;
 
+                        GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                    }
+                foreach (var Rend in Settings.wrappers.Target.targertuser._vrcplayer.prop_VRCAvatarManager_0.gameObject.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name) != null)
+                    {
+                        Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(
+                            new Action(() =>
+                            {
+                                try
+                                {
+                                    GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject);
+                                }
+                                catch { }
+                                GameObject.Destroy(Rend.gameObject);
+                            }));
+                        continue;
+                    }
+                    new Apis.qm.NButton(Lewed.Getmenu(), Rend.gameObject.name, () =>
+                    {
+                        try
+                        {
+                            GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.name).gameObject);
+                        }
+                        catch { }
+                        GameObject.Destroy(Rend.gameObject);
+                    });
+                }
+            });
+            new Apis.qm.NButton(Lewed.Getmenu(), "NDestroy", () =>
+            {
+                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>();
+                if (_LayoutElements.Length != 0)
+                    for (int i = 0; i < _LayoutElements.Length; i++)
+                    {
+                        if (_LayoutElements[i].name == "_Button_NRefresh") continue;
+                        if (_LayoutElements[i].name == "_Button_NDestroy") continue;
 
-
+                        GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                    }
+            });
         }
     }
 }

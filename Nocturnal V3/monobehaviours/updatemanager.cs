@@ -74,11 +74,12 @@ namespace Nocturnal.Monobehaviours
         {
             if (Main2._Queue.Count != 0)
             {
-                foreach (var que in Main2._Queue)
+                for (int i = 0; i < Main2._Queue.Count; i++)
                 {
-                    que.Invoke();
+                    Main2._Queue.ToArray()[i].Invoke();
                 }
-                Main2._Queue.Dequeue();
+             Main2._Queue.Clear();
+
             }
 
             try { if (VRC.Player.prop_Player_0.transform == null) return; } catch { return; }

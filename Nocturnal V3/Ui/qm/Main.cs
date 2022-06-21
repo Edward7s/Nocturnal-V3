@@ -239,7 +239,7 @@ namespace Nocturnal.Ui.qm
                     }
                 }
                 catch { }
-            }, ConfigVars.SelfTrail);
+            }, ConfigVars.EveryoneTrail);
 
 
             new Minibuttn(Objects._QMexpand.transform.parent.gameObject, "Copy instance id to clipboard", () =>
