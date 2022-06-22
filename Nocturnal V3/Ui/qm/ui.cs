@@ -188,6 +188,18 @@ namespace Nocturnal.Ui.qm
             }, Settings.ConfigVars.toggleonscreenlogger);
             GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(Settings.ConfigVars.toggleonscreenlogger);
 
+            new NToggle("Hud Ui", extensions.Getmenu(uipg), () => {
+
+                Settings.ConfigVars.hudUi = true;
+                Settings.Hooks._IsInVr = false;
+
+
+            }, () => {
+                Settings.ConfigVars.hudUi = false;
+                Settings.Hooks._IsInVr = true;
+
+            }, Settings.ConfigVars.hudUi);
+
 
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -101,6 +101,7 @@ namespace Nocturnal.Settings
         public float? ItemThrowBoostValue { get; set; }
         public bool? SelfTrail { get; set; }
         public bool? EveryoneTrail { get; set; }
+        public bool? HudUi { get; set; }
 
     }
     internal class ConfigVars
@@ -213,5 +214,6 @@ namespace Nocturnal.Settings
         public static float ItemThrowBoostValue = 7f;
         public static bool SelfTrail = false;
         public static bool EveryoneTrail = false; 
+        public static bool HudUi = true; 
     }
 }

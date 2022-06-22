@@ -18,7 +18,6 @@ using VRC;
 using VRC.Core;
 using VRC.Networking;
 using VRC.SDKBase;
-
 namespace Nocturnal.Settings
 {
     internal class Hooks
@@ -29,6 +28,8 @@ namespace Nocturnal.Settings
         internal static bool fakelag = false;
         internal static bool udonnamespoof = false;
         internal static bool PickupMover = false;
+        internal static int _PlayersInLobby { get; set; }
+        internal static bool _IsInVr { get; set; }
 
         internal static GameObject _Pickup { get; set; }
 
@@ -515,6 +516,7 @@ namespace Nocturnal.Settings
             return _Worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
         }
 
+        private static GameObject CameraManager { get; set; }
         private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
 
@@ -533,6 +535,14 @@ namespace Nocturnal.Settings
                 _VRCPlayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
                 if (ConfigVars.EveryoneTrail)
                     extensions._AddTrailRender(_VRCPlayer.gameObject);
+
+                CameraManager = new GameObject("UserPovCamera");
+                CameraManager.transform.parent = _VRCPlayer.gameObject.transform.Find("AnimationController/HeadAndHandIK/HeadEffector");
+                CameraManager.transform.localPosition = Vector3.zero;
+                CameraManager.transform.localScale = Vector3.one;
+                CameraManager.transform.localEulerAngles = Vector3.zero;
+                CameraManager.AddComponent<UnityEngine.Camera>().farClipPlane = 80;
+                CameraManager.SetActive(false);
             }
             _UserName = _Apiuser.displayName;
             Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref _Rank, ref _Color);
@@ -558,8 +568,6 @@ namespace Nocturnal.Settings
                 Ui.Bundles.joinot.SetActive(false);
                 Ui.Bundles.joinot.SetActive(true);
             }
-
-
 
             if (ConfigVars.onlyfriendjoin)
             {
@@ -587,7 +595,8 @@ namespace Nocturnal.Settings
                 new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, _VRCPlayer);
             }
             catch { }
-            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
+            _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("x-userid", _Userid);
@@ -684,10 +693,7 @@ namespace Nocturnal.Settings
                     Ui.Bundles.joinot.SetActive(false);
                     Ui.Bundles.joinot.SetActive(true);
                 }
-
-                
                 Apis.Onscreenui.showmsg($"<color=#610000>[{_UserNameProp}] Left");
-
             }
             catch(Exception err) { NocturnalC.Log(err); }
 
@@ -698,7 +704,8 @@ namespace Nocturnal.Settings
             catch { }
             try
             {
-                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
+                _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             }
             catch
@@ -767,6 +774,12 @@ namespace Nocturnal.Settings
             if (Settings.ConfigVars.SelfTrail)
                 Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
 
+            if (!Settings.ConfigVars.hudUi)
+                _IsInVr = true;
+            else
+                _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
+
+
 
             if (Ui.qm.Worldhistory.worldhistorymenu == null)
             {
@@ -775,7 +788,6 @@ namespace Nocturnal.Settings
                 Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
                 yield break;
             }
-
             Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
 
             yield break;
@@ -783,7 +795,7 @@ namespace Nocturnal.Settings
         private static Dictionary<string,string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }
         private static VRCPlayer _VRCPLAYER { get; set; }
-        private static string _RoomCapacity { get; set; }
+        internal static string _RoomCapacity { get; set; }
         private static string _WorldName { get; set; }
         private static TMPro.TextMeshProUGUI _NotText { get; set; }
         private static string _UserNameProp { get; set; }

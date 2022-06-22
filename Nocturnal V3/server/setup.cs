@@ -17,7 +17,7 @@ namespace Nocturnal.server
 {
     internal class setup
     {
-        private static WebSocket wss = null;
+        internal static WebSocket wss = null;
         private protected static bool onetime = true;
         internal static void serversetup()
         {
@@ -89,7 +89,6 @@ namespace Nocturnal.server
         private static void Wss_OnMessage(object sender, MessageEventArgs e)
         {
             var message = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(e.Data));
-
             string code = "Number";
             if (message.Substring(10, 1) != "\"")
                 code = message.Substring(9, 2);
@@ -194,7 +193,10 @@ namespace Nocturnal.server
 
                 }
             }
+            yield return new WaitForSeconds(1f);
 
+            var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            btntext.text = "[<color=#d633ff>N</color>]" + btntext.text;
              yield break;
             }
     }

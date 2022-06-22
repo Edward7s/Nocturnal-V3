@@ -17,7 +17,8 @@ namespace Nocturnal.Settings.wrappers
 {
     internal static class extensions
     {
-      
+        internal static GameObject _CurentCamera { get; set; }
+        internal static GameObject _LastCamera { get; set; }
         internal static GameObject GeneratePlate(this VRC.Player player, string text, string img = null) => GeneratePlate(player._vrcplayer, text, img);
 
 

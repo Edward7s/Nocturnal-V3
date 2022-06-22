@@ -47,6 +47,7 @@ namespace Nocturnal.Settings
         private static string PremiumIcon = "https://nocturnal-client.xyz/Resources/Gold%20Tags.png";
 
 
+        internal static UnityEngine.Material _SkyboxMaterial { get; set; }
         internal static string musicpath = null;
         internal static string loadingscreenmusicpath = null;
         internal static string joinsound = null;
@@ -176,11 +177,14 @@ namespace Nocturnal.Settings
 
 
 
-          //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
+            //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
 
 
 
-        
+
+            _SkyboxMaterial = new UnityEngine.Material("");
+
+
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
             
             try

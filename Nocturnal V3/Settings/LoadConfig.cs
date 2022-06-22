@@ -54,24 +54,12 @@ namespace Nocturnal.Settings
                         }
                         catch { NocturnalC.Log($"BIG FAIL {bbc.Name}", "Config Setup", ConsoleColor.Red); }
                     }
-
                 }
-
             }
-
-            
-
             ConfigVars.applyconfig($"{Directory.GetCurrentDirectory()}\\Nocturnal V3\\Config\\Config.json",mainl);
             var deserializedtexxt = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
             ConfigVars.discordrichpresence = deserializedtexxt.ison;
-
-
-
             NocturnalC.Log($"Config Applied in {configtimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Config Setup", ConsoleColor.Green);
-
-
-    
-
             configtimer.Stop();
         }
     }

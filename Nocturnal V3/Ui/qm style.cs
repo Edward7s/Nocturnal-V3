@@ -266,7 +266,6 @@ namespace Nocturnal.Ui
             Component.DestroyImmediate(qmparent.GetComponent<RectMask2D>());
             Component.DestroyImmediate(qmparent.GetComponent<UIInvisibleGraphic>());
             holderplayerlist.transform.SetSiblingIndex(1);
-
             GameObject holder = holderplayerlist.transform.Find("QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup").gameObject;
             Component.DestroyImmediate(holder.GetComponent<VerticalLayoutGroup>());
             GridLayoutGroup gridl = holder.AddComponent<GridLayoutGroup>();
@@ -285,7 +284,6 @@ namespace Nocturnal.Ui
             Ui.uicolors.hudcolors();
             Ui.uicolors.applybutton();
             Ui.uicolors.ApplyText();
-
             var joinsound = new GameObject("Joinsound");
             joinsound.transform.parent = GameObject.Find("/UserInterface").transform;
             _audiosourcenotification = joinsound.AddComponent<AudioSource>();

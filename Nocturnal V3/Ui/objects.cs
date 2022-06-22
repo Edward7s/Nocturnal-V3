@@ -32,8 +32,13 @@ namespace Nocturnal.Ui
         internal static PageAvatar _AvatarPage { get; set; }
 
         internal static GameObject _HudMesh { get; set; }
+        internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
+        internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OfflineFriends { get; set; }
+
         internal static void Collectobjs()
         {
+
+
             _AvatarPage = GameObject.Find("Screens").transform.Find("Avatar").GetComponent<PageAvatar>();
 
             _HudMesh = GameObject.Find("/UserInterface").transform.Find("PlayerDisplay/WorldHudDisplay/MenuMesh").gameObject;
@@ -41,6 +46,10 @@ namespace Nocturnal.Ui
             _QuickMenuCanvas = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject;
 
             _friendlistmanager = GameObject.Find("/_Application/FriendsListManager").gameObject.GetComponent<FriendsListManager>();
+
+            _OnlineFriends = _friendlistmanager.field_Private_List_1_IUser_1;
+
+            _OfflineFriends = _friendlistmanager.field_Private_List_1_IUser_0;
 
             _onlinefriendstext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content/OnlineFriends/Button/TitleText").gameObject.GetComponent<UnityEngine.UI.Text>();
 

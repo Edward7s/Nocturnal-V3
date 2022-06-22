@@ -15,11 +15,13 @@ namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
     {
-        private static GameObject _SecondCamera = null;
-        private static bool _Isthirdpersonback = false;
-        private static bool _Isthirdp = false;
-        private static VRC.UI.FriendsListManager _Friends { get; set; }
-        private static System.Diagnostics.Process _CurentProcess { get; set; }
+        private GameObject _SecondCamera = null;
+        private bool _Isthirdpersonback = false;
+        private bool _Isthirdp = false;
+        private System.Diagnostics.Process _CurentProcess { get; set; }
+        private GUIStyle _GUIStlye { get; set; }
+        internal static string User { get; set; }
+        internal static string Rank { get; set; }
 
         public UpdateManager(IntPtr ptr) : base(ptr)
         {
@@ -29,46 +31,39 @@ namespace Nocturnal.Monobehaviours
         void Start()
         {
            NocturnalC.Log("Initializing OnUpdate And OnGui", "Monobehaviour",ConsoleColor.Green);
-
-            _Friends = Ui.Objects._friendlistmanager;
             _CurentProcess = System.Diagnostics.Process.GetCurrentProcess();
-
             InvokeRepeating(nameof(updatehud), -1, 1.5f);
-            
+            _GUIStlye = new GUIStyle();
+            _GUIStlye.fontSize = 17;
+            _GUIStlye.richText = false;
+            _GUIStlye.wordWrap = false;
+            _GUIStlye.normal.textColor = Color.white;
         }
 
         void updatehud()
         {
-            
-
-
             if (!Settings.ConfigVars.hudUi)
                 return;
-                
-     
-                int player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
                 try
                 {
-                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {player}\nF: {_Friends.field_Private_List_1_IUser_1.Count}/{_Friends.field_Private_List_1_IUser_0.Count}\nIn: {Settings.Hooks._TypeOfWorld}" +
+                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {Hooks._PlayersInLobby}/{Hooks._RoomCapacity}\nF: {Ui.Objects._OnlineFriends.Count}/{Ui.Objects._OfflineFriends.Count}\nIn: {Settings.Hooks._TypeOfWorld}" +
                         $"\nGtime: {_CurentProcess.UserProcessorTime.Hours}:{_CurentProcess.UserProcessorTime.Minutes}:{_CurentProcess.UserProcessorTime.Seconds}";
-
                 }
                 catch { }
-
-
         }
 
-  
 
 
-
-
-
-       
-
-     
-
-       
+        void OnGUI()
+        {
+            if (Hooks._IsInVr) return;
+            try
+            {
+                GUI.Label(new Rect(Screen.width / 1.4f, 0, 0, 0), $"[{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}] [{Hooks._TypeOfWorld}] [{Hooks._PlayersInLobby}/{Hooks._RoomCapacity}] [F:{Ui.Objects._OnlineFriends.Count}/{Ui.Objects._OfflineFriends.Count}] [Fps:{(int)(1.0f / Time.smoothDeltaTime)}] [Ping{VRC.Player.prop_Player_0.prop_PlayerNet_0.field_Private_Int16_0}]", _GUIStlye) ;
+            }
+            catch { }
+         
+        }
 
         void LateUpdate()
         {
@@ -88,6 +83,7 @@ namespace Nocturnal.Monobehaviours
                 if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
 
             if (Input.GetKey(KeyCode.LeftControl))
+
             {
                 if (Input.GetKeyDown(KeyCode.F))
                     Ui.Inject_monos._FlyManager.SetActive(!Ui.Inject_monos._FlyManager.activeSelf);

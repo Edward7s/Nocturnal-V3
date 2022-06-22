@@ -73,58 +73,75 @@ namespace Nocturnal.Ui.qm
             new NButton(extensions.Getmenu(Target), "Spam Udon", () => Exploits.Udon.SpamTarget());
 
 
-            
+
+            new NToggle("View Pov", extensions.Getmenu(Target), () => {
+                extensions._CurentCamera = Settings.wrappers.Target.targertuser.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/UserPovCamera").gameObject;
+                extensions._CurentCamera.SetActive(true);
+                Settings.Hooks.cameraeye.gameObject.SetActive(false);
+            }, () => {
+                Settings.Hooks.cameraeye.gameObject.SetActive(true);
+                extensions._CurentCamera.SetActive(false);
+            });
             var Lewed = submenu.Create("Lewd Options", Target);
             new Submenubutton(Target.Getmenu(), "Lewed Options", Lewed, null, false, 3, 2);
 
             new Apis.qm.NButton(Lewed.Getmenu(), "NRefresh", () =>
             {
-                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>();
+                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>(true);
                 if (_LayoutElements.Length != 0)
                     for (int i = 0; i < _LayoutElements.Length; i++)
                     {
-                        if (_LayoutElements[i].name == "_Button_NRefresh") continue;
-                        if (_LayoutElements[i].name == "_Button_NDestroy") continue;
-
-                        GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                        try
+                        {
+                            if (_LayoutElements[i].name == "_Button_NRefresh") continue;
+                            if (_LayoutElements[i].name == "_Button_NDestroy") continue;
+                            GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                        }
+                        catch { }
                     }
                 foreach (var Rend in Settings.wrappers.Target.targertuser._vrcplayer.prop_VRCAvatarManager_0.gameObject.GetComponentsInChildren<Renderer>(true))
                 {
-                    if (Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name) != null)
+                   if (Rend.gameObject.GetComponent<UnityEngine.MeshRenderer>() != null || Rend.gameObject.GetComponent<UnityEngine.SkinnedMeshRenderer>() != null)
                     {
-                        Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(
-                            new Action(() =>
-                            {
-                                try
-                                {
-                                    GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject);
-                                }
-                                catch { }
-                                GameObject.Destroy(Rend.gameObject);
-                            }));
-                        continue;
-                    }
-                    new Apis.qm.NButton(Lewed.Getmenu(), Rend.gameObject.name, () =>
-                    {
-                        try
+                        if (Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name) != null)
                         {
-                            GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.name).gameObject);
+                            Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(
+                                new Action(() =>
+                                {
+                                    try
+                                    {
+                                        GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.gameObject.name).gameObject);
+                                    }
+                                    catch { }
+                                    GameObject.Destroy(Rend.gameObject);
+                                }));
+                            continue;
                         }
-                        catch { }
-                        GameObject.Destroy(Rend.gameObject);
-                    });
+                        new Apis.qm.NButton(Lewed.Getmenu(), Rend.gameObject.name, () =>
+                        {
+                            try
+                            {
+                                GameObject.DestroyImmediate(Lewed.Getmenu().transform.Find("_Button_" + Rend.name).gameObject);
+                            }
+                            catch { }
+                            GameObject.Destroy(Rend.gameObject);
+                        });
+                    }
                 }
             });
             new Apis.qm.NButton(Lewed.Getmenu(), "NDestroy", () =>
             {
-                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>();
+                _LayoutElements = Lewed.Getmenu().GetComponentsInChildren<UnityEngine.UI.LayoutElement>(true);
                 if (_LayoutElements.Length != 0)
                     for (int i = 0; i < _LayoutElements.Length; i++)
-                    {
-                        if (_LayoutElements[i].name == "_Button_NRefresh") continue;
-                        if (_LayoutElements[i].name == "_Button_NDestroy") continue;
-
-                        GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                    {              
+                        try
+                        {
+                            if (_LayoutElements[i].name == "_Button_NRefresh") continue;
+                            if (_LayoutElements[i].name == "_Button_NDestroy") continue;
+                            GameObject.DestroyImmediate(_LayoutElements[i].gameObject);
+                        }
+                        catch { }
                     }
             });
         }
