@@ -44,15 +44,15 @@ namespace Nocturnal.Ui.qm
             //   new NToggle("Copy Ik", extensions.Getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
             //  Toggle.toggle("Copy Voice", extensions.Getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);
             new NToggle("Item Orbit", extensions.Getmenu(Target), () => {
-                Orbit.isorbiting = true;
                 Orbit.orbitobject = UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);
                 Orbit.orbitobject.GetComponent<BoxCollider>().enabled = false;
                 Orbit.orbitobject.GetComponent<Renderer>().enabled = false;
+                Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("OrbitUser", -1, Time.smoothDeltaTime * 5.5f);
             }, () => {
-                Orbit.isorbiting = false;
+                Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("OrbitUser");
                 GameObject.DestroyImmediate(Orbit.orbitobject);
                 Orbit.orbitobject = null;
-            }, Orbit.isorbiting);
+            });
 
             new NButton(extensions.Getmenu(Target), "Teleport", () =>
            {

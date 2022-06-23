@@ -43,18 +43,16 @@ namespace Nocturnal.Ui
             titleinst.transform.localPosition = new Vector3(36.5451f, -40.2389f, 0);
 
             //inputextfield
-           var btn = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup").gameObject;
-          var buttonclipboard =  Apis.bigui.BButton.NormalButton("ClipBoard", btn, () =>
+           GameObject btn = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup").gameObject;
+            GameObject _Clipboard = null;
+            new Apis.bigui.BButton(out _Clipboard,"ClipBoard", btn, () =>
               {
-                  var inpf = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup/InputField").gameObject.GetComponent<InputField>();
-                  var text = Clipboard.GetText();
-                  for (int i = 0; i < text.Length; i++)
-                  {
-                      inpf.Insert(text[i]);
-                  }
-
+                  for (int i = 0; i < Clipboard.GetText().Length; i++)
+                      Ui.Objects._InputField.Insert(Clipboard.GetText()[i]);   
               });
-            buttonclipboard.transform.localPosition = new Vector3(-439.7326f, -280.46f, 0);
+            _Clipboard.transform.localPosition = new Vector3(-439.7326f, -280.46f, 0);
+            _Clipboard = null;
+            btn = null;
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport").transform.localScale = new Vector3(1,1.05f,1);
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content").transform.localScale = new Vector3(1, 0.95f, 1);
 

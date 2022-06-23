@@ -27,8 +27,8 @@ namespace Nocturnal.Ui
             addnewgmj.transform.localEulerAngles = Vector3.zero;
             var userp = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>();
 
-            BButton.NormalButton("Target User", addnewgmj, () => Nocturnal.Settings.wrappers.Target.Targetuser(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
-            BButton.NormalButton("Teleport", addnewgmj, () =>
+            new BButton("Target User", addnewgmj, () => Nocturnal.Settings.wrappers.Target.Targetuser(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
+            new BButton("Teleport", addnewgmj, () =>
             {
                 try
                 {
@@ -39,7 +39,7 @@ namespace Nocturnal.Ui
 
             });
 
-            BButton.NormalButton("Force Clone", addnewgmj, () =>
+            new BButton("Force Clone", addnewgmj, () =>
             {
                 var aviid = "";
                 try
@@ -55,9 +55,9 @@ namespace Nocturnal.Ui
               
 
             });
-            BButton.NormalButton("Copy uid", addnewgmj, () => System.Windows.Forms.Clipboard.SetText(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
+            new BButton("Copy uid", addnewgmj, () => System.Windows.Forms.Clipboard.SetText(GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").gameObject.GetComponent<VRC.UI.PageUserInfo>().field_Private_APIUser_0.id));
 
-            BButton.NormalButton("Copy avi id", addnewgmj, () =>
+            new BButton("Copy avi id", addnewgmj, () =>
             {
                 try
                 {
@@ -70,14 +70,14 @@ namespace Nocturnal.Ui
                
             });
 
-            BButton.NormalButton("Copy avi img", addnewgmj, () =>
+            new BButton("Copy avi img", addnewgmj, () =>
             {
                 NocturnalC.Log(userp.field_Private_APIUser_0.currentAvatarImageUrl);
                 System.Windows.Forms.Clipboard.SetText(userp.field_Private_APIUser_0.currentAvatarImageUrl);
             });
 
 
-            buttonaddtag = BButton.NormalButton("Set Tag", addnewgmj, () =>
+             new BButton(out buttonaddtag,"Set Tag", addnewgmj, () =>
             {
                 string tagtosend = "";
 
@@ -134,31 +134,30 @@ namespace Nocturnal.Ui
             newworlgmj.transform.localPosition = new Vector3(-475, 320, 0);
             newworlgmj.transform.localScale = Vector3.one;
             newworlgmj.transform.localEulerAngles = Vector3.zero;
-            BButton.NormalButton("Copy Id", newworlgmj, () =>
+            new BButton("Copy Id", newworlgmj, () =>
             {
                 NocturnalC.Log(worldinfo.field_Public_ApiWorldInstance_0.id);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Public_ApiWorldInstance_0.id);
             });
-            BButton.NormalButton("Creator Id", newworlgmj, () =>
+            new BButton("Creator Id", newworlgmj, () =>
             {
                 NocturnalC.Log(worldinfo.field_Public_APIUser_0.id);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Public_APIUser_0.id);
             });
-            BButton.NormalButton("Asset Url", newworlgmj, () =>
+            new BButton("Asset Url", newworlgmj, () =>
             {
                 NocturnalC.Log(worldinfo.field_Private_ApiWorld_0.assetUrl);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Private_ApiWorld_0.assetUrl);
                 Application.OpenURL(worldinfo.field_Private_ApiWorld_0.assetUrl);
             });
-            BButton.NormalButton("Copy Img", newworlgmj, () =>
+            new BButton("Copy Img", newworlgmj, () =>
             {
                 NocturnalC.Log(worldinfo.field_Private_ApiWorld_0.imageUrl);
                 System.Windows.Forms.Clipboard.SetText(worldinfo.field_Private_ApiWorld_0.imageUrl);
             });
-          GameObject gmj = BButton.NormalButton("Reset HWID", GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Authentication/StoreLoginPrompt").gameObject, () =>
+            new BButton("Reset HWID", GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Authentication/StoreLoginPrompt").gameObject, () =>
             Settings.ConfigVars.SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3")
            );
-           gmj.transform.localPosition = new Vector3(-284 - 334, 0);
 
         }
 

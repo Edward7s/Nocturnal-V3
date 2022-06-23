@@ -47,7 +47,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    GameObject.DestroyImmediate(_Buttons[i].gameObject);
+                    GameObject.Destroy(_Buttons[i].gameObject);
                 }
                 catch { }
             }
@@ -59,10 +59,7 @@ namespace Nocturnal.Ui.qm
                     try
                     {
                         if (!Networking.GoToRoom(world.worldid))
-                        {
-                            string[] array = world.worldid.Split(':');
-                            new PortalInternal().Method_Private_Void_String_String_PDM_0(array[0], array[1]);
-                        }
+                            new PortalInternal().Method_Private_Void_String_String_PDM_0(world.worldid.Split(':')[0], world.worldid.Split(':')[1]);            
                     }
                     catch (Exception e) { NocturnalC.Log(e); }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.UI;
 
 namespace Nocturnal.Ui
@@ -35,10 +36,11 @@ namespace Nocturnal.Ui
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OfflineFriends { get; set; }
 
+        internal static InputField _InputField { get; set; }
         internal static void Collectobjs()
         {
 
-
+            _InputField = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup/InputField").gameObject.GetComponent<InputField>();
             _AvatarPage = GameObject.Find("Screens").transform.Find("Avatar").GetComponent<PageAvatar>();
 
             _HudMesh = GameObject.Find("/UserInterface").transform.Find("PlayerDisplay/WorldHudDisplay/MenuMesh").gameObject;

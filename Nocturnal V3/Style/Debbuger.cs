@@ -11,8 +11,8 @@ namespace Nocturnal.Style
             if (!Settings.ConfigVars.qmdebug)
                 return null;
 
-            while (Qm_basic._debugtext.text == null)
-                return null;
+         //   while (Qm_basic._debugtext.text == null)
+            //    return null;
 
 
             if (_lastlines != string.Empty)

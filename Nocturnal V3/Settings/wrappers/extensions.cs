@@ -19,40 +19,41 @@ namespace Nocturnal.Settings.wrappers
     {
         internal static GameObject _CurentCamera { get; set; }
         internal static GameObject _LastCamera { get; set; }
+        internal static GameObject _PlatePrefab { get; set; }
+        internal static GameObject _NewPlate { get; set; }
+        internal static GameObject _Icon { get; set; }
+
         internal static GameObject GeneratePlate(this VRC.Player player, string text, string img = null) => GeneratePlate(player._vrcplayer, text, img);
 
 
 
             internal static GameObject GeneratePlate(this VRCPlayer player, string text, string img = null)
         {
+            if (player == null) return new GameObject();
             //
             //field_Public_MonoBehaviourPublicSiCoSiGaCoTeGrCoGaHoUnique_0
-            var plateprefab = player.gameObject.GetComponent<VRCPlayer>().field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/Plate Holder").gameObject;
-            var newplate = GameObject.Instantiate(plateprefab, plateprefab.transform.parent);
-            newplate.gameObject.SetActive(true);
-            newplate.gameObject.transform.Find("PrefabPlate").gameObject.SetActive(true);
+            _PlatePrefab = player.gameObject.GetComponent<VRCPlayer>().field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/Plate Holder").gameObject;
+            _NewPlate = GameObject.Instantiate(_PlatePrefab, _PlatePrefab.transform.parent);
+            _NewPlate.gameObject.SetActive(true);
+            _NewPlate.gameObject.transform.Find("PrefabPlate").gameObject.SetActive(true);
 
-            newplate.transform.Find("PrefabPlate/Text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
-            newplate.gameObject.name = $"_Plate:{text}";
+            _NewPlate.transform.Find("PrefabPlate/Text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
+            _NewPlate.gameObject.name = $"_Plate:{text}";
             if (img == null)
-                return newplate;
+                return _NewPlate;
 
-            var icon = newplate.transform.Find("PrefabPlate/Icon").gameObject;
-            Apis.Change_Image.Loadfrombytes(icon, img,true,Color.white);
-            icon.gameObject.SetActive(true);
-            return newplate;
+            _Icon = _NewPlate.transform.Find("PrefabPlate/Icon").gameObject;
+            Apis.Change_Image.Loadfrombytes(_Icon, img,true,Color.white);
+            _Icon.gameObject.SetActive(true);
+            return _NewPlate;
         }
         internal static GameObject Getmenu(this GameObject gameobj) { return gameobj.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject; }
 
-        internal static void togglecontroller(bool onoroff)
-        {
-            VRC.Player.prop_Player_0.gameObject.GetComponent<CharacterController>().enabled = onoroff;
-        }
+        internal static void togglecontroller(bool onoroff) => VRC.Player.prop_Player_0.gameObject.GetComponent<CharacterController>().enabled = onoroff;
+        
 
-        internal static void togglenetworkserializer(bool value)
-        {
-            VRC.Player.prop_Player_0.gameObject.GetComponent<VRC.Networking.FlatBufferNetworkSerializer>().enabled = value;
-        }
+        internal static void togglenetworkserializer(bool value) => VRC.Player.prop_Player_0.gameObject.GetComponent<VRC.Networking.FlatBufferNetworkSerializer>().enabled = value;
+        
         internal static void logobjfromclass(Type theclass, bool methodorpropriety = true)
         {
             if (methodorpropriety)
@@ -149,10 +150,8 @@ namespace Nocturnal.Settings.wrappers
 
         internal static bool IsFriend(this VRC.Player player) => APIUser.CurrentUser.friendIDs.Contains(player.field_Private_APIUser_0.id);
 
-        internal static void setconfigfieldvalue(string field, object value)
-        {
-            typeof(Settings.ConfigVars).GetField(field, BindingFlags.Public | System.Reflection.BindingFlags.Static).SetValue(null, value);
-        }
+        internal static void setconfigfieldvalue(string field, object value) => typeof(Settings.ConfigVars).GetField(field, BindingFlags.Public | System.Reflection.BindingFlags.Static).SetValue(null, value);
+        
 
         internal static VRC.Player[] getallplayers() => PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray();
 

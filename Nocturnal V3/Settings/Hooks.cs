@@ -569,11 +569,9 @@ namespace Nocturnal.Settings
                 Ui.Bundles.joinot.SetActive(true);
             }
 
-            if (ConfigVars.onlyfriendjoin)
-            {
-                if (_VRCPlayer.IsFriend())
+            if (ConfigVars.onlyfriendjoin && _VRCPlayer.IsFriend())
                     Ui.Qm_basic._audiosourcenotification.Play();
-            }
+            
             else if (ConfigVars.joinsound)
                 Ui.Qm_basic._audiosourcenotification.Play();
 
@@ -587,21 +585,18 @@ namespace Nocturnal.Settings
                 Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {_UserName}");
                 Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {_UserName}");
             }
-            try
-            {
-                _VR = _VRCPlayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
-                _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
-                _Friends = _VRCPlayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-                new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, _VRCPlayer);
-            }
-            catch { }
-            _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+             
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("x-userid", _Userid);
             Task.Run(() =>  GetPremiumTags(dictionary, UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user)));
             Task.Run(() => GetCustomTags(dictionary, UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user)));
+            _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+            _VR = _VRCPlayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
+            _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
+            _Friends = _VRCPlayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
+            new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, _VRCPlayer);
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
@@ -623,21 +618,19 @@ namespace Nocturnal.Settings
 
                 Main2._Queue.Enqueue(new Action(() =>
                 {
-                    if (ReaderValue != "None")
+                    if (ReaderValue == "None")
+                        return;
+                    var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(ReaderValue);
+                    for (int i = 0; i < _UserPlate.tags.Length; i++)
                     {
-                        var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(ReaderValue);
-                        for (int i = 0; i < _UserPlate.tags.Length; i++)
+                        if (_UserPlate.tags[i].StartsWith("#animatedtag#"))
                         {
-                            if (_UserPlate.tags[i].StartsWith("#animatedtag#"))
-                            {
-                                var AnimatedTag = _Player.GeneratePlate(_UserPlate.tags[i].Replace("#animatedtag#", ""), Settings.Download_Files.imagehandler.PremiumIcon);
-                                AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlate.tags[i].Replace("#animatedtag#", "");
-                                continue;
-                            }
-                             _Player.GeneratePlate(_UserPlate.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
+                            var AnimatedTag = _Player.GeneratePlate(_UserPlate.tags[i].Replace("#animatedtag#", String.Empty), Settings.Download_Files.imagehandler.PremiumIcon);
+                            AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlate.tags[i].Replace("#animatedtag#", "");
+                            continue;
                         }
-                    } 
-                    return;
+                        _Player.GeneratePlate(_UserPlate.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
+                    }
                 }));
                 return null;
 
@@ -660,13 +653,12 @@ namespace Nocturnal.Settings
                 var stringref = Reader.ReadToEnd();
                 Main2._Queue.Enqueue(new Action(() =>
                {
-                   if (stringref != "None")
-                   {
-                      var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
-                      for (int i = 0; i < GetPlates.tags.Length; i++)
-                           _Player.GeneratePlate(GetPlates.tags[i]);
-                   }
-                }));
+                   if (stringref == "None")
+                       return;
+                   var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
+                   for (int i = 0; i < GetPlates.tags.Length; i++)
+                       _Player.GeneratePlate(GetPlates.tags[i]);
+               }));
                 return null;
             }
         }
@@ -678,6 +670,15 @@ namespace Nocturnal.Settings
         private static IntPtr _userleft(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
             _VRCPlayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+            try
+            {
+                GameObject.Destroy(Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + _VRCPlayer.field_Private_APIUser_0.id).gameObject);
+            }
+            catch { }
+            if (VRC.Player.prop_Player_0 == null) return _user(_instance, user, _nativeMethodInfoPtr);
+
+            _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
+                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             _UserNameProp = _VRCPlayer.field_Private_APIUser_0.displayName;
             try
@@ -695,22 +696,7 @@ namespace Nocturnal.Settings
                 }
                 Apis.Onscreenui.showmsg($"<color=#610000>[{_UserNameProp}] Left");
             }
-            catch(Exception err) { NocturnalC.Log(err); }
-
-            try
-            {
-                GameObject.DestroyImmediate(Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + _VRCPlayer.field_Private_APIUser_0.id).gameObject);
-            }
-            catch { }
-            try
-            {
-                _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
-                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
-
-            }
-            catch
-            {
-            }
+            catch (Exception err) { NocturnalC.Log(err); }
 
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
@@ -724,7 +710,6 @@ namespace Nocturnal.Settings
 
 
             _RoomCapacity = RoomManager.field_Internal_Static_ApiWorld_0.capacity.ToString();
-
 
             Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC_Pickup>().ToArray();
 

@@ -189,14 +189,22 @@ namespace Nocturnal.server
                 for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
                 {
                     yield return new WaitForSeconds(1.5f);
-                    players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
+                    try
+                    {
+                        players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
+
+                    }
+                    catch { }
 
                 }
             }
             yield return new WaitForSeconds(1f);
-
-            var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            btntext.text = "[<color=#d633ff>N</color>]" + btntext.text;
+            try
+            {
+                var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                btntext.text = "[<color=#d633ff>N</color>]" + btntext.text;
+            }
+            catch { }
              yield break;
             }
     }

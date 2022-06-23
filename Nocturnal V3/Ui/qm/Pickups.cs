@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Nocturnal.Ui;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
+using UnityEngine;
+
 namespace Nocturnal.Ui.qm
 {
     internal class Pickups
@@ -20,8 +22,8 @@ namespace Nocturnal.Ui.qm
             new NToggle("Pickuble", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);
             new NToggle("Esp", extensions.Getmenu(_pickupsm), () => { Settings.ConfigVars.itemesp = true; try { new Exploits.Itemesp(true); } catch { } }, () => { Settings.ConfigVars.itemesp = false; try { new Exploits.Itemesp(false); } catch { } }, Settings.ConfigVars.itemesp);
             new NToggle("Allow Theft", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
-            new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Ownerobj = true, () => Exploits.Pickups._Ownerobj = false, Exploits.Pickups._Ownerobj);
-            new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Exploits.Pickups._Stoppickups = true, () => Exploits.Pickups._Stoppickups = false, Exploits.Pickups._Stoppickups);
+            new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("OwnerPickups", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("OwnerPickups"));
+            new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("StopObjs", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("StopObjs"));
             new NButton(_pickupsm.Getmenu(), "Respawn Pickups", () =>
             {
                 for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
