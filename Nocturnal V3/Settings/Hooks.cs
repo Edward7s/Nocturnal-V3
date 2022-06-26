@@ -33,7 +33,7 @@ namespace Nocturnal.Settings
 
         internal static GameObject _Pickup { get; set; }
 
-        internal static Camera cameraeye; 
+        internal static Camera cameraeye;
 
         private delegate IntPtr UserJ(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr);
 
@@ -77,13 +77,15 @@ namespace Nocturnal.Settings
 
         private static hwid _hwid;
 
-        private delegate IntPtr PickupObject(IntPtr _instance, VRC_Trigger.TriggerType rigidbody ,IntPtr _nativeMethodInfoPtr);
+        private delegate IntPtr PickupObject(IntPtr _instance, VRC_Trigger.TriggerType rigidbody, IntPtr _nativeMethodInfoPtr);
 
         private static PickupObject _PickupObject;
 
+        private delegate IntPtr PortalSpawner(IntPtr _instance, IntPtr world, IntPtr id, int idk, IntPtr Player, IntPtr _nativeMethodInfoPtr);
+
+        private static PortalSpawner _PortalSpawner;
 
 
-    
 
         private static unsafe TDelegate Hook<TDelegate>(MethodInfo targetMethod, MethodInfo patch) where TDelegate : Delegate
         {
@@ -95,9 +97,9 @@ namespace Nocturnal.Settings
             }
             finally
             {
-                NocturnalC.Log("Hooked: " + targetMethod.Name,"Hooks",ConsoleColor.Green);
+                NocturnalC.Log("Hooked: " + targetMethod.Name, "Hooks", ConsoleColor.Green);
             }
-       
+
 
         }
 
@@ -131,7 +133,7 @@ namespace Nocturnal.Settings
             finally
             {
             }
-         
+
 
         }
         //ForegroundColor
@@ -179,7 +181,7 @@ namespace Nocturnal.Settings
                 }
             }
 
-             MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
+            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo onevent = typeof(Photon.Realtime.LoadBalancingClient).GetMethod("OnEvent");
@@ -196,6 +198,9 @@ namespace Nocturnal.Settings
 
             MethodInfo Handgasper = typeof(VRCHandGrasper).GetMethod(nameof(VRCHandGrasper.Method_Private_Void_TriggerType_0));
             _PickupObject = Hook<PickupObject>(Handgasper, typeof(Hooks).GetMethod(nameof(PickupsM), BindingFlags.Static | BindingFlags.NonPublic));
+
+            MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
+            _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
 
             try
             {
@@ -223,6 +228,46 @@ namespace Nocturnal.Settings
             Console.WriteLine();
 
         }
+        private static VRC.Player _PLayerP { get; set; }
+        private static PortalInternal _Portal { get; set; }
+        private static IntPtr PortalSpawnerh(IntPtr _instance, IntPtr world, IntPtr id, int idk, IntPtr player, IntPtr _nativeMethodInfoPtr)
+        {
+
+            if (player == IntPtr.Zero)
+                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+
+
+            _PLayerP = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(player);
+            if (_PLayerP == VRC.Player.prop_Player_0)
+                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+
+            if (ConfigVars.NoPortals)
+            {
+                try
+                {
+                    _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
+                    GameObject.DestroyImmediate(_Portal.gameObject);
+                }
+                catch { }
+                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+
+            }
+            if (ConfigVars.OnlyFriendsPortals && !_PLayerP.IsFriend())
+            {
+                try
+                {
+                    _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
+                    GameObject.DestroyImmediate(_Portal.gameObject);
+                }
+                catch { }
+                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+
+            }
+            return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+        }
+
+
+
         private static IntPtr PickupsM(IntPtr _Instance, VRC_Trigger.TriggerType _Rigibody, IntPtr _nativemethodinfo)
         {
 
@@ -414,7 +459,7 @@ namespace Nocturnal.Settings
 
             return _globaludon(_instance, eventname, player, _nativeMethodInfoPtr);
         }
- 
+
 
 
         private static IntPtr oneventm(IntPtr _instance, IntPtr eventData, IntPtr _nativeMethodInfoPtr)
@@ -520,24 +565,24 @@ namespace Nocturnal.Settings
         private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
 
-            _VRCPlayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
-            _Userid = _VRCPlayer.field_Private_APIUser_0.id;
-            _Apiuser = _VRCPlayer.field_Private_APIUser_0;
+            var vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
+            _Userid = vrcplayer.field_Private_APIUser_0.id;
+            _Apiuser = vrcplayer.field_Private_APIUser_0;
             _SendUser = new Settings.jsonmanager.custommsg()
             {
                 code = "2",
                 msg = _Userid,
             };
-           server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(_SendUser));
+            server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(_SendUser));
 
             if (_Userid != APIUser.CurrentUser.id)
             {
-                _VRCPlayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
+                vrcplayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
                 if (ConfigVars.EveryoneTrail)
-                    extensions._AddTrailRender(_VRCPlayer.gameObject);
+                    extensions._AddTrailRender(vrcplayer.gameObject);
 
                 CameraManager = new GameObject("UserPovCamera");
-                CameraManager.transform.parent = _VRCPlayer.gameObject.transform.Find("AnimationController/HeadAndHandIK/HeadEffector");
+                CameraManager.transform.parent = vrcplayer.gameObject.transform.Find("AnimationController/HeadAndHandIK/HeadEffector");
                 CameraManager.transform.localPosition = Vector3.zero;
                 CameraManager.transform.localScale = Vector3.one;
                 CameraManager.transform.localEulerAngles = Vector3.zero;
@@ -550,15 +595,15 @@ namespace Nocturnal.Settings
             if (_Apiuser.IsOnMobile)
             {
                 Style.Debbuger.Debugermsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
-                   Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
+                Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
             }
             else
             {
                 Style.Debbuger.Debugermsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
-                    Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
+                Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
             }
 
-            _VRCPlayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
+            vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
             if (Settings.ConfigVars.joinnotif)
             {
                 Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
@@ -569,34 +614,32 @@ namespace Nocturnal.Settings
                 Ui.Bundles.joinot.SetActive(true);
             }
 
-            if (ConfigVars.onlyfriendjoin && _VRCPlayer.IsFriend())
-                    Ui.Qm_basic._audiosourcenotification.Play();
-            
+            if (ConfigVars.onlyfriendjoin && vrcplayer.IsFriend())
+                Ui.Qm_basic._audiosourcenotification.Play();
+
             else if (ConfigVars.joinsound)
                 Ui.Qm_basic._audiosourcenotification.Play();
 
-            if (ConfigVars.hidequests && _Apiuser.last_platform != "standalonewindows" && !_VRCPlayer.IsFriend())
+            if (ConfigVars.hidequests && _Apiuser.last_platform != "standalonewindows" && !vrcplayer.IsFriend())
             {
-                _VRCPlayer.gameObject.SetActive(false);
+                vrcplayer.gameObject.SetActive(false);
                 Style.Debbuger.Debugermsg($"<color=#610000>[{_UserName} Quest Hidden");
             }
             if (_Apiuser.hasModerationPowers || _Apiuser.hasSuperPowers)
-            {
-                Style.Debbuger.Debugermsg($"<color=#red>MODERATOR IN LOBBY {_UserName}");
-                Settings.wrappers.extensions.clientmessage($"<color=#red>MODERATOR IN LOBBY {_UserName}");
-            }
-             
+                Settings.XRefedMethods.PopOutWarrningMessage("MODERATOR IN LOBBY [" + _UserName + "]");
+
+
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("x-userid", _Userid);
-            Task.Run(() =>  GetPremiumTags(dictionary, UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user)));
-            Task.Run(() => GetCustomTags(dictionary, UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user)));
+            Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
+            Task.Run(() => GetCustomTags(dictionary, vrcplayer));
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
-            _VR = _VRCPlayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
+            _VR = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
             _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
-            _Friends = _VRCPlayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-            new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, _VRCPlayer);
+            _Friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
+            new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, vrcplayer);
             return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
@@ -618,9 +661,13 @@ namespace Nocturnal.Settings
 
                 Main2._Queue.Enqueue(new Action(() =>
                 {
+                    if (_Player == null)
+                        return;
                     if (ReaderValue == "None")
                         return;
                     var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(ReaderValue);
+              //      NocturnalC.Log("1" + ReaderValue + "  //    " + _Player.field_Private_APIUser_0.displayName);
+
                     for (int i = 0; i < _UserPlate.tags.Length; i++)
                     {
                         if (_UserPlate.tags[i].StartsWith("#animatedtag#"))
@@ -635,30 +682,35 @@ namespace Nocturnal.Settings
                 return null;
 
             }
-       }
+        }
 
-       private static Task GetCustomTags(Dictionary<string, string> Headers, VRC.Player _Player )
-       {
-           var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/CustomTags");
-           for (int i = 0; i < Headers.Count; i++)
-           {
-               var Curent = Headers.ElementAt(i);
-               _Req.Headers.Add(Curent.Key, Curent.Value);
-           }
-           _Req.AutomaticDecompression = DecompressionMethods.GZip;
-           using (var res = (HttpWebResponse)_Req.GetResponse())
-           using (var stream = res.GetResponseStream())
-           using (var Reader = new StreamReader(stream))
-           {
+        private static Task GetCustomTags(Dictionary<string, string> Headers, VRC.Player _Player)
+        {
+            var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/CustomTags");
+            for (int i = 0; i < Headers.Count; i++)
+            {
+                var Curent = Headers.ElementAt(i);
+                _Req.Headers.Add(Curent.Key, Curent.Value);
+            }
+            _Req.AutomaticDecompression = DecompressionMethods.GZip;
+            using (var res = (HttpWebResponse)_Req.GetResponse())
+            using (var stream = res.GetResponseStream())
+            using (var Reader = new StreamReader(stream))
+            {
                 var stringref = Reader.ReadToEnd();
                 Main2._Queue.Enqueue(new Action(() =>
-               {
-                   if (stringref == "None")
-                       return;
-                   var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
-                   for (int i = 0; i < GetPlates.tags.Length; i++)
-                       _Player.GeneratePlate(GetPlates.tags[i]);
-               }));
+                {
+                    if (_Player == null)
+                        return;
+                    if (stringref == "None")
+                        return;
+
+              //      NocturnalC.Log("2" + stringref + "  //    " + _Player.field_Private_APIUser_0.displayName);
+
+                    var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
+                    for (int i = 0; i < GetPlates.tags.Length; i++)
+                        _Player.GeneratePlate(GetPlates.tags[i]);
+                }));
                 return null;
             }
         }
@@ -678,7 +730,7 @@ namespace Nocturnal.Settings
             if (VRC.Player.prop_Player_0 == null) return _user(_instance, user, _nativeMethodInfoPtr);
 
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
-                Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
+            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
             _UserNameProp = _VRCPlayer.field_Private_APIUser_0.displayName;
             try
@@ -701,7 +753,7 @@ namespace Nocturnal.Settings
             return _user(_instance, user, _nativeMethodInfoPtr);
         }
 
-    
+
 
         private static IEnumerator waitforworldtoinitialize()
         {
@@ -777,7 +829,7 @@ namespace Nocturnal.Settings
 
             yield break;
         }
-        private static Dictionary<string,string> _Dictionary { get; set; }
+        private static Dictionary<string, string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }
         private static VRCPlayer _VRCPLAYER { get; set; }
         internal static string _RoomCapacity { get; set; }

@@ -17,6 +17,8 @@ namespace Nocturnal.Ui
                     gmj[i].transform.parent.parent.transform.Find("Icon/Background").gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.Nameplateicon);
                 }
             }
+
+
         }
     }
 }

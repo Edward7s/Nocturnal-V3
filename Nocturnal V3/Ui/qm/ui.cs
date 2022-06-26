@@ -10,6 +10,8 @@ using VRC;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
+using Nocturnal.Settings;
+
 namespace Nocturnal.Ui.qm
 {
     internal class Ui
@@ -250,7 +252,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(extensions.Getmenu(Colors), "Big Image", () =>
            {
-               new Apis.Inputpopout("Big Image", value => Settings.ConfigVars.BiguiImg = value, () => {
+               XRefedMethods.PopOutInput("Big Image", value => Settings.ConfigVars.BiguiImg = value, () => {
                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                        GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop/Rain/Rain(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.BiguiImg
                        ));
@@ -261,7 +263,7 @@ namespace Nocturnal.Ui.qm
            {
                try
                {
-                   new Apis.Inputpopout("Debbuger Image", value => Settings.ConfigVars.QmDebbugerImg = value, () => {
+                   XRefedMethods.PopOutInput("Debbuger Image", value => Settings.ConfigVars.QmDebbugerImg = value, () => {
                        MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                            GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/N_Debbuger/SupportVRChat/SupportVRChat(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.QmDebbugerImg
                            ));
@@ -274,7 +276,7 @@ namespace Nocturnal.Ui.qm
 
              new NButton(extensions.Getmenu(Colors), "Qm Image", () =>
             {
-                new Apis.Inputpopout("Qm Image", value => Settings.ConfigVars.QmImg = value, () => {
+                XRefedMethods.PopOutInput("Qm Image", value => Settings.ConfigVars.QmImg = value, () => {
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                        Objects._qmbackground.transform.Find("_Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.QmImg
                         )) ;
@@ -284,7 +286,7 @@ namespace Nocturnal.Ui.qm
 
             new NButton(extensions.Getmenu(Colors), "Playerlist Image", () =>
             {
-                new Apis.Inputpopout("Player List Image", value => Settings.ConfigVars.PlayerListImg = value, () => {
+                XRefedMethods.PopOutInput("Player List Image", value => Settings.ConfigVars.PlayerListImg = value, () => {
 
                     if (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button/Playerlist/Playerlistmask/Playerlistmask(Clone)") != null)
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
@@ -391,7 +393,7 @@ namespace Nocturnal.Ui.qm
 
              new NButton(extensions.Getmenu(Colors), "Client Chat Image", () =>
             {
-                new Apis.Inputpopout("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
+                XRefedMethods.PopOutInput("Qm Image", value => Settings.ConfigVars.chatimage = value, () => {
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
                       GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_DevTools/_Submenu_Client Chat/Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup/_Button_/Background/Background(Clone)").gameObject.GetComponent<Image>(), Settings.ConfigVars.chatimage
                         ));

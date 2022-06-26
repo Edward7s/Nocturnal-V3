@@ -7,6 +7,7 @@ using Nocturnal.Ui;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
 using UnityEngine;
+using Nocturnal.Settings;
 
 namespace Nocturnal.Ui.qm
 {
@@ -42,7 +43,7 @@ namespace Nocturnal.Ui.qm
                     NocturnalC.Log("If u want to change the Velocity Boost Turn on Velocity Throw", "Pickups", ConsoleColor.Red);
                     return;
                 }
-                new Apis.Inputpopout("State", value => Settings.ConfigVars.ItemThrowBoostValue = int.Parse(value), () => {
+                XRefedMethods.PopOutNumbersKeyboard("State", value => Settings.ConfigVars.ItemThrowBoostValue = value, () => {
                     for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
                         Exploits.Pickups.Pickupsobs[i].ThrowVelocityBoostScale = Settings.ConfigVars.ItemThrowBoostValue;
                     VelocityB.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Velocity V: " + Settings.ConfigVars.ItemThrowBoostValue;

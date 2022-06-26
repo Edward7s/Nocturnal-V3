@@ -69,7 +69,7 @@ namespace Nocturnal.Ui.qm
                 try
                 {
                     string aviid = "";
-                    new Apis.Inputpopout("Avatar id", value => aviid = value, () => {
+                    XRefedMethods.PopOutInput("Avatar id", value => aviid = value, () => {
                         Exploits.Misc.Changetoavi(aviid);
                     });
                 }
@@ -82,7 +82,7 @@ namespace Nocturnal.Ui.qm
             new NButton(extensions.Getmenu(_mainpage), "Join By Id", () =>
             {
                 string roomid = "";
-                new Apis.Inputpopout("Room Instance Id", value => roomid = value, () => {
+                XRefedMethods.PopOutInput("Room Instance Id", value => roomid = value, () => {
                     if (!Networking.GoToRoom(roomid))
                     {
                         string[] array = roomid.Split(':');
@@ -99,7 +99,7 @@ namespace Nocturnal.Ui.qm
             {
                 try
                 {
-                    new Apis.Inputpopout("Jump Impulse", value => ConfigVars.jumpimpulse = float.Parse(value), () => { });
+                    XRefedMethods.PopOutNumbersKeyboard("Jump Impulse", value => ConfigVars.jumpimpulse = value, () => { });
                     Networking.LocalPlayer.SetJumpImpulse(ConfigVars.jumpimpulse);
                     _jumpimpulse.GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
                 }

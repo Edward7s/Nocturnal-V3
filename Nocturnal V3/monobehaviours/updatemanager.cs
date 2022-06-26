@@ -1,15 +1,8 @@
 ﻿using Nocturnal.Settings;
-using Nocturnal.Settings.wrappers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
-using VRC;
 using VRC.SDKBase;
 namespace Nocturnal.Monobehaviours
 {
@@ -62,17 +55,22 @@ namespace Nocturnal.Monobehaviours
             
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
                 if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
-        
+
+
+            try
+            {
                 if (Main2._Queue.Count != 0)
                 {
                     for (int i = 0; i < Main2._Queue.Count; i++)
-                    {
+                    { 
                         Main2._Queue.ToArray()[i].Invoke();
+                        Main2._Queue.Dequeue();
                     }
-                    Main2._Queue.Clear();
-
                 }
-            
+            }
+            catch { }
+
+               
 
 
             if (Input.GetKey(KeyCode.LeftControl))
@@ -137,15 +135,18 @@ namespace Nocturnal.Monobehaviours
                     if (Settings.ConfigVars.infinitejump)
                         Exploits.Misc.Jump();
                 }
+
+
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1))
+                {
+                    if (Networking.LocalPlayer.GetJumpImpulse() == 0)
+                        Networking.LocalPlayer.SetJumpImpulse(1);
+                    if (Settings.ConfigVars.forcejump)
+                        Exploits.Misc.Jump();
+                }
             }
             catch { }
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1))
-            {
-                if (Networking.LocalPlayer.GetJumpImpulse() == 0)
-                    Networking.LocalPlayer.SetJumpImpulse(1);
-                if (Settings.ConfigVars.forcejump)
-                    Exploits.Misc.Jump();
-            }
+          
             Exploits.Zoom._Zoom();
         }
 

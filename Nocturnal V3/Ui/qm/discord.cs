@@ -3,6 +3,8 @@ using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
 using System.IO;
 using Newtonsoft.Json;
+using Nocturnal.Settings;
+
 namespace Nocturnal.Ui.qm
 {
     internal class Discord
@@ -39,7 +41,7 @@ namespace Nocturnal.Ui.qm
             {
                    var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-               new Apis.Inputpopout("Details", value => tobstring = value, () => {
+                XRefedMethods.PopOutInput("Details", value => tobstring = value, () => {
                 str.Details = tobstring;
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc",JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);
@@ -51,7 +53,7 @@ namespace Nocturnal.Ui.qm
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                new Apis.Inputpopout("State", value => tobstring = value, () => {
+                XRefedMethods.PopOutInput("State", value => tobstring = value, () => {
                     str.State = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);
@@ -62,7 +64,7 @@ namespace Nocturnal.Ui.qm
             {
                 var str = JsonConvert.DeserializeObject<Settings.jsonmanager.discordrpc>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc"));
                 var tobstring = "";
-                new Apis.Inputpopout("Image", value => tobstring = value, () => {
+                XRefedMethods.PopOutInput("Image", value => tobstring = value, () => {
                     str.LargeImage = tobstring;
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Discord.rpc", JsonConvert.SerializeObject(str));
                     Settings.Download_Files.activitymanager.Invoke(Settings.Download_Files.activitymanager, null);

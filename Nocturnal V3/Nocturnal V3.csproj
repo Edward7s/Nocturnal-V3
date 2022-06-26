@@ -381,7 +381,6 @@
     <Compile Include="Apis\bigui\Button.cs" />
     <Compile Include="Apis\bigui\Custom ScrollBar.cs" />
     <Compile Include="Apis\Change Image.cs" />
-    <Compile Include="Apis\Inputpopout.cs" />
     <Compile Include="Apis\Onscreenui.cs" />
     <Compile Include="Apis\qm\Button.cs" />
     <Compile Include="Apis\qm\Minibuttn.cs" />
@@ -491,6 +490,7 @@
     <Compile Include="Settings\imports.cs" />
     <Compile Include="Settings\json.cs" />
     <Compile Include="Settings\LoadConfig.cs" />
+    <Compile Include="Settings\XRefedMethods.cs" />
     <Compile Include="Settings\wrappers\extensions.cs" />
     <Compile Include="Settings\wrappers\photon extentions.cs" />
     <Compile Include="Settings\wrappers\Target.cs" />

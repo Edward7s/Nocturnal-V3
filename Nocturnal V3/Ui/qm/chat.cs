@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nocturnal.Settings;
 using Nocturnal.Apis;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
@@ -21,7 +19,7 @@ namespace Nocturnal.Ui.qm
 
             var mess = "";
             GameObject buttonchat = null;
-            new NButton(out buttonchat, chatm.Getmenu(), "", () => new Inputpopout("Send Message", m => mess = m, () =>
+            new NButton(out buttonchat, chatm.Getmenu(), "", () => XRefedMethods.PopOutInput("Send Message", m => mess = m, () =>
             {
 
                 if (mess.Length > 100) { NocturnalC.Log("The message its to big", "ERROR", ConsoleColor.Red); return; }

@@ -3,6 +3,8 @@ using System.IO;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
 using Newtonsoft.Json;
+using Nocturnal.Settings;
+
 namespace Nocturnal.Ui.qm
 {
     internal class Tags
@@ -14,7 +16,7 @@ namespace Nocturnal.Ui.qm
             var tag = "";
             new NButton(tags.Getmenu(), "Add new tag", () => {
                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")) { NocturnalC.Log("Cloud Not Find The Key File Please try to enter your key again", "Error", ConsoleColor.Red); return; }
-                new Apis.Inputpopout("Add New Tag", value => tag = value, () =>
+                XRefedMethods.PopOutInput("Add New Tag", value => tag = value, () =>
                 {
                     if (tag.Length > 300) { NocturnalC.Log("U can not enter a tag bigger then 300c", "Error", ConsoleColor.Red); return; }
                     if (tag.Contains("\n")) { NocturnalC.Log("U can not use multiple lines", "Error", ConsoleColor.Red); return; }

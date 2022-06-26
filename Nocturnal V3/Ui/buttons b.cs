@@ -8,6 +8,8 @@ using UnityEngine.UI;
 using Nocturnal.Apis.bigui;
 using VRC;
 using Nocturnal.Settings.wrappers;
+using Nocturnal.Settings;
+
 namespace Nocturnal.Ui
 {
     internal class buttons_b
@@ -83,7 +85,7 @@ namespace Nocturnal.Ui
 
 
 
-               new Apis.Inputpopout("", value => tagtosend = value, () => {
+                XRefedMethods.PopOutInput("", value => tagtosend = value, () => {
 
                     if (tagtosend.Trim().Length > 60)
                     {

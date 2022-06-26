@@ -32,6 +32,8 @@ namespace Nocturnal
 
         public static void Start()
         {
+      //  Settings.wrappers.extensions.GetAllStrings(typeof(VRCUiPopupManager),typeof(string));
+
             _CurentP = Process.GetCurrentProcess();
             Main2._Queue = new Queue<Action>();
             _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -162,6 +164,7 @@ namespace Nocturnal
             MelonCoroutines.Start(waitforuser());
             MelonCoroutines.Start(waitforui());
             Settings.Hooks.StartHooks();
+            Settings.XRefedMethods.SetMethods();
             if (!Settings.ConfigVars.discordrichpresence)
                 return;
             NocturnalC.Log("Clearing Unity Cache", "Unityengine");

@@ -226,5 +226,45 @@ namespace Nocturnal.Settings.wrappers
             catch { }
          
         }
+
+
+        internal static void GetAllStrings(Type TheClass,Type specificparameter = null)
+        {
+            MethodInfo[] methods = TheClass.GetMethods();
+            for (int i = 0; i < methods.Length; i++)
+            {
+                var xrefedmethods = UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(methods[i]).ToArray();
+                for (int i2 = 0; i2 < xrefedmethods.Length; i2++)
+                {
+                    try
+                    {
+                        if (xrefedmethods[i2].Type != UnhollowerRuntimeLib.XrefScans.XrefType.Global) continue;
+                        string LogedParams = "";
+                        bool next = false;
+                        for (int i3 = 0; i3 < methods[i].GetParameters().Length; i3++)
+                        {
+                            if (specificparameter != null)
+                            {
+                             //   NocturnalC.Log(methods[i].GetParameters()[i3].ParameterType.ToString() + " // " + specificparameter.ToString());
+                                if (methods[i].GetParameters()[i3].ParameterType.ToString() == specificparameter.ToString())
+                                    next = true;
+                                
+                            }
+                            else
+                                next = true;
+                            LogedParams += " " + methods[i].GetParameters()[i3];
+
+                        }
+
+                        if (next)
+                        NocturnalC.Log(xrefedmethods[i2].ReadAsObject().ToString() + " / [ " + LogedParams +"]", methods[i].Name, ConsoleColor.Green);
+                    }
+                    catch { }
+                 
+                }
+            }
+
+        }
+
     }
 }
