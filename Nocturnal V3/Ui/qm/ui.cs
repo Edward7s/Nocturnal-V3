@@ -54,6 +54,38 @@ namespace Nocturnal.Ui.qm
                 }
 
             }, true, "Esp Falloff");
+            new NToggle("Esp Size Distance", extensions.Getmenu(uipg), () =>
+            {
+                Settings.ConfigVars.EspSizeOverDistance = true;
+                var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
+                for (int i = 0; i < player.Count; i++)
+                {
+                    try
+                    {
+                        if (player[i].field_Private_APIUser_0.id == VRC.Player.prop_Player_0.field_Private_APIUser_0.id) continue;
+                        player[i].transform.Find("SelectRegion/ESP").gameObject.GetComponent<MeshRenderer>().materials[1].SetFloat("_ToggleSizeD", 1);
+
+                    }
+                    catch { }
+                }
+            }, () =>
+            {
+                var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
+                for (int i = 0; i < player.Count; i++)
+                {
+                    try
+                    {
+                        if (player[i].field_Private_APIUser_0.id == VRC.Player.prop_Player_0.field_Private_APIUser_0.id) continue;
+                        player[i].transform.Find("SelectRegion/ESP").gameObject.GetComponent<MeshRenderer>().materials[1].SetFloat("_ToggleSizeD", 0);
+
+                    }
+                    catch { }
+                }
+
+                Settings.ConfigVars.EspSizeOverDistance = false;
+            }, Settings.ConfigVars.EspSizeOverDistance);
+
+
             new NToggle("Thunder Big Ui", extensions.Getmenu(uipg), () =>
             {
                 GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop/Rain/Image").gameObject.GetComponent<Image>().material.SetFloat("postpr", 1);

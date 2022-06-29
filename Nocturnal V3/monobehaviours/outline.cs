@@ -32,7 +32,11 @@ namespace Nocturnal.Monobehaviours
             outm.SetColor("_Color", outlinecolor);
             outm.EnableKeyword("width");
             outm.SetFloat("_Width", Settings.ConfigVars.espwidth);
-         
+            outm.EnableKeyword("_ToggleSizeD");
+            if (Settings.ConfigVars.EspSizeOverDistance)
+                outm.SetFloat("_ToggleSizeD", 1);
+            else
+                outm.SetFloat("_ToggleSizeD", 0);
             esp.gameObject.GetComponent<MeshRenderer>().materials.FirstOrDefault<Material>().color = new Color(0, 0, 0, 0);
             esp.gameObject.GetComponent<MeshRenderer>().enabled = true;
             for (int i = 0; i < rend.Length; i++)

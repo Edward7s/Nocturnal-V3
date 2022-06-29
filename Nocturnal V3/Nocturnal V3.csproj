@@ -378,8 +378,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apis\AvatarFav.cs" />
     <Compile Include="Apis\bigui\Button.cs" />
     <Compile Include="Apis\bigui\Custom ScrollBar.cs" />
+    <Compile Include="Apis\bigui\Toggle.cs" />
     <Compile Include="Apis\Change Image.cs" />
     <Compile Include="Apis\Onscreenui.cs" />
     <Compile Include="Apis\qm\Button.cs" />
@@ -499,6 +501,7 @@
     <Compile Include="Ui\Biguiscrollbar.cs" />
     <Compile Include="Ui\Buttons b.cs" />
     <Compile Include="Settings\wrappers\Gettrustrank.cs" />
+    <Compile Include="Ui\Favorites.cs" />
     <Compile Include="Ui\Inject monos.cs" />
     <Compile Include="Ui\LoadBundles.cs" />
     <Compile Include="Ui\LoadingScreen.cs" />

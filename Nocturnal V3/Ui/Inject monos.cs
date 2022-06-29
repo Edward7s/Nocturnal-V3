@@ -23,6 +23,7 @@ namespace Nocturnal.Ui
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/WorldInfo").gameObject.AddComponent<Monobehaviours.Pagemanager>();
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local").gameObject.AddComponent<Monobehaviours.Pagemanager>();
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject.AddComponent<Monobehaviours.Pagemanager>();
+            GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/StandardPopupV2").gameObject.AddComponent<Monobehaviours.Pagemanager>();
             _FlyManager = new GameObject("Nocturnal Fly");
             _FlyManager.transform.parent = GameObject.Find("/_Application").transform;
             _FlyManager.gameObject.SetActive(false);

@@ -80,6 +80,9 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json"))
                 File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json").Close();
 
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AvatarFav.json"))
+                File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AvatarFav.json").Close();
+
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json"))
             {
                 File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\ImageManager.json").Close();

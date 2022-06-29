@@ -69,10 +69,12 @@ namespace Nocturnal.Settings
         }
 
         internal static void PopOutToggle(string _Title, string _Desciption, Action _Ok = null, Action _Cancel = null)
-        {
+        {      
             CheckQuickMenu();
             _Toggle.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_Title, _Desciption, "Cancel"
-                  , _Cancel, "Accept", _Ok});
+                  ,(Il2CppSystem.Action)new Action(()=> {_Cancel.Invoke();
+                  VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0();
+                  }), "Accept",(Il2CppSystem.Action)new Action(()=> {_Ok.Invoke(); VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0(); }),null});
         }
         internal static void PopOutNumbersKeyboard(string _Title, Action<int> _IntOut, Action _Action)
         {

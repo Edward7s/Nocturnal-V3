@@ -14,6 +14,12 @@ namespace Nocturnal.Monobehaviours
 
         }
 
+
+        void OnDisable()
+        {
+            try {  if (this.name == "StandardPopupV2")
+                    Ui.Qm_basic._Content.transform.parent.gameObject.SetActive(false); } catch { }
+        }
        
         public void OnEnable()
         {
@@ -33,7 +39,6 @@ namespace Nocturnal.Monobehaviours
                     break;
                 case true when this.name == "WorldInfo":
                     break;
-
                 case true when this.name == "Menu_SelectedUser_Local":
                     break;
                 case true when this.name == "Canvas_QuickMenu(Clone)":
@@ -47,9 +52,6 @@ namespace Nocturnal.Monobehaviours
                     };
                     server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(getm));
                     break;
-
-                    //   
-
             }
         }
 

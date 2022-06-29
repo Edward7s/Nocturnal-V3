@@ -66,6 +66,27 @@ namespace Nocturnal.Settings
         }
 
 
+        public class Menu
+        {
+            public string AviMenu { get; set; }
+
+            public List<AvatarFav> Avatars { get; set; }
+
+        }
+
+        public class AvatarFav
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public string platform { get; set; }
+            public string img { get; set; }
+            public string url { get; set; }
+
+        }
+
+
+
+
         public class downloadhandler
         {
             public string nameplates { get; set; }

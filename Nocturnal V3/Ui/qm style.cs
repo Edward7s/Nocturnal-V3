@@ -18,7 +18,7 @@ namespace Nocturnal.Ui
         internal static TMPro.TextMeshProUGUI _GUIInfo = null;
         internal static Transform _playerlistmenu;
         internal static TMPro.TextMeshProUGUI playercounter = null;
-
+        internal static GameObject _Content { get; set; }
         internal static void Setupstuff()
         {
             var styletimer = System.Diagnostics.Stopwatch.StartNew();
@@ -94,8 +94,7 @@ namespace Nocturnal.Ui
                 Component.DestroyImmediate(img2.GetComponent<Mask>());
                 maskimg.GetComponent<Image>().color = new Color(0, 0, 0, 0.1f);
                 var img3 = GameObject.Instantiate(img2, img2.transform).gameObject;
-                var img3i = img3.gameObject.GetComponent<Image>();
-              
+                var img3i = img3.gameObject.GetComponent<Image>();          
                 img3.transform.localPosition = Vector3.zero;
                 MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(img3i, "https://nocturnal-client.xyz/Resources/border.png"));
                 mask.transform.localPosition = new Vector3(0, 295, 0);
@@ -110,7 +109,6 @@ namespace Nocturnal.Ui
                 debbugertxt.transform.localPosition = new Vector3(-150f, -53.86f, 1);
                 debbugertxt.transform.localScale = new Vector3(2.65f,1,1);
                 Style.Debbuger.Debugermsg($"<color=#2700c2>Nocturnal V3</color> Made by <color=#ff1934>Edward7");
-
             }
 
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 80);
@@ -337,8 +335,21 @@ namespace Nocturnal.Ui
 
 
             //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
-
-
+            // new Apis.bigui.Toggle(_Content.transform, "test", () => { }, () => { }, Vector3.zero, false, 30);
+            Transform popouttransform = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/StandardPopupV2/Popup").transform;
+            GameObject _Holder = new GameObject("Holder");
+            _Holder.transform.parent = popouttransform;
+            _Holder.transform.localScale = new Vector3(3.7f, 3.1f, 1);
+            _Holder.transform.localPosition = new Vector3(-282.5903f, 27.3515f, 0);
+            _Holder.transform.localEulerAngles = Vector3.zero;
+            _Content = new GameObject("Content");
+            _Content.transform.parent = _Holder.transform;
+            _Content.transform.localScale = Vector3.one;
+            _Content.transform.localPosition = Vector3.zero; 
+            var layout = _Content.AddComponent<UnityEngine.UI.GridLayoutGroup>();
+            layout.spacing = new Vector2(0,-50);
+            _Content.transform.localScale = new Vector3(0.25f, 0.3f, 1);
+            _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0);
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

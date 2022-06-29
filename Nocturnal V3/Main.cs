@@ -214,6 +214,12 @@ namespace Nocturnal
             NocturnalC.Log("Initializing Custom Menu");
             Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
+
+            while (GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/Vertical Scroll View/Viewport/Content/FavoriteContent/avatars1") == null)
+                yield return new WaitForEndOfFrame();
+
+            Ui.Favorites.Run();
+
             yield break;
            
         }

@@ -70,7 +70,12 @@ namespace Nocturnal.Monobehaviours
             }
             catch { }
 
-               
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                Settings.XRefedMethods.PopOutToggle("Test", "Tst2", () => { }, () => { });
+            }
+
+
 
 
             if (Input.GetKey(KeyCode.LeftControl))

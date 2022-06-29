@@ -104,6 +104,7 @@ namespace Nocturnal.Settings
         public bool? HudUi { get; set; }
         public bool? OnlyFriendsPortals { get; set; }
         public bool? NoPortals { get; set; }
+        public bool? EspSizeOverDistance { get; set; }
 
     }
     internal class ConfigVars
@@ -219,5 +220,6 @@ namespace Nocturnal.Settings
         public static bool HudUi = true;
         public static bool OnlyFriendsPortals = true;
         public static bool NoPortals = false;
+        public static bool EspSizeOverDistance = true;
     }
 }

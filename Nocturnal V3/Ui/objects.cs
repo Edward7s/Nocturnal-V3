@@ -31,14 +31,21 @@ namespace Nocturnal.Ui
         internal static UnityEngine.UI.Text _trustranktext { get; set; }
         internal static GameObject _QuickMenuCanvas { get; set; }
         internal static PageAvatar _AvatarPage { get; set; }
-
         internal static GameObject _HudMesh { get; set; }
+        internal static GameObject _Favorite { get; set; }
+        internal static GameObject _AvatarUiPrefab { get; set; }
+        internal static GameObject _BigUiToggle { get; set; }
+
+        internal static RectTransform _ViewPortAvi { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OfflineFriends { get; set; }
 
         internal static InputField _InputField { get; set; }
         internal static void Collectobjs()
         {
+
+            _BigUiToggle = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/OtherOptionsPanel/TooltipsToggle").gameObject;
+            _AvatarUiPrefab = Resources.FindObjectsOfTypeAll<VRCUiContentButton>().Where(btn => btn.gameObject.name == "AvatarUiPrefab2").FirstOrDefault().gameObject;
 
             _InputField = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup/InputField").gameObject.GetComponent<InputField>();
             _AvatarPage = GameObject.Find("Screens").transform.Find("Avatar").GetComponent<PageAvatar>();
