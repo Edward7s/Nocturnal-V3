@@ -39,6 +39,7 @@ namespace Nocturnal.Ui
         internal static RectTransform _ViewPortAvi { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OfflineFriends { get; set; }
+        internal static GameObject _ContentOnlineFriends { get; set; }
 
         internal static InputField _InputField { get; set; }
         internal static void Collectobjs()
@@ -93,6 +94,7 @@ namespace Nocturnal.Ui
             _QMexpand = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand").gameObject;
 
             _trustranktext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo/User Panel/TrustLevel/TrustText").gameObject.GetComponent<UnityEngine.UI.Text>();
+            _ContentOnlineFriends = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content").gameObject;
         }
     }
 }

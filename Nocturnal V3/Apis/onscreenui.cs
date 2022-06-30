@@ -42,7 +42,7 @@ namespace Nocturnal.Apis
             if (countdown == 0)
             {
                 textgameobj.SetActive(true);
-                countdown = 3;
+                countdown = 6;
                 while (countdown > 0)
                 {
                     yield return new WaitForSeconds(1f);
@@ -64,7 +64,7 @@ namespace Nocturnal.Apis
             else
             {
                 textgameobj.SetActive(true);
-                countdown = 3;
+                countdown = 6;
             }
           
 

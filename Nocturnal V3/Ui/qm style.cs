@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Threading;
 using Nocturnal.Apis;
 using System;
-
+using System.IO;
+using System.Linq;
 namespace Nocturnal.Ui
 {
      class Qm_basic
@@ -301,8 +302,7 @@ namespace Nocturnal.Ui
             _Thirdtext.transform.localPosition = new Vector3(380,0,0);
             secondp.transform.Find("Panel/Background").transform.localPosition = new Vector3(300, 0, 0);
             secondp.transform.Find("Panel/Background").GetComponent<RectTransform>().sizeDelta = new Vector2(200, 0);
-            _Thirdtext.enableWordWrapping = false;
-            _secondtext.enableWordWrapping = false;
+            
             _firsttext.transform.localPosition = new Vector3(_firsttext.transform.localPosition.x - 30, 0, 0);
             _secondtext.transform.localPosition = new Vector3(_secondtext.transform.localPosition.x - 30, 0, 0);
             var texts = GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_AvInteractions/Button_ToggleSelfInteract/Text_H4").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -332,7 +332,8 @@ namespace Nocturnal.Ui
             instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.hudUi);
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer").transform.localScale = new Vector3(0.9f,0.9f,1);
 
-
+            _Thirdtext.enableWordWrapping = false;
+            _secondtext.enableWordWrapping = false;
 
             //    GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(712, 712, 0.5f);
             // new Apis.bigui.Toggle(_Content.transform, "test", () => { }, () => { }, Vector3.zero, false, 30);
@@ -349,7 +350,7 @@ namespace Nocturnal.Ui
             var layout = _Content.AddComponent<UnityEngine.UI.GridLayoutGroup>();
             layout.spacing = new Vector2(0,-50);
             _Content.transform.localScale = new Vector3(0.25f, 0.3f, 1);
-            _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0);
+            _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0); 
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

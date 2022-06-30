@@ -13,19 +13,78 @@ namespace Nocturnal.Monobehaviours
 
         }
 
-        void Start()
-        {
-            orbitplace = new GameObject("Svastica");
-        }
+        void Start() => orbitplace = new GameObject("Svastica");
+
+        private Transform _Up { get; set; }
+        private Transform _Down { get; set; }
+        private Transform _Right { get; set; }
+
 
 
         void LateUpdate()
         {
+            //  orbitplace.transform.position = Settings.wrappers.Target.targertuser.prop_VRCPlayer_1.field_Internal_Animator_0.GetBoneTransform(HumanBodyBones.Head).position;
+            //   orbitplace.transform.localEulerAngles = new Vector3(0, 0, orbitplace.transform.localEulerAngles.z + 0.1f);
+            /*   for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
+               {
+                   VRC.SDKBase.Networking.SetOwner(VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0, Exploits.Pickups.Pickupsobs[i].gameObject);
+
+                   if (i < Exploits.Pickups.Pickupsobs.Length / 3.5f)
+                   {
+                       if (i == 0)
+                       { 
+                           Exploits.Pickups.Pickupsobs[i].transform.position = orbitplace.transform.position + orbitplace.transform.up /5;
+                        continue;
+                       }
+                       Exploits.Pickups.Pickupsobs[i].transform.position = Exploits.Pickups.Pickupsobs[i-1].transform.position + orbitplace.transform.up /5;
+                       continue;
+                   }
+                   if (i < Exploits.Pickups.Pickupsobs.Length / 3f)
+                   {
+                       if (i == Math.Round((double)Exploits.Pickups.Pickupsobs.Length / 3.5f))
+                       {
+                           _Up = Exploits.Pickups.Pickupsobs[i - 1].transform;
+                           Exploits.Pickups.Pickupsobs[i].transform.position = orbitplace.transform.position - orbitplace.transform.up /5;
+                           continue;
+                       }
+                       Exploits.Pickups.Pickupsobs[i].transform.position = Exploits.Pickups.Pickupsobs[i - 1].transform.position - orbitplace.transform.up /5;
+                       continue;
+                   }
+
+                  if (i < Exploits.Pickups.Pickupsobs.Length / 2.5f)
+                   {
+                       if (i == Math.Round((double)Exploits.Pickups.Pickupsobs.Length / 3f))
+                       {
+                           _Down = Exploits.Pickups.Pickupsobs[i - 1].transform;
+                           Exploits.Pickups.Pickupsobs[i].transform.position = orbitplace.transform.position + orbitplace.transform.right /5;
+                           continue;
+                       }
+                       Exploits.Pickups.Pickupsobs[i].transform.position = Exploits.Pickups.Pickupsobs[i - 1].transform.position + orbitplace.transform.right /5;
+                       continue;
+
+                   }
+                   if (i < Exploits.Pickups.Pickupsobs.Length / 2f)
+                   {
+                       _Right = Exploits.Pickups.Pickupsobs[i - 1].transform;
+                       if (i == Math.Round((double)Exploits.Pickups.Pickupsobs.Length / 2.5f))
+                       {
+                           Exploits.Pickups.Pickupsobs[i].transform.position = orbitplace.transform.position - orbitplace.transform.right / 5;
+                           continue;
+                       }
+                       Exploits.Pickups.Pickupsobs[i].transform.position = Exploits.Pickups.Pickupsobs[i - 1].transform.position - orbitplace.transform.right / 5;
+                       continue;
+                   }
+                   if (i < Exploits.Pickups.Pickupsobs.Length / 1.75f) { 
+                       Exploits.Pickups.Pickupsobs[i].transform.position = Exploits.Pickups.Pickupsobs[i - 1].transform.position - Exploits.Pickups.Pickupsobs[i - 1].transform.up / 5;
+                       continue;
+                   }*/
+
+
             orbitplace.transform.position = Settings.wrappers.Target.targertuser.prop_VRCPlayer_1.field_Internal_Animator_0.GetBoneTransform(HumanBodyBones.Head).position;
             float last = 0;
             float lasten = 0;
 
-            bool firstv =false;
+            bool firstv = false;
             float xval = 0;
             float xval2 = 0;
             float yval2 = 0;
@@ -38,7 +97,7 @@ namespace Nocturnal.Monobehaviours
 
 
 
-                VRC.SDKBase.Networking.SetOwner(VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0,Exploits.Pickups.Pickupsobs[i].gameObject);
+                VRC.SDKBase.Networking.SetOwner(VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0, Exploits.Pickups.Pickupsobs[i].gameObject);
                 //   Exploits.Pickups.Pickupsobs[i].transform.LookAt(orbitplace.transform);
                 Exploits.Pickups.Pickupsobs[i].transform.Rotate(new Vector3(0, 360 / Exploits.Pickups.Pickupsobs.Length, 0));
                 if (i < Exploits.Pickups.Pickupsobs.Length / 3)
@@ -56,7 +115,7 @@ namespace Nocturnal.Monobehaviours
                 }
                 if (i < Exploits.Pickups.Pickupsobs.Length / 2.5f)
                 {
-                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(Exploits.Pickups.Pickupsobs[i - 1].transform.position.x - size * 1.1f, last - (size * lasten - size) /2 , Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
+                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(Exploits.Pickups.Pickupsobs[i - 1].transform.position.x - size * 1.1f, last - (size * lasten - size) / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
                     xval = Exploits.Pickups.Pickupsobs[i].transform.position.x;
 
                     continue;
@@ -108,26 +167,23 @@ namespace Nocturnal.Monobehaviours
 
                     }
 
-                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval , Exploits.Pickups.Pickupsobs[i - 1].transform.position.y - size / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
+                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval, Exploits.Pickups.Pickupsobs[i - 1].transform.position.y - size / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
                     continue;
                 }
-              if (i < Exploits.Pickups.Pickupsobs.Length)
+                if (i < Exploits.Pickups.Pickupsobs.Length)
                 {
                     if (!firstv)
                     {
-                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval2, yval2 + size / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
+                        Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval2, yval2 + size / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
                         firstv = true;
                         continue;
                     }
 
-                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.y + size /2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
+                    Exploits.Pickups.Pickupsobs[i].transform.position = new Vector3(xval2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.y + size / 2, Exploits.Pickups.Pickupsobs[i - 1].transform.position.z);
                     continue;
                 }
 
-
-
-
-
+            }
             }
 
         }
@@ -136,4 +192,4 @@ namespace Nocturnal.Monobehaviours
 
 
     }
-}
+

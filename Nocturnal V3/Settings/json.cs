@@ -69,8 +69,23 @@ namespace Nocturnal.Settings
         public class Menu
         {
             public string AviMenu { get; set; }
-
             public List<AvatarFav> Avatars { get; set; }
+        }
+
+        public class Webscoekt
+        {
+            public string type { get; set; }
+            public string content { get; set; }
+        }
+        public class UserFromWebsocket
+        {
+            public string userId { get; set; }
+            public VRC.Core.APIUser user { get; set; }
+            public string location { get; set; }
+            public string travelingToLocation { get; set; }
+            public string world { get; set; }
+            public string canRequestInvite { get; set; }
+
 
         }
 
