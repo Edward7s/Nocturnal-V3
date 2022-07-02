@@ -29,7 +29,7 @@ namespace Nocturnal
         internal static Queue<Action> _Queue;
         internal static Process _CurentP { get; set; }
 
-
+        [Obsolete]
         public static void Start()
         {
       //  Settings.wrappers.extensions.GetAllStrings(typeof(VRCUiPopupManager),typeof(string));
@@ -169,6 +169,8 @@ namespace Nocturnal
                 return;
             NocturnalC.Log("Clearing Unity Cache", "Unityengine");
             UnityEngine.Caching.CleanCache();
+            VRC.Core.ApiCache.ClearCache();
+            VRC.Core.ApiCache.ClearResponseCache();
             try
             {
                 string vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
@@ -176,6 +178,9 @@ namespace Nocturnal
             }
             catch { }
         }
+
+
+
         private static Thread starsocket = new Thread(server.setup.serversetup);
         private static IEnumerator waitforuser()
         {
@@ -235,6 +240,8 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Svastica>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemMover>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.TagAnimation>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemLagger>();
+
         }
         private protected static void LogAsembleis(List<MelonBase> melontblList)
         {

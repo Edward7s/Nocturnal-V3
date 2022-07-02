@@ -71,9 +71,10 @@ namespace Nocturnal.Ui.qm
             new Apis.Slider(extensions.Getmenu(Target), val => Monobehaviours.Svastica.size = val, Monobehaviours.Svastica.size);
 
             new NButton(extensions.Getmenu(Target), "Spam Udon", () => Exploits.Udon.SpamTarget());
-
-
-
+            new NButton(extensions.Getmenu(Target), "Change To Your Avatar", () => {
+                Settings.wrappers.Target.targertuser._vrcplayer.Method_Internal_Void_ApiAvatar_0(VRC.Player.prop_Player_0.prop_ApiAvatar_0);
+            });
+          
             new NToggle("View Pov", extensions.Getmenu(Target), () => {
                 extensions._CurentCamera = Settings.wrappers.Target.targertuser.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/UserPovCamera").gameObject;
                 extensions._CurentCamera.SetActive(true);

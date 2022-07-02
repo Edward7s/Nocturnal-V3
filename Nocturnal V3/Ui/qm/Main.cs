@@ -201,8 +201,17 @@ namespace Nocturnal.Ui.qm
             new NButton(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
 
             new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
-            //                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
 
+            new NButton(Main.Getmenu(), "Reload everyone's avatars", () => {
+                try
+                {
+                    var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
+                    for (int i = 0; i < player.Count; i++)
+                        if (player[i].field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
+                            player[i]._vrcplayer.ReloadAvatarNetworkedRPC(player[i]);
+                }
+                catch { }
+            });
             new NToggle("Self Trail", extensions.Getmenu(Main), () => {
                 ConfigVars.SelfTrail = true;
                 Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);

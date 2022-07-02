@@ -416,6 +416,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="monobehaviours\Boomorbit.cs" />
     <Compile Include="monobehaviours\Fly.cs" />
+    <Compile Include="monobehaviours\Item Lagger.cs" />
     <Compile Include="monobehaviours\itemmover.cs" />
     <Compile Include="monobehaviours\Outline.cs" />
     <Compile Include="monobehaviours\Pagemanager.cs" />

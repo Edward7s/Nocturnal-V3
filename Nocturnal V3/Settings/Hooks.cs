@@ -21,7 +21,6 @@ using VRC.SDKBase;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VRC.UI;
-
 namespace Nocturnal.Settings
 {
     internal class Hooks
@@ -99,9 +98,9 @@ namespace Nocturnal.Settings
         private static unsafe void Patch(MethodInfo TargetMethod, MethodInfo Deteour, bool IsPrefix = false)
         {
             if (IsPrefix)
-               Instance.Patch(TargetMethod, Deteour.ToNewHarmonyMethod());
+                Instance.Patch(TargetMethod, Deteour.ToNewHarmonyMethod());
             else
-                Instance.Patch(TargetMethod,null, Deteour.ToNewHarmonyMethod());
+                Instance.Patch(TargetMethod, null, Deteour.ToNewHarmonyMethod());
         }
 
 
@@ -170,8 +169,8 @@ namespace Nocturnal.Settings
             // Patch(typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendGetRequest)), typeof(Hooks).GetMethod(nameof(GetReq),BindingFlags.NonPublic | BindingFlags.Static ));
 
 
-           // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
-           //"Harmony = No Bithces"
+            // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
+            //"Harmony = No Bithces"
             Console.WriteLine();
             Console.WriteLine("------------------------------------------------------------------------");
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
@@ -193,7 +192,7 @@ namespace Nocturnal.Settings
 
                 }
             }
-            
+
             MethodInfo[] methods = typeof(VRCPlayer).GetMethods().Where(mt => mt.Name.StartsWith("Method_Private_Void_GameObject_VRC_AvatarDescriptor_Boolean_PDM_")).ToArray();
             for (int i = 0; i < methods.Length; i++)
             {
@@ -213,7 +212,7 @@ namespace Nocturnal.Settings
 
 
 
-           MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
+            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
             _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo onevent = typeof(Photon.Realtime.LoadBalancingClient).GetMethod("OnEvent");
@@ -231,8 +230,8 @@ namespace Nocturnal.Settings
             MethodInfo Handgasper = typeof(VRCHandGrasper).GetMethod(nameof(VRCHandGrasper.Method_Private_Void_TriggerType_0));
             _PickupObject = Hook<PickupObject>(Handgasper, typeof(Hooks).GetMethod(nameof(PickupsM), BindingFlags.Static | BindingFlags.NonPublic));
 
-            //    MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
-            //   _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
+            MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
+            _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
             _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
@@ -279,54 +278,50 @@ namespace Nocturnal.Settings
         {
             _WebsockerReciver(_Instance, objects, Message);
 
-        
-                if (Message == IntPtr.Zero || Message == null) return;
-
+            if (Message == IntPtr.Zero || Message == null) return;
             try
             {
-
                 unsafe
                 {
                     nint _Offset = (nint)Message + 0x10;
                     _WsMsg = JsonConvert.DeserializeObject<Settings.jsonmanager.Webscoekt>((string)new Il2CppSystem.String(*(IntPtr*)_Offset));
-                    // NocturnalC.Log(_WsMsg.content);
-                  //  NocturnalC.Log(_WsMsg.type);
+                    //   NocturnalC.Log(_WsMsg.type);
                     JObject = JObject.FromObject(JObject.Parse(_WsMsg.content));
-                //    NocturnalC.Log(_WsMsg.content);
-
+                    //  NocturnalC.Log(_WsMsg.content);
                     switch (_WsMsg.type)
                     {
                         case "friend-location":
                             if (_LastId == (string)JObject["userId"]) return;
+                            JObject = JObject.FromObject(JObject.Parse(_WsMsg.content));
                             _LastId = (string)JObject["userId"];
                             _WorldType = (string)JObject["location"];
                             if (_WorldType == "private")
                                 _WorldNameN = "<color=#9c0000>Private Room</color>";
                             else
-                                _WorldNameN = "<color=#9f00d9>" + JObject["world"]["name"] +"</color>";
+                                _WorldNameN = "<color=#9f00d9>" + JObject["world"]["name"] + "</color>";
                             Apis.Onscreenui.showmsg($"</color>[<color=#f9ff54>{JObject["user"]["displayName"]}</color>] => " + _WorldNameN);
-
-                            _FriendlistM = Ui.Objects._ContentOnlineFriends.GetComponentsInChildren<VRCUiContentButton>().Where(x => x.field_Public_String_0 == (string)JObject["userId"]).FirstOrDefault().gameObject;
-                            _TextF = _FriendlistM.transform.Find("Background/Nocturnal's Text");
-                            if (_TextF != null)
-                            {
-                                _TextF.gameObject.GetComponent<UnityEngine.UI.Text>().text = _WorldNameN;
-                                return;
-                            }
-                            _TransText = _FriendlistM.transform.Find("Background/TitleText").gameObject;
-                            _TextF = GameObject.Instantiate(_TransText, _TransText.transform.parent.transform).transform;
-                            _TextF.name = "Nocturnal's Text";
-                            _TextF.localPosition = new Vector3(-35, -45, 0);
-                            _TextComp = _TextF.GetComponent<UnityEngine.UI.Text>();
-                            _TextComp.supportRichText = true;
-                            _TextComp.text = _WorldNameN;
-                            _TextComp.color = Color.white;
-                            _TextComp.horizontalOverflow = HorizontalWrapMode.Overflow;
-                            _TransText.transform.localPosition = new Vector3(-16, -73, 0);
                             MelonCoroutines.Start(Change());
+                            /*    _FriendlistM = Ui.Objects._ContentOnlineFriends.GetComponentsInChildren<VRCUiContentButton>().Where(x => x.field_Public_String_0 == (string)JObject["userId"]).FirstOrDefault().transform.Find("Background/TitleText").gameObject;
+                                _TextF = _FriendlistM.transform.parent.transform.Find("Nwrld");
+                                if (_TextF == null)
+                                {
+                                    _TextF = _FriendlistM.transform.Find("Nwrld");
+
+                                    _TextF = GameObject.Instantiate(_FriendlistM, _FriendlistM.transform.parent.transform).transform;
+                                    _TextF.transform.localPosition = new Vector3(-42, -47, 0);
+                                    _TextF.name = "Nwrld";
+                                    _TextComp = _TextF.GetComponent<UnityEngine.UI.Text>();
+                                    _TextComp.supportRichText = true;
+                                    _TextComp.horizontalOverflow = HorizontalWrapMode.Overflow;
+                                    _TextComp.text = _WorldNameN;
+                                    _TextComp.fontSize = 19;
+                                    _FriendlistM.transform.localPosition = new Vector3(-16, -73, 0);
+                                    return;
+                                }
+                                _TextF.GetComponent<UnityEngine.UI.Text>().text = _WorldNameN; */
                             break;
                         case "friend-offline":
-                            Apis.Onscreenui.showmsg($"</color>[<color=#f9ff54>{FriendsListManager.field_Private_Static_FriendsListManager_0.field_Private_List_1_IUser_0.ToArray().Where(k => k.prop_String_0 == (string)JObject["userId"]).FirstOrDefault().prop_String_1}</color>]<color=#f9ff54> => </color><color=#9c0000>Offline");                
+                            Apis.Onscreenui.showmsg($"</color>[<color=#f9ff54>{FriendsListManager.field_Private_Static_FriendsListManager_0.field_Private_List_1_IUser_0.ToArray().Where(k => k.prop_String_0 == (string)JObject["userId"]).FirstOrDefault().prop_String_1}</color>]<color=#f9ff54> => </color><color=#9c0000>Offline");
                             break;
                         case "friend-online":
                             Apis.Onscreenui.showmsg($"</color>[<color=#f9ff54>{JObject["user"]["displayName"]}</color>] => <color=#58e87f>Online");
@@ -334,7 +329,7 @@ namespace Nocturnal.Settings
                             break;
                         case "notification":
                             Apis.Onscreenui.showmsg($"</color>[<color=#f9ff54>{JObject["senderUsername"]}</color>] => <color=#d96038>" + JObject["type"]);
-                       break;
+                            break;
                     }
 
                 }//
@@ -352,27 +347,23 @@ namespace Nocturnal.Settings
 
         private static VRC.Player _PLayerP { get; set; }
         private static PortalInternal _Portal { get; set; }
-        private static IntPtr PortalSpawnerh(IntPtr _instance, IntPtr world, IntPtr id, int idk, IntPtr player, IntPtr _nativeMethodInfoPtr)
+        private static void PortalSpawnerh(IntPtr _instance, IntPtr world, IntPtr id, int idk, IntPtr player, IntPtr _nativeMethodInfoPtr)
         {
-
-            if (player == IntPtr.Zero)
-                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
-
+            _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
+            if (player == IntPtr.Zero) return;
 
             _PLayerP = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(player);
-            if (_PLayerP == VRC.Player.prop_Player_0)
-                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
-
+            if (_PLayerP == VRC.Player.prop_Player_0) return;
             if (ConfigVars.NoPortals)
             {
                 try
                 {
                     _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
                     GameObject.DestroyImmediate(_Portal.gameObject);
+                    Apis.Onscreenui.showmsg($"<color=red>Destroyed Portal");
                 }
                 catch { }
-                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
-
+                return;
             }
             if (ConfigVars.OnlyFriendsPortals && !_PLayerP.IsFriend())
             {
@@ -380,12 +371,12 @@ namespace Nocturnal.Settings
                 {
                     _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
                     GameObject.DestroyImmediate(_Portal.gameObject);
+                    Apis.Onscreenui.showmsg($"<color=red>Destroyed Portal");
+
                 }
                 catch { }
-                return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
-
+                return;
             }
-            return _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
         }
 
 
@@ -473,6 +464,27 @@ namespace Nocturnal.Settings
         private static IntPtr RaiseEvent(IntPtr _instance, byte code, IntPtr il2obj, IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
         {
             var isteruned = true;
+            /* if (code == 7)
+             {
+                 try
+                 {
+                     NocturnalC.Log("///////////////////////////////////////////////////////////////////////////////////");
+
+                     var obj = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<Il2CppSystem.Object>(il2obj);
+                     var bytes = photon_extentions.ToByteArray(obj);
+                     var bytesl = "";
+                     for (int i = 0; i < bytes.Length; i++)
+                     {
+                         bytesl += " " + bytes[i].ToString();
+                     }
+                     NocturnalC.Log(bytesl);
+
+                     NocturnalC.Log($"[{VRC.Player.prop_Player_0.transform.position.x} / {VRC.Player.prop_Player_0.transform.position.y} {VRC.Player.prop_Player_0.transform.position.z}  ///  {VRC.Player.prop_Player_0.transform.localEulerAngles.x} / {VRC.Player.prop_Player_0.transform.localEulerAngles.y} {VRC.Player.prop_Player_0.transform.localEulerAngles.z}]");
+                 }
+                 catch { }
+
+             }*/
+
             if (fakelag)
             {
                 if (code == 7)
@@ -533,7 +545,7 @@ namespace Nocturnal.Settings
             else
                 return IntPtr.Zero;
         }
-
+        
         private static IntPtr udonsyncedevents(IntPtr _instance, IntPtr eventname, IntPtr player, IntPtr _nativeMethodInfoPtr)
         {
 
@@ -586,7 +598,6 @@ namespace Nocturnal.Settings
 
         private static IntPtr oneventm(IntPtr _instance, IntPtr eventData, IntPtr _nativeMethodInfoPtr)
         {
-
             try
             {
                 var data = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<EventData>(eventData);
@@ -594,25 +605,27 @@ namespace Nocturnal.Settings
                 if (data.Code == 35 || data.Code == 210)
                     return _onevent(_instance, eventData, _nativeMethodInfoPtr);
 
+
+
+
+
+
+
+
+                byte[] bytes = data.CustomData.Cast<UnhollowerBaseLib.Il2CppArrayBase<byte>>().ToArray();
+
                 if (data.CustomData == null)
                     return _onevent(_instance, eventData, _nativeMethodInfoPtr);
-
-                var bytes = data.CustomData.Cast<UnhollowerBaseLib.Il2CppArrayBase<byte>>().ToArray();
-
-
 
                 if (bytes.Length < 10)
                     return IntPtr.Zero;
 
 
-
-
                 // NocturnalC.Log($"{Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId}   {data.Sender}");
-
                 if (data.Code == 1 && Ui.qm.Target._copyivoice && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
                     data.Sender.OpRaiseEvent(1, new RaiseEventOptions() { field_Public_EventCaching_0 = EventCaching.DoNotCache, field_Public_ReceiverGroup_0 = ReceiverGroup.Others }, sendOptions: default);
 
-                if (data.Code == 7 && Ui.qm.Target._copyik && Target.targertuser != null && Target.targertuser._vrcplayer.field_Private_VRCPlayerApi_0.playerId == data.Sender)
+                if (data.Code == 7 && Ui.qm.Target._copyik && Target.targertuser != null && Target.targertuser.field_Private_VRCPlayerApi_0.playerId == data.Sender)
                 {
                     int Pid = int.Parse(Networking.LocalPlayer.playerId + "00001");
                     byte[] Pidb = BitConverter.GetBytes(Pid);
@@ -788,7 +801,7 @@ namespace Nocturnal.Settings
                     if (ReaderValue == "None")
                         return;
                     var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(ReaderValue);
-              //      NocturnalC.Log("1" + ReaderValue + "  //    " + _Player.field_Private_APIUser_0.displayName);
+                    //      NocturnalC.Log("1" + ReaderValue + "  //    " + _Player.field_Private_APIUser_0.displayName);
 
                     for (int i = 0; i < _UserPlate.tags.Length; i++)
                     {
@@ -827,7 +840,7 @@ namespace Nocturnal.Settings
                     if (stringref == "None")
                         return;
 
-              //      NocturnalC.Log("2" + stringref + "  //    " + _Player.field_Private_APIUser_0.displayName);
+                    //      NocturnalC.Log("2" + stringref + "  //    " + _Player.field_Private_APIUser_0.displayName);
 
                     var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
                     for (int i = 0; i < GetPlates.tags.Length; i++)
@@ -927,7 +940,7 @@ namespace Nocturnal.Settings
                     _TypeOfWorld = "Invite+";
                     break;
             }
-            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{_WorldName}] [{_TypeOfWorld}]" });
+          //  Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{_WorldName}] [{_TypeOfWorld}]" });
             cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
 
             if (Settings.ConfigVars.SelfTrail)

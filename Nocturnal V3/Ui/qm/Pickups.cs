@@ -25,6 +25,8 @@ namespace Nocturnal.Ui.qm
             new NToggle("Allow Theft", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.allowitemtheft = true, () => Settings.ConfigVars.allowitemtheft = false, Settings.ConfigVars.allowitemtheft);
             new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("OwnerPickups", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("OwnerPickups"));
             new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("StopObjs", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("StopObjs"));
+            new NToggle("Lagger", extensions.Getmenu(_pickupsm), () => Inject_monos._ItemLagger.SetActive(true), () => Inject_monos._ItemLagger.SetActive(false));
+
             new NButton(_pickupsm.Getmenu(), "Respawn Pickups", () =>
             {
                 for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)

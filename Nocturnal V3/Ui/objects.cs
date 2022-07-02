@@ -40,11 +40,11 @@ namespace Nocturnal.Ui
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OfflineFriends { get; set; }
         internal static GameObject _ContentOnlineFriends { get; set; }
-
+        internal static VRC.UI.PageUserInfo _PageUserInfo { get; set; }
         internal static InputField _InputField { get; set; }
         internal static void Collectobjs()
         {
-
+            _PageUserInfo = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").GetComponent<VRC.UI.PageUserInfo>();
             _BigUiToggle = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/OtherOptionsPanel/TooltipsToggle").gameObject;
             _AvatarUiPrefab = Resources.FindObjectsOfTypeAll<VRCUiContentButton>().Where(btn => btn.gameObject.name == "AvatarUiPrefab2").FirstOrDefault().gameObject;
 

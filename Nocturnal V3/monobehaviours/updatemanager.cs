@@ -33,6 +33,7 @@ namespace Nocturnal.Monobehaviours
 
         void updatehud()
         {
+            GC.Collect();
             if (!Settings.ConfigVars.hudUi)
                 return;
                 try
@@ -54,7 +55,7 @@ namespace Nocturnal.Monobehaviours
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
             
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
-                if (VRC.SDKBase.Networking.LocalPlayer.GetVelocity().y == 0) Exploits.Misc.Jump();
+                if (VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsPlayerGrounded()) Exploits.Misc.Jump();
 
 
             try
@@ -72,6 +73,7 @@ namespace Nocturnal.Monobehaviours
 
 
 
+        
 
 
             if (Input.GetKey(KeyCode.LeftControl))
@@ -135,16 +137,15 @@ namespace Nocturnal.Monobehaviours
                     }
                     if (Settings.ConfigVars.infinitejump)
                         Exploits.Misc.Jump();
-                }
 
-
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1))
-                {
-                    if (Networking.LocalPlayer.GetJumpImpulse() == 0)
-                        Networking.LocalPlayer.SetJumpImpulse(1);
+                    if (Networking.LocalPlayer.GetJumpImpulse() != Settings.ConfigVars.jumpimpulse)
+                        Networking.LocalPlayer.SetJumpImpulse(Settings.ConfigVars.jumpimpulse);
                     if (Settings.ConfigVars.forcejump)
                         Exploits.Misc.Jump();
                 }
+
+
+            
             }
             catch { }
           

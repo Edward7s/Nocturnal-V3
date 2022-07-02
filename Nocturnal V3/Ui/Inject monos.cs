@@ -11,6 +11,7 @@ namespace Nocturnal.Ui
         internal static GameObject _UpdateManager { get; set; }
         internal static GameObject _FlyManager { get; set; }
         internal static GameObject _ItemMover { get; set; }
+        internal static GameObject _ItemLagger { get; set; }
 
         internal static void Inject()
         {
@@ -32,6 +33,10 @@ namespace Nocturnal.Ui
             _ItemMover.transform.parent = GameObject.Find("/_Application").transform;
             _ItemMover.gameObject.SetActive(false);
             _ItemMover.AddComponent<Monobehaviours.ItemMover>();
+            _ItemLagger = new GameObject("Nocturnal ItemsL");
+            _ItemLagger.transform.parent = GameObject.Find("/_Application").transform;
+            _ItemLagger.gameObject.SetActive(false);
+            _ItemLagger.AddComponent<Monobehaviours.ItemLagger>();
         }
     }
 }
