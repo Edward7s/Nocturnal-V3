@@ -35,6 +35,8 @@ namespace Nocturnal.Ui
         internal static GameObject _Favorite { get; set; }
         internal static GameObject _AvatarUiPrefab { get; set; }
         internal static GameObject _BigUiToggle { get; set; }
+        internal static GameObject s_bigUiTab { get; set; }
+        internal static GameObject s_buttonTabBigUi { get; set; }
 
         internal static RectTransform _ViewPortAvi { get; set; }
         internal static Il2CppSystem.Collections.Generic.List<VRC.DataModel.IUser> _OnlineFriends { get; set; }
@@ -42,12 +44,14 @@ namespace Nocturnal.Ui
         internal static GameObject _ContentOnlineFriends { get; set; }
         internal static VRC.UI.PageUserInfo _PageUserInfo { get; set; }
         internal static InputField _InputField { get; set; }
+        internal static GameObject CamerTracking { get; set; }
+
         internal static void Collectobjs()
         {
             _PageUserInfo = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo").GetComponent<VRC.UI.PageUserInfo>();
             _BigUiToggle = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings/OtherOptionsPanel/TooltipsToggle").gameObject;
             _AvatarUiPrefab = Resources.FindObjectsOfTypeAll<VRCUiContentButton>().Where(btn => btn.gameObject.name == "AvatarUiPrefab2").FirstOrDefault().gameObject;
-
+            CamerTracking = GameObject.Find("/_Application").transform.Find("TrackingVolume/TrackingSteam(Clone)").gameObject;
             _InputField = GameObject.Find("/UserInterface").transform.Find("MenuContent/Popups/InputPopup/InputField").gameObject.GetComponent<InputField>();
             _AvatarPage = GameObject.Find("Screens").transform.Find("Avatar").GetComponent<PageAvatar>();
 
@@ -95,6 +99,8 @@ namespace Nocturnal.Ui
 
             _trustranktext = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/UserInfo/User Panel/TrustLevel/TrustText").gameObject.GetComponent<UnityEngine.UI.Text>();
             _ContentOnlineFriends = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Social/Vertical Scroll View/Viewport/Content").gameObject;
+            s_bigUiTab = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Settings_Safety").gameObject;
+            s_buttonTabBigUi = GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Header/Tabs/ViewPort/Content/SafetyPageTab").gameObject;
         }
     }
 }

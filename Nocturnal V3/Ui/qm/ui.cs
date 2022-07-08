@@ -22,8 +22,8 @@ namespace Nocturnal.Ui.qm
         internal static string _tochange;
         internal static void runui()
         {
-            var uipg = submenu.Create("UI",Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "UI", uipg, Settings.Download_Files.imagehandler.ui, false, 3, 0);
+            var uipg = submenu.Create("UI",Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "UI", uipg, Settings.Download_Files.imagehandler.ui, false, 3, 0);
             new Apis.Slider(extensions.Getmenu(uipg), value => Settings.ConfigVars.espwidth = value, Settings.ConfigVars.espwidth, () => 
             {
                 var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
@@ -237,8 +237,8 @@ namespace Nocturnal.Ui.qm
 
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var Colors = submenu.Create("Colors", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Colors", Colors, Settings.Download_Files.imagehandler.Colors, false, 0, 1);
+            var Colors = submenu.Create("Colors", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Colors", Colors, Settings.Download_Files.imagehandler.Colors, false, 0, 1);
 
 
             new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.BigImgOpacity = value, Settings.ConfigVars.BigImgOpacity, () =>

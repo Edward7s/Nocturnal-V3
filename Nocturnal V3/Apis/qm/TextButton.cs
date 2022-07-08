@@ -6,7 +6,7 @@ namespace Nocturnal.Apis.qm
     internal class TextButton
     {
         private GameObject _ButtonGameobject { get; set; }
-        private Button _ButtonComponent { get; set; }
+        private UnityEngine.UI.Button _ButtonComponent { get; set; }
         private GameObject _ButtonIcon { get; set; }
         private GameObject _Text { get; set; }
         private TMPro.TextMeshProUGUI _TextComponent { get; set; }
@@ -31,8 +31,8 @@ namespace Nocturnal.Apis.qm
             _ButtonIcon.transform.localPosition = new Vector3(-1.6f, 0, 0);
             _ButtonIcon.transform.localScale = new Vector3(0.93f, 0.7f, 1);
             _ButtonIcon.gameObject.AddComponent<UnityEngine.UI.Image>().color = new Color(0, 0, 0, 0.5f);
-            _ButtonComponent = _ButtonGameobject.AddComponent<Button>();
-            _ButtonGameobject.AddComponent<Button>();
+            _ButtonComponent = _ButtonGameobject.AddComponent<UnityEngine.UI.Button>();
+            _ButtonGameobject.AddComponent<UnityEngine.UI.Button>();
             _ButtonGameobject.AddComponent<LayoutElement>();
             _TextComponent = _Text.AddComponent<TMPro.TextMeshProUGUI>();
             _TextComponent.richText = true;

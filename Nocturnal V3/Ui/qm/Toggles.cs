@@ -13,13 +13,13 @@ namespace Nocturnal.Ui.qm
     {
         internal static void Runantoggles()
         {
-            var toggles = submenu.Create("Toggles", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Toggles", toggles, Settings.Download_Files.imagehandler.Toggles, false, 3, 1);
+            var toggles = submenu.Create("Toggles", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Toggles", toggles, Settings.Download_Files.imagehandler.Toggles, false, 3, 1);
 
            new NToggle("Hwid Spoofer", toggles.Getmenu(), () => ConfigVars.HwidSpoof = true, () => ConfigVars.HwidSpoof = false, ConfigVars.HwidSpoof);
            new NButton(toggles.Getmenu(), "Change HWID", () => ConfigVars.SpoofedHWID = Guid.NewGuid().ToString().Replace("-", "3"));
-
-
+            new NToggle("Fly On Space DoubleTap", toggles.Getmenu(), () => ConfigVars.DoubleSpaceFly = true, () => ConfigVars.DoubleSpaceFly = false, ConfigVars.DoubleSpaceFly);
+            new NToggle("Rocket Jump", toggles.Getmenu(), () => ConfigVars.RocketJump = true, () => ConfigVars.RocketJump = false, ConfigVars.RocketJump);
             new NToggle("Force Jump", toggles.Getmenu(), () => ConfigVars.forcejump = true, () => ConfigVars.forcejump = false, ConfigVars.forcejump);
             new NToggle("Infinite Jump", toggles.Getmenu(), () => ConfigVars.infinitejump = true, () => ConfigVars.infinitejump = false, ConfigVars.infinitejump);
             new NToggle("Third Person", toggles.Getmenu(), () => ConfigVars.Thidperson = true, () => ConfigVars.Thidperson = false, ConfigVars.Thidperson);

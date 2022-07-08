@@ -18,9 +18,12 @@ namespace Nocturnal.Ui.qm
 {
     internal class Main
     {
-        internal static GameObject _mainpage = null;
-        internal static GameObject _jumpimpulse = null;
-        internal static bool _stopev7 = false;
+        internal static GameObject s_mainpage = null;
+        internal static GameObject s_jumpimpulse = null;
+        internal static bool s_stopev7 = false;
+        internal static float s_valZ = 0;
+        internal static float s_valX = 0;
+        internal static GameObject s_menu = null;
 
         [DllImport("user32.dll")] //Set the active window
 
@@ -31,10 +34,13 @@ namespace Nocturnal.Ui.qm
      
         internal static void Createmenu()
         {
+           
+            new BigUi();
+
             new Page("Nocturnal Menu", Settings.Download_Files.imagehandler.logo);
-            _mainpage = submenu.Create("Nocturnal", null,true);
-            var Main = submenu.Create("Main", _mainpage);
-            _mainpage.SetActive(true);
+            s_mainpage = submenu.Create("Nocturnal", null,true);
+            var Main = submenu.Create("Main", s_mainpage);
+            s_mainpage.SetActive(true);
             Anticrash.runanti(); 
             Toggles.Runantoggles();
             Ui.runui(); 
@@ -48,8 +54,8 @@ namespace Nocturnal.Ui.qm
             Discord.start();
             Mic.start();
 
-            new NButton(extensions.Getmenu(_mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null, 3, 6);
-            new NButton(extensions.Getmenu(_mainpage), "Restart", () =>
+            new NButton(extensions.Getmenu(s_mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null, 3, 6);
+            new NButton(extensions.Getmenu(s_mainpage), "Restart", () =>
             {
                 string arguments = "";
                 foreach (string stringi in Environment.GetCommandLineArgs())
@@ -64,7 +70,7 @@ namespace Nocturnal.Ui.qm
 
             }, true, null, 3, 7);
 
-            new NButton(extensions.Getmenu(_mainpage), "Change avi", () =>
+            new NButton(extensions.Getmenu(s_mainpage), "Change avi", () =>
             {
                 try
                 {
@@ -79,7 +85,7 @@ namespace Nocturnal.Ui.qm
                 }
             }, true, null, 2, 6);
 
-            new NButton(extensions.Getmenu(_mainpage), "Join By Id", () =>
+            new NButton(extensions.Getmenu(s_mainpage), "Join By Id", () =>
             {
                 string roomid = "";
                 XRefedMethods.PopOutInput("Room Instance Id", value => roomid = value, () => {
@@ -93,26 +99,26 @@ namespace Nocturnal.Ui.qm
             }, true, null, 2, 7);
 
 
-            new NButton(extensions.Getmenu(_mainpage), "Delete P", () => Exploits.Misc.Deletportals(), true, null, 1, 6);
+            new NButton(extensions.Getmenu(s_mainpage), "Delete P", () => Exploits.Misc.Deletportals(), true, null, 1, 6);
 
-            new NButton(out _jumpimpulse, extensions.Getmenu(_mainpage), "Jump Imp", () =>
+            new NButton(out s_jumpimpulse, extensions.Getmenu(s_mainpage), "Jump Imp", () =>
             {
                 try
                 {
                     XRefedMethods.PopOutNumbersKeyboard("Jump Impulse", value => ConfigVars.jumpimpulse = value, () => { });
                     Networking.LocalPlayer.SetJumpImpulse(ConfigVars.jumpimpulse);
-                    _jumpimpulse.GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
+                    s_jumpimpulse.GetComponent<TMPro.TextMeshProUGUI>().text = $"[{Networking.LocalPlayer.GetJumpImpulse()}] Jump imp";
                 }
                 catch { }
 
             }, true, null, 1, 7);
 
 
-            new NButton(extensions.Getmenu(_mainpage), "Save Config", () => {
+            new NButton(extensions.Getmenu(s_mainpage), "Save Config", () => {
                 ConfigVars.saveconfig($"{Directory.GetCurrentDirectory()}\\Nocturnal V3\\Config\\Config.json"); NocturnalC.Log("Saved Config", "Settings", ConsoleColor.Green);
             }, false, Download_Files.imagehandler.Saveconfig, 1, 0);
 
-            new NButton(extensions.Getmenu(_mainpage), "Enter Key", () =>
+            new NButton(extensions.Getmenu(s_mainpage), "Enter Key", () =>
             {
                 imports.SetForegroundWindow(imports.GetConsoleWindow());
 
@@ -147,13 +153,13 @@ namespace Nocturnal.Ui.qm
 
             }, false, Download_Files.imagehandler.EnterKey, 2, 0);
 
-            new NToggle("Fly", extensions.Getmenu(_mainpage), () => 
+            new NToggle("Fly", extensions.Getmenu(s_mainpage), () => 
             Inject_monos._FlyManager.gameObject.SetActive(!Inject_monos._FlyManager.activeSelf)
             , () =>
             Inject_monos._FlyManager.gameObject.SetActive(!Inject_monos._FlyManager.activeSelf),
             false, true, 0, 6);
 
-            new NToggle("Esp", extensions.Getmenu(_mainpage), () =>
+            new NToggle("Esp", extensions.Getmenu(s_mainpage), () =>
             {
                 try
                 {
@@ -181,18 +187,29 @@ namespace Nocturnal.Ui.qm
           
                 
             }, ConfigVars.esp, true, 0, 7);
-            new Submenubutton(_mainpage.Getmenu(), "Main", Main, Download_Files.imagehandler.Main, false, 0, 0);
+            new Submenubutton(s_mainpage.Getmenu(), "Main", Main, Download_Files.imagehandler.Main, false, 0, 0);
 
             new Apis.Slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
             {
 
             }, true, "Fly Speed");
 
+            new Apis.Slider(extensions.Getmenu(Main), value => s_valX = value * 180, 0, () =>
+            {
+                Nocturnal.Ui.Objects.CamerTracking.transform.localEulerAngles = new Vector3(s_valX, 0, 0);
+            }, true, "X spin");
+
+
+            new Apis.Slider(extensions.Getmenu(Main), value => s_valZ = value * 180, 0, () =>
+            {
+                Nocturnal.Ui.Objects.CamerTracking.transform.localEulerAngles = new Vector3(0, 0, s_valZ);
+            }, true, "Z spin");
+
             new NToggle("Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));
 
             new NToggle("Optimized Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true, true), () => Exploits.Mirror.Togglemirror(false));
 
-            new NToggle("Ghost Mode", extensions.Getmenu(Main), () => _stopev7 = true, () => _stopev7 = false, _stopev7);
+            new NToggle("Ghost Mode", extensions.Getmenu(Main), () => s_stopev7 = true, () => s_stopev7 = false, s_stopev7);
 
             new NToggle("Fake Lag", extensions.Getmenu(Main), () => Hooks.fakelag = true, () => Hooks.fakelag = false, Hooks.fakelag);
 
@@ -201,6 +218,9 @@ namespace Nocturnal.Ui.qm
             new NButton(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
 
             new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
+
+            new NButton(Main.Getmenu(), "Colect Garbage Colection", () => GC.Collect());
+           
 
             new NButton(Main.Getmenu(), "Reload everyone's avatars", () => {
                 try

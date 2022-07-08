@@ -8,8 +8,8 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void start()
         {
-            var mic = submenu.Create("Mic", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Mic", mic, Settings.Download_Files.imagehandler.micmenu, true, 1, 5);
+            var mic = submenu.Create("Mic", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Mic", mic, Settings.Download_Files.imagehandler.micmenu, true, 1, 5);
 
 
             new NButton(mic.Getmenu(), "Default Bitrate", () => VRCPlayer.field_Internal_Static_VRCPlayer_0.field_Private_USpeaker_0.field_Private_BitRate_0 = BitRate.BitRate_24K);

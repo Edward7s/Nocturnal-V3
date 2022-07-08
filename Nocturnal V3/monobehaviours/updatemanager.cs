@@ -33,7 +33,6 @@ namespace Nocturnal.Monobehaviours
 
         void updatehud()
         {
-            GC.Collect();
             if (!Settings.ConfigVars.hudUi)
                 return;
                 try
@@ -48,8 +47,10 @@ namespace Nocturnal.Monobehaviours
         void OwnerPickups() => Exploits.Pickups.Ownerpickups();
         void OrbitUser() => Exploits.Orbit.orbituser();
 
+        private int _Flycount { get; set; } = 0;
+        private float _Time { get; set; } = 0;
 
-       
+
         void LateUpdate()
         {
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
@@ -71,9 +72,6 @@ namespace Nocturnal.Monobehaviours
             }
             catch { }
 
-
-
-        
 
 
             if (Input.GetKey(KeyCode.LeftControl))
@@ -137,19 +135,41 @@ namespace Nocturnal.Monobehaviours
                     }
                     if (Settings.ConfigVars.infinitejump)
                         Exploits.Misc.Jump();
+                }
 
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button1))
+                {
                     if (Networking.LocalPlayer.GetJumpImpulse() != Settings.ConfigVars.jumpimpulse)
                         Networking.LocalPlayer.SetJumpImpulse(Settings.ConfigVars.jumpimpulse);
                     if (Settings.ConfigVars.forcejump)
                         Exploits.Misc.Jump();
+                    _Flycount++;
+                }
+                if (_Flycount != 0)
+                {
+                    _Time += Time.smoothDeltaTime;
+                    if (_Time > 0.7f)
+                    {
+                        _Flycount = 0;
+                        _Time = 0;
+                    }
+                    else if (_Flycount > 1)
+                    {
+                        if (Settings.ConfigVars.RocketJump)
+                            Exploits.Misc.Jump(3);
+
+                        if (Settings.ConfigVars.DoubleSpaceFly)
+                            Ui.Inject_monos._FlyManager.SetActive(!Ui.Inject_monos._FlyManager.activeSelf);
+                        _Flycount = 0;
+                        _Time = 0;
+                    }
                 }
 
-
-            
             }
             catch { }
           
             Exploits.Zoom._Zoom();
+     //       Apis.KeyBindsManager.ManageKeybinds();
         }
 
 

@@ -15,6 +15,12 @@ namespace Nocturnal.Apis.qm
         private Toggle _ToggleComponent { get; set; }
         private Transform _IconOn { get; set; }
         private Transform _IconOff { get; set; }
+        private Dictionary<KeyCode[],bool> _Dictionary1 { get; set; } = new Dictionary<KeyCode[],bool>();
+        private Action _Action1 { get; set; }
+        private Action _Action2 { get; set; }
+        private int _KeyBindListPoz { get; set; }
+        private string _ButtonName { get; set; }
+
         private TMPro.TextMeshProUGUI _Text { get; set; }
         private float? _YValue { get; set; }
 
@@ -27,10 +33,13 @@ namespace Nocturnal.Apis.qm
         }
         public NToggle(string text, GameObject menu, Action vtrue, Action vfalse, bool prevalue = false, bool half = false, float X = 628, float Y = 628)
         {
+            _Action1 = vtrue;
+            _Action2 = vfalse;
             _YValue = half ? -329 - (Y * (200 / 2) - 45) : -140 - Y * 200;
             _ToggleGameobject = GameObject.Instantiate(Objects._TogglePrebab, menu.transform).gameObject;
             Component.DestroyImmediate(_ToggleGameobject.GetComponent<VRC.DataModel.Core.BindingComponent>());
             _ToggleGameobject.name = $"Toggle_{text}";
+            _ButtonName = _ToggleGameobject.name;
             _ToggleComponent = _ToggleGameobject.GetComponent<Toggle>();
             _ToggleComponent.onValueChanged.RemoveAllListeners();
             _ToggleComponent.onValueChanged.AddListener((UnityEngine.Events.UnityAction<bool>)Gettoggle);
@@ -87,6 +96,17 @@ namespace Nocturnal.Apis.qm
             _Text.transform.localScale = new Vector3(0.9f, 0.9f, 1);
             _Text.transform.localPosition = new Vector3(20.7601f, -20.4598f, 0);
         }
-       
+
+
+        private void UpdateBool(bool value)
+        {
+        }
+
+
+        private void AddNewKeyBind(bool value)
+        {
+           
+        }
+
     }
 }

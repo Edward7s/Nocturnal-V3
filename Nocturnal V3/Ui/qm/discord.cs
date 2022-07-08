@@ -12,8 +12,8 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void start()
         {
-            var disc = submenu.Create("Discord", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Discord", disc, Settings.Download_Files.imagehandler.Discord, true, 2, 4);
+            var disc = submenu.Create("Discord", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Discord", disc, Settings.Download_Files.imagehandler.Discord, true, 2, 4);
             NocturnalC.Log("Starting Discord RPC", "DiscordRPC");
             new NToggle("Discord Presence", disc.Getmenu(), () =>
             {

@@ -19,8 +19,8 @@ namespace Nocturnal.Ui.qm
 
         internal static void _World()
         {
-            var worldmenu = submenu.Create("World", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "World", worldmenu, Settings.Download_Files.imagehandler.World, true, 1, 3);
+            var worldmenu = submenu.Create("World", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "World", worldmenu, Settings.Download_Files.imagehandler.World, true, 1, 3);
 
 
             new NButton(worldmenu.Getmenu(), "Custom Name Spoof", () =>
@@ -54,11 +54,11 @@ namespace Nocturnal.Ui.qm
             new Apis.qm.NButton(udonmanager.Getmenu(), "NRefresh", () => {
                 destroybuttons();
                 addbuttons();
-            });
+            }, false, null, 628, 628, false);
 
             new Apis.qm.NButton(udonmanager.Getmenu(), "NDestroy Buttons", () => {
                 destroybuttons();
-            });
+            }, false, null, 628, 628, false);
 
             new Apis.qm.NToggle("Only Target", udonmanager.Getmenu(), () => {
                 reciver = VRC.Udon.Common.Interfaces.NetworkEventTarget.Owner;
@@ -95,7 +95,7 @@ namespace Nocturnal.Ui.qm
                         udonmanager.Getmenu().transform.Find($"_Button_{table.Key}").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(act);
                         continue;
                     }
-                    new Apis.qm.NButton(udonmanager.Getmenu(), table.Key, act);
+                    new Apis.qm.NButton(udonmanager.Getmenu(), table.Key, act,false,null,628,628,false);
                 }
             }
                

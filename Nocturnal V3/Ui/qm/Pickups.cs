@@ -16,8 +16,8 @@ namespace Nocturnal.Ui.qm
 
         internal static void pickups()
         {
-            var _pickupsm = submenu.Create("Pickups", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Pickups", _pickupsm, Settings.Download_Files.imagehandler.items, true, 1, 2);
+            var _pickupsm = submenu.Create("Pickups", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Pickups", _pickupsm, Settings.Download_Files.imagehandler.items, true, 1, 2);
             var rigidlist = new List<UnityEngine.Rigidbody>();
             new NToggle("Max Range", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itemmaxrange = true, () => Settings.ConfigVars.itemmaxrange = false, Settings.ConfigVars.itemmaxrange);
             new NToggle("Pickuble", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.itempickup = true, () => Settings.ConfigVars.itempickup = false, Settings.ConfigVars.itempickup);

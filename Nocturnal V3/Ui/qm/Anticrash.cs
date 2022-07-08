@@ -1,7 +1,6 @@
 ﻿using Nocturnal.Settings;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
-using Nocturnal.Settings;
 using UnityEngine;
 namespace Nocturnal.Ui.qm
 {
@@ -10,8 +9,8 @@ namespace Nocturnal.Ui.qm
 
         internal static void runanti()
         {
-            var AntiCrash = submenu.Create("AntiCrash", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "AntiCrash", AntiCrash, Settings.Download_Files.imagehandler.Anitcrash, false, 0, 2);
+            var AntiCrash = submenu.Create("AntiCrash", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "AntiCrash", AntiCrash, Settings.Download_Files.imagehandler.Anitcrash, false, 0, 2);
 
             new NToggle("SelfAnti", AntiCrash.Getmenu(), () => ConfigVars.selfanti = true, () => ConfigVars.selfanti = false, ConfigVars.selfanti);
             new NToggle("Particles", AntiCrash.Getmenu(), () => ConfigVars.particlep = true, () => ConfigVars.particlep = false, ConfigVars.particlep);

@@ -71,12 +71,19 @@ namespace Nocturnal.Settings
             public string AviMenu { get; set; }
             public List<AvatarFav> Avatars { get; set; }
         }
-
         public class Webscoekt
         {
             public string type { get; set; }
             public string content { get; set; }
         }
+        public class KeyBindsManager
+        {          
+            public Dictionary<string,string[]> KeyBindsButtonDictionary { get; set; }
+            public Dictionary<string, string[]> KeyBindsToggleDictionary { get; set; }
+        }
+
+
+
         public class UserFromWebsocket
         {
             public string userId { get; set; }
@@ -136,6 +143,7 @@ namespace Nocturnal.Settings
             public string Discord { get; set; }
             public string micmenu { get; set; }
             public string PremiumIcon {get; set;}
+            public string Backgroundb { get; set;}
         }
     }
 

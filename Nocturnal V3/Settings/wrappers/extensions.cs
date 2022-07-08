@@ -36,7 +36,7 @@ namespace Nocturnal.Settings.wrappers
             _NewPlate = GameObject.Instantiate(_PlatePrefab, _PlatePrefab.transform.parent);
             _NewPlate.gameObject.SetActive(true);
             _NewPlate.gameObject.transform.Find("PrefabPlate").gameObject.SetActive(true);
-
+            _PlatePrefab.transform.parent.transform.localPosition = new Vector3(0, 105, 0);
             _NewPlate.transform.Find("PrefabPlate/Text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
             _NewPlate.gameObject.name = $"_Plate:{text}";
             if (img == null)
@@ -50,8 +50,7 @@ namespace Nocturnal.Settings.wrappers
         internal static GameObject Getmenu(this GameObject gameobj) { return gameobj.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject; }
 
         internal static void togglecontroller(bool onoroff) => VRC.Player.prop_Player_0.gameObject.GetComponent<CharacterController>().enabled = onoroff;
-        
-
+       
         internal static void togglenetworkserializer(bool value) => VRC.Player.prop_Player_0.gameObject.GetComponent<VRC.Networking.FlatBufferNetworkSerializer>().enabled = value;
         
         internal static void logobjfromclass(Type theclass, bool methodorpropriety = true)

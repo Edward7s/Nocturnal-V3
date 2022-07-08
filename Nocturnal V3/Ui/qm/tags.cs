@@ -11,8 +11,8 @@ namespace Nocturnal.Ui.qm
     {
         internal static void Tagsmenu()
         {
-            var tags = submenu.Create("Tags", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Tags", tags, Settings.Download_Files.imagehandler.tag, true, 2, 3);
+            var tags = submenu.Create("Tags", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Tags", tags, Settings.Download_Files.imagehandler.tag, true, 2, 3);
             var tag = "";
             new NButton(tags.Getmenu(), "Add new tag", () => {
                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")) { NocturnalC.Log("Cloud Not Find The Key File Please try to enter your key again", "Error", ConsoleColor.Red); return; }

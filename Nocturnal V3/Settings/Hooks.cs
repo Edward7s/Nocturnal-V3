@@ -518,7 +518,7 @@ namespace Nocturnal.Settings
 
             }
             // NocturnalC.Log(code);
-            if (Ui.qm.Main._stopev7 && code == 7)
+            if (Ui.qm.Main.s_stopev7 && code == 7)
                 return IntPtr.Zero;
 
             /*

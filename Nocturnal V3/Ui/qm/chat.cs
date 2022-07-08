@@ -14,8 +14,8 @@ namespace Nocturnal.Ui.qm
         internal static TMPro.TextMeshProUGUI chattext = null;
         internal static void _Chat()
         {
-            var chatm = submenu.Create("Client Chat", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Client Chat", chatm, Settings.Download_Files.imagehandler.chat, true, 1, 4);
+            var chatm = submenu.Create("Client Chat", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Client Chat", chatm, Settings.Download_Files.imagehandler.chat, true, 1, 4);
 
             var mess = "";
             GameObject buttonchat = null;

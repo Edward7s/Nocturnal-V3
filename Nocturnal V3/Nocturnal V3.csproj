@@ -389,8 +389,10 @@
     <Compile Include="Apis\AvatarFav.cs" />
     <Compile Include="Apis\bigui\Button.cs" />
     <Compile Include="Apis\bigui\Custom ScrollBar.cs" />
+    <Compile Include="Apis\bigui\Menu.cs" />
     <Compile Include="Apis\bigui\Toggle.cs" />
     <Compile Include="Apis\Change Image.cs" />
+    <Compile Include="Apis\KeyBindsManager.cs" />
     <Compile Include="Apis\Onscreenui.cs" />
     <Compile Include="Apis\qm\Button.cs" />
     <Compile Include="Apis\qm\Minibuttn.cs" />
@@ -517,6 +519,7 @@
     <Compile Include="Ui\Objects.cs" />
     <Compile Include="Ui\qm style.cs" />
     <Compile Include="Ui\qm\Anticrash.cs" />
+    <Compile Include="Ui\qm\BigUi.cs" />
     <Compile Include="Ui\qm\Chat.cs" />
     <Compile Include="Ui\qm\Discord.cs" />
     <Compile Include="Ui\qm\Main.cs" />

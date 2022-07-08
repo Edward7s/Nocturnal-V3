@@ -45,6 +45,7 @@ namespace Nocturnal.Settings
         private static string Discord = "https://nocturnal-client.xyz/Resources/Discord.png";
         private static string micmenu = "https://nocturnal-client.xyz/Resources/mic%20icon.png";
         private static string PremiumIcon = "https://nocturnal-client.xyz/Resources/Gold%20Tags.png";
+        private static string Backgroundb = "https://nocturnal-client.xyz/Resources/backgound.png";
 
 
         internal static UnityEngine.Material _SkyboxMaterial { get; set; }
@@ -59,6 +60,8 @@ namespace Nocturnal.Settings
         internal static byte[] Rain = null;
         internal static byte[] uinotifications = null;
         internal static jsonmanager.downloadhandler imagehandler;
+        internal static string s_keybindsPath = "";
+
         internal static void DownloadHanler()
         {
             var sttime = Stopwatch.StartNew();
@@ -225,8 +228,17 @@ namespace Nocturnal.Settings
             Settings.imports.SendMessage(imports.GetConsoleWindow(), 0x0080, 1, icon.Handle);
             Settings.imports.SetWindowText(Main2._hwnd, "Nocturnal[VRChat]");
             webclient.Dispose();
-            NocturnalC.Log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
+
+
+
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json"))
+                File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json").Close();
+
+          //   new Apis.KeyBindsManager(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json");
+
+
             sttime.Stop();
+            NocturnalC.Log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);
             
 
 

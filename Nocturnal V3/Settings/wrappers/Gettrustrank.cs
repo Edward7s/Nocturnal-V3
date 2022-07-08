@@ -70,7 +70,7 @@ namespace Nocturnal.Settings.wrappers
             string color;
 
             switch (stringg)
-            {                   
+            {               
                 case "Moderator":
                     color = ColorUtility.ToHtmlStringRGB(new Color(ConfigVars.Moderator[0], ConfigVars.Moderator[1], ConfigVars.Moderator[2])).ToLower();
                     stringg = $"<color=#{color}>Moderator</color>";

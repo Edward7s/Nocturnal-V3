@@ -19,8 +19,8 @@ namespace Nocturnal.Ui.qm
         internal static UnityEngine.UI.Button[] _Buttons { get; set; }
         internal static void createrhistory()
         {
-            worldhistorymenu = submenu.Create("World History", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "World History", worldhistorymenu, Settings.Download_Files.imagehandler.worldhistory, true, 2, 2);
+            worldhistorymenu = submenu.Create("World History", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "World History", worldhistorymenu, Settings.Download_Files.imagehandler.worldhistory, true, 2, 2);
 
         }
         internal static void updatehistory(string worldname, string wolrdid)
@@ -63,7 +63,7 @@ namespace Nocturnal.Ui.qm
                     }
                     catch (Exception e) { NocturnalC.Log(e); }
 
-                }, true);
+                }, true,null,628,628,false);
             }
          }
         }

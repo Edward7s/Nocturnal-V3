@@ -240,7 +240,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Svastica>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemMover>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.TagAnimation>();
-            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemLagger>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemLagger >();
 
         }
         private protected static void LogAsembleis(List<MelonBase> melontblList)

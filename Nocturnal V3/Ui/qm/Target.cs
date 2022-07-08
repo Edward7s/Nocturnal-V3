@@ -18,8 +18,8 @@ namespace Nocturnal.Ui.qm
         internal static UnityEngine.UI.LayoutElement[] _LayoutElements { get; set; }
         internal static void tarGetmenu()
         {
-            var Target = submenu.Create("Target", Main._mainpage);
-            new Submenubutton(Main._mainpage.Getmenu(), "Target", Target, Settings.Download_Files.imagehandler.Target, false, 3, 2);
+            var Target = submenu.Create("Target", Main.s_mainpage);
+            new Submenubutton(Main.s_mainpage.Getmenu(), "Target", Target, Settings.Download_Files.imagehandler.Target, false, 3, 2);
 
             new NButton(extensions.Getmenu(Target), "Sit On Head", () => {
                 Sitonparts._IsSiting = !Sitonparts._IsSiting;
