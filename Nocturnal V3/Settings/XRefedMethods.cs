@@ -12,10 +12,10 @@ namespace Nocturnal.Settings
 {
     internal class XRefedMethods
     {
-        private static MethodInfo _NumbKeyboard { get; set; }
-        private static MethodInfo _Toggle { get; set; }
-        private static MethodInfo _Warning { get; set; }
-        private static MethodInfo _InputPopout { get; set; }
+        private static MethodInfo s_numbKeyboard { get; set; }
+        private static MethodInfo s_toggle { get; set; }
+        private static MethodInfo s_warning { get; set; }
+        private static MethodInfo s_inputPopout { get; set; }
 
         private static void CheckQuickMenu()
         {
@@ -38,16 +38,16 @@ namespace Nocturnal.Settings
                         switch (true)
                         {
                             case true when xrefedmethods[i2].ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/AlertPopup":
-                                _Warning = methods[i];
+                                s_warning = methods[i];
                                 break;
                             case true when xrefedmethods[i2].ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/InputKeypadPopup":
-                                _NumbKeyboard = methods[i];
+                                s_numbKeyboard = methods[i];
                                 break;
                             case true when xrefedmethods[i2].ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopupV2":
-                                _Toggle = methods[i];
+                                s_toggle = methods[i];
                                 break;
                             case true when xrefedmethods[i2].ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/InputPopup":
-                                _InputPopout = methods[i];
+                                s_inputPopout = methods[i];
                                 break;
                         }
                     }
@@ -62,42 +62,42 @@ namespace Nocturnal.Settings
 
 
 
-        internal static void PopOutWarrningMessage(string _Message, float _Time = 10)
+        internal static void PopOutWarrningMessage(string _message, string description = "", float _Time = 10)
         {
             CheckQuickMenu();
-            _Warning.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] { _Message, "Ok", _Time });
+            s_warning.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] { _message, description, _Time });
         }
 
-        internal static void PopOutToggle(string _Title, string _Desciption, Action _Ok = null, Action _Cancel = null)
-        {      
-            CheckQuickMenu();
-            _Toggle.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_Title, _Desciption, "Cancel"
-                  ,(Il2CppSystem.Action)new Action(()=> {_Cancel.Invoke();
-                  VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0();
-                  }), "Accept",(Il2CppSystem.Action)new Action(()=> {_Ok.Invoke(); VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0(); }),null});
-        }
-        internal static void PopOutNumbersKeyboard(string _Title, Action<int> _IntOut, Action _Action)
+        internal static void PopOutToggle(string _title, string _desciption, Action _ok = null, Action _cancel = null)
         {
             CheckQuickMenu();
-            _NumbKeyboard.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_Title, "", InputField.InputType.Standard, true, "Enter", DelegateSupport.ConvertDelegate<Il2CppSystem.Action<string, Il2CppSystem.Collections.Generic.List<KeyCode>, Text>>
+            s_toggle.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_title, _desciption, "Cancel"
+                  ,(Il2CppSystem.Action)new Action(()=> {_cancel.Invoke();
+                  VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0();
+                  }), "Accept",(Il2CppSystem.Action)new Action(()=> {_ok.Invoke(); VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.Method_Private_Void_0(); }),null});
+        }
+        internal static void PopOutNumbersKeyboard(string _title, Action<int> _intOut, Action _action)
+        {
+            CheckQuickMenu();
+            s_numbKeyboard.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_title, "", InputField.InputType.Standard, true, "Enter", DelegateSupport.ConvertDelegate<Il2CppSystem.Action<string, Il2CppSystem.Collections.Generic.List<KeyCode>, Text>>
                               (new Action<string, Il2CppSystem.Collections.Generic.List<KeyCode>, Text>
                               (delegate (string s, Il2CppSystem.Collections.Generic.List<KeyCode> k, Text t)
                               {
-                                  _IntOut(int.Parse(s));
-                                  _Action.Invoke();
+                                  _intOut(int.Parse(s));
+                                  _action.Invoke();
                               })), null,"Enter A text",true,null,false,0});
         }
 
-        internal static void PopOutInput(string _Title, Action<string> _StringOut, Action _Action)
+        internal static void PopOutInput(string _title, Action<string> _stringOut, Action _action)
         {
             CheckQuickMenu();
-            _InputPopout.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_Title, "", InputField.InputType.Standard, false, "Enter",
+            s_inputPopout.Invoke(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0, new object[] {_title, "", InputField.InputType.Standard, false, "Enter",
                             DelegateSupport.ConvertDelegate<Il2CppSystem.Action<string, Il2CppSystem.Collections.Generic.List<KeyCode>, Text>>
                                 (new Action<string, Il2CppSystem.Collections.Generic.List<KeyCode>, Text>
                                 (delegate (string s, Il2CppSystem.Collections.Generic.List<KeyCode> k, Text t)
                                 {
-                                    _StringOut(s);
-                                    _Action.Invoke();
+                                    _stringOut(s);
+                                    _action.Invoke();
                                })),null,"Enter text....",true,null,false,0 });
         }
 

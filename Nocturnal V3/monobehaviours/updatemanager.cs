@@ -137,7 +137,7 @@ namespace Nocturnal.Monobehaviours
                         Exploits.Misc.Jump();
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button1))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown (KeyCode.JoystickButton1))
                 {
                     if (Networking.LocalPlayer.GetJumpImpulse() != Settings.ConfigVars.jumpimpulse)
                         Networking.LocalPlayer.SetJumpImpulse(Settings.ConfigVars.jumpimpulse);
