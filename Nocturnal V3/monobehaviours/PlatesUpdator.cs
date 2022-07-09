@@ -25,11 +25,6 @@ namespace Nocturnal.Monobehaviours
         private string _status { get; set; }
         private int i32 { get; set; }
         private float s4 { get; set; }
-        private float _x { get; set; }
-        private float _z { get; set; }
-        private Transform _transform { get; set; }
-
-        private string _clientUser { get; set; }
         private VRC.Networking.FlatBufferNetworkSerializer _flatBufferNetworkSerializer { get; set; }
 
         public VRC.Player Player { get; set; }
@@ -47,10 +42,6 @@ namespace Nocturnal.Monobehaviours
             _flatBufferNetworkSerializer = Player.gameObject.GetComponent<VRC.Networking.FlatBufferNetworkSerializer>();
             i32 = 0;
             s4 = 0;
-            _clientUser = string.Empty;
-            _transform = Player.transform;
-            _x = _transform.localPosition.x;
-            _z = _transform.localPosition.z;
             InvokeRepeating(nameof(PlateHandler), -1, 3);
 
         }
@@ -73,7 +64,7 @@ namespace Nocturnal.Monobehaviours
             i32 = Player.prop_PlayerNet_0.field_Private_Int32_0;
             s4 = _flatBufferNetworkSerializer.field_Internal_Single_4;
             _fps = Player.prop_PlayerNet_0.prop_Byte_0 == 0 ? "0(Invalid)" : ((int)1000 / Player.prop_PlayerNet_0.prop_Byte_0).ToString();
-            _text.text = $"{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status} {_clientUser}";
+            _text.text = $"{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status}";
         }
 
     }
