@@ -107,6 +107,7 @@ namespace Nocturnal.Settings
         public bool? EspSizeOverDistance { get; set; }
         public bool? DoubleSpaceFly { get; set; }
         public bool? RocketJump { get; set; }
+        public bool? NamePlatesInfo { get; set; }
 
     }
     internal class ConfigVars
@@ -225,5 +226,6 @@ namespace Nocturnal.Settings
         public static bool EspSizeOverDistance = true;
         public static bool DoubleSpaceFly = false;
         public static bool RocketJump = false;
+        public static bool NamePlatesInfo = true;
     }
 }

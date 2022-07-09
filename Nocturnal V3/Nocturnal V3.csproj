@@ -423,6 +423,7 @@
     <Compile Include="monobehaviours\Outline.cs" />
     <Compile Include="monobehaviours\Pagemanager.cs" />
     <Compile Include="monobehaviours\Platemanager.cs" />
+    <Compile Include="monobehaviours\PlatesUpdator.cs" />
     <Compile Include="monobehaviours\Svastica.cs" />
     <Compile Include="monobehaviours\TagAnimation.cs" />
     <Compile Include="monobehaviours\Teleport.cs" />

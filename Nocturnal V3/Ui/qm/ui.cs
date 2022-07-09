@@ -234,7 +234,8 @@ namespace Nocturnal.Ui.qm
 
             }, Settings.ConfigVars.hudUi);
 
-
+            new NToggle("Name Plates Info", uipg.Getmenu(), () => Settings.ConfigVars.NamePlatesInfo = true,
+           ()=>  Settings.ConfigVars.NamePlatesInfo = false, Settings.ConfigVars.NamePlatesInfo);
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             var Colors = submenu.Create("Colors", Main.s_mainpage);

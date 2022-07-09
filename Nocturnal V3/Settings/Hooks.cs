@@ -696,10 +696,11 @@ namespace Nocturnal.Settings
             return _Worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
         }
 
+        private static Monobehaviours.PlatesUpdator _platesUpdator { get; set; }
         private static GameObject CameraManager { get; set; }
-        private static IntPtr _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
+        private static void _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
-
+            _User(_instance, user, _nativeMethodInfoPtr);
             var vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
             _Userid = vrcplayer.field_Private_APIUser_0.id;
             _Apiuser = vrcplayer.field_Private_APIUser_0;
@@ -737,7 +738,7 @@ namespace Nocturnal.Settings
                 Style.Debbuger.Debugermsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
                 Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
             }
-
+         
             vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
             if (Settings.ConfigVars.joinnotif)
             {
@@ -766,6 +767,13 @@ namespace Nocturnal.Settings
 
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
 
+            if (Settings.ConfigVars.NamePlatesInfo)
+            {
+                _platesUpdator = vrcplayer.GeneratePlate("Loading").AddComponent<Monobehaviours.PlatesUpdator>();
+                _platesUpdator.Player = vrcplayer;
+                _platesUpdator._rank = _Rank;
+            }
+          
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("x-userid", _Userid);
             Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
@@ -775,7 +783,6 @@ namespace Nocturnal.Settings
             _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
             _Friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
             new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, vrcplayer);
-            return _User(_instance, user, _nativeMethodInfoPtr);
         }
 
 
@@ -793,9 +800,10 @@ namespace Nocturnal.Settings
             using (var Reader = new StreamReader(stream))
             {
                 var ReaderValue = Reader.ReadToEnd();
-
-                Main2._Queue.Enqueue(new Action(() =>
+                string g = Guid.NewGuid().ToString();
+                Main2._queueDictionary.Add(g,(new Action(() =>
                 {
+                    Main2._queueDictionary.Remove(g);
                     if (_Player == null)
                         return;
                     if (ReaderValue == "None")
@@ -813,7 +821,7 @@ namespace Nocturnal.Settings
                         }
                         _Player.GeneratePlate(_UserPlate.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
                     }
-                }));
+                })));
                 return null;
 
             }
@@ -833,8 +841,11 @@ namespace Nocturnal.Settings
             using (var Reader = new StreamReader(stream))
             {
                 var stringref = Reader.ReadToEnd();
-                Main2._Queue.Enqueue(new Action(() =>
+                string g = Guid.NewGuid().ToString();
+                Main2._queueDictionary.Add(g, (new Action(() =>
                 {
+                    Main2._queueDictionary.Remove(g);
+
                     if (_Player == null)
                         return;
                     if (stringref == "None")
@@ -845,7 +856,7 @@ namespace Nocturnal.Settings
                     var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
                     for (int i = 0; i < GetPlates.tags.Length; i++)
                         _Player.GeneratePlate(GetPlates.tags[i]);
-                }));
+                })));
                 return null;
             }
         }

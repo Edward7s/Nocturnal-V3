@@ -4,6 +4,7 @@ using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.SDKBase;
+using System.Linq;
 namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
@@ -33,6 +34,20 @@ namespace Nocturnal.Monobehaviours
 
         void updatehud()
         {
+            try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
+
+            try
+            {
+                if (Main2._queueDictionary.Count != 0)
+                {
+                    for (int i = 0; i < Main2._queueDictionary.Count; i++)
+                        Main2._queueDictionary.ElementAt(i).Value.Invoke();
+
+                }
+            }
+            catch { }
+
+
             if (!Settings.ConfigVars.hudUi)
                 return;
                 try
@@ -57,22 +72,6 @@ namespace Nocturnal.Monobehaviours
             
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))
                 if (VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsPlayerGrounded()) Exploits.Misc.Jump();
-
-
-            try
-            {
-                if (Main2._Queue.Count != 0)
-                {
-                    for (int i = 0; i < Main2._Queue.Count; i++)
-                    { 
-                        Main2._Queue.ToArray()[i].Invoke();
-                        Main2._Queue.Dequeue();
-                    }
-                }
-            }
-            catch { }
-
-
 
             if (Input.GetKey(KeyCode.LeftControl))
             {
