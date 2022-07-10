@@ -108,6 +108,7 @@ namespace Nocturnal.Settings
         public bool? DoubleSpaceFly { get; set; }
         public bool? RocketJump { get; set; }
         public bool? NamePlatesInfo { get; set; }
+        public bool? OfflineSpoof { get; set; }
 
     }
     internal class ConfigVars
@@ -227,5 +228,6 @@ namespace Nocturnal.Settings
         public static bool DoubleSpaceFly = false;
         public static bool RocketJump = false;
         public static bool NamePlatesInfo = true;
+        public static bool OfflineSpoof = false;
     }
 }

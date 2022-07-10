@@ -31,6 +31,7 @@ namespace Nocturnal.Apis.bigui
             _ToggleComp.transform.localScale = Vector3.one;
             _ToggleComp.onValueChanged.AddListener((UnityEngine.Events.UnityAction<bool>)RunT);
             _ToggleGameObj.gameObject.AddComponent<UnityEngine.UI.LayoutElement>().minHeight = maxheigt;
+            _ToggleGameObj.transform.localEulerAngles = Vector3.zero;
             void RunT(bool toggle)
             {
                 if (toggle)

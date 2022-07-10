@@ -181,18 +181,9 @@ namespace Nocturnal.Settings
             joinsound = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound").FirstOrDefault();
 
 
-
-
             //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
-
-
-
-
             _SkyboxMaterial = new UnityEngine.Material("");
-
-
-            var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");
-            
+            var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");   
             try
             {
                 Assembly asembly = Assembly.Load(bytes);

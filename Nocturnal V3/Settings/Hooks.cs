@@ -21,6 +21,9 @@ using VRC.SDKBase;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VRC.UI;
+using BestHTTP.JSON;
+using static VRC.Core.API;
+
 namespace Nocturnal.Settings
 {
     internal class Hooks
@@ -91,6 +94,12 @@ namespace Nocturnal.Settings
         private delegate IntPtr WebsockerReciver(IntPtr _instance, IntPtr Object, IntPtr Message);
 
         private static WebsockerReciver _WebsockerReciver;
+
+        private delegate IntPtr _putRquest(IntPtr instance, IntPtr target, IntPtr requestParams, IntPtr credientials );
+
+        private static _putRquest s_putRquest;
+
+
         [Obsolete]
         private static Harmony.HarmonyInstance Instance = new Harmony.HarmonyInstance(new Guid().ToString());
 
@@ -156,9 +165,7 @@ namespace Nocturnal.Settings
         //ForegroundColor
         private static IntPtr hwidspoofed;
 
-        private static void GetReq(string __0, ApiContainer __1)
-        {
-        }
+      
         [Obsolete]
 
         internal static void StartHooks()
@@ -166,7 +173,6 @@ namespace Nocturnal.Settings
 
             //Harmony Patches cause to lazy to put all parameters
 
-            // Patch(typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendGetRequest)), typeof(Hooks).GetMethod(nameof(GetReq),BindingFlags.NonPublic | BindingFlags.Static ));
 
 
             // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
@@ -236,6 +242,11 @@ namespace Nocturnal.Settings
             MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
             _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
 
+            MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
+            s_putRquest = Hook<_putRquest>(PostReq, typeof(Hooks).GetMethod(nameof(PutReq), BindingFlags.Static | BindingFlags.NonPublic));
+
+     
+
             try
             {
                 MethodInfo displaymethod = typeof(APIUser).GetProperty(nameof(APIUser.displayName)).SetMethod;
@@ -274,6 +285,19 @@ namespace Nocturnal.Settings
         private static GameObject _TransText { get; set; }
 
         private static Settings.jsonmanager.Webscoekt _WsMsg { get; set; }
+
+       
+        private static IntPtr PutReq(IntPtr instance, IntPtr target, IntPtr requestParams, IntPtr credientials)
+        {
+            if (!Settings.ConfigVars.OfflineSpoof)
+                return s_putRquest(instance,target, requestParams, credientials);
+
+            if ((string)new Il2CppSystem.String(instance) == "joins" || (string)new Il2CppSystem.String(target) == "visits") return IntPtr.Zero;
+            return s_putRquest(instance ,target, requestParams, credientials);
+
+           
+        }
+
         private static void WebSocket(IntPtr _Instance, IntPtr objects, IntPtr Message)
         {
             _WebsockerReciver(_Instance, objects, Message);
@@ -464,26 +488,31 @@ namespace Nocturnal.Settings
         private static IntPtr RaiseEvent(IntPtr _instance, byte code, IntPtr il2obj, IntPtr sendoptions, IntPtr _nativeMethodInfoPtr)
         {
             var isteruned = true;
-            /* if (code == 7)
-             {
-                 try
-                 {
-                     NocturnalC.Log("///////////////////////////////////////////////////////////////////////////////////");
+           /*  if (code == 7)
+               {
+                   try
+                   {
+                       NocturnalC.Log("///////////////////////////////////////////////////////////////////////////////////");
 
-                     var obj = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<Il2CppSystem.Object>(il2obj);
-                     var bytes = photon_extentions.ToByteArray(obj);
-                     var bytesl = "";
-                     for (int i = 0; i < bytes.Length; i++)
-                     {
-                         bytesl += " " + bytes[i].ToString();
-                     }
-                     NocturnalC.Log(bytesl);
+                       var obj = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<Il2CppSystem.Object>(il2obj);
+                       var bytes = photon_extentions.ToByteArray(obj);
+                       for (int i = 0; i < bytes.Length; i++)
+                      {
+                         // NocturnalC.Log(BitConverter.ToSingle(bytes, i).ToString() + " //" + VRC.Player.prop_Player_0.transform.localPosition.x, i.ToString());
 
-                     NocturnalC.Log($"[{VRC.Player.prop_Player_0.transform.position.x} / {VRC.Player.prop_Player_0.transform.position.y} {VRC.Player.prop_Player_0.transform.position.z}  ///  {VRC.Player.prop_Player_0.transform.localEulerAngles.x} / {VRC.Player.prop_Player_0.transform.localEulerAngles.y} {VRC.Player.prop_Player_0.transform.localEulerAngles.z}]");
-                 }
-                 catch { }
+                          try
+                          {
+                           NocturnalC.Log($"X: {bytes.GetVector3(i).x} Y: {bytes.GetVector3(i).y} Z: {bytes.GetVector3(i).z} // X: {VRC.Player.prop_Player_0.transform.localPosition.x} Y: {VRC.Player.prop_Player_0.transform.localPosition.y} Z: {VRC.Player.prop_Player_0.transform.localPosition.z}",i.ToString());
 
-             }*/
+                          }
+                          catch { }
+                       }
+
+                     //  NocturnalC.Log($"[{VRC.Player.prop_Player_0.transform.position.x} / {VRC.Player.prop_Player_0.transform.position.y} {VRC.Player.prop_Player_0.transform.position.z}  ///  {VRC.Player.prop_Player_0.transform.localEulerAngles.x} / {VRC.Player.prop_Player_0.transform.localEulerAngles.y} {VRC.Player.prop_Player_0.transform.localEulerAngles.z}]");
+                   }
+                   catch { }
+
+               } */
 
             if (fakelag)
             {
@@ -630,12 +659,9 @@ namespace Nocturnal.Settings
                     int Pid = int.Parse(Networking.LocalPlayer.playerId + "00001");
                     byte[] Pidb = BitConverter.GetBytes(Pid);
                     Buffer.BlockCopy(Pidb, 0, bytes, 0, 4);
-                    byte[] VectorData = new Byte[12];
+               photon_extentions.SetVector3(ref bytes, 48, VRC.Player.prop_Player_0.transform.position);
+                 photon_extentions.SetVector3(ref bytes, 66, VRC.Player.prop_Player_0.transform.position);
 
-                    Buffer.BlockCopy(BitConverter.GetBytes(VRC.Player.prop_Player_0.transform.localPosition.x), 0, VectorData, 0, 4);
-                    Buffer.BlockCopy(BitConverter.GetBytes(VRC.Player.prop_Player_0.transform.localPosition.y), 0, VectorData, 4, 4);
-                    Buffer.BlockCopy(BitConverter.GetBytes(VRC.Player.prop_Player_0.transform.localPosition.z), 0, VectorData, 8, 4);
-                    Buffer.BlockCopy(VectorData, 0, bytes, 48, 12);
                     bytes.OpRaiseEvent(7,
                         new Photon.Realtime.RaiseEventOptions()
                         {
@@ -762,7 +788,7 @@ namespace Nocturnal.Settings
                 Style.Debbuger.Debugermsg($"<color=#610000>[{_UserName} Quest Hidden");
             }
             if (_Apiuser.hasModerationPowers || _Apiuser.hasSuperPowers)
-                Settings.XRefedMethods.PopOutWarrningMessage("MODERATOR IN LOBBY [" + _UserName + "]");
+                Settings.XRefedMethods.PopOutWarrningMessage("MODERATOR IN LOBBY [" + _UserName + "]","A moderator has entered in your lobby.");
 
 
             Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";

@@ -17,7 +17,7 @@ namespace Nocturnal.Ui
         internal static void Run()
         {
              Ui.Objects._Favorite = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/Vertical Scroll View/Viewport/Content/Personal Avatar List").gameObject;
-            Ui.Objects._ViewPortAvi = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/Vertical Scroll View/Viewport").GetComponent<RectTransform>();
+             Ui.Objects._ViewPortAvi = GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/Vertical Scroll View/Viewport").GetComponent<RectTransform>();
             /*   var menu = new Apis.AvatarFav("Test");
                new Apis.AvatarFav(menu._Content, "avtr_d3e0a410-3093-4e98-b310-122b1dae5636", "Test", "A", "https://i.pinimg.com/564x/09/7d/93/097d9390e669050955f8a734e9e7c4bb.jpg", "https://api.vrchat.cloud/api/1/file/file_a7e82caf-b6bd-4aee-9f18-05144b07c583/8/file");*/
 

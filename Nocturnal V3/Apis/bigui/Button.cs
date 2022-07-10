@@ -52,6 +52,8 @@ namespace Nocturnal.Apis.bigui
             _layoutElement.minWidth = 30;
             if (size == null) return;
             _ButtonGameobject.transform.localScale = (Vector3)size;
+            _ButtonGameobject.gameObject.SetActive(true);
+
         }
         public BButton(out GameObject Instance, string name, GameObject path, Action action)
         {
@@ -64,6 +66,7 @@ namespace Nocturnal.Apis.bigui
             _ButtonComp.onClick.AddListener(action);
             _ButtonGameobject.transform.localEulerAngles = Vector3.zero;
             Instance = _ButtonGameobject;
+            _ButtonGameobject.gameObject.SetActive(true);
         }
        
     }

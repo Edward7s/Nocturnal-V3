@@ -26,7 +26,6 @@ namespace Nocturnal
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
-        internal static Queue<Action> _Queue;
         internal static Process _CurentP { get; set; }
         internal static Dictionary<string,Action> _queueDictionary;
 
@@ -37,7 +36,6 @@ namespace Nocturnal
         
             _CurentP = Process.GetCurrentProcess();
             Main2._queueDictionary = new Dictionary<string, Action>(); 
-            Main2._Queue = new Queue<Action>();
             _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Clear();

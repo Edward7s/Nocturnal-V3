@@ -41,7 +41,7 @@ namespace Nocturnal.Ui.qm
                 Sitonparts._IsSiting = !Sitonparts._IsSiting;
                 Sitonparts._Part = 4; MelonLoader.MelonCoroutines.Start(Sitonparts._Sitonparts());
             });
-            //   new NToggle("Copy Ik", extensions.Getmenu(Target), () => { copyik = true; extensions.togglenetworkserializer(false);  } , () => { copyik = false; extensions.togglenetworkserializer(true); }, copyik);            ikb.GetComponent<UnityEngine.UI.Toggle>().interactable = false;
+               new NToggle("Copy Ik", extensions.Getmenu(Target), () => { _copyik = true; extensions.togglenetworkserializer(false);  } , () => { _copyik = false; extensions.togglenetworkserializer(true); }, _copyik);       
             //  Toggle.toggle("Copy Voice", extensions.Getmenu(Target), () => copyivoice = true,()=> copyivoice = false, copyivoice);
             new NToggle("Item Orbit", extensions.Getmenu(Target), () => {
                 Orbit.orbitobject = UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);

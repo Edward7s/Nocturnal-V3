@@ -48,6 +48,7 @@ namespace Nocturnal.Ui.qm
             new NToggle("Udon Block", toggles.Getmenu(), () => Settings.ConfigVars.udonblock = true, () => Settings.ConfigVars.udonblock = false, Settings.ConfigVars.udonblock);
             new NToggle("Only Friends Portal", toggles.Getmenu(), () => Settings.ConfigVars.OnlyFriendsPortals = true, () => Settings.ConfigVars.OnlyFriendsPortals = false, Settings.ConfigVars.OnlyFriendsPortals);
             new NToggle("No Portals", toggles.Getmenu(), () => Settings.ConfigVars.NoPortals = true, () => Settings.ConfigVars.NoPortals = false, Settings.ConfigVars.NoPortals);
+            new NToggle("Offline Spoof", toggles.Getmenu(), () => Settings.ConfigVars.OfflineSpoof = true, () => Settings.ConfigVars.OfflineSpoof = false, Settings.ConfigVars.OfflineSpoof);
 
         }
 

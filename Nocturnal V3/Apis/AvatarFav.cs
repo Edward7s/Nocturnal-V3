@@ -90,6 +90,7 @@ namespace Nocturnal.Apis
             _Scrollbar.transform.localPosition = new Vector3(-268.4155f, - 89, 1);
             _ScrollRect.horizontalScrollbar = _Scrollbar;
             _ScrollRect.content = _Content.GetComponent<RectTransform>();
+            _ScrollRect.vertical = false;
             _Content.AddComponent<UnityEngine.UI.ContentSizeFitter>().horizontalFit = UnityEngine.UI.ContentSizeFitter.FitMode.MinSize;
         }
 
