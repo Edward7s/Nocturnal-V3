@@ -659,8 +659,8 @@ namespace Nocturnal.Settings
                     int Pid = int.Parse(Networking.LocalPlayer.playerId + "00001");
                     byte[] Pidb = BitConverter.GetBytes(Pid);
                     Buffer.BlockCopy(Pidb, 0, bytes, 0, 4);
-               photon_extentions.SetVector3(ref bytes, 48, VRC.Player.prop_Player_0.transform.position);
-                 photon_extentions.SetVector3(ref bytes, 66, VRC.Player.prop_Player_0.transform.position);
+            //   photon_extentions.SetVector3(ref bytes, 48, VRC.Player.prop_Player_0.transform.position);
+              //   photon_extentions.SetVector3(ref bytes, 66, VRC.Player.prop_Player_0.transform.position);
 
                     bytes.OpRaiseEvent(7,
                         new Photon.Realtime.RaiseEventOptions()

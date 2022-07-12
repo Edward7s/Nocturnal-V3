@@ -54,29 +54,34 @@ namespace Nocturnal.Monobehaviours
 
         void PlateHandler()
         {
-            if (i32 == Player.prop_PlayerNet_0.field_Private_Int32_0 && s4 == _flatBufferNetworkSerializer.field_Internal_Single_4)
+            try
             {
-                _counting++;
-                if (_counting > 1)
-                    _status = "<color=#ff264a>Crashed</color>";
+                if (i32 == Player.prop_PlayerNet_0.field_Private_Int32_0 && s4 == _flatBufferNetworkSerializer.field_Internal_Single_4)
+                {
+                    _counting++;
+                    if (_counting > 1)
+                        _status = "<color=#ff264a>Crashed</color>";
+                    else
+                        _status = "<color=#ffe32b>Lagging</color>";
+                }
                 else
-                    _status = "<color=#ffe32b>Lagging</color>";
+                {
+                    _status = "<color=#b8ffbe>Stable</color>";
+                    _counting = 0;
+                    if (_clientuser.Length == 0)
+                        GetClientUser();
+                }
+                if (_counting == 0 && (int)1000 / Player.prop_PlayerNet_0.prop_Byte_0 < 25) _status = "<color=#ffe32b>Lagging</color>";
+
+       
+
+                i32 = Player.prop_PlayerNet_0.field_Private_Int32_0;
+                s4 = _flatBufferNetworkSerializer.field_Internal_Single_4;
+                _fps = Player.prop_PlayerNet_0.prop_Byte_0 == 0 ? "0(Invalid)" : ((int)1000 / Player.prop_PlayerNet_0.prop_Byte_0).ToString();
+                _text.text = $"{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status} {_clientuser}";
             }
-            else
-            {
-                _status = "<color=#b8ffbe>Stable</color>";
-                _counting = 0;
-
-            }
-            if (_counting == 0 && (int)1000 / Player.prop_PlayerNet_0.prop_Byte_0 < 25) _status = "<color=#ffe32b>Lagging</color>";
-
-            if (_clientuser.Length == 0)
-                GetClientUser();
-
-            i32 = Player.prop_PlayerNet_0.field_Private_Int32_0;
-            s4 = _flatBufferNetworkSerializer.field_Internal_Single_4;
-            _fps = Player.prop_PlayerNet_0.prop_Byte_0 == 0 ? "0(Invalid)" : ((int)1000 / Player.prop_PlayerNet_0.prop_Byte_0).ToString();
-            _text.text = $"{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status} {_clientuser}";
+            catch { }
+     
         }
 
 

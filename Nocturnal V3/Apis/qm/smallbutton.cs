@@ -6,16 +6,15 @@ namespace Nocturnal.Apis.qm
 {
     internal class SmallButton
     {
-        private GameObject _ButtonGameobject { get; set; }
+        public GameObject _ButtonGameobject { get; set; }
         private Button _ButtonComponent { get; set; }
         private Transform _ButtonIcon { get; set; }
         ~SmallButton()
         {
-            this._ButtonGameobject = null;
             this._ButtonComponent = null;
             this._ButtonIcon = null;
         }
-        public SmallButton(out GameObject instance,GameObject path, Action action, string img = null)
+        public SmallButton(GameObject path, Action action, string img = null)
         {
             _ButtonGameobject = GameObject.Instantiate(Objects._ButtonPrefab, path.transform);
             _ButtonGameobject.transform.Find("Text_H4").gameObject.SetActive(false);
@@ -28,7 +27,6 @@ namespace Nocturnal.Apis.qm
             _ButtonIcon = _ButtonGameobject.transform.Find("Icon");
             _ButtonIcon.localScale = new Vector3(0.9f, 0.9f, 1);
             _ButtonIcon.localPosition = new Vector3(0, 35, 0);
-            instance = _ButtonGameobject;
             if (img == null) return;
             Component.DestroyImmediate(_ButtonGameobject.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
             _ButtonIcon.gameObject.Loadfrombytes(img);

@@ -46,6 +46,7 @@ namespace Nocturnal.Settings
         private static string micmenu = "https://nocturnal-client.xyz/Resources/mic%20icon.png";
         private static string PremiumIcon = "https://nocturnal-client.xyz/Resources/Gold%20Tags.png";
         private static string Backgroundb = "https://nocturnal-client.xyz/Resources/backgound.png";
+        private static string MirrorMover = "https://nocturnal-client.xyz/Resources/Desktopmirror.png";
 
 
         internal static UnityEngine.Material _SkyboxMaterial { get; set; }

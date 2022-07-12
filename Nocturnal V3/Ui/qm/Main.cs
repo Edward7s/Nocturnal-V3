@@ -13,7 +13,6 @@ using Nocturnal.Settings;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using UnityEngine;
-
 namespace Nocturnal.Ui.qm
 {
     internal class Main
@@ -382,16 +381,13 @@ namespace Nocturnal.Ui.qm
 
             var menu = UnityEngine.GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window");
 
-            GameObject tpbutton;
-            new SmallButton(out tpbutton,menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>(), Download_Files.imagehandler.teleport);
-            tpbutton.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -562.5029f, -1.0042f);
+            new SmallButton(menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>(), Download_Files.imagehandler.teleport)._ButtonGameobject
+            .transform.localPosition = new UnityEngine.Vector3(-714.5056f, -562.5029f, -1.0042f);
 
-            GameObject boombtn;
-            new SmallButton(out boombtn, menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>(), Download_Files.imagehandler.items);
-            boombtn.transform.localPosition = new UnityEngine.Vector3(-825, -562.5029f, -1.0042f);
+            new SmallButton( menu.gameObject, () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>(), Download_Files.imagehandler.items)._ButtonGameobject.
+            transform.localPosition = new UnityEngine.Vector3(-825, -562.5029f, -1.0042f);
 
-            GameObject Mirror;
-            new SmallButton(out Mirror, menu.gameObject, () =>
+            new SmallButton(menu.gameObject, () =>
             {
                 var mirrors = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>();
                 for (int i = 0; i < mirrors.Length; i++)
@@ -402,12 +398,11 @@ namespace Nocturnal.Ui.qm
                     }
                 Exploits.Mirror.Togglemirror(true);
 
-            }, Download_Files.imagehandler.Mirror);
-            Mirror.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -672.5029f, -1.0042f);
+            }, Download_Files.imagehandler.Mirror)._ButtonGameobject.transform.localPosition = new UnityEngine.Vector3(-714.5056f, -672.5029f, -1.0042f); ;
 
 
-            GameObject Mirroroptimized;
-            new SmallButton(out Mirroroptimized, menu.gameObject, () =>
+
+            new SmallButton(menu.gameObject, () =>
             {
                 var mirrors = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>();
                 for (int i = 0; i < mirrors.Length; i++)
@@ -418,16 +413,15 @@ namespace Nocturnal.Ui.qm
                     }
                 Exploits.Mirror.Togglemirror(true, true);
 
-            }, Download_Files.imagehandler.OptimizedMirror);
-            Mirroroptimized.transform.localPosition = new UnityEngine.Vector3(-825, -672.5029f, -1.0042f);
+            }, Download_Files.imagehandler.OptimizedMirror)._ButtonGameobject.transform.localPosition = new UnityEngine.Vector3(-825, -672.5029f, -1.0042f);
 
-
-
-
-         
+            new SmallButton(menu.gameObject, () =>
+            {
+                var mirros = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>().Where(x => x.gameObject.name == "NocturnalMirror").FirstOrDefault();
+                mirros.gameObject.GetComponent<MeshCollider>().enabled = !mirros.gameObject.GetComponent<MeshCollider>().enabled;
+            },Download_Files.imagehandler.MirrorMover)._ButtonGameobject.transform.localPosition = new Vector3(-605,-672.5f,-1.0042f);
 
             Objects._QMexpand.transform.SetSiblingIndex(6);
-
         }
 
 

@@ -142,6 +142,7 @@ namespace Nocturnal.Apis
             _Button.AddComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => {
                 _MenuAndAvi.Clear();
                 _MenuAndAvi.Add(id, Menu.transform.parent.parent.name);
+
                 GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/AvatarPreviewBase/MainRoot/MainModel").gameObject.GetComponent<VRC.SimpleAvatarPedestal>().Method_Private_Void_ApiAvatar_0(new VRC.Core.ApiAvatar()
                 {
                     assetUrl = asseturl,

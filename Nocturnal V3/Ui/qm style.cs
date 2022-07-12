@@ -350,7 +350,8 @@ namespace Nocturnal.Ui
             var layout = _Content.AddComponent<UnityEngine.UI.GridLayoutGroup>();
             layout.spacing = new Vector2(0,-50);
             _Content.transform.localScale = new Vector3(0.25f, 0.3f, 1);
-            _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0); 
+            _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0);
+            _Content.transform.localEulerAngles = Vector3.zero;
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 
