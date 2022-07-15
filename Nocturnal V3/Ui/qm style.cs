@@ -111,7 +111,7 @@ namespace Nocturnal.Ui
                 debbugertxt.transform.localScale = new Vector3(2.65f,1,1);
                 Style.Debbuger.Debugermsg($"<color=#2700c2>Nocturnal V3</color> Made by <color=#ff1934>Edward7");
             }
-
+            new Exploits.CameraPov();
             GameObject.Find("/UserInterface").transform.Find("MenuContent/Backdrop/Backdrop").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 80);
             Objects._userinfpannel.transform.Find("User Panel").transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             var userblackbackground = Objects._userinfpannel.transform.Find("User Panel/Panel").gameObject;

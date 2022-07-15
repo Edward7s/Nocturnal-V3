@@ -23,6 +23,7 @@ namespace Nocturnal
 
     public class Main2
     {
+        internal static bool s_shouldRun { get; set; } = true;
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
@@ -242,6 +243,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.TagAnimation>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemLagger >();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PlatesUpdator>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PickupLevitation>();
 
         }
         private protected static void LogAsembleis(List<MelonBase> melontblList)

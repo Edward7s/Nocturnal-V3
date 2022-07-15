@@ -31,9 +31,21 @@ namespace Nocturnal.Monobehaviours
             _GUIStlye.wordWrap = false;
             _GUIStlye.normal.textColor = Color.white;
         }
+        void OnApplicationFocus(bool hasFocus)
+        {
+            try
+            {
+                if (VRC.Player.prop_Player_0.prop_VRCPlayerApi_0.IsUserInVR()) return;
+                Main2.s_shouldRun = hasFocus;
+            }
+            catch { }
 
+        }
+
+     
         void updatehud()
         {
+            if (!Main2.s_shouldRun) return;
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
 
             try
@@ -68,6 +80,9 @@ namespace Nocturnal.Monobehaviours
 
         void LateUpdate()
         {
+        
+
+
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
             
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))

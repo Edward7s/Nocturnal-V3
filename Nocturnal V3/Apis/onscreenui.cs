@@ -11,37 +11,40 @@ namespace Nocturnal.Apis
 {
     internal class Onscreenui
     {
-        private static GameObject textgameobj;
-        private static TMPro.TextMeshProUGUI tmpro;
-        private static int countdown =0;
+        private static GameObject s_textGameObject { get; set; }
+        private static TMPro.TextMeshProUGUI s_tmpPro { get; set; }
+        private static ImageThreeSlice s_imageThreeSlice { get; set; }
+
+        private static float countdown =0;
         internal static void generateuimsg()
         {
             var toinst = GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/AlertTextParent/Capsule").gameObject;
-            textgameobj = GameObject.Instantiate(toinst, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud"));
-            textgameobj.SetActive(true);
-            textgameobj.GetComponent<UnityEngine.UI.ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            textgameobj.name = "ONscreennotui";
-            textgameobj.transform.localPosition = new Vector3(150, 0, 0);
-            tmpro = textgameobj.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            tmpro.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            tmpro.fontSize = 17;
-            tmpro.richText = true;
-            textgameobj.gameObject.SetActive(false);
+            s_textGameObject = GameObject.Instantiate(toinst, GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud"));
+            s_textGameObject.SetActive(true);
+            s_textGameObject.GetComponent<UnityEngine.UI.ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            s_textGameObject.name = "ONscreennotui";
+            s_textGameObject.transform.localPosition = new Vector3(60,-250, 0);
+            s_tmpPro = s_textGameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            s_tmpPro.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            s_tmpPro.fontSize = 17;
+            s_tmpPro.richText = true;
+            s_textGameObject.gameObject.SetActive(false);
+            s_imageThreeSlice = s_textGameObject.gameObject.GetComponent<ImageThreeSlice>();
         }
 
         internal static void showmsg(string strings) => MelonLoader.MelonCoroutines.Start(showmsgienum(strings));
 
-
-
         internal static IEnumerator showmsgienum(string strings)
         {
+            if (!Main2.s_shouldRun) yield break;
+
             if (!Settings.ConfigVars.toggleonscreenlogger)
                 yield break;
-            tmpro.text += strings + "\n";
+            s_tmpPro.text += strings + "\n";
 
             if (countdown == 0)
             {
-                textgameobj.SetActive(true);
+                s_textGameObject.SetActive(true);
                 countdown = 6;
                 while (countdown > 0)
                 {
@@ -50,20 +53,16 @@ namespace Nocturnal.Apis
 
                     if (countdown == 1)
                     {
-                        tmpro.text = "";
-                        textgameobj.SetActive(false);
+                        s_tmpPro.text = "";
+                        s_textGameObject.SetActive(false);
                         countdown = 0;
 
                     }
-
-
-                    
-
                 }
             }
             else
             {
-                textgameobj.SetActive(true);
+                s_textGameObject.SetActive(true);
                 countdown = 6;
             }
           

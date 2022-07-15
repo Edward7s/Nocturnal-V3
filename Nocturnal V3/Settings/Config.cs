@@ -58,7 +58,7 @@ namespace Nocturnal.Settings
         public float[]? friend { get; set; }
         public bool? playerlist { get; set; }
         public bool? rightsideplayerlist { get; set; }
-         public float? playelerlistopacity { get ; set; }
+        public float? playelerlistopacity { get; set; }
 
         public float[]? ButtonColor { get; set; }
         public float[]? HuDColor { get; set; }
@@ -109,6 +109,10 @@ namespace Nocturnal.Settings
         public bool? RocketJump { get; set; }
         public bool? NamePlatesInfo { get; set; }
         public bool? OfflineSpoof { get; set; }
+        public bool? CameraView { get; set; }
+        public float? YCamera { get; set; }
+        public float? ZCamera { get; set; }
+        public bool? ItemsGrav { get; set; }
 
     }
     internal class ConfigVars
@@ -229,5 +233,9 @@ namespace Nocturnal.Settings
         public static bool RocketJump = false;
         public static bool NamePlatesInfo = true;
         public static bool OfflineSpoof = false;
+        public static float YCamera = 0;
+        public static float ZCamera = 0.5f;
+        public static bool CameraView = false;
+        public static bool ItemsGrav = false;
     }
 }

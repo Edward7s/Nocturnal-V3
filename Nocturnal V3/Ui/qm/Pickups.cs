@@ -26,7 +26,7 @@ namespace Nocturnal.Ui.qm
             new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("OwnerPickups", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("OwnerPickups"));
             new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("StopObjs", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("StopObjs"));
             new NToggle("Lagger", extensions.Getmenu(_pickupsm), () => Inject_monos._ItemLagger.SetActive(true), () => Inject_monos._ItemLagger.SetActive(false));
-
+            new NToggle("Items Gravity", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.ItemsGrav = true, () => Settings.ConfigVars.ItemsGrav = false, Settings.ConfigVars.ItemsGrav);
             new NButton(_pickupsm.Getmenu(), "Respawn Pickups", () =>
             {
                 for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)
@@ -53,7 +53,15 @@ namespace Nocturnal.Ui.qm
 
             });
             new NToggle("Become Pickup", extensions.Getmenu(_pickupsm), () => Settings.Hooks.PickupMover = true, () => Settings.Hooks.PickupMover = false, Settings.Hooks.PickupMover);
-        }
 
+            new NToggle("Gravity", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.ItemsGrav = true, () => { Settings.ConfigVars.ItemsGrav = false;
+                var objects = GameObject.FindObjectsOfType<Monobehaviours.PickupLevitation>();
+                if (objects.Length != 0)
+                    for (int i = 0; i < objects.Length; i++)
+                        Component.DestroyImmediate(objects[i]);
+            }, Settings.ConfigVars.ItemsGrav);
+
+        }
+        // ItemsGrav
     }
 }

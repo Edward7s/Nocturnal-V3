@@ -110,6 +110,7 @@ namespace Nocturnal.Settings
                     if (props[i].GetValue(imagemanagerdata) != null) continue;
                     props[i].SetValue(imagemanagerdata, Convert.ToBase64String(client.DownloadData(fieldslist.Where(field => field.Name == props[i].Name).FirstOrDefault().GetValue(props).ToString())));
                     needrewrite = true;
+                   
                 }
             }
               

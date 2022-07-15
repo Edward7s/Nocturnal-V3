@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 using Nocturnal.Ui.qm;
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
@@ -49,6 +46,29 @@ namespace Nocturnal.Ui.qm
             new NToggle("Only Friends Portal", toggles.Getmenu(), () => Settings.ConfigVars.OnlyFriendsPortals = true, () => Settings.ConfigVars.OnlyFriendsPortals = false, Settings.ConfigVars.OnlyFriendsPortals);
             new NToggle("No Portals", toggles.Getmenu(), () => Settings.ConfigVars.NoPortals = true, () => Settings.ConfigVars.NoPortals = false, Settings.ConfigVars.NoPortals);
             new NToggle("Offline Spoof", toggles.Getmenu(), () => Settings.ConfigVars.OfflineSpoof = true, () => Settings.ConfigVars.OfflineSpoof = false, Settings.ConfigVars.OfflineSpoof);
+            new NToggle("Camera", toggles.Getmenu(), () => {
+                Settings.ConfigVars.CameraView = true;
+                try
+                {
+                    VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").gameObject.SetActive(true);
+                    GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/Camera Render").gameObject.SetActive(true);
+                }
+                catch { }
+          
+            }, () =>
+            {
+                Settings.ConfigVars.CameraView = false;
+
+                try
+                {
+                    VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").gameObject.SetActive(false);
+                    GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/Camera Render").gameObject.SetActive(false);
+                }
+                catch { }
+
+            }, Settings.ConfigVars.CameraView);
+            new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.ZCamera = val, Settings.ConfigVars.ZCamera,new Action(()=>  VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new UnityEngine.Vector3(0,  - Settings.ConfigVars.YCamera * 2, Settings.ConfigVars.ZCamera * 5)),false,"Z");
+            new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.YCamera = val, Settings.ConfigVars.YCamera, new Action(() => VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new UnityEngine.Vector3(0, - Settings.ConfigVars.YCamera * 2, Settings.ConfigVars.ZCamera * 5)), false, "Y");
 
         }
 

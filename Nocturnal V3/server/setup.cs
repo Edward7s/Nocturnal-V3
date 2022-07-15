@@ -192,17 +192,18 @@ namespace Nocturnal.server
                     try
                     {
                         players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
-
                     }
                     catch { }
 
                 }
+                players[i2]._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/_Plate:Loading").gameObject.GetComponent<Monobehaviours.PlatesUpdator>().IsNocturnal = "<color=#7919ff>Nocturnal ";
+
             }
             yield return new WaitForSeconds(1f);
             try
             {
                 var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                btntext.text = "[<color=#d633ff>N</color>]" + btntext.text;
+                btntext.text = "<color=#d633ff>N</color> " + btntext.text;
             }
             catch { }
              yield break;

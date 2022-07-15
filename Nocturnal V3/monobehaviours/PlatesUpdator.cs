@@ -27,6 +27,7 @@ namespace Nocturnal.Monobehaviours
         private float s4 { get; set; }
         private float _y { get; set; }
         private Transform _transform { get; set; }
+        public string IsNocturnal { get; set; } = "";
 
         private VRC.Networking.FlatBufferNetworkSerializer _flatBufferNetworkSerializer { get; set; }
 
@@ -49,6 +50,7 @@ namespace Nocturnal.Monobehaviours
             _clientuser = "";
             _y = 0;
             _transform = Player.transform;
+         
             InvokeRepeating(nameof(PlateHandler), -1, 3);
         }
 
@@ -78,7 +80,7 @@ namespace Nocturnal.Monobehaviours
                 i32 = Player.prop_PlayerNet_0.field_Private_Int32_0;
                 s4 = _flatBufferNetworkSerializer.field_Internal_Single_4;
                 _fps = Player.prop_PlayerNet_0.prop_Byte_0 == 0 ? "0(Invalid)" : ((int)1000 / Player.prop_PlayerNet_0.prop_Byte_0).ToString();
-                _text.text = $"{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status} {_clientuser}";
+                _text.text = $"{IsNocturnal}{_friend}{_platform} {_vr} {_rank} <color=#a742f5>F:{_fps}</color> <color=#caa1ff>P:{Player.prop_PlayerNet_0.field_Private_Int16_0}</color> {_status} {_clientuser}";
             }
             catch { }
      

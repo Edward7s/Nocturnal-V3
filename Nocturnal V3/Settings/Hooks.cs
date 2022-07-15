@@ -301,7 +301,7 @@ namespace Nocturnal.Settings
         private static void WebSocket(IntPtr _Instance, IntPtr objects, IntPtr Message)
         {
             _WebsockerReciver(_Instance, objects, Message);
-
+            if (!Main2.s_shouldRun) return;
             if (Message == IntPtr.Zero || Message == null) return;
             try
             {
@@ -375,7 +375,6 @@ namespace Nocturnal.Settings
         {
             _PortalSpawner(_instance, world, id, idk, player, _nativeMethodInfoPtr);
             if (player == IntPtr.Zero) return;
-
             _PLayerP = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(player);
             if (_PLayerP == VRC.Player.prop_Player_0) return;
             if (ConfigVars.NoPortals)
@@ -396,7 +395,6 @@ namespace Nocturnal.Settings
                     _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
                     GameObject.DestroyImmediate(_Portal.gameObject);
                     Apis.Onscreenui.showmsg($"<color=red>Destroyed Portal");
-
                 }
                 catch { }
                 return;
@@ -404,17 +402,24 @@ namespace Nocturnal.Settings
         }
 
 
-
+        private static VRCHandGrasper s_vrcHandGrasper { get; set; }
         private static IntPtr PickupsM(IntPtr _Instance, VRC_Trigger.TriggerType _Rigibody, IntPtr _nativemethodinfo)
         {
+            s_vrcHandGrasper = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCHandGrasper>(_Instance);
+            
+            if (Settings.ConfigVars.ItemsGrav)
+            {
+                if (s_vrcHandGrasper.field_Private_Rigidbody_0.gameObject.GetComponent<Monobehaviours.PickupLevitation>() == null)
+                    s_vrcHandGrasper.field_Private_Rigidbody_0.gameObject.AddComponent<Monobehaviours.PickupLevitation>();
+            }
+        
 
             if (!PickupMover)
                 return _PickupObject(_Instance, _Rigibody, _nativemethodinfo);
 
             if (_Rigibody.ToString() == "OnPickup")
             {
-                VRCHandGrasper HandGasper = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCHandGrasper>(_Instance);
-                _Pickup = HandGasper.field_Private_Rigidbody_0.gameObject;
+                _Pickup = s_vrcHandGrasper.field_Private_Rigidbody_0.gameObject;
                 Ui.Inject_monos._ItemMover.SetActive(true);
                 Ui.Inject_monos._UpdateManager.SetActive(false);
             }
@@ -687,6 +692,9 @@ namespace Nocturnal.Settings
             {
                 _AvatarManager = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCAvatarManager>(avatardescriptor).transform.parent.gameObject;
                 _VRCPLAYER = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
+               if (_VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
+                    VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new Vector3(0, 0, 1.2f * VRC.Player.prop_Player_0._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.ViewPosition.y * 2);
+                
                 _AvatarManager.SetActive(false);
                 if (!Settings.ConfigVars.selfanti && _VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
                 {
@@ -702,7 +710,7 @@ namespace Nocturnal.Settings
                 var antic = new Anticrash(_AvatarManager, _VRCPLAYER);
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
             }
-            catch (Exception ex)
+            catch
             {
                 // NocturnalC.Log(ex);
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
@@ -754,6 +762,7 @@ namespace Nocturnal.Settings
             _UserName = _Apiuser.displayName;
             Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref _Rank, ref _Color);
             Settings.wrappers.Ranks.convertotcolorank(ref _Rank, ref _UserName);
+            vrcplayer._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_5.gameObject.GetComponent<ImageThreeSlice>().color = _Color;
             if (_Apiuser.IsOnMobile)
             {
                 Style.Debbuger.Debugermsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#048743>Quest");
@@ -807,8 +816,8 @@ namespace Nocturnal.Settings
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
             _VR = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
             _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
-            _Friends = vrcplayer.IsFriend() ? "[<color=yellow>Friend</color>] " : "";
-            new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}[{_Platform}] [{_VR}] [{_UserName}]", _Userid, vrcplayer);
+            _Friends = vrcplayer.IsFriend() ? "<color=yellow>Friend</color> " : "";
+            new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}{_Platform} {_VR} {_UserName}", _Userid, vrcplayer);
         }
 
 
@@ -933,6 +942,7 @@ namespace Nocturnal.Settings
                 yield return new WaitForEndOfFrame();
 
 
+
             _RoomCapacity = RoomManager.field_Internal_Static_ApiWorld_0.capacity.ToString();
 
             Exploits.Pickups.Pickupsobs = UnityEngine.Resources.FindObjectsOfTypeAll<VRC_Pickup>().ToArray();
@@ -990,14 +1000,19 @@ namespace Nocturnal.Settings
 
 
 
+
             if (Ui.qm.Worldhistory.worldhistorymenu == null)
             {
                 while (Ui.qm.Worldhistory.worldhistorymenu == null)
                     yield return new WaitForSeconds(1f);
                 Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
-                yield break;
             }
+            else
             Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+
+
+ 
+             Exploits.CameraPov.Generate();
 
             yield break;
         }
