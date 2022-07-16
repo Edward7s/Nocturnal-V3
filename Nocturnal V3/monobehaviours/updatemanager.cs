@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC.SDKBase;
 using System.Linq;
+using UnityEngine.Rendering.PostProcessing;
 namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
@@ -12,6 +13,8 @@ namespace Nocturnal.Monobehaviours
         private GameObject _SecondCamera = null;
         private bool _Isthirdpersonback = false;
         private bool _Isthirdp = false;
+        private UnityEngine.Rendering.PostProcessing.PostProcessLayer _postProc {get;set;}
+
         private GUIStyle _GUIStlye { get; set; }
         internal static string User { get; set; }
         internal static string Rank { get; set; }
@@ -99,6 +102,9 @@ namespace Nocturnal.Monobehaviours
                         {
                             _SecondCamera = new GameObject("Camera Holder");
                             _SecondCamera.AddComponent<Camera>();
+                            _postProc = _SecondCamera.AddComponent<PostProcessLayer>();
+                            _postProc.volumeLayer = 16;
+                            _postProc.m_Resources = Settings.Hooks.cameraeye.GetComponent<PostProcessLayer>().m_Resources;
                             _SecondCamera.transform.parent = Settings.Hooks.cameraeye.transform;
                             _SecondCamera.transform.localEulerAngles = Vector3.zero;
                             _SecondCamera.transform.localScale = Vector3.one;
