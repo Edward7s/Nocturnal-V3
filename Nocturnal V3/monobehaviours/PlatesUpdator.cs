@@ -15,9 +15,9 @@ namespace Nocturnal.Monobehaviours
         }
 
         private TMPro.TextMeshProUGUI _text { get; set; }
-        private string _platform { get; set; }
-        private string _vr { get; set; }
-        private string _friend { get; set; }
+        public string _platform { get; set; }
+        public string _vr { get; set; }
+        public string _friend { get; set; }
         private string _clientuser { get; set; }
         public string _rank { get; set; }
         private string _fps { get; set; }
@@ -37,9 +37,6 @@ namespace Nocturnal.Monobehaviours
         void Start()
         {
             _text = this.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            _vr = Player.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
-            _platform = Player.field_Private_APIUser_0.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
-            _friend = Player.IsFriend() ? "<color=yellow>Friend</color> " : "";
             _rank = _rank;
             _counting = 0;
             _fps = "";

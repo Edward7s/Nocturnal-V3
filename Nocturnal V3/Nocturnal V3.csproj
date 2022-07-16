@@ -459,7 +459,7 @@
     <Compile Include="Monobehaviours\Outline.cs" />
     <Compile Include="Monobehaviours\Pagemanager.cs" />
     <Compile Include="Monobehaviours\PickupLevitation.cs" />
-    <Compile Include="Monobehaviours\Platemanager.cs" />
+    <Compile Include="Ui\Platemanager.cs" />
     <Compile Include="Monobehaviours\PlatesUpdator.cs" />
     <Compile Include="Monobehaviours\PostProccesingManager.cs" />
     <Compile Include="Monobehaviours\Svastica.cs" />

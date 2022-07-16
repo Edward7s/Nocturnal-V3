@@ -7,10 +7,8 @@ namespace Nocturnal.Monobehaviours
     {
 
         private static bool back = true;
-        public ItemLagger(IntPtr ptr) : base(ptr)
-        {
-
-        }
+        public ItemLagger(IntPtr ptr) : base(ptr) { }
+        
 
         void OnEnable() => InvokeRepeating(nameof(Lag), -1, 0.2f);
         void OnDisable() => CancelInvoke(nameof(Lag));

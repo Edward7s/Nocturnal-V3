@@ -254,9 +254,9 @@ namespace Nocturnal.Settings
         public static float Saturation = 0;
         public static float Temperature = 0.3f;
         public static float Tint = 0;
-        public static bool PostProccesing = true;
-        public static bool ColorGradinat = true;
-        public static bool BloomTogg = true;
+        public static bool PostProccesing = false;
+        public static bool ColorGradinat = false;
+        public static bool BloomTogg = false;
 
     }
 }

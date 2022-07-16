@@ -239,8 +239,8 @@ namespace Nocturnal.Settings
             MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
             _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
 
-            MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
-            _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
+         //  MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
+         //  _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
             s_putRquest = Hook<_putRquest>(PostReq, typeof(Hooks).GetMethod(nameof(PutReq), BindingFlags.Static | BindingFlags.NonPublic));
@@ -737,28 +737,13 @@ namespace Nocturnal.Settings
             var vrcplayer = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRC.Player>(user);
             _Userid = vrcplayer.field_Private_APIUser_0.id;
             _Apiuser = vrcplayer.field_Private_APIUser_0;
+            _UserName = _Apiuser.displayName;
             _SendUser = new Settings.jsonmanager.custommsg()
             {
                 code = "2",
                 msg = _Userid,
             };
             server.setup.sendmessage(Newtonsoft.Json.JsonConvert.SerializeObject(_SendUser));
-
-            if (_Userid != APIUser.CurrentUser.id)
-            {
-                vrcplayer.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
-                if (ConfigVars.EveryoneTrail)
-                    extensions._AddTrailRender(vrcplayer.gameObject);
-
-                CameraManager = new GameObject("UserPovCamera");
-                CameraManager.transform.parent = vrcplayer.gameObject.transform.Find("AnimationController/HeadAndHandIK/HeadEffector");
-                CameraManager.transform.localPosition = Vector3.zero;
-                CameraManager.transform.localScale = Vector3.one;
-                CameraManager.transform.localEulerAngles = Vector3.zero;
-                CameraManager.AddComponent<UnityEngine.Camera>().farClipPlane = 80;
-                CameraManager.SetActive(false);
-            }
-            _UserName = _Apiuser.displayName;
             Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref _Rank, ref _Color);
             if (vrcplayer.IsFriend()) _Color = Color.yellow;
             Settings.wrappers.Ranks.convertotcolorank(ref _Rank, ref _UserName);
@@ -773,18 +758,15 @@ namespace Nocturnal.Settings
                 Style.Debbuger.Debugermsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
                 Apis.Onscreenui.showmsg($"[{_UserName}]<color=#47c2ff> Joined On </color><color=#0d0099>Pc");
             }
-         
-            vrcplayer.gameObject.AddComponent<Monobehaviours.Platemanager>();
+            new Ui.PlateManager(vrcplayer, _Color);
             if (Settings.ConfigVars.joinnotif)
             {
-                Ui.Bundles.joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>().color = Color.green;
-                TMPro.TextMeshProUGUI text = Ui.Bundles.joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
-                text.color = _Color;
-                text.text = _Apiuser.displayName;
+                Ui.Bundles.s_image.color = Color.green;
+                Ui.Bundles.s_text.color = _Color;
+                Ui.Bundles.s_text.text = _UserName;
                 Ui.Bundles.joinot.SetActive(false);
                 Ui.Bundles.joinot.SetActive(true);
             }
-
             if (ConfigVars.onlyfriendjoin && vrcplayer.IsFriend())
                 Ui.Qm_basic._audiosourcenotification.Play();
 
@@ -796,38 +778,40 @@ namespace Nocturnal.Settings
                 vrcplayer.gameObject.SetActive(false);
                 Style.Debbuger.Debugermsg($"<color=#610000>[{_UserName} Quest Hidden");
             }
-            if (_Apiuser.hasModerationPowers || _Apiuser.hasSuperPowers)
+            if (_Rank == "Moderator" || _Rank == "Super powers")
                 Settings.XRefedMethods.PopOutWarrningMessage("MODERATOR IN LOBBY [" + _UserName + "]","A moderator has entered in your lobby.");
 
-
-            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
-
-            if (Settings.ConfigVars.NamePlatesInfo)
-            {
-                _platesUpdator = vrcplayer.GeneratePlate("Loading").AddComponent<Monobehaviours.PlatesUpdator>();
-                _platesUpdator.Player = vrcplayer;
-                _platesUpdator._rank = _Rank;
-            }
-          
-            var dictionary = new Dictionary<string, string>();
-            dictionary.Add("x-userid", _Userid);
-            Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
-            Task.Run(() => GetCustomTags(dictionary, vrcplayer));
-            Task.Run(() => GetOtherModsTags(dictionary, vrcplayer));
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
             _VR = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
             _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
             _Friends = vrcplayer.IsFriend() ? "<color=yellow>Friend</color> " : "";
+            Ui.Qm_basic.playercounter.text = $"<color=#eae3ff>Players In Lobby</color> <color=#774aff>{_PlayersInLobby}</color><color=#eae3ff>/</color><color=#774aff>{_RoomCapacity}";
             new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}{_Platform} {_VR} {_UserName}", _Userid, vrcplayer);
+
+            if (Settings.ConfigVars.NamePlatesInfo)
+             {
+                 _platesUpdator = vrcplayer.GeneratePlate("Loading").AddComponent<Monobehaviours.PlatesUpdator>();
+                 _platesUpdator.Player = vrcplayer;
+                 _platesUpdator._rank = _Rank;
+                 _platesUpdator._friend = _Friends;
+                 _platesUpdator._platform = _Platform;
+                 _platesUpdator._vr = _VR;
+
+             }
+
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add("x-userid", _Userid);
+            Task.Run(() => GetOtherModsTags(dictionary, vrcplayer));
+            Task.Run(() => GetCustomTags(dictionary, vrcplayer));
+            Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
+
         }
-
-
-
 
 
 
         private static Task GetOtherModsTags(Dictionary<string, string> Headers, VRC.Player _Player)
         {
+            
             var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/ModTags");
             for (int i = 0; i < Headers.Count; i++)
             {
@@ -839,6 +823,7 @@ namespace Nocturnal.Settings
             using (var stream = res.GetResponseStream())
             using (var Reader = new StreamReader(stream))
             {
+                System.GC.Collect();
                 var stringref = Reader.ReadToEnd();
                 string g = Guid.NewGuid().ToString();
                 Main2._queueDictionary.Add(g, (new Action(() =>
@@ -854,6 +839,7 @@ namespace Nocturnal.Settings
                 })));
                 return null;
             }
+
         }
 
 

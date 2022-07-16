@@ -15,6 +15,8 @@ namespace Nocturnal.Ui
         internal static Shader outlshader = null;
         internal static GameObject clientmessage = null;
         internal static GameObject joinot = null;
+        internal static TMPro.TextMeshProUGUI s_text { get; set; }
+        internal static UnityEngine.UI.Image s_image { get; set; }
 
         internal static void loadnotifications()
         {
@@ -43,6 +45,8 @@ namespace Nocturnal.Ui
             joinot = canvas.transform.Find("Join").gameObject;
             clientmessage.SetActive(false);
             joinot.SetActive(false);
+            s_text = joinot.transform.Find("animator/main/text").GetComponent<TMPro.TextMeshProUGUI>();
+            s_image = joinot.transform.Find("animator/main").GetComponent<UnityEngine.UI.Image>();
         }
 
         internal static void Loadingscreen()
