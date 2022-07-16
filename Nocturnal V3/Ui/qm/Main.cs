@@ -52,6 +52,7 @@ namespace Nocturnal.Ui.qm
             Chat._Chat();
             Discord.start();
             Mic.start();
+            PostProccesing.start();
 
             new NButton(extensions.Getmenu(s_mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null, 3, 6);
             new NButton(extensions.Getmenu(s_mainpage), "Restart", () =>

@@ -148,6 +148,7 @@ namespace Nocturnal.Settings
             public string micmenu { get; set; }
             public string PremiumIcon {get; set;}
             public string Backgroundb { get; set;}
+            public string PostProccessing { get; set; }
 
             public string MirrorMover { get; set; }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 namespace Nocturnal.Ui
 {
     internal class Inject_monos
@@ -12,6 +13,9 @@ namespace Nocturnal.Ui
         internal static GameObject _FlyManager { get; set; }
         internal static GameObject _ItemMover { get; set; }
         internal static GameObject _ItemLagger { get; set; }
+        internal static GameObject s_postProccessing { get; set; }
+        private static PostProcessVolume s_postProccessingComp { get; set; }
+        internal static Monobehaviours.PostProccesingManager s_NocturanlPostProccesing { get; set; }
 
         internal static void Inject()
         {
@@ -37,6 +41,11 @@ namespace Nocturnal.Ui
             _ItemLagger.transform.parent = GameObject.Find("/_Application").transform;
             _ItemLagger.gameObject.SetActive(false);
             _ItemLagger.AddComponent<Monobehaviours.ItemLagger>();
+            s_postProccessing = new GameObject("Nocturnal Post Proccesing");
+            s_postProccessing.transform.parent = GameObject.Find("/_Application").transform;
+            s_NocturanlPostProccesing = s_postProccessing.AddComponent<Monobehaviours.PostProccesingManager>();
+
+
         }
     }
 }

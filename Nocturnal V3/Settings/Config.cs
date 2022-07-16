@@ -113,6 +113,16 @@ namespace Nocturnal.Settings
         public float? YCamera { get; set; }
         public float? ZCamera { get; set; }
         public bool? ItemsGrav { get; set; }
+        public float? CameraOpacity { get; set; }
+        public float? Bloom { get; set; }
+        public float? Exposure { get; set; }
+        public float[]? Gamma { get; set; }
+        public float? Saturation { get; set; }
+        public float? Temperature { get; set; }
+        public float? Tint { get; set; }
+        public bool? PostProccesing { get; set; }
+        public bool? ColorGradinat { get; set; }
+        public bool? BloomTogg { get; set; }
 
     }
     internal class ConfigVars
@@ -237,5 +247,16 @@ namespace Nocturnal.Settings
         public static float ZCamera = 0.5f;
         public static bool CameraView = false;
         public static bool ItemsGrav = false;
+        public static float CameraOpacity = 0.7f;
+        public static float Bloom = 0.3f;
+        public static float Exposure = 0.4f;
+        public static float[] Gamma = new float[] {0.3f,0.3f,0.6f};
+        public static float Saturation = 0;
+        public static float Temperature = 0.3f;
+        public static float Tint = 0;
+        public static bool PostProccesing = true;
+        public static bool ColorGradinat = true;
+        public static bool BloomTogg = true;
+
     }
 }

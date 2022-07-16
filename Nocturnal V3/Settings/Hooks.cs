@@ -301,7 +301,6 @@ namespace Nocturnal.Settings
         private static void WebSocket(IntPtr _Instance, IntPtr objects, IntPtr Message)
         {
             _WebsockerReciver(_Instance, objects, Message);
-            if (!Main2.s_shouldRun) return;
             if (Message == IntPtr.Zero || Message == null) return;
             try
             {
@@ -1035,10 +1034,7 @@ namespace Nocturnal.Settings
             if (Settings.ConfigVars.SelfTrail)
                 Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
 
-            if (!Settings.ConfigVars.hudUi)
-                _IsInVr = true;
-            else
-                _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
+         
 
 
 
@@ -1055,6 +1051,9 @@ namespace Nocturnal.Settings
 
  
              Exploits.CameraPov.Generate();
+
+            if (!Settings.ConfigVars.hudUi) { _IsInVr = true; yield break; }
+           _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
 
             yield break;
         }

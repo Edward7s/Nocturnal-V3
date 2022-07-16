@@ -36,8 +36,6 @@ namespace Nocturnal.Apis
 
         internal static IEnumerator showmsgienum(string strings)
         {
-            if (!Main2.s_shouldRun) yield break;
-
             if (!Settings.ConfigVars.toggleonscreenlogger)
                 yield break;
             s_tmpPro.text += strings + "\n";
