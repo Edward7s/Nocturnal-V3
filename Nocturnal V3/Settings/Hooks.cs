@@ -761,6 +761,7 @@ namespace Nocturnal.Settings
             }
             _UserName = _Apiuser.displayName;
             Settings.wrappers.Ranks.gettrsutrank(_Apiuser, ref _Rank, ref _Color);
+            if (vrcplayer.IsFriend()) _Color = Color.yellow;
             Settings.wrappers.Ranks.convertotcolorank(ref _Rank, ref _UserName);
             vrcplayer._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_5.gameObject.GetComponent<ImageThreeSlice>().color = _Color;
             if (_Apiuser.IsOnMobile)
@@ -813,12 +814,53 @@ namespace Nocturnal.Settings
             dictionary.Add("x-userid", _Userid);
             Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
             Task.Run(() => GetCustomTags(dictionary, vrcplayer));
+            Task.Run(() => GetOtherModsTags(dictionary, vrcplayer));
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
             _VR = vrcplayer.prop_VRCPlayerApi_0.IsUserInVR() ? "<color=#c1a8ff>VR</color>" : "<color=#ff0000>No VR</color>";
             _Platform = _Apiuser.last_platform != "standalonewindows" ? "<color=#7dffaa>Quest</color>" : "<color=#7d88ff>PC</color>";
             _Friends = vrcplayer.IsFriend() ? "<color=yellow>Friend</color> " : "";
             new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}{_Platform} {_VR} {_UserName}", _Userid, vrcplayer);
         }
+
+
+
+
+
+
+        private static Task GetOtherModsTags(Dictionary<string, string> Headers, VRC.Player _Player)
+        {
+            var _Req = (HttpWebRequest)WebRequest.Create("https://napi.nocturnal-client.xyz/ModTags");
+            for (int i = 0; i < Headers.Count; i++)
+            {
+                var Curent = Headers.ElementAt(i);
+                _Req.Headers.Add(Curent.Key, Curent.Value);
+            }
+            _Req.AutomaticDecompression = DecompressionMethods.GZip;
+            using (var res = (HttpWebResponse)_Req.GetResponse())
+            using (var stream = res.GetResponseStream())
+            using (var Reader = new StreamReader(stream))
+            {
+                var stringref = Reader.ReadToEnd();
+                string g = Guid.NewGuid().ToString();
+                Main2._queueDictionary.Add(g, (new Action(() =>
+                {
+                    Main2._queueDictionary.Remove(g);
+
+                    if (_Player == null)
+                        return;
+                    if (stringref == "null")
+                        return;
+                    var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.SingleTag>(stringref);  
+                        _Player.GeneratePlate(GetPlates.tag);
+                })));
+                return null;
+            }
+        }
+
+
+
+
+
 
 
         private static Task GetPremiumTags(Dictionary<string, string> Headers, VRC.Player _Player)

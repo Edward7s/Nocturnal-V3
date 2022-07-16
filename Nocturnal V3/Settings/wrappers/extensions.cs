@@ -29,23 +29,28 @@ namespace Nocturnal.Settings.wrappers
 
             internal static GameObject GeneratePlate(this VRCPlayer player, string text, string img = null)
         {
-            if (player == null) return new GameObject();
-            //
-            //field_Public_MonoBehaviourPublicSiCoSiGaCoTeGrCoGaHoUnique_0
-            _PlatePrefab = player.gameObject.GetComponent<VRCPlayer>().field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/Plate Holder").gameObject;
-            _NewPlate = GameObject.Instantiate(_PlatePrefab, _PlatePrefab.transform.parent);
-            _NewPlate.gameObject.SetActive(true);
-            _NewPlate.gameObject.transform.Find("PrefabPlate").gameObject.SetActive(true);
-            _PlatePrefab.transform.parent.transform.localPosition = new Vector3(0, 105, 0);
-            _NewPlate.transform.Find("PrefabPlate/Text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
-            _NewPlate.gameObject.name = $"_Plate:{text}";
-            if (img == null)
-                return _NewPlate;
+            try
+            {
+                if (player == null) return new GameObject();
+                //
+                //field_Public_MonoBehaviourPublicSiCoSiGaCoTeGrCoGaHoUnique_0
+                _PlatePrefab = player.gameObject.GetComponent<VRCPlayer>().field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/Plate Holder").gameObject;
+                _NewPlate = GameObject.Instantiate(_PlatePrefab, _PlatePrefab.transform.parent);
+                _NewPlate.gameObject.SetActive(true);
+                _NewPlate.gameObject.transform.Find("PrefabPlate").gameObject.SetActive(true);
+                _PlatePrefab.transform.parent.transform.localPosition = new Vector3(0, 105, 0);
+                _NewPlate.transform.Find("PrefabPlate/Text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = text;
+                _NewPlate.gameObject.name = $"_Plate:{text}";
+                if (img == null)
+                    return _NewPlate;
 
-            _Icon = _NewPlate.transform.Find("PrefabPlate/Icon").gameObject;
-            Apis.Change_Image.Loadfrombytes(_Icon, img,true,Color.white);
-            _Icon.gameObject.SetActive(true);
-            return _NewPlate;
+                _Icon = _NewPlate.transform.Find("PrefabPlate/Icon").gameObject;
+                Apis.Change_Image.Loadfrombytes(_Icon, img, true, Color.white);
+                _Icon.gameObject.SetActive(true);
+                return _NewPlate;
+            }
+            catch { }
+            return null;
         }
         internal static GameObject Getmenu(this GameObject gameobj) { return gameobj.transform.Find("Masked/Scrollrect(Clone)/Viewport/VerticalLayoutGroup").gameObject; }
 

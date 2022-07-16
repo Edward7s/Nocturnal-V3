@@ -82,7 +82,11 @@ namespace Nocturnal.Settings
             public Dictionary<string, string[]> KeyBindsToggleDictionary { get; set; }
         }
 
-
+        public class SingleTag
+        {
+            public string uid { get; set; }
+            public string tag { get; set; }
+        }
 
         public class UserFromWebsocket
         {
