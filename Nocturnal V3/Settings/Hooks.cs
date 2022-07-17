@@ -778,7 +778,7 @@ namespace Nocturnal.Settings
                 vrcplayer.gameObject.SetActive(false);
                 Style.Debbuger.Debugermsg($"<color=#610000>[{_UserName} Quest Hidden");
             }
-            if (_Rank == "Moderator" || _Rank == "Super powers")
+            if (_Apiuser.hasModerationPowers || _Apiuser.hasSuperPowers)
                 Settings.XRefedMethods.PopOutWarrningMessage("MODERATOR IN LOBBY [" + _UserName + "]","A moderator has entered in your lobby.");
 
             _PlayersInLobby = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.Count;
@@ -1014,7 +1014,7 @@ namespace Nocturnal.Settings
                     _TypeOfWorld = "Invite+";
                     break;
             }
-          //  Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{_WorldName}] [{_TypeOfWorld}]" });
+            Download_Files.setworldinfo.Invoke(Download_Files.setworldinfo, new object[] { RoomManager.field_Internal_Static_ApiWorld_0.imageUrl, $"[{_WorldName}] [{_TypeOfWorld}]" });
             cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
 
             if (Settings.ConfigVars.SelfTrail)

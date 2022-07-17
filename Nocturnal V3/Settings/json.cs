@@ -112,6 +112,18 @@ namespace Nocturnal.Settings
 
 
 
+        public class PostProccesingJs
+        {
+            public float Bloom { get; set; }
+            public float Exposure { get; set; }
+            public float[] Gamma { get; set; }
+            public float Saturation { get; set; }
+            public float Temperature { get; set; }
+            public float Tint { get; set; }
+            public bool BloomTogg { get; set; }
+            public bool ColorGradinat { get; set; }
+            public bool PostProccesing { get; set; }
+        }
 
         public class downloadhandler
         {

@@ -34,7 +34,7 @@ namespace Nocturnal.Ui
             {
                 try
                 {
-                    VRC.Player.prop_Player_0.transform.position = userp.field_Private_APIUser_0.id.getuserbyid().transform.position;
+                    VRC.Player.prop_Player_0.transform.position = userp.field_Private_APIUser_0.id.GetUserById().transform.position;
               
                 }
                 catch { }
@@ -46,7 +46,7 @@ namespace Nocturnal.Ui
                 var aviid = "";
                 try
                 {
-                    var user = userp.field_Private_APIUser_0.id.getuserbyid();
+                    var user = userp.field_Private_APIUser_0.id.GetUserById();
 
                     if (user.field_Private_APIUser_0.id == userp.field_Private_APIUser_0.id)
                             aviid = user.prop_ApiAvatar_0.id;

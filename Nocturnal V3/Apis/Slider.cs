@@ -13,6 +13,7 @@ namespace Nocturnal.Apis
         private UnityEngine.UI.Slider _SliderComponent { get; set; }
         private Text _TextGameobj { get; set; }
         private Text _TextGameobj2 { get; set; }
+        private string _text { get; set; } = "Slider";
 
         private Transform Path { get; set; }
 
@@ -28,7 +29,9 @@ namespace Nocturnal.Apis
             Path = parent.transform;
             if (onqm)
             {
-                var slider = new GameObject("Slider");
+                if (title.Length > 1)
+                    _text = title;
+                var slider = new GameObject(_text);
                 slider.transform.parent = parent.transform;
                 slider.AddComponent<LayoutElement>();
                 slider.transform.localPosition = Vector3.zero;
@@ -77,7 +80,9 @@ namespace Nocturnal.Apis
             Path = parent.transform;
             if (onqm)
             {
-                var slider = new GameObject("Slider");
+                if (title.Length > 1)
+                    _text = title;
+                var slider = new GameObject(_text);
                 slider.transform.parent = parent.transform;
                 slider.AddComponent<LayoutElement>();
                 slider.transform.localPosition = Vector3.zero;

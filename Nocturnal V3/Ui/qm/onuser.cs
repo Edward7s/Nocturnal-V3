@@ -56,7 +56,7 @@ namespace Nocturnal.Ui.qm
             {
 
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
-                           Player.prop_Player_0.transform.position = User.getuserbyid().transform.position;
+                           Player.prop_Player_0.transform.position = User.GetUserById().transform.position;
               
             },false,Settings.Download_Files.imagehandler.teleport);
              new NButton(menu, "Force Clone", () =>
@@ -65,7 +65,7 @@ namespace Nocturnal.Ui.qm
                 var User = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
                 try
                 {
-                    var user = User.getuserbyid();
+                    var user = User.GetUserById();
 
                     if (user.field_Private_APIUser_0.id == User)
                             aviid = user.prop_ApiAvatar_0.id;
@@ -81,11 +81,11 @@ namespace Nocturnal.Ui.qm
              new NButton(menu, "Lewd", () => {
 
                     var id = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id;
-                Exploits.Forcelewd.Foreelwed(extensions.getuserbyid(id));
+                Exploits.Forcelewd.Foreelwed(extensions.GetUserById(id));
             });
 
             new NButton(menu, "Favorite Avatar", () => {
-                var user = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id.getuserbyid();
+                var user = GameObject.Find("/_Application").transform.Find("UIManager/SelectedUserManager").gameObject.GetComponent<VRC.DataModel.UserSelectionManager>().field_Private_APIUser_1.id.GetUserById();
 
                 if (user.prop_ApiAvatar_0.releaseStatus != "public")
                 {

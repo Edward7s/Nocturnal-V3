@@ -177,6 +177,7 @@ namespace Nocturnal.Settings
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound"))
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound");
 
+
             if (Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound").Length == 0)
                 webclient.DownloadFile("https://nocturnal-client.xyz/Resources/joinsound.mp3", Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound\\Joinsound.mp3");
 
@@ -184,6 +185,51 @@ namespace Nocturnal.Settings
 
 
             //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
+
+
+
+
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing");
+
+
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\DefaultProccesing.json"))
+            {
+                var Js = new jsonmanager.PostProccesingJs()
+                {
+                    Bloom = 0.116481677f,
+                    Exposure = 0.124337919f,
+                    Gamma = new float[] { 0.128865436f, 0.112202086f, 0.165382639f },
+                    Saturation = 0.339906126f,
+                    Temperature = 0.09f,
+                    Tint = 0,
+                    PostProccesing = false,
+                    ColorGradinat = true,
+                    BloomTogg = true,
+                };
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\DefaultProccesing.json", Newtonsoft.Json.JsonConvert.SerializeObject(Js));
+            }
+
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\Dark Mode.json"))
+            {
+                var Js = new jsonmanager.PostProccesingJs()
+                {
+                    Bloom = 0.116481677f,
+                    Exposure = 0.4174133f,
+                    Gamma = new float[] { 0.057207197f, 0.112202086f, 0.165382639f  },
+                    Saturation = 0,
+                    Temperature = 0,
+                    Tint = 0,
+                    PostProccesing = true,
+                    ColorGradinat = true,
+                    BloomTogg = true,
+                };
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\Dark Mode.json", Newtonsoft.Json.JsonConvert.SerializeObject(Js));
+            }
+
+
+
             _SkyboxMaterial = new UnityEngine.Material("");
             var bytes = webclient.DownloadData("https://nocturnal-client.xyz/Resources/discordrpc.dll");   
             try

@@ -114,16 +114,7 @@ namespace Nocturnal.Settings
         public float? ZCamera { get; set; }
         public bool? ItemsGrav { get; set; }
         public float? CameraOpacity { get; set; }
-        public float? Bloom { get; set; }
-        public float? Exposure { get; set; }
-        public float[]? Gamma { get; set; }
-        public float? Saturation { get; set; }
-        public float? Temperature { get; set; }
-        public float? Tint { get; set; }
-        public bool? PostProccesing { get; set; }
-        public bool? ColorGradinat { get; set; }
-        public bool? BloomTogg { get; set; }
-
+        public string? CurrentConfig { get; set; }
     }
     internal class ConfigVars
     {
@@ -167,7 +158,7 @@ namespace Nocturnal.Settings
         public static float jumpimpulse = 3f;
         public static float espwidth = 0.35f;
         public static float debuggeropacity = 0.7f;
-        public static bool qmdebug = true;
+        public static bool qmdebug = false;
         public static bool thunderbigui = false;
         public static float falloff = 0.1f;
         public static bool itemmaxrange = true;
@@ -221,7 +212,7 @@ namespace Nocturnal.Settings
         public static bool everyonecontinuesfire = false;
         public static bool qminfopannel = true;
         public static string chatimage = "https://nocturnal-client.xyz/Resources/img.jpg";
-        public static bool rainbackground = true;
+        public static bool rainbackground = false;
         public static bool discordrichpresence = true;
         public static bool udonblock = false;
         public static bool hudUi = true;
@@ -248,15 +239,7 @@ namespace Nocturnal.Settings
         public static bool CameraView = false;
         public static bool ItemsGrav = false;
         public static float CameraOpacity = 0.7f;
-        public static float Bloom = 0.3f;
-        public static float Exposure = 0.4f;
-        public static float[] Gamma = new float[] {0.3f,0.3f,0.6f};
-        public static float Saturation = 0;
-        public static float Temperature = 0.3f;
-        public static float Tint = 0;
-        public static bool PostProccesing = false;
-        public static bool ColorGradinat = false;
-        public static bool BloomTogg = false;
+        public static string CurrentConfig = "DefaultProccesing";
 
     }
 }

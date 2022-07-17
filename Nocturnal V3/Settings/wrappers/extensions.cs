@@ -161,7 +161,7 @@ namespace Nocturnal.Settings.wrappers
 
         internal static VRC.Player GetPNewtworkid(this int id) => getallplayers().Where(player => player._vrcplayer.field_Private_VRCPlayerApi_0.playerId == id).FirstOrDefault();
 
-     internal static VRC.Player getuserbyid(this string userid) =>  PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray().Where(player => player.field_Private_APIUser_0.id == userid).FirstOrDefault();
+     internal static VRC.Player GetUserById(this string userid) =>  PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray().Where(player => player.field_Private_APIUser_0.id == userid).FirstOrDefault();
 
         internal static void clientmessage(string info)
         {
