@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using VRC.UI;
 using BestHTTP.JSON;
 using static VRC.Core.API;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Nocturnal.Settings
 {
@@ -99,6 +100,9 @@ namespace Nocturnal.Settings
 
         private static _putRquest s_putRquest;
 
+        private delegate IntPtr _postProccesLayer(IntPtr _instance,UnityEngine.LayerMask mask, IntPtr _nativeMethodInfoPtr);
+
+        private static _postProccesLayer s_postProccesLayer;
 
         [Obsolete]
         private static Harmony.HarmonyInstance Instance = new Harmony.HarmonyInstance(new Guid().ToString());
@@ -239,13 +243,15 @@ namespace Nocturnal.Settings
             MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
             _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
 
-         //  MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
-         //  _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
+            //  MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
+            //  _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
 
-            MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
-            s_putRquest = Hook<_putRquest>(PostReq, typeof(Hooks).GetMethod(nameof(PutReq), BindingFlags.Static | BindingFlags.NonPublic));
 
-     
+
+           MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
+           s_putRquest = Hook<_putRquest>(PostReq, typeof(Hooks).GetMethod(nameof(PutReq), BindingFlags.Static | BindingFlags.NonPublic));
+
+
 
             try
             {
@@ -286,7 +292,7 @@ namespace Nocturnal.Settings
 
         private static Settings.jsonmanager.Webscoekt _WsMsg { get; set; }
 
-       
+   
         private static IntPtr PutReq(IntPtr instance, IntPtr target, IntPtr requestParams, IntPtr credientials)
         {
             if (!Settings.ConfigVars.OfflineSpoof)
@@ -829,9 +835,6 @@ namespace Nocturnal.Settings
                 Main2._queueDictionary.Add(g, (new Action(() =>
                 {
                     Main2._queueDictionary.Remove(g);
-
-                    if (_Player == null)
-                        return;
                     if (stringref == "null")
                         return;
                     var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.SingleTag>(stringref);  
@@ -866,8 +869,6 @@ namespace Nocturnal.Settings
                 Main2._queueDictionary.Add(g,(new Action(() =>
                 {
                     Main2._queueDictionary.Remove(g);
-                    if (_Player == null)
-                        return;
                     if (ReaderValue == "None")
                         return;
                     var _UserPlate = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(ReaderValue);
@@ -877,8 +878,7 @@ namespace Nocturnal.Settings
                     {
                         if (_UserPlate.tags[i].StartsWith("#animatedtag#"))
                         {
-                            var AnimatedTag = _Player.GeneratePlate(_UserPlate.tags[i].Replace("#animatedtag#", String.Empty), Settings.Download_Files.imagehandler.PremiumIcon);
-                            AnimatedTag.AddComponent<Monobehaviours.TagAnimation>()._Text = _UserPlate.tags[i].Replace("#animatedtag#", "");
+                            _Player.GeneratePlate(_UserPlate.tags[i].Replace("#animatedtag#", String.Empty), Settings.Download_Files.imagehandler.PremiumIcon).AddComponent<Monobehaviours.TagAnimation>().Text = _UserPlate.tags[i].Replace("#animatedtag#", "");                        
                             continue;
                         }
                         _Player.GeneratePlate(_UserPlate.tags[i], Settings.Download_Files.imagehandler.PremiumIcon);
@@ -907,13 +907,8 @@ namespace Nocturnal.Settings
                 Main2._queueDictionary.Add(g, (new Action(() =>
                 {
                     Main2._queueDictionary.Remove(g);
-
-                    if (_Player == null)
-                        return;
                     if (stringref == "None")
                         return;
-
-                    //      NocturnalC.Log("2" + stringref + "  //    " + _Player.field_Private_APIUser_0.displayName);
 
                     var GetPlates = Newtonsoft.Json.JsonConvert.DeserializeObject<jsonmanager.user>(stringref);
                     for (int i = 0; i < GetPlates.tags.Length; i++)
@@ -1020,7 +1015,6 @@ namespace Nocturnal.Settings
             if (Settings.ConfigVars.SelfTrail)
                 Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
 
-         
 
 
 
@@ -1034,14 +1028,26 @@ namespace Nocturnal.Settings
             else
             Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
 
+           
+                while (cameraeye.gameObject.GetComponent<PostProcessLayer>() == null)
+                    yield return new WaitForSeconds(1f);
 
- 
-             Exploits.CameraPov.Generate();
+            if (Ui.Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing)
+                cameraeye.gameObject.GetComponent<PostProcessLayer>().volumeLayer = 16;
+             
+
+            if (Settings.ConfigVars.DisableWorldPostProccesing)
+            {
+               Ui.qm.PostProccesing.s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
+                for (int i = 0; i < Ui.qm.PostProccesing.s_volumeArr.Length; i++)
+                    Ui.qm.PostProccesing.s_volumeArr[i].enabled = false;
+            }
+
+            Exploits.CameraPov.Generate();
 
             if (!Settings.ConfigVars.hudUi) { _IsInVr = true; yield break; }
            _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
-
-            yield break;
+            System.GC.Collect();
         }
         private static Dictionary<string, string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }

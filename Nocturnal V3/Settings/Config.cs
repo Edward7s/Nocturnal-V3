@@ -115,6 +115,8 @@ namespace Nocturnal.Settings
         public bool? ItemsGrav { get; set; }
         public float? CameraOpacity { get; set; }
         public string? CurrentConfig { get; set; }
+        public bool? DisableWorldPostProccesing { get; set; }
+
     }
     internal class ConfigVars
     {
@@ -240,6 +242,6 @@ namespace Nocturnal.Settings
         public static bool ItemsGrav = false;
         public static float CameraOpacity = 0.7f;
         public static string CurrentConfig = "DefaultProccesing";
-
+        public static bool DisableWorldPostProccesing = true;
     }
 }

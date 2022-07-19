@@ -23,6 +23,7 @@ namespace Nocturnal.Ui.qm
                     Settings.ConfigVars.CurrentConfig = file.Name.Replace(".json", "");
                     Inject_monos.s_NocturanlPostProccesing.LoadConfig(file.Name.Replace(".json", ""));
                     Inject_monos.s_NocturanlPostProccesing.VisualUpdate();
+
                 });  
 
         }

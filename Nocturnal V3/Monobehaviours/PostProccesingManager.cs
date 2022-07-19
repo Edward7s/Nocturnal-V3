@@ -37,17 +37,17 @@ namespace Nocturnal.Monobehaviours
             gameObject.layer = 4;
             _colorGradinat = new ColorGrading();
             _colorGradinat.active = true;  
-            profile.AddSettings(_colorGradinat);
             _bloom = new Bloom();
             _bloom.active = true;
             profile.AddSettings(_bloom);
+            profile.AddSettings(_colorGradinat);
 
         }
         public void UpdateExposure(float val) => _colorGradinat.postExposure.Override(-val * 9);
         public void UpdateSaturation(float val) => _colorGradinat.saturation.Override(val * 100);
         public void UpdateTint(float val) => _colorGradinat.tint.Override(val * 60);
         public void UpdateTemperature(float val) => _colorGradinat.temperature.Override(val * 100);
-        public void gammaX(float val) => _colorGradinat.gamma.Override(new Vector4(val * 4, PostProccesingJson.Gamma[1] * 3, PostProccesingJson.Gamma[2] * 3, 0));
+        public void gammaX(float val) => _colorGradinat.gamma.Override(new Vector4(val * 3, PostProccesingJson.Gamma[1] * 3, PostProccesingJson.Gamma[2] * 3, 0));
         public void gammaY(float val) => _colorGradinat.gamma.Override(new Vector4(PostProccesingJson.Gamma[0] * 3, val * 3, PostProccesingJson.Gamma[2] * 3, 0));
         public void gammaZ(float val) => _colorGradinat.gamma.Override(new Vector4(PostProccesingJson.Gamma[0] * 3, PostProccesingJson.Gamma[1] * 3, val * 3, 0));
         public void UpdateBloom(float val) => _bloom.intensity.Override(val * 20);
@@ -56,8 +56,13 @@ namespace Nocturnal.Monobehaviours
 
         public void LoadConfig(string config)
         {
+            if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\" + config + ".json"))
+            {
+                PostProccesingJson = JsonConvert.DeserializeObject<Settings.jsonmanager.PostProccesingJs>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\" + "DefaultProccesing" + ".json"));
+                Settings.ConfigVars.CurrentConfig = "DefaultProccesing";
+            }
+            else
             PostProccesingJson = JsonConvert.DeserializeObject<Settings.jsonmanager.PostProccesingJs>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\" + config + ".json"));
-            _colorGradinat.gamma.Override(new Vector4(PostProccesingJson.Gamma[0] * 4, PostProccesingJson.Gamma[1] * 4, PostProccesingJson.Gamma[2] * 4, 0));
             UpdateTemperature(PostProccesingJson.Temperature);
             UpdateTint(PostProccesingJson.Tint);
             UpdateExposure(PostProccesingJson.Exposure);
@@ -66,6 +71,10 @@ namespace Nocturnal.Monobehaviours
             _colorGradinat.enabled.Override(PostProccesingJson.ColorGradinat);
             _bloom.enabled.Override(PostProccesingJson.BloomTogg);
             gameObject.SetActive(PostProccesingJson.PostProccesing);
+            gammaX(PostProccesingJson.Gamma[0]);
+            gammaY(PostProccesingJson.Gamma[1]);
+            gammaZ(PostProccesingJson.Gamma[2]);
+
         }
         public void VisualUpdate()
         {
@@ -81,7 +90,9 @@ namespace Nocturnal.Monobehaviours
             UpdateToggle(_completMenu.transform.Find("Toggle_Custom Post Proccesing").gameObject, PostProccesingJson.PostProccesing);
             UpdateToggle(_completMenu.transform.Find("Toggle_Color Gradinat").gameObject, PostProccesingJson.ColorGradinat);
             UpdateToggle(_completMenu.transform.Find("Toggle_Bloom").gameObject, PostProccesingJson.BloomTogg);
-
+            gammaX(PostProccesingJson.Gamma[0]);
+            gammaY(PostProccesingJson.Gamma[1]);
+            gammaZ(PostProccesingJson.Gamma[2]);
         }
 
         private void UpdateToggle(GameObject gamobj, bool toggle)

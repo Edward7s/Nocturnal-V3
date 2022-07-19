@@ -32,8 +32,6 @@ namespace Nocturnal.Settings.wrappers
             try
             {
                 if (player == null) return new GameObject();
-                //
-                //field_Public_MonoBehaviourPublicSiCoSiGaCoTeGrCoGaHoUnique_0
                 _PlatePrefab = player.gameObject.GetComponent<VRCPlayer>().field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/Plate Holder").gameObject;
                 _NewPlate = GameObject.Instantiate(_PlatePrefab, _PlatePrefab.transform.parent);
                 _NewPlate.gameObject.SetActive(true);

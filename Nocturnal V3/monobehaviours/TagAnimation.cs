@@ -4,11 +4,11 @@ namespace Nocturnal.Monobehaviours
 {
     internal class TagAnimation : MonoBehaviour
     {
-        public string _Color { get; set; }
-        public string _Text { get; set; }
-        public string _CurentText { get; set; }
-        public int _TextPoz { get; set; }
-        public bool _Deacreasing { get; set; }
+        private string _color { get; set; }
+        public string Text { get; set; }
+        private string _curentText { get; set; }
+        private int _textPoz { get; set; }
+        private bool _deacreasing { get; set; }
 
 
         public TMPro.TextMeshProUGUI _TextMeshPro;
@@ -20,42 +20,42 @@ namespace Nocturnal.Monobehaviours
 
         void Start()
         {
-            _Deacreasing = false;
-            _TextPoz = 0;
-            _Color = "";
-            if (_Text.StartsWith("<color="))
+            _deacreasing = false;
+            _textPoz = 0;
+            _color = "";
+            if (Text.StartsWith("<color="))
             {
-                _Color = _Text.Substring(0,15) + " ";
-                _Text = _Text.Substring(15);
+                _color = Text.Substring(0,15) + " ";
+                Text = Text.Substring(15);
             }
             _TextMeshPro = this.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             InvokeRepeating(nameof(updatehud), -1, 1.5f);
         }
         void updatehud()
         {
-            if (_TextPoz >= _Text.Length)
-                _Deacreasing = true;
-            else if (!_Deacreasing)
+            if (_textPoz >= Text.Length)
+                _deacreasing = true;
+            else if (!_deacreasing)
             {
-                _CurentText = _CurentText + _Text[_TextPoz];
-                _TextPoz += 1;
+                _curentText = _curentText + Text[_textPoz];
+                _textPoz += 1;
             }
-            if (_Deacreasing)
+            if (_deacreasing)
             {
-                _CurentText = _CurentText.Substring(0, _CurentText.Length -1);
-                _TextPoz -= 1;
+                _curentText = _curentText.Substring(0, _curentText.Length -1);
+                _textPoz -= 1;
 
-                if (_TextPoz == 0)
-                    _Deacreasing = false;
+                if (_textPoz == 0)
+                    _deacreasing = false;
             }
 
-            if (_CurentText.Length == 0)
+            if (_curentText.Length == 0)
             {
                 _TextMeshPro.text = "";
                 return;
             }
 
-            _TextMeshPro.text = _Color + _CurentText;
+            _TextMeshPro.text = _color + _curentText;
         }
     }
 }

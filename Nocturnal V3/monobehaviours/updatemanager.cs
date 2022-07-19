@@ -73,9 +73,6 @@ namespace Nocturnal.Monobehaviours
 
         void LateUpdate()
         {
-        
-
-
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
             
             if (Settings.ConfigVars.bhop && Input.GetKey(KeyCode.Space) || Settings.ConfigVars.bhop && Input.GetKey(KeyCode.JoystickButton1))

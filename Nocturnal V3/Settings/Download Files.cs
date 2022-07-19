@@ -204,7 +204,7 @@ namespace Nocturnal.Settings
                     Saturation = 0.339906126f,
                     Temperature = 0.09f,
                     Tint = 0,
-                    PostProccesing = false,
+                    PostProccesing = true,
                     ColorGradinat = true,
                     BloomTogg = true,
                 };
@@ -253,9 +253,8 @@ namespace Nocturnal.Settings
             {
                 Main2._hwnd = Settings.imports.FindWindow(null, "VRChat");
                 if (Main2._hwnd == IntPtr.Zero || Main2._hwnd == null)
-                {
                     Main2._hwnd = Process.GetProcessById(Main2._pid).MainWindowHandle;
-                }
+                
             }
             catch {
                 NocturnalC.Log("Exception In Finding the VRC Window,Tryng PID","ERROR");

@@ -16,17 +16,46 @@ namespace Nocturnal.server
         private static List<string> s_partyLeaders = new List<string>();
         private static bool s_isInParty = false;
         private static bool s_isPartyLeader = false;
+        internal static string s_partyId { get; set; } = "None";
 
         internal static void OnPartyCreate()
         {
             s_isPartyLeader = true;
             s_isInParty = true;
+            setup.sendmessage(JsonConvert.SerializeObject(
+                new server.PartyJson.SendLeaderReq()
+                {
+                    code = "105",
+                    Key = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+                }));
         }
 
         internal static void OnPartyDelete()
         {
             s_isPartyLeader = false;
             s_isInParty = false;
+            s_partyId = "None";
+            s_partyMembers.Clear();
+            s_partyLeaders.Clear();
+            Settings.XRefedMethods.PopOutWarrningMessage("Party", "You've left the party");
+        }
+
+        internal static void SendLeaveParty()
+        {
+            setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.user()
+            {
+                code = "110",
+                PartyId = s_partyId,
+            }));
+        }
+
+        internal static void SendDeleteParty()
+        {
+            setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendLeaderReq()
+            {
+                code = "109",
+                Key = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
+            }));
         }
 
         internal static void OnJoin(string name, string userId)
@@ -38,10 +67,7 @@ namespace Nocturnal.server
         {
             if (userId == VRC.Player.prop_Player_0.field_Private_APIUser_0.id)
             {
-                s_isPartyLeader = false;
-                s_isInParty = false;
-                s_partyLeaders.Clear();
-                s_partyMembers.Clear();
+                OnPartyDelete();
                 return;
             }
             s_partyMembers.Remove(userId);
@@ -55,7 +81,7 @@ namespace Nocturnal.server
             {
                 setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendUserReq()
                 {
-                    Code = "108",
+                    code = "108",
                     Id = UserId,
                     StringObject = VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName + " Is Already In A party",
                 }));
@@ -72,7 +98,7 @@ namespace Nocturnal.server
                 s_isInParty = true;
                 setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendUserReq()
                 {
-                    Code = "109",
+                    code = "109",
                     Id = VRC.Player.prop_Player_0.field_Private_APIUser_0.id,
                     StringObject = VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName,
                 }));
@@ -110,7 +136,7 @@ namespace Nocturnal.server
         internal static void SendTeleportEvent()
         {
             if (!s_isPartyLeader) return;
-            setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendLeaderReq() {Code = "110",
+            setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendLeaderReq() {code = "110",
             Key = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg
             }));
 
@@ -120,11 +146,26 @@ namespace Nocturnal.server
             if (!s_isPartyLeader) return;
             setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendLeaderReq()
             {
-                Code = "111",
+                code = "111",
                 Key = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
                 StringObject = VRC.Player.prop_Player_0.field_Private_APIUser_0.worldId
             }));
 
+        }
+
+        internal static void SendInvite(string userId)
+        {
+            if (!s_isPartyLeader) return;
+            setup.sendmessage(JsonConvert.SerializeObject(
+            new PartyJson.SendInite()
+            {
+                code = "106",
+                Id = userId,
+                Name = VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName,
+                PartyId = s_partyId
+
+
+            })) ;
         }
 
         internal static void SendKick(string userId)
@@ -132,7 +173,7 @@ namespace Nocturnal.server
             if (!s_isPartyLeader) return;
             setup.sendmessage(JsonConvert.SerializeObject(new PartyJson.SendLeaderReq()
             {
-                Code = "112",
+                code = "112",
                 Key = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\LogInfo.erp")).msg,
                 StringObject = userId
             }));

@@ -95,15 +95,44 @@ namespace Nocturnal.server
             else
                 code = message.Substring(9, 1);
 
-      // NocturnalC.Log(code);
-      //NocturnalC.Log(message);
+
+           /* Console.WriteLine("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+            Console.WriteLine($">>>({code})<<<");
+            Console.WriteLine(message);
+            Console.WriteLine("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+            Console.WriteLine();*/
 
             switch (true)
             {
 
     
                 case true when code == "5":
-                    MelonLoader.MelonCoroutines.Start(generatenoralplate(message, Settings.Download_Files.imagehandler.logo));
+                    string guidString = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guidString, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guidString);
+                        var deserializedmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.reciveplate>(message);
+                        VRC.Player player = Settings.wrappers.extensions.GetUserById(deserializedmsg.userid);
+                        for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
+                        {
+                            try
+                            {
+                                player.GeneratePlate(deserializedmsg.tagslist[i], Settings.Download_Files.imagehandler.logo);
+                            }
+                            catch { }
+
+                        }
+                        player._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/_Plate:Loading").gameObject.GetComponent<Monobehaviours.PlatesUpdator>().IsNocturnal = "<color=#7919ff>Nocturnal ";
+
+                    try
+                    {
+                        var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                        btntext.text = "<color=#d633ff>N</color> " + btntext.text;
+                    }
+                    catch { }
+
+            }));
+
                     break;
                 case true when code == "86":
                     var desz3 = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
@@ -132,6 +161,54 @@ namespace Nocturnal.server
                    var jsond =  JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message);
                     NocturnalC.Log(jsond.msg, "Server");
                     break;
+                case true when code == "90":
+                    PartyManager.s_partyId = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg;
+                    break;
+                case true when code == "91":
+                    string guidq = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guidq, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guidq);
+                        PartyManager.OnPartyDelete();
+                    }));
+
+                    break;
+
+                case true when code == "95":
+                    string guid0 = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guid0, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guid0);
+                        Settings.XRefedMethods.PopOutWarrningMessage("Party", JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
+                    }));
+                    break;
+                case true when code == "96":
+                    string guid = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guid, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guid);
+                        var js = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
+                        Settings.XRefedMethods.PopOutToggle("party", js.msg, () => sendmessage(JsonConvert.SerializeObject(new PartyJson.user()
+                        {
+                            code = "107",
+                            PartyId = js.msg2
+                        })),() => { });
+
+                    }));
+                    break;
+                case true when code == "98":
+                
+                    break;
+                case true when code == "99":
+                    string guid2 = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guid2, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guid2);
+                        var js = JsonConvert.DeserializeObject<PartyJson.user>(message);
+                        PartyManager.OnJoin(js.Name, js.Id);
+                    }));
+                    break;
+
             }
         }
 
@@ -172,42 +249,7 @@ namespace Nocturnal.server
         
 
 
-
-            private static IEnumerator generatenoralplate(string st,string img = null)
-            {
-          
-                var deserializedmsg = JsonConvert.DeserializeObject<Settings.jsonmanager.reciveplate>(st);
-
-                var players = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray();
-
-
-            for (int i2 = 0; i2 < players.Length; i2++)
-            {
-                yield return new WaitForSeconds(1.5f);
-
-                if (players[i2].field_Private_APIUser_0.id != deserializedmsg.userid) continue;
-                for (int i = 0; i < deserializedmsg.tagslist.Length; i++)
-                {
-                    yield return new WaitForSeconds(1.5f);
-                    try
-                    {
-                        players[i2].GeneratePlate(deserializedmsg.tagslist[i], img);
-                    }
-                    catch { }
-
-                }
-                players[i2]._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/_Plate:Loading").gameObject.GetComponent<Monobehaviours.PlatesUpdator>().IsNocturnal = "<color=#7919ff>Nocturnal ";
-
-            }
-            yield return new WaitForSeconds(1f);
-            try
-            {
-                var btntext = Ui.Qm_basic._playerlistmenu.transform.Find("BTN_" + deserializedmsg.userid).GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                btntext.text = "<color=#d633ff>N</color> " + btntext.text;
-            }
-            catch { }
-             yield break;
-            }
+        
     }
 
 }

@@ -50,11 +50,8 @@ namespace Nocturnal.Ui
             cb.disabledColor = new Color((float)0, 0, 0, 1 - 0.7f);
             cb.selectedColor = new Color((float)0, 0, 0, 1 - 0.2f);
             cbt.colors = cb;
-
             GameObject.Find("/UserInterface").transform.Find("LoadingBackground_TealGradient_Music/SkyCube_Baked").gameObject.SetActive(false);
             GameObject.Find("/UserInterface").transform.Find("LoadingBackground_TealGradient_Music/LoadingSound").gameObject.SetActive(false);
-
-
         }
 
 

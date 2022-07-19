@@ -23,6 +23,7 @@ namespace Nocturnal.Ui.qm
         internal static float s_valZ = 0;
         internal static float s_valX = 0;
         internal static GameObject s_menu = null;
+        internal static GameObject s_menuBase = null;
 
         [DllImport("user32.dll")] //Set the active window
 
@@ -38,7 +39,7 @@ namespace Nocturnal.Ui.qm
 
             new Page("Nocturnal Menu", Settings.Download_Files.imagehandler.logo);
             s_mainpage = submenu.Create("Nocturnal", null,true);
-            var Main = submenu.Create("Main", s_mainpage);
+            s_menuBase = submenu.Create("Main", s_mainpage);
             s_mainpage.SetActive(true);
             Anticrash.runanti(); 
             Toggles.Runantoggles();
@@ -53,7 +54,6 @@ namespace Nocturnal.Ui.qm
             Discord.start();
             Mic.start();
             PostProccesing.start();
-
             new NButton(extensions.Getmenu(s_mainpage), "Close", () => Process.GetCurrentProcess().Kill(), true, null, 3, 6);
             new NButton(extensions.Getmenu(s_mainpage), "Restart", () =>
             {
@@ -187,42 +187,43 @@ namespace Nocturnal.Ui.qm
           
                 
             }, ConfigVars.esp, true, 0, 7);
-            new Submenubutton(s_mainpage.Getmenu(), "Main", Main, Download_Files.imagehandler.Main, false, 0, 0);
+            new Submenubutton(s_mainpage.Getmenu(), "Main", s_menuBase, Download_Files.imagehandler.Main, false, 0, 0);
 
-            new Apis.Slider(extensions.Getmenu(Main), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
+            new Apis.Slider(extensions.Getmenu(s_menuBase), value => ConfigVars.Flyspeed = value, ConfigVars.Flyspeed, () =>
             {
 
             }, true, "Fly Speed");
 
-            new Apis.Slider(extensions.Getmenu(Main), value => s_valX = value * 180, 0, () =>
+            new Apis.Slider(extensions.Getmenu(s_menuBase), value => s_valX = value * 180, 0, () =>
             {
                 Nocturnal.Ui.Objects.CamerTracking.transform.localEulerAngles = new Vector3(s_valX, 0, 0);
             }, true, "X spin");
 
 
-            new Apis.Slider(extensions.Getmenu(Main), value => s_valZ = value * 180, 0, () =>
+            new Apis.Slider(extensions.Getmenu(s_menuBase), value => s_valZ = value * 180, 0, () =>
             {
                 Nocturnal.Ui.Objects.CamerTracking.transform.localEulerAngles = new Vector3(0, 0, s_valZ);
             }, true, "Z spin");
+         //   Party.start();
 
-            new NToggle("Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));
+            new NToggle("Mirror", extensions.Getmenu(s_menuBase), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));
 
-            new NToggle("Optimized Mirror", extensions.Getmenu(Main), () => Exploits.Mirror.Togglemirror(true, true), () => Exploits.Mirror.Togglemirror(false));
+            new NToggle("Optimized Mirror", extensions.Getmenu(s_menuBase), () => Exploits.Mirror.Togglemirror(true, true), () => Exploits.Mirror.Togglemirror(false));
 
-            new NToggle("Ghost Mode", extensions.Getmenu(Main), () => s_stopev7 = true, () => s_stopev7 = false, s_stopev7);
+            new NToggle("Ghost Mode", extensions.Getmenu(s_menuBase), () => s_stopev7 = true, () => s_stopev7 = false, s_stopev7);
 
-            new NToggle("Fake Lag", extensions.Getmenu(Main), () => Hooks.fakelag = true, () => Hooks.fakelag = false, Hooks.fakelag);
+            new NToggle("Fake Lag", extensions.Getmenu(s_menuBase), () => Hooks.fakelag = true, () => Hooks.fakelag = false, Hooks.fakelag);
 
-            new NButton(Main.Getmenu(), "Item Boom ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>());
+            new NButton(s_menuBase.Getmenu(), "Item Boom ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Boomorbit>());
 
-            new NButton(Main.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
+            new NButton(s_menuBase.Getmenu(), "Teleport ball", () => Exploits.Setiteminhand.create<Nocturnal.Monobehaviours.Teleportobj>());
 
-            new NButton(Main.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
+            new NButton(s_menuBase.Getmenu(), "Udon Spam", () => Exploits.Udon.Spamudon());
 
-            new NButton(Main.Getmenu(), "Colect Garbage Colection", () => GC.Collect());
+            new NButton(s_menuBase.Getmenu(), "Colect Garbage Colection", () => GC.Collect());
            
 
-            new NButton(Main.Getmenu(), "Reload everyone's avatars", () => {
+            new NButton(s_menuBase.Getmenu(), "Reload everyone's avatars", () => {
                 try
                 {
                     var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
@@ -232,7 +233,7 @@ namespace Nocturnal.Ui.qm
                 }
                 catch { }
             });
-            new NToggle("Self Trail", extensions.Getmenu(Main), () => {
+            new NToggle("Self Trail", extensions.Getmenu(s_menuBase), () => {
                 ConfigVars.SelfTrail = true;
                 Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
             }, () => {
@@ -243,7 +244,7 @@ namespace Nocturnal.Ui.qm
                 } catch { }
             }, ConfigVars.SelfTrail);
 
-            new NToggle("Everyone Trail", extensions.Getmenu(Main), () => {
+            new NToggle("Everyone Trail", extensions.Getmenu(s_menuBase), () => {
                 ConfigVars.EveryoneTrail = true;
                 try
                 {

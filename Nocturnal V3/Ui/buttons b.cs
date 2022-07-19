@@ -133,7 +133,7 @@ namespace Nocturnal.Ui
             newgrid.constraintCount = 3;
             newworlgmj.name = "N_VBTNHOLDER";
             newworlgmj.transform.parent = worldinfogmj;
-            newworlgmj.transform.localPosition = new Vector3(-475, 320, 0);
+            newworlgmj.transform.localPosition = new Vector3(-475, 320, -0.1f);
             newworlgmj.transform.localScale = Vector3.one;
             newworlgmj.transform.localEulerAngles = Vector3.zero;
             new BButton("Copy Id", newworlgmj, () =>

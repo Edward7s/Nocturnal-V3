@@ -2,17 +2,47 @@
 using Nocturnal.Apis.qm;
 using Nocturnal.Settings.wrappers;
 using UnityEngine.Rendering.PostProcessing;
+using System.Linq;
 namespace Nocturnal.Ui.qm
 {
     internal class PostProccesing
     {
         internal static UnityEngine.GameObject s_postProccess { get; set; }
+        internal static PostProcessVolume[] s_volumeArr { get; set; }
+
         internal static void start()
         {
             s_postProccess = submenu.Create("Post Proccesing", Main.s_mainpage);
             new Submenubutton(Main.s_mainpage.Getmenu(), "Post Proccesing", s_postProccess, Settings.Download_Files.imagehandler.PostProccessing, true, 2, 5);
+            new Apis.qm.NButton(s_postProccess.Getmenu(), "Nothing", () => { });
 
             PostProccesingConfigs.start();
+            new Apis.qm.NToggle("Disable Wolrd Post Proccesing (Not Nocturnal)", s_postProccess.Getmenu(), () =>
+            {
+                Settings.ConfigVars.DisableWorldPostProccesing = true;
+                try
+                {
+                    s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
+                    for (int i = 0; i < s_volumeArr.Length; i++)
+                        s_volumeArr[i].enabled = false;
+
+                }
+                catch { }
+            }, () =>
+            {
+                Settings.ConfigVars.DisableWorldPostProccesing = false;
+                try
+                {
+                    s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
+                    for (int i = 0; i < s_volumeArr.Length; i++)
+                        s_volumeArr[i].enabled = false;
+                }
+                catch { }
+                
+            }, Settings.ConfigVars.DisableWorldPostProccesing)
+            {
+
+            };
 
             new Apis.qm.NToggle("Custom Post Proccesing", s_postProccess.Getmenu(), ()=>
             {
