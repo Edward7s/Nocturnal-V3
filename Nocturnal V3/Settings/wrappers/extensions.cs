@@ -215,19 +215,7 @@ namespace Nocturnal.Settings.wrappers
         private static TrailRenderer _TrailRenderer { get; set; }
         private static Material _Material { get; set; }
 
-        internal static void _AddTrailRender(GameObject gameobj)
-        {
-            try
-            {
-                _TrailRenderer = gameobj.gameObject.AddComponent<TrailRenderer>();
-                _Material = _TrailRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended"));
-                _Material.SetColor("_TintColor", new Color(ConfigVars.HuDColor[0], ConfigVars.HuDColor[1], ConfigVars.HuDColor[2], 0.1f));
-                _TrailRenderer.startWidth = 0.01f;
-                _TrailRenderer.endWidth = 0.008f;
-            }
-            catch { }
-         
-        }
+      
 
 
         internal static void GetAllStrings(Type TheClass,Type specificparameter = null)

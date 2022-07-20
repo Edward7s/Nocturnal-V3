@@ -329,7 +329,7 @@ namespace Nocturnal.Ui
             tobetext.transform.localPosition = Vector3.zero;
             tobetext.transform.localScale = Vector3.one;
             Apis.Onscreenui.generateuimsg();
-            instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.hudUi);
+            instanciatedpushb.gameObject.SetActive(Settings.ConfigVars.QmHud);
             GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer").transform.localScale = new Vector3(0.9f,0.9f,1);
 
             _Thirdtext.enableWordWrapping = false;
@@ -352,6 +352,7 @@ namespace Nocturnal.Ui
             _Content.transform.localScale = new Vector3(0.25f, 0.3f, 1);
             _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0);
             _Content.transform.localEulerAngles = Vector3.zero;
+            server.PartyManager.GenerateList();
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

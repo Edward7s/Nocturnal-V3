@@ -57,5 +57,12 @@ namespace Nocturnal.server
             public string[] PartyLeaders { get; set; }
 
         }
+
+        public class DeserializePartyLobby
+        {
+            public user[] PartyMembers { get; set; }
+            public string[] PartyLeaders { get; set; }
+
+        }
     }
 }

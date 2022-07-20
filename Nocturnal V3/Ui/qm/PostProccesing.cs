@@ -35,7 +35,7 @@ namespace Nocturnal.Ui.qm
                 {
                     s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
                     for (int i = 0; i < s_volumeArr.Length; i++)
-                        s_volumeArr[i].enabled = false;
+                        s_volumeArr[i].enabled = true;
                 }
                 catch { }
                 

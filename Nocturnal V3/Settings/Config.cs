@@ -90,7 +90,6 @@ namespace Nocturnal.Settings
         public bool? rainbackground { get; set; }
         public bool? discordrichpresence { get; set; }
         public bool? udonblock { get; set; }
-        public bool? hudUi { get; set; }
         public bool? toggleonscreenlogger { get; set; }
         public string? Customanmespoof { get; set; }
         public bool? onlywauthornamespoof { get; set; }
@@ -116,6 +115,17 @@ namespace Nocturnal.Settings
         public float? CameraOpacity { get; set; }
         public string? CurrentConfig { get; set; }
         public bool? DisableWorldPostProccesing { get; set; }
+        public bool? QmHud { get; set; }
+        public float? CameraSize { get; set; }
+        public float[]? HeadLightColor { get; set; }
+        public float? HeadLightRange { get; set; }
+        public float? HeadLightAngle{ get; set; }
+
+        public float? HeadLightIntensity { get; set; }
+
+        public float[]? LightColor { get; set; }
+        public float? LightRange { get; set; }
+        public float? LightIntensity { get; set; }
 
     }
     internal class ConfigVars
@@ -217,7 +227,6 @@ namespace Nocturnal.Settings
         public static bool rainbackground = false;
         public static bool discordrichpresence = true;
         public static bool udonblock = false;
-        public static bool hudUi = true;
         public static bool toggleonscreenlogger = true;
         public static string Customanmespoof = "Edward7";
         public static bool onlywauthornamespoof = true;
@@ -243,5 +252,15 @@ namespace Nocturnal.Settings
         public static float CameraOpacity = 0.7f;
         public static string CurrentConfig = "DefaultProccesing";
         public static bool DisableWorldPostProccesing = true;
+        public static bool QmHud = true;
+        public static float CameraSize = 0.4f;
+        public static float[] HeadLightColor = new float[] { 1, 1, 1 };
+        public static float HeadLightRange = 0.5f;
+        public static float HeadLightAngle = 0.1f;
+        public static float HeadLightIntensity = 0.1f;
+        public static float[] LightColor = new float[] { 1, 1, 1 };
+        public static float LightRange = 0.2f;
+        public static float LightIntensity = 0.1f;
+
     }
 }

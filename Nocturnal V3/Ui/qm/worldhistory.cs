@@ -45,7 +45,7 @@ namespace Nocturnal.Ui.qm
             _Buttons = worldhistorymenu.Getmenu().GetComponentsInChildren<UnityEngine.UI.Button>(true).Where(gmj => gmj.gameObject != worldhistorymenu.Getmenu().gameObject).ToArray();
             for (int i = 0; i < _Buttons.Length; i++)
             {
-                try
+                try 
                 {
                     GameObject.Destroy(_Buttons[i].gameObject);
                 }

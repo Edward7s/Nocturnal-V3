@@ -19,12 +19,9 @@ namespace Nocturnal.Ui.qm
             new NButton(Party.Getmenu(), "Create Party", () => server.PartyManager.OnPartyCreate());
             new NButton(Party.Getmenu(), "Invite To Party", () => Settings.XRefedMethods.PopOutInput("User Id",x => s_userId = x,()=> server.PartyManager.SendInvite(s_userId)));
             new NButton(Party.Getmenu(), "Disband Party", () => server.PartyManager.SendDeleteParty());
-            new NButton(Party.Getmenu(), "Leave Party", () => server.PartyManager.SendDeleteParty());
-
-
-
-
-
+            new NButton(Party.Getmenu(), "Leave Party", () => server.PartyManager.SendLeaveParty());
+            new NButton(Party.Getmenu(), "Teleport", () => server.PartyManager.SendTeleportEvent());
+            new NButton(Party.Getmenu(), "World Hop", () => server.PartyManager.SendSwitchWorldRequest());
 
         }
     }

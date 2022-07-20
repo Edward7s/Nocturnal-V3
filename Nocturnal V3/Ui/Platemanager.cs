@@ -67,7 +67,7 @@ namespace Nocturnal.Ui
                 Player.transform.Find("SelectRegion").GetComponent<MeshRenderer>().material.color = color;
                 Player.gameObject.gameObject.AddComponent<Monobehaviours.Outline>();
                 if (Settings.ConfigVars.EveryoneTrail)
-                    extensions._AddTrailRender(Player.gameObject);
+                    Player.gameObject.AddComponent<Monobehaviours.Trail>();
                 _cameraManager = new GameObject("UserPovCamera");
                 _cameraManager.transform.parent = Player.gameObject.transform.Find("AnimationController/HeadAndHandIK/HeadEffector");
                 _cameraManager.transform.localPosition = Vector3.zero;

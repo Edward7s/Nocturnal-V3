@@ -810,6 +810,34 @@ namespace Nocturnal.Settings
             Task.Run(() => GetOtherModsTags(dictionary, vrcplayer));
             Task.Run(() => GetCustomTags(dictionary, vrcplayer));
             Task.Run(() => GetPremiumTags(dictionary, vrcplayer));
+            Exploits.CameraPov.Generate();
+
+            if (VRC.Player.prop_Player_0 == vrcplayer)
+            {
+
+                if (Ui.Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing)
+                {
+                    if (cameraeye.gameObject.GetComponent<PostProcessLayer>() != null)
+                        cameraeye.gameObject.GetComponent<PostProcessLayer>().volumeLayer = 16;
+                    else
+                    {
+                        s_postProcessLayer = cameraeye.gameObject.AddComponent<PostProcessLayer>();
+                        s_postProcessLayer.volumeLayer = 16;
+                        s_postProcessLayer.m_Resources = Resources.FindObjectsOfTypeAll<UnityEngine.Rendering.PostProcessing.PostProcessResources>().Where(x => x.name == "DefaultPostProcessResources").FirstOrDefault();
+
+                    }
+
+                }
+
+
+
+                if (Settings.ConfigVars.DisableWorldPostProccesing)
+                {
+                    Ui.qm.PostProccesing.s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
+                    for (int i = 0; i < Ui.qm.PostProccesing.s_volumeArr.Length; i++)
+                        Ui.qm.PostProccesing.s_volumeArr[i].enabled = false;
+                }
+            }
 
         }
 
@@ -957,7 +985,7 @@ namespace Nocturnal.Settings
         }
 
 
-
+        private static PostProcessLayer s_postProcessLayer { get; set; }
         private static IEnumerator waitforworldtoinitialize()
         {
             while (VRC.SDKBase.Networking.LocalPlayer == null)
@@ -1013,7 +1041,7 @@ namespace Nocturnal.Settings
             cameraeye = GameObject.Find("Camera (eye)").gameObject.GetComponent<Camera>();
 
             if (Settings.ConfigVars.SelfTrail)
-                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+                VRC.Player.prop_Player_0.gameObject.AddComponent<Monobehaviours.Trail>();
 
 
 
@@ -1027,25 +1055,9 @@ namespace Nocturnal.Settings
             }
             else
             Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
+         
 
-           
-                while (cameraeye.gameObject.GetComponent<PostProcessLayer>() == null)
-                    yield return new WaitForSeconds(1f);
-
-            if (Ui.Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing)
-                cameraeye.gameObject.GetComponent<PostProcessLayer>().volumeLayer = 16;
-             
-
-            if (Settings.ConfigVars.DisableWorldPostProccesing)
-            {
-               Ui.qm.PostProccesing.s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
-                for (int i = 0; i < Ui.qm.PostProccesing.s_volumeArr.Length; i++)
-                    Ui.qm.PostProccesing.s_volumeArr[i].enabled = false;
-            }
-
-            Exploits.CameraPov.Generate();
-
-            if (!Settings.ConfigVars.hudUi) { _IsInVr = true; yield break; }
+            if (!Settings.ConfigVars.HudUi) { _IsInVr = true; yield break; }
            _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
             System.GC.Collect();
         }
@@ -1059,8 +1071,6 @@ namespace Nocturnal.Settings
         private static string _Userid { get; set; }
         private static APIUser _Apiuser { get; set; }
         private static VRC.Player _VRCPlayer { get; set; }
-        private static string Tags;
-        private static string Tags2;
         private static GameObject AnimatedTag { get; set; }
         private static Settings.jsonmanager.custommsg _SendUser { get; set; }
         private static string _UserName;

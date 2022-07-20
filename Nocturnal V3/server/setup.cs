@@ -96,7 +96,7 @@ namespace Nocturnal.server
                 code = message.Substring(9, 1);
 
 
-           /* Console.WriteLine("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+          /*  Console.WriteLine("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
             Console.WriteLine($">>>({code})<<<");
             Console.WriteLine(message);
             Console.WriteLine("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
@@ -163,6 +163,7 @@ namespace Nocturnal.server
                     break;
                 case true when code == "90":
                     PartyManager.s_partyId = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg;
+                    PartyManager.s_text.gameObject.SetActive(true);
                     break;
                 case true when code == "91":
                     string guidq = Guid.NewGuid().ToString();
@@ -171,9 +172,32 @@ namespace Nocturnal.server
                         Main2._queueDictionary.Remove(guidq);
                         PartyManager.OnPartyDelete();
                     }));
-
                     break;
-
+                case true when code == "92":
+                    string guidt = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guidt, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guidt);
+                        PartyManager.OnLeave(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
+                    }));
+                    break;
+                case true when code == "93":
+                    string teleportGuid = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(teleportGuid, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(teleportGuid);
+                        PartyManager.OnTeleportRequest(JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg>(message).msg);
+                    }));
+                    break;
+                case true when code == "94":
+                    string WorldtGuid = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(WorldtGuid, new Action(() =>
+                    {
+                        var js = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
+                        Main2._queueDictionary.Remove(WorldtGuid);
+                        PartyManager.OnWorldSwtichRequest(js.msg,js.msg2);
+                    }));
+                    break;
                 case true when code == "95":
                     string guid0 = Guid.NewGuid().ToString();
                     Main2._queueDictionary.Add(guid0, new Action(() =>
@@ -191,21 +215,32 @@ namespace Nocturnal.server
                         Settings.XRefedMethods.PopOutToggle("party", js.msg, () => sendmessage(JsonConvert.SerializeObject(new PartyJson.user()
                         {
                             code = "107",
-                            PartyId = js.msg2
+                            PartyId = js.msg2,
+                            Id = "",
+                            Name = VRC.Player.prop_Player_0.field_Private_APIUser_0.displayName
+                            
                         })),() => { });
 
                     }));
                     break;
                 case true when code == "98":
-                
+                    string guidf = Guid.NewGuid().ToString();
+                    Main2._queueDictionary.Add(guidf, new Action(() =>
+                    {
+                        Main2._queueDictionary.Remove(guidf);
+                        var js = JsonConvert.DeserializeObject<PartyJson.DeserializePartyLobby>(message);
+                        PartyManager.OnJoin(js.PartyMembers, js.PartyLeaders);
+                    }));
+
+
                     break;
                 case true when code == "99":
                     string guid2 = Guid.NewGuid().ToString();
                     Main2._queueDictionary.Add(guid2, new Action(() =>
                     {
                         Main2._queueDictionary.Remove(guid2);
-                        var js = JsonConvert.DeserializeObject<PartyJson.user>(message);
-                        PartyManager.OnJoin(js.Name, js.Id);
+                        var js = JsonConvert.DeserializeObject<Settings.jsonmanager.custommsg2>(message);
+                        PartyManager.OnJoin(js.msg, js.msg2);
                     }));
                     break;
 

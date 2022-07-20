@@ -53,7 +53,7 @@ namespace Nocturnal.Monobehaviours
             catch { }
 
 
-            if (!Settings.ConfigVars.hudUi)
+            if (!Settings.ConfigVars.QmHud)
                 return;
                 try
                 {
@@ -97,11 +97,14 @@ namespace Nocturnal.Monobehaviours
                         }
                         else if (!_Isthirdpersonback)
                         {
+
                             _SecondCamera = new GameObject("Camera Holder");
                             _SecondCamera.AddComponent<Camera>();
                             _postProc = _SecondCamera.AddComponent<PostProcessLayer>();
                             _postProc.volumeLayer = 16;
-                            _postProc.m_Resources = Settings.Hooks.cameraeye.GetComponent<PostProcessLayer>().m_Resources;
+                            _postProc.m_Resources = Resources.FindObjectsOfTypeAll<UnityEngine.Rendering.PostProcessing.PostProcessResources>().Where(x => x.name == "DefaultPostProcessResources").FirstOrDefault();
+
+
                             _SecondCamera.transform.parent = Settings.Hooks.cameraeye.transform;
                             _SecondCamera.transform.localEulerAngles = Vector3.zero;
                             _SecondCamera.transform.localScale = Vector3.one;
@@ -116,6 +119,7 @@ namespace Nocturnal.Monobehaviours
                             _SecondCamera.transform.localEulerAngles = new Vector3(0, -180, 0);
                             _Isthirdpersonback = false;
                         }
+
                     }
                     if (_Isthirdp)
                     {

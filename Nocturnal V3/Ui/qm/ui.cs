@@ -188,15 +188,15 @@ namespace Nocturnal.Ui.qm
             }, Settings.ConfigVars.rainbackground);
 
             new NToggle("Hud Info", extensions.Getmenu(uipg), () => {
-                Settings.ConfigVars.hudUi = true;
+                Settings.ConfigVars.QmHud = true;
                 Qm_basic._GUIInfo.transform.parent.gameObject.SetActive(true);
 
             }, () => {
-                Settings.ConfigVars.hudUi = false;
+                Settings.ConfigVars.QmHud = false;
                 Qm_basic._GUIInfo.transform.parent.gameObject.SetActive(false);
 
 
-            }, Settings.ConfigVars.hudUi);
+            }, Settings.ConfigVars.QmHud);
 
             new NToggle("Screen Logger", extensions.Getmenu(uipg), () => {
 
@@ -223,16 +223,14 @@ namespace Nocturnal.Ui.qm
             GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/ONscreennotui").gameObject.SetActive(Settings.ConfigVars.toggleonscreenlogger);
 
             new NToggle("Hud Ui", extensions.Getmenu(uipg), () => {
-
-                Settings.ConfigVars.hudUi = true;
-                Settings.Hooks._IsInVr = false;
-
+                Settings.ConfigVars.HudUi = true;
+                Hooks._IsInVr = false;
 
             }, () => {
-                Settings.ConfigVars.hudUi = false;
-                Settings.Hooks._IsInVr = true;
+                Settings.ConfigVars.HudUi = false;
+                Hooks._IsInVr = true;
 
-            }, Settings.ConfigVars.hudUi);
+            }, Settings.ConfigVars.HudUi);
 
             new NToggle("Name Plates Info", uipg.Getmenu(), () => Settings.ConfigVars.NamePlatesInfo = true,
            ()=>  Settings.ConfigVars.NamePlatesInfo = false, Settings.ConfigVars.NamePlatesInfo);

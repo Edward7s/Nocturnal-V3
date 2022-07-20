@@ -204,8 +204,8 @@ namespace Nocturnal.Ui.qm
             {
                 Nocturnal.Ui.Objects.CamerTracking.transform.localEulerAngles = new Vector3(0, 0, s_valZ);
             }, true, "Z spin");
-         //   Party.start();
-
+            Party.start();
+            light.start();
             new NToggle("Mirror", extensions.Getmenu(s_menuBase), () => Exploits.Mirror.Togglemirror(true), () => Exploits.Mirror.Togglemirror(false));
 
             new NToggle("Optimized Mirror", extensions.Getmenu(s_menuBase), () => Exploits.Mirror.Togglemirror(true, true), () => Exploits.Mirror.Togglemirror(false));
@@ -235,12 +235,12 @@ namespace Nocturnal.Ui.qm
             });
             new NToggle("Self Trail", extensions.Getmenu(s_menuBase), () => {
                 ConfigVars.SelfTrail = true;
-                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
+                VRC.Player.prop_Player_0.gameObject.AddComponent<Monobehaviours.Trail>();
             }, () => {
                 ConfigVars.SelfTrail = false;
                 try
                 {
-                    Component.DestroyImmediate(VRC.Player.prop_Player_0.gameObject.GetComponent<TrailRenderer>());
+                    Component.DestroyImmediate(VRC.Player.prop_Player_0.gameObject.GetComponent<Monobehaviours.Trail>());
                 } catch { }
             }, ConfigVars.SelfTrail);
 
@@ -252,21 +252,17 @@ namespace Nocturnal.Ui.qm
                     for (int i = 0; i < player.Count; i++)
                     {
                         if (player[i].field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
-                            extensions._AddTrailRender(player[i].gameObject);
+                             player[i].gameObject.AddComponent<Monobehaviours.Trail>();
                     }
                 }
                 catch { }
-                Settings.wrappers.extensions._AddTrailRender(VRC.Player.prop_Player_0.gameObject);
             }, () => {
                 ConfigVars.EveryoneTrail = false;
                 try
                 {
-                    var player = PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0;
-                    for (int i = 0; i < player.Count; i++)
-                    {
-                        if (player[i].field_Private_APIUser_0.id != VRC.Core.APIUser.CurrentUser.id)
-                            Component.DestroyImmediate(player[i].gameObject.GetComponent<TrailRenderer>());
-                    }
+                    var trails = GameObject.FindObjectsOfType<Monobehaviours.Trail>();
+                    for (int i = 0; i < trails.Length; i++)
+                        Component.Destroy(trails[i]);
                 }
                 catch { }
             }, ConfigVars.EveryoneTrail);

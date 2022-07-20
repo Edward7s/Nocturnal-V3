@@ -48,7 +48,8 @@ namespace Nocturnal.Ui
             new Apis.bigui.BButton(out _Clipboard,"ClipBoard", btn, () =>
               {
                   for (int i = 0; i < Clipboard.GetText().Length; i++)
-                      Ui.Objects._InputField.Insert(Clipboard.GetText()[i]);   
+                      Ui.Objects._InputField.Insert(Clipboard.GetText()[i]);
+                  Ui.Objects._InputField.ActivateInputField();
               });
             _Clipboard.transform.localPosition = new Vector3(-439.7326f, -280.46f, 0);
             _Clipboard = null;

@@ -87,6 +87,7 @@ namespace Nocturnal
 ";
 
             Console.WriteLine(art);
+
             List<MelonBase> melonmodslist = new List<MelonBase>(MelonLoader.MelonHandler.Mods);
             melonmodslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
             MelonBase mod = melonmodslist.Where(mod => mod.Info.Name == "Nocturnal Loader").FirstOrDefault();
@@ -243,6 +244,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PlatesUpdator>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PickupLevitation>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PostProccesingManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Trail>();
 
         }
         private protected static void LogAsembleis(List<MelonBase> melontblList)
