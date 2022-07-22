@@ -71,6 +71,8 @@ namespace Nocturnal.Apis
             _TextGameobj2.horizontalOverflow = HorizontalWrapMode.Overflow;
             _TextGameobj2.transform.localPosition = new Vector3(225, -15, 1);
             _SliderGameobject.transform.localPosition = new Vector3(-110, -18, 1);
+            Settings.garbagecollection.clear();
+
         }
 
 
@@ -121,6 +123,7 @@ namespace Nocturnal.Apis
             _TextGameobj2.horizontalOverflow = HorizontalWrapMode.Overflow;
             _TextGameobj2.transform.localPosition = new Vector3(225, -15, 1);
             _SliderGameobject.transform.localPosition = new Vector3(-110, -18, 1);
+            Settings.garbagecollection.clear();
         }
 
 

@@ -123,6 +123,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Oculus.Platform">
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\Oculus.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Oculus.VR, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\Oculus.VR.dll</HintPath>
+    </Reference>
     <Reference Include="Photon-DotNet, Version=4.1.6.12, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\Photon-DotNet.dll</HintPath>
@@ -351,6 +358,22 @@
     <Reference Include="ValueTupleBridge">
       <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\ValueTupleBridge.dll</HintPath>
     </Reference>
+    <Reference Include="VRC.Collections, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\VRC.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="VRC.Dynamics, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\VRC.Dynamics.dll</HintPath>
+    </Reference>
+    <Reference Include="VRC.SDK3.Dynamics.Contact, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\VRC.SDK3.Dynamics.Contact.dll</HintPath>
+    </Reference>
+    <Reference Include="VRC.SDK3.Dynamics.PhysBone, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\VRC.SDK3.Dynamics.PhysBone.dll</HintPath>
+    </Reference>
     <Reference Include="VRC.SDKBase.Editor.BuildPipeline">
       <HintPath>A:\steam\steamapps\common\VRChat\MelonLoader\Managed\VRC.SDKBase.Editor.BuildPipeline.dll</HintPath>
     </Reference>
@@ -460,6 +483,7 @@
     <Compile Include="Monobehaviours\Pagemanager.cs" />
     <Compile Include="Monobehaviours\PickupLevitation.cs" />
     <Compile Include="Monobehaviours\Trail.cs" />
+    <Compile Include="Monobehaviours\UiManager.cs" />
     <Compile Include="server\PartyJson.cs" />
     <Compile Include="server\PartyManager.cs" />
     <Compile Include="Ui\Platemanager.cs" />
@@ -581,7 +605,9 @@
     <Compile Include="Ui\resourceimages.cs" />
     <Compile Include="Ui\uicolors.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetPath)" "A:\steam\steamapps\common\VRChat\Mods" /Y /I

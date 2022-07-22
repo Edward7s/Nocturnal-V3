@@ -26,7 +26,6 @@ namespace Nocturnal.Ui.qm
             new NToggle("Owner", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("OwnerPickups", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("OwnerPickups"));
             new NToggle("Stop", extensions.Getmenu(_pickupsm), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().InvokeRepeating("StopObjs", -1, Time.smoothDeltaTime * 5.5f), () => Inject_monos._UpdateManager.GetComponent<Monobehaviours.UpdateManager>().CancelInvoke("StopObjs"));
             new NToggle("Lagger", extensions.Getmenu(_pickupsm), () => Inject_monos._ItemLagger.SetActive(true), () => Inject_monos._ItemLagger.SetActive(false));
-            new NToggle("Items Gravity", extensions.Getmenu(_pickupsm), () => Settings.ConfigVars.ItemsGrav = true, () => Settings.ConfigVars.ItemsGrav = false, Settings.ConfigVars.ItemsGrav);
             new NButton(_pickupsm.Getmenu(), "Respawn Pickups", () =>
             {
                 for (int i = 0; i < Exploits.Pickups.Pickupsobs.Length; i++)

@@ -35,6 +35,8 @@ namespace Nocturnal.Settings
         internal static bool fakelag = false;
         internal static bool udonnamespoof = false;
         internal static bool PickupMover = false;
+        internal static int layerpoz {get;set;}
+
         internal static int _PlayersInLobby { get; set; }
         internal static bool _IsInVr { get; set; }
 
@@ -110,6 +112,7 @@ namespace Nocturnal.Settings
         [Obsolete]
         private static unsafe void Patch(MethodInfo TargetMethod, MethodInfo Deteour, bool IsPrefix = false)
         {
+          //  NocturnalC.Log("HPatching: " + TargetMethod.Name);
             if (IsPrefix)
                 Instance.Patch(TargetMethod, Deteour.ToNewHarmonyMethod());
             else
@@ -172,16 +175,18 @@ namespace Nocturnal.Settings
       
         [Obsolete]
 
+        public static void Hpatch(MethodBase __originalMethod)
+        {
+            NocturnalC.Log(__originalMethod.Name);
+        }
+
         internal static void StartHooks()
         {
 
-            //Harmony Patches cause to lazy to put all parameters
 
-
-
-            // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
-            //"Harmony = No Bithces"
-            Console.WriteLine();
+                // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
+                //"Harmony = No Bithces"
+                Console.WriteLine();
             Console.WriteLine("------------------------------------------------------------------------");
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
             MethodInfo[] methodsinfo = new MethodInfo[2];
@@ -197,6 +202,7 @@ namespace Nocturnal.Settings
 
                     if (xrefedmethod[i2].ReadAsObject().ToString().Contains("OnPlayerJoin"))
                         _User = Hook<UserJ>(methodsinfo[i], typeof(Hooks).GetMethod(nameof(_userjoined), BindingFlags.Static | BindingFlags.NonPublic));
+
                     else
                         _user = Hook<UserL>(methodsinfo[i], typeof(Hooks).GetMethod(nameof(_userleft), BindingFlags.Static | BindingFlags.NonPublic));
 
@@ -222,8 +228,8 @@ namespace Nocturnal.Settings
 
 
 
-            MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
-            _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
+        //    MethodInfo onwowlrdjoin = typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0));
+      //      _Worldjoin = Hook<WorldJoin>(onwowlrdjoin, typeof(Hooks).GetMethod(nameof(_WorldJoin), BindingFlags.Static | BindingFlags.NonPublic));
 
             MethodInfo onevent = typeof(Photon.Realtime.LoadBalancingClient).GetMethod("OnEvent");
             _onevent = Hook<onevent>(onevent, typeof(Hooks).GetMethod(nameof(oneventm), BindingFlags.Static | BindingFlags.NonPublic));
@@ -564,7 +570,7 @@ namespace Nocturnal.Settings
             var obj = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<Il2CppSystem.Object>(il2obj);
 
 
-            if (code == 202)
+            if (code == 202) 
             {
                  NocturnalC.Log("/////////////////////////////////////////////////////////////////////////////////// " + code.ToString());
 
@@ -697,9 +703,9 @@ namespace Nocturnal.Settings
             {
                 _AvatarManager = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCAvatarManager>(avatardescriptor).transform.parent.gameObject;
                 _VRCPLAYER = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
-               if (_VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
+                if (_VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
                     VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new Vector3(0, 0, 1.2f * VRC.Player.prop_Player_0._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.ViewPosition.y * 2);
-                
+
                 _AvatarManager.SetActive(false);
                 if (!Settings.ConfigVars.selfanti && _VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
                 {
@@ -712,7 +718,11 @@ namespace Nocturnal.Settings
                     return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
                 }
 
-                var antic = new Anticrash(_AvatarManager, _VRCPLAYER);
+                GameObject.DestroyImmediate(_AvatarManager.transform.Find("_AvatarShadowClone").gameObject);
+                new Anticrash(_VRCPLAYER);
+             
+
+
                 return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
             }
             catch
@@ -729,11 +739,6 @@ namespace Nocturnal.Settings
             return IntPtr.Zero;
         }
 
-        private static IntPtr _WorldJoin(IntPtr _instance, IntPtr Apiworld, IntPtr _nativeMethodInfoPtr)
-        {
-            MelonCoroutines.Start(waitforworldtoinitialize());
-            return _Worldjoin(_instance, Apiworld, _nativeMethodInfoPtr);
-        }
 
         private static Monobehaviours.PlatesUpdator _platesUpdator { get; set; }
         private static GameObject CameraManager { get; set; }
@@ -814,22 +819,26 @@ namespace Nocturnal.Settings
 
             if (VRC.Player.prop_Player_0 == vrcplayer)
             {
-
+                UpdateNewWorld();
+                if (Networking.LocalPlayer.GetJumpImpulse() != ConfigVars.jumpimpulse)
+                    Networking.LocalPlayer.SetJumpImpulse(ConfigVars.jumpimpulse);
                 if (Ui.Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing)
                 {
-                    if (cameraeye.gameObject.GetComponent<PostProcessLayer>() != null)
-                        cameraeye.gameObject.GetComponent<PostProcessLayer>().volumeLayer = 16;
+                    s_postProcessLayer = cameraeye.gameObject.GetComponent<PostProcessLayer>();
+                    if (s_postProcessLayer != null)
+                    {
+                        layerpoz = s_postProcessLayer.volumeLayer;
+                        s_postProcessLayer.volumeLayer = 16;
+                    }
                     else
                     {
                         s_postProcessLayer = cameraeye.gameObject.AddComponent<PostProcessLayer>();
                         s_postProcessLayer.volumeLayer = 16;
-                        s_postProcessLayer.m_Resources = Resources.FindObjectsOfTypeAll<UnityEngine.Rendering.PostProcessing.PostProcessResources>().Where(x => x.name == "DefaultPostProcessResources").FirstOrDefault();
+                        s_postProcessLayer.m_Resources = Resources.FindObjectsOfTypeAll<PostProcessResources>().Where(x => x.name == "DefaultPostProcessResources").FirstOrDefault();
 
                     }
 
                 }
-
-
 
                 if (Settings.ConfigVars.DisableWorldPostProccesing)
                 {
@@ -839,6 +848,7 @@ namespace Nocturnal.Settings
                 }
             }
 
+            System.GC.Collect();
         }
 
 
@@ -986,12 +996,8 @@ namespace Nocturnal.Settings
 
 
         private static PostProcessLayer s_postProcessLayer { get; set; }
-        private static IEnumerator waitforworldtoinitialize()
+        private static void UpdateNewWorld()
         {
-            while (VRC.SDKBase.Networking.LocalPlayer == null)
-                yield return new WaitForEndOfFrame();
-
-
 
             _RoomCapacity = RoomManager.field_Internal_Static_ApiWorld_0.capacity.ToString();
 
@@ -1043,23 +1049,9 @@ namespace Nocturnal.Settings
             if (Settings.ConfigVars.SelfTrail)
                 VRC.Player.prop_Player_0.gameObject.AddComponent<Monobehaviours.Trail>();
 
-
-
-
-
-            if (Ui.qm.Worldhistory.worldhistorymenu == null)
-            {
-                while (Ui.qm.Worldhistory.worldhistorymenu == null)
-                    yield return new WaitForSeconds(1f);
-                Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
-            }
-            else
             Ui.qm.Worldhistory.updatehistory(_WorldName + ":" + RoomManager.field_Internal_Static_ApiWorldInstance_0.name, RoomManager.field_Internal_Static_ApiWorldInstance_0.id);
-         
-
-            if (!Settings.ConfigVars.HudUi) { _IsInVr = true; yield break; }
+            if (!Settings.ConfigVars.HudUi) { _IsInVr = true; return; }
            _IsInVr = VRC.Player.prop_Player_0.field_Private_VRCPlayerApi_0.IsUserInVR();
-            System.GC.Collect();
         }
         private static Dictionary<string, string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }

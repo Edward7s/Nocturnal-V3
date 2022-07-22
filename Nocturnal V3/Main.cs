@@ -10,6 +10,7 @@ using System.Linq;
 using VRC.SDKBase;
 using System.IO;
 using System.Diagnostics;
+using UnityEngine.SceneManagement;
 
 namespace Nocturnal
 {
@@ -86,7 +87,24 @@ namespace Nocturnal
 @@@@@@@@@@@@@@@@@@@@@@, *        / ,///............      ,******.@@@@@@@@@@@@@@@
 ";
 
+
             Console.WriteLine(art);
+
+        
+
+
+            int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+            string[] scenes = new string[sceneCount];
+            for (int i = 0; i < sceneCount; i++)
+            {
+                scenes[i] = System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
+                Console.WriteLine(scenes[i]);
+            }
+
+
+
+
+
 
             List<MelonBase> melonmodslist = new List<MelonBase>(MelonLoader.MelonHandler.Mods);
             melonmodslist.Sort((MelonBase left, MelonBase right) => string.Compare(left.Info.Name, right.Info.Name));
@@ -162,12 +180,9 @@ namespace Nocturnal
             Settings.Download_Files.runrpc.Invoke(Settings.Download_Files.runrpc, null);
             Settings.LoadConfig.load();
             Injectories();
-            MelonCoroutines.Start(waitforuser());
-            MelonCoroutines.Start(waitforui());
+            t_waitForApplication.Start();
             Settings.Hooks.StartHooks();
             Settings.XRefedMethods.SetMethods();
-            if (!Settings.ConfigVars.discordrichpresence)
-                return;
             NocturnalC.Log("Clearing Unity Cache", "Unityengine");
             UnityEngine.Caching.CleanCache();
             VRC.Core.ApiCache.ClearCache();
@@ -181,54 +196,19 @@ namespace Nocturnal
         }
 
 
-
-        private static Thread starsocket = new Thread(server.setup.serversetup);
-        private static IEnumerator waitforuser()
+        private static Thread t_waitForApplication = new Thread(WaitForApplication);
+        private static void WaitForApplication()
         {
-            while (VRC.Core.APIUser.CurrentUser == null)
-                yield return null;
-            NocturnalC.Log("User Logged in");
-            Console.Title = $"Nocturnal V3 {{Welcome: [{VRC.Core.APIUser.CurrentUser.displayName}]}}";
-            starsocket.Start();
-            MelonCoroutines.Start(Settings.wrappers.extensions.clientmessagewaiter($"Hi {VRC.Core.APIUser.CurrentUser.displayName} <3"));
-            yield break;
+            while (true)
+            {
+                Thread.Sleep(500);
+                if (GameObject.Find("/_Application") == null) continue;
+                GameObject.Find("/_Application").gameObject.AddComponent<Monobehaviours.UiManager>();
+                t_waitForApplication.Abort();
+                break;
+            }
         }
-        private static IEnumerator waitforui()
-        {
-            while (GameObject.Find("/UserInterface") == null)
-                yield return null;
-            NocturnalC.Log("Founded UserInteface");
-            Ui.Bundles.loadnotifications();
-            var images = Resources.FindObjectsOfTypeAll<ImageThreeSlice>().ToArray();
-            for (int i = 0; i < images.Length; i++)
-                images[i].raycastTarget = false;
-            Ui.LoadingScreen.runti();
-            while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
-                yield return new WaitForEndOfFrame();
-            NocturnalC.Log("Founded QuickMenu");
-            Ui.Bundles.Loadshader();
-            Ui.Bundles.Loadingscreen();
-            Ui.Objects.Collectobjs();
-            Ui.Qm_basic.Setupstuff();
-            Ui.Inject_monos.Inject();
-            Ui.buttons_b.Runbuttons();
-            while (GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>() == null)
-                yield return new WaitForEndOfFrame();
-            GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject.GetComponent<BoxCollider>().extents = new Vector3(880, 712, 0.5f);
-            while (GameObject.FindObjectOfType<VRC.UI.Elements.MenuStateController>() == null)
-                yield return new WaitForEndOfFrame();
-            NocturnalC.Log("Initializing Custom Menu");
-            Ui.qm.Main.Createmenu();
-            Ui.resourceimages.Setupc();
 
-            while (GameObject.Find("/UserInterface").transform.Find("MenuContent/Screens/Avatar/Vertical Scroll View/Viewport/Content/FavoriteContent/avatars1") == null)
-                yield return new WaitForEndOfFrame();
-
-            Ui.Favorites.Run();
-
-            yield break;
-           
-        }
         private protected static void Injectories()
         {
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.UpdateManager>();
@@ -245,7 +225,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PickupLevitation>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PostProccesingManager>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Trail>();
-
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.UiManager>();
         }
         private protected static void LogAsembleis(List<MelonBase> melontblList)
         {

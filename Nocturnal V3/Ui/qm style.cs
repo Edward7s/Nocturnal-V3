@@ -142,7 +142,7 @@ namespace Nocturnal.Ui
             qm.loop = true;
             qm.playOnAwake = true;
             MelonLoader.MelonCoroutines.Start(Settings.wrappers.extensions.loadaudio(qm, Settings.Download_Files.musicpath));
-            qm.volume = Settings.ConfigVars.clientvolume;
+            qm.volume = Settings.ConfigVars.clientvolume /3;
             qm.GetComponent<AudioSource>().enabled = Settings.ConfigVars.qmmusic;
 
         

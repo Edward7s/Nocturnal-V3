@@ -43,7 +43,6 @@ namespace Nocturnal.Settings
         public bool? ShaderP { get; set; }
         public bool? audiosourcep { get; set; }
         public bool? particlep { get; set; }
-        public bool? linerenderp { get; set; }
         public bool? lightsp { get; set; }
         public bool? selfanti { get; set; }
         public bool? logshaderstoconsole { get; set; }
@@ -122,10 +121,15 @@ namespace Nocturnal.Settings
         public float? HeadLightAngle{ get; set; }
 
         public float? HeadLightIntensity { get; set; }
-
         public float[]? LightColor { get; set; }
         public float? LightRange { get; set; }
         public float? LightIntensity { get; set; }
+        public bool? PhysBonesAnti { get; set; }
+        public float? MaxPhysBones { get; set; }
+        public float? MaxPhysBonesBones { get; set; }
+        public float? MaxPhysColidersChecks { get; set; }
+        public float? MaxPhysColiders { get; set; }
+
 
     }
     internal class ConfigVars
@@ -188,7 +192,6 @@ namespace Nocturnal.Settings
         public static bool ShaderP = true;
         public static bool audiosourcep = true;
         public static bool particlep = true;
-        public static bool linerenderp = true;
         public static bool lightsp = true;
         public static bool selfanti = false;
         public static bool logshaderstoconsole = true;
@@ -261,6 +264,10 @@ namespace Nocturnal.Settings
         public static float[] LightColor = new float[] { 1, 1, 1 };
         public static float LightRange = 0.2f;
         public static float LightIntensity = 0.1f;
-
+        public static bool PhysBonesAnti = true;
+        public static float MaxPhysBones = 50;
+        public static float MaxPhysBonesBones = 130;
+        public static float MaxPhysColidersChecks = 20;
+        public static float MaxPhysColiders = 2;
     }
 }

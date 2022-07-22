@@ -72,8 +72,7 @@ namespace Nocturnal.Settings
             loadingscreen = webclient.DownloadData("https://nocturnal-client.xyz/Resources/loading");
             shaderesp = webclient.DownloadData("https://nocturnal-client.xyz/Resources/outline");
             uinotifications = webclient.DownloadData("https://nocturnal-client.xyz/Resources/ui");
-            shaderlist = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt");
-
+            Exploits.Anticrash.WhiteList = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt").Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3"))
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3");
 

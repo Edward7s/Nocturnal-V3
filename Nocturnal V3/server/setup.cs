@@ -245,6 +245,8 @@ namespace Nocturnal.server
                     break;
 
             }
+            System.GC.Collect();
+
         }
 
 

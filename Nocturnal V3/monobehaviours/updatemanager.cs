@@ -6,6 +6,11 @@ using UnityEngine.UI;
 using VRC.SDKBase;
 using System.Linq;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.XR;
+using System.Threading;
+
 namespace Nocturnal.Monobehaviours
 {
     internal class UpdateManager : MonoBehaviour
@@ -27,16 +32,14 @@ namespace Nocturnal.Monobehaviours
         void Start()
         {
             NocturnalC.Log("Initializing OnUpdate And OnGui", "Monobehaviour",ConsoleColor.Green);
-            InvokeRepeating(nameof(updatehud), -1, 1.5f);
+            InvokeRepeating(nameof(updatehud), -1, 2f);
             _GUIStlye = new GUIStyle();
             _GUIStlye.fontSize = 17;
             _GUIStlye.richText = false;
             _GUIStlye.wordWrap = false;
             _GUIStlye.normal.textColor = Color.white;
         }
-     
 
-     
         void updatehud()
         {
             try { if (VRC.Player.prop_Player_0.gameObject == null) return; } catch { return; }
@@ -55,13 +58,14 @@ namespace Nocturnal.Monobehaviours
 
             if (!Settings.ConfigVars.QmHud)
                 return;
-                try
-                {
-                    Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {Hooks._PlayersInLobby}/{Hooks._RoomCapacity}\nF: {Ui.Objects._OnlineFriends.Count}/{Ui.Objects._OfflineFriends.Count}\nIn: {Settings.Hooks._TypeOfWorld}" +
-                        $"\nGtime: {Main2._CurentP.UserProcessorTime.Hours}:{Main2._CurentP.UserProcessorTime.Minutes}:{Main2._CurentP.UserProcessorTime.Seconds}";
-                }
-                catch { }
+            try
+            {
+                Ui.Qm_basic._GUIInfo.text = $"{string.Format("{0:hh:mm:ss tt}", DateTime.Now)}\nLobby: {Hooks._PlayersInLobby}/{Hooks._RoomCapacity}\nF: {Ui.Objects._OnlineFriends.Count}/{Ui.Objects._OfflineFriends.Count}\nIn: {Settings.Hooks._TypeOfWorld}" +
+                    $"\nGtime: {Main2._CurentP.UserProcessorTime.Hours}:{Main2._CurentP.UserProcessorTime.Minutes}:{Main2._CurentP.UserProcessorTime.Seconds}";
+            }
+            catch { }
         }
+
 
         void StopObjs() => Exploits.Pickups.Stopobjs();
         void OwnerPickups() => Exploits.Pickups.Ownerpickups();
@@ -69,6 +73,34 @@ namespace Nocturnal.Monobehaviours
 
         private int _Flycount { get; set; } = 0;
         private float _Time { get; set; } = 0;
+
+        /*    IEnumerator StartVr(bool toggle)
+            {
+              //  for (int i = 0; i < XRSettings.supportedDevices.Length; i++)
+                  //  NocturnalC.Log(XRSettings.supportedDevices[i]);
+
+                    if (toggle)
+                {
+                    XRSettings.LoadDeviceByName("OpenVR");
+                    yield return new WaitForSeconds(1f);
+                    XRSettings.enabled = toggle;
+                    VRC.SDKBase.Networking.GoToRoom(RoomManager.prop_String_0);
+                    yield break;
+                }
+                XRSettings.LoadDeviceByName("None");
+                yield return new WaitForSeconds(1f);
+                XRSettings.enabled = toggle;
+                yield break;
+
+
+             if (Input.GetKeyDown(KeyCode.G))
+                {
+                    XRSettings.LoadDeviceByName("OpenVR");
+                    XRSettings.enabled = true;
+
+                }
+            }*/
+
 
 
         void LateUpdate()
@@ -150,8 +182,6 @@ namespace Nocturnal.Monobehaviours
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown (KeyCode.JoystickButton1))
                 {
-                    if (Networking.LocalPlayer.GetJumpImpulse() != Settings.ConfigVars.jumpimpulse)
-                        Networking.LocalPlayer.SetJumpImpulse(Settings.ConfigVars.jumpimpulse);
                     if (Settings.ConfigVars.forcejump)
                         Exploits.Misc.Jump();
                     _Flycount++;

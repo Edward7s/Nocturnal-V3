@@ -36,6 +36,8 @@ namespace Nocturnal.Ui.qm
                     s_volumeArr = UnityEngine.GameObject.FindObjectsOfType<PostProcessVolume>().Where(x => x.gameObject.name != "Nocturnal Post Proccesing").ToArray();
                     for (int i = 0; i < s_volumeArr.Length; i++)
                         s_volumeArr[i].enabled = true;
+
+
                 }
                 catch { }
                 
@@ -47,10 +49,25 @@ namespace Nocturnal.Ui.qm
             new Apis.qm.NToggle("Custom Post Proccesing", s_postProccess.Getmenu(), ()=>
             {
                 Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing = true;
-                Inject_monos.s_postProccessing.gameObject.SetActive(true);
-            },()=> {
+                try
+                {
+                    Inject_monos.s_postProccessing.gameObject.SetActive(true);
+                    Settings.Hooks.cameraeye.GetComponent<PostProcessLayer>().volumeLayer = 16;
+                }
+                catch { }
+             
+
+            }, () =>
+            {
                 Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.PostProccesing = false;
-                Inject_monos.s_postProccessing.gameObject.SetActive(false);
+                try
+                {
+                    Inject_monos.s_postProccessing.gameObject.SetActive(false);
+                    Settings.Hooks.cameraeye.GetComponent<PostProcessLayer>().volumeLayer = Settings.Hooks.layerpoz;
+                }
+                catch { }
+                
+
             });
             new Apis.qm.NToggle("Color Gradinat", s_postProccess.Getmenu(), () =>
             {
@@ -81,12 +98,7 @@ namespace Nocturnal.Ui.qm
             new Apis.Slider(s_postProccess.Getmenu(), val => Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Gamma[2] = val, Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Gamma[2], () => Inject_monos.s_NocturanlPostProccesing.gammaZ(Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Gamma[2]), true, "Gamma B");
             new Apis.Slider(s_postProccess.Getmenu(), val => Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Bloom = val, Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Bloom, () => Inject_monos.s_NocturanlPostProccesing.UpdateBloom(Inject_monos.s_NocturanlPostProccesing.PostProccesingJson.Bloom), true, "Bloom");
 
-
-
-
-
             Inject_monos.s_NocturanlPostProccesing.VisualUpdate();
-
 
         }
 
