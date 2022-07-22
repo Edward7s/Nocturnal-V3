@@ -702,8 +702,8 @@ namespace Nocturnal.Settings
             try
             {
                 _AvatarManager = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCAvatarManager>(avatardescriptor).transform.parent.gameObject;
-                _VRCPLAYER = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
-                if (_VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
+                var player = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
+                if (player == VRC.Player.prop_Player_0._vrcplayer)
                     VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new Vector3(0, 0, 1.2f * VRC.Player.prop_Player_0._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.ViewPosition.y * 2);
 
                 _AvatarManager.SetActive(false);
@@ -718,8 +718,8 @@ namespace Nocturnal.Settings
                     return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
                 }
 
-                GameObject.DestroyImmediate(_AvatarManager.transform.Find("_AvatarShadowClone").gameObject);
-                new Anticrash(_VRCPLAYER);
+             //  GameObject.DestroyImmediate(_AvatarManager.transform.Find("_AvatarShadowClone").gameObject);
+                new Anticrash(player);
              
 
 
