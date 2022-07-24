@@ -50,34 +50,35 @@ namespace Nocturnal.Apis.qm
             var tooltip = _ToggleGameobject.GetComponent<VRC.UI.Elements.Tooltips.UiToggleTooltip>();
             tooltip.field_Public_String_0 = "Toggle Off " + text;
             tooltip.field_Public_String_1 = "Toggle On " + text;
-            Component.Destroy(_IconOff.GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            Component.Destroy(_IconOn.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+           // Component.Destroy(_IconOff.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+           // Component.Destroy(_IconOn.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             if (prevalue)
             {
                 _ToggleComponent.isOn = true;
-                _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
-                _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
+                _ToggleGameobject.GetComponent<VRC.UI.Core.Styles.StyleElement>().Method_Public_Void_String_2("Toggled");
             }
             else
             {
                 _ToggleComponent.isOn = false;
-                _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
-                _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
+                _ToggleGameobject.GetComponent<VRC.UI.Core.Styles.StyleElement>().Method_Public_Void_String_0("Toggled");
+
             }
             void Gettoggle(bool value)
             {
            
                 if (value)
                 {
-                    _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
-                    _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
-
+                    //  _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
+                    //   _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
+                    _ToggleGameobject.GetComponent<VRC.UI.Core.Styles.StyleElement>().Method_Public_Void_String_2("Toggled");
                     vtrue.Invoke();
                 }
                 else
                 {
-                    _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
-                    _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
+                    //  _IconOn.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 0.1f);
+                    //  _IconOff.GetComponent<Image>().color = new Color(0.415f, 0.890f, 0.976f, 1f);
+                    _ToggleGameobject.GetComponent<VRC.UI.Core.Styles.StyleElement>().Method_Public_Void_String_0("Toggled");
+
                     vfalse.Invoke();
 
                 }

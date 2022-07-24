@@ -577,6 +577,7 @@
     <Compile Include="Ui\qm\Party.cs" />
     <Compile Include="Ui\qm\PostProccesing.cs" />
     <Compile Include="Ui\qm\PostProccesingConfigs.cs" />
+    <Compile Include="Ui\QuickMenu.cs" />
     <Compile Include="Ui\Style\Console.cs" />
     <Compile Include="Ui\Style\Debbuger.cs" />
     <Compile Include="Ui\Biguiscrollbar.cs" />

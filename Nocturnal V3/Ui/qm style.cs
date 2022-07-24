@@ -145,27 +145,27 @@ namespace Nocturnal.Ui
             qm.volume = Settings.ConfigVars.clientvolume /3;
             qm.GetComponent<AudioSource>().enabled = Settings.ConfigVars.qmmusic;
 
-        
-       
-          
-           // image.gameObject.AddComponent<VerticalLayoutGroup>();
-           // border.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
-            
-          
-            Component.DestroyImmediate(Objects._qmbackground.GetComponent<VRC.UI.Core.Styles.StyleElement>());
-            var qmimage = GameObject.Instantiate(Objects._qmbackground, Objects._qmbackground.transform);
-            qmimage.name = "_Background";
-            var imagecomponentqm = qmimage.gameObject.GetComponent<Image>();
-            MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(imagecomponentqm, Settings.ConfigVars.QmImg));
-            imagecomponentqm.color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
-            var qmmask = Objects._qmbackground.AddComponent<Mask>();
-            qmmask.showMaskGraphic = false;
-            Objects._qmbackground.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.quickmenumask);
-            qmimage.transform.localPosition = Vector3.zero;
-            qmimage.transform.localScale = Vector3.one;
 
 
-            Transform pathp = Settings.ConfigVars.rightsideplayerlist ? GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button").transform : GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Button").transform;
+
+            // image.gameObject.AddComponent<VerticalLayoutGroup>();
+            // border.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+
+
+            /*      Component.DestroyImmediate(Objects._qmbackground.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+                  var qmimage = GameObject.Instantiate(Objects._qmbackground, Objects._qmbackground.transform);
+                  qmimage.name = "_Background";
+                  var imagecomponentqm = qmimage.gameObject.GetComponent<Image>();
+                  MelonLoader.MelonCoroutines.Start(Change_Image.LoadIMGTSprite(imagecomponentqm, Settings.ConfigVars.QmImg));
+                  imagecomponentqm.color = new Color(1, 1, 1, Settings.ConfigVars.QMopacity);
+                  var qmmask = Objects._qmbackground.AddComponent<Mask>();
+                  qmmask.showMaskGraphic = false;
+                  Objects._qmbackground.gameObject.Loadfrombytes(Settings.Download_Files.imagehandler.quickmenumask);
+                  qmimage.transform.localPosition = Vector3.zero;
+                  qmimage.transform.localScale = Vector3.one;*/
+             Objects._qmbackground.gameObject.SetActive(false);
+
+                  Transform pathp = Settings.ConfigVars.rightsideplayerlist ? GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Right/Button").transform : GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Button").transform;
             Vector3 pozp = Settings.ConfigVars.rightsideplayerlist ? new Vector3(515, 0, 0) : new Vector3(-515, 0, 0);
             var instanciatedmenu = GameObject.Instantiate(GameObject.Find("/UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window"), pathp.transform);
             instanciatedmenu.name = "Playerlist";
@@ -353,6 +353,7 @@ namespace Nocturnal.Ui
             _Content.transform.localPosition = new Vector3(-25f, 41.5f, 0);
             _Content.transform.localEulerAngles = Vector3.zero;
             server.PartyManager.GenerateList();
+            QuickMenu.Style();
             styletimer.Stop();
             NocturnalC.Log($"Qm Style Loaded in {styletimer.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Style", ConsoleColor.Green);
 

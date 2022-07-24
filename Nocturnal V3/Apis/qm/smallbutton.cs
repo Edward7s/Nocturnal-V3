@@ -28,9 +28,10 @@ namespace Nocturnal.Apis.qm
             _ButtonIcon.localScale = new Vector3(0.9f, 0.9f, 1);
             _ButtonIcon.localPosition = new Vector3(0, 35, 0);
             if (img == null) return;
-            Component.DestroyImmediate(_ButtonGameobject.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
+          Component.DestroyImmediate(_ButtonGameobject.transform.Find("Icon").GetComponent<VRC.UI.Core.Styles.StyleElement>());
+
             _ButtonIcon.gameObject.Loadfrombytes(img);
-            _ButtonIcon.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+         //   _ButtonIcon.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
         }
 
 

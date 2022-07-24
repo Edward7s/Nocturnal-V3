@@ -161,8 +161,10 @@ namespace Nocturnal.Settings
             public string PremiumIcon {get; set;}
             public string Backgroundb { get; set;}
             public string PostProccessing { get; set; }
-
             public string MirrorMover { get; set; }
+            public string Button { get; set; }
+            public string TabIcon { get; set; }
+
         }
     }
 

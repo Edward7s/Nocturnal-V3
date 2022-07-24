@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Nocturnal
             Console.ForegroundColor = color;
             Console.Write(message.ToString());
             Console.WriteLine();
+            File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log",$"\n[{_Time.ToString("HH:mm:ss")}][{types}] =>{message.ToString()}");
             return message.ToString();
 
         }

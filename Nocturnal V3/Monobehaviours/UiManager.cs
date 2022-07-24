@@ -21,10 +21,10 @@ namespace Nocturnal.Monobehaviours
         void Start()
         {
 
-            InvokeRepeating(nameof(WaitForUserInterface), -1,2);
-            InvokeRepeating(nameof(WaitForApiUser), -1, 2);
-            InvokeRepeating(nameof(WaitForAvatars), -1, 2);
-            InvokeRepeating(nameof(WaitForTab), -1, 0.1f);
+            InvokeRepeating(nameof(WaitForUserInterface), -1, 0.05f);
+            InvokeRepeating(nameof(WaitForApiUser), -1, 0.05f);
+            InvokeRepeating(nameof(WaitForAvatars), -1, 2f);
+            InvokeRepeating(nameof(WaitForTab), -1, 0.05f);
 
             Exploits.Anticrash.s_shaderArr = Resources.FindObjectsOfTypeAll<Shader>();
            
@@ -39,7 +39,7 @@ namespace Nocturnal.Monobehaviours
             for (int i = 0; i < images.Length; i++)
                 images[i].raycastTarget = false;
             Ui.LoadingScreen.runti();
-            InvokeRepeating(nameof(WaitForQuickMenu), -1, 2);
+            InvokeRepeating(nameof(WaitForQuickMenu), -1, 0.05f);
             CancelInvoke(nameof(WaitForUserInterface));
 
         }
@@ -67,7 +67,7 @@ namespace Nocturnal.Monobehaviours
             Ui.Inject_monos.Inject();
             Ui.buttons_b.Runbuttons();
 
-            InvokeRepeating(nameof(WaitForWindow), -1, 2);
+            InvokeRepeating(nameof(WaitForWindow), -1, 0.05f);
             CancelInvoke(nameof(WaitForQuickMenu));
 
         }
@@ -88,7 +88,6 @@ namespace Nocturnal.Monobehaviours
             Ui.qm.Main.Createmenu();
             Ui.resourceimages.Setupc();
             CancelInvoke(nameof(WaitForTab));
-
         }
 
         void WaitForAvatars()

@@ -57,9 +57,9 @@ namespace Nocturnal.Apis.qm
             if (img != null)
             {
                 _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
-                Component.DestroyImmediate(_ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+               Component.DestroyImmediate(_ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>());
                 _ImageGameObj.Loadfrombytes(img);
-                _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+            //    _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
             AddNewKeyBind(_ButtonGameObj.name);
             instance = _ButtonGameObj;
@@ -89,9 +89,9 @@ namespace Nocturnal.Apis.qm
             if (img != null)
             {
                 _ImageGameObj = _ButtonGameObj.transform.Find("Icon").gameObject;
-                _ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>();
+              //  _ImageGameObj.GetComponent<VRC.UI.Core.Styles.StyleElement>();
                 _ImageGameObj.Loadfrombytes(img);
-                _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+            //    _ImageGameObj.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
             if (key)
             AddNewKeyBind(_ButtonGameObj.name);

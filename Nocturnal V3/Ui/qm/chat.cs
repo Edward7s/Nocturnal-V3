@@ -52,14 +52,14 @@ namespace Nocturnal.Ui.qm
             background2.transform.localPosition = Vector3.zero;
             background2.transform.localScale = Vector3.one;
             MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(background2.gameObject.GetComponent<UnityEngine.UI.Image>(), Settings.ConfigVars.chatimage));
-            Component.DestroyImmediate(buttonchat.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+            Component.Destroy(buttonchat.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             buttonchat.transform.Find("Icon").gameObject.SetActive(false);
             chattext = buttonchat.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             chattext.enableWordWrapping = false;
             chattext.maxVisibleLines = 30;
             chattext.alignment = TMPro.TextAlignmentOptions.TopLeft;
             chattext.transform.parent = background2.transform;
-            chattext.gameObject.transform.localPosition = new Vector3(-73, 70.5f, 0);
+            chattext.gameObject.transform.localPosition = new Vector3(-73, 10, 0);
         
         }
 

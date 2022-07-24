@@ -275,9 +275,13 @@ namespace Nocturnal.Ui.qm
 
             }, true, "Player List Opacity");
 
-            new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.QMopacity = value, Settings.ConfigVars.QMopacity, () =>
+            new Apis.Slider(extensions.Getmenu(Colors), value => Settings.ConfigVars.BackgoundsOpaacity = value, Settings.ConfigVars.BackgoundsOpaacity, () =>
             {
-               Objects._qmbackground.transform.Find("_Background").gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, Settings.ConfigVars.QMopacity);
+                Objects._QuickMenuCanvas.transform.Find("Container/Window/QMParent/BackgroundLayer01(Clone)/_Background").gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, Settings.ConfigVars.BackgoundsOpaacity);
+                Objects._QuickMenuCanvas.transform.Find("Container/Window/Wing_Left/Container/InnerContainer/Background").gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, Settings.ConfigVars.BackgoundsOpaacity);
+                Objects._QuickMenuCanvas.transform.Find("Container/Window/Wing_Right/Container/InnerContainer/Background").gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, Settings.ConfigVars.BackgoundsOpaacity);
+
+
             }, true, "Qm Opacity");
 
 
@@ -305,15 +309,32 @@ namespace Nocturnal.Ui.qm
 
            }, false, null);
 
-             new NButton(extensions.Getmenu(Colors), "Qm Image", () =>
+             new NButton(extensions.Getmenu(Colors), "Middle Image", () =>
             {
-                XRefedMethods.PopOutInput("Qm Image", value => Settings.ConfigVars.QmImg = value, () => {
+                XRefedMethods.PopOutInput("Qm Midle Image", value => Settings.ConfigVars.MiddleQm = value, () => {
                     MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
-                       Objects._qmbackground.transform.Find("_Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.QmImg
+                       Objects._QuickMenuCanvas.transform.Find("Container/Window/QMParent/BackgroundLayer01(Clone)/_Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.MiddleQm
                         )) ;
                 });
-
             }, false, null);
+            new NButton(extensions.Getmenu(Colors), "Left Image", () =>
+            {
+                XRefedMethods.PopOutInput("Qm Left Image", value => Settings.ConfigVars.LeftWing = value, () => {
+                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
+                       Objects._QuickMenuCanvas.transform.Find("Container/Window/Wing_Left/Container/InnerContainer/Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.LeftWing
+                        ));
+                });
+            }, false, null);
+
+            new NButton(extensions.Getmenu(Colors), "Right Image", () =>
+            {
+                XRefedMethods.PopOutInput("Qm Left Image", value => Settings.ConfigVars.RightWing = value, () => {
+                    MelonLoader.MelonCoroutines.Start(Apis.Change_Image.LoadIMGTSprite(
+                       Objects._QuickMenuCanvas.transform.Find("Container/Window/Wing_Right/Container/InnerContainer/Background").gameObject.GetComponent<Image>(), Settings.ConfigVars.RightWing
+                        ));
+                });
+            }, false, null);
+
 
             new NButton(extensions.Getmenu(Colors), "Playerlist Image", () =>
             {

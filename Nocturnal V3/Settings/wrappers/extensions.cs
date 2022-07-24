@@ -161,6 +161,20 @@ namespace Nocturnal.Settings.wrappers
 
      internal static VRC.Player GetUserById(this string userid) =>  PlayerManager.prop_PlayerManager_0.field_Private_List_1_Player_0.ToArray().Where(player => player.field_Private_APIUser_0.id == userid).FirstOrDefault();
 
+        internal static Color FloatArrToColor(float[] floatarr, float minusAlpha = 0)
+        {
+            if (floatarr.Length > 3)
+                return new Color(floatarr[0], floatarr[1], floatarr[2], floatarr[3] - minusAlpha);
+
+            if (floatarr.Length > 2)
+                return new Color(floatarr[0], floatarr[1], floatarr[2], 1 - minusAlpha);
+
+            return new Color(1,1,1);
+        }
+
+
+
+
         internal static void clientmessage(string info)
         {
             Ui.Bundles.clientmessage.transform.Find("animator/main/text").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = info;

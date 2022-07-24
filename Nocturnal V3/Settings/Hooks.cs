@@ -24,6 +24,8 @@ using VRC.UI;
 using BestHTTP.JSON;
 using static VRC.Core.API;
 using UnityEngine.Rendering.PostProcessing;
+using Nocturnal.Settings;
+using Nocturnal.Apis;
 
 namespace Nocturnal.Settings
 {
@@ -106,6 +108,10 @@ namespace Nocturnal.Settings
 
         private static _postProccesLayer s_postProccesLayer;
 
+
+
+
+
         [Obsolete]
         private static Harmony.HarmonyInstance Instance = new Harmony.HarmonyInstance(new Guid().ToString());
 
@@ -175,18 +181,51 @@ namespace Nocturnal.Settings
       
         [Obsolete]
 
-        public static void Hpatch(MethodBase __originalMethod)
+        public static void Hpatch(MethodBase __originalMethod, string __0,ref Color __result)
         {
-            NocturnalC.Log(__originalMethod.Name);
+            switch (__0)
+            {
+
+               case "#113637":
+                     __result = new Color(0, 0, 0,0.4f);  //Panel_Info
+                   break;
+               case "#6AE3F9":
+                    __result = extensions.FloatArrToColor(ConfigVars.textcolor); //Icons / some text / Slider HighLight
+                   break;
+               case "#427173":
+                   __result = extensions.FloatArrToColor(ConfigVars.textcolor);//Arrow + some text
+                    break;
+               case "#07242b":
+                    __result = new Color(0.15f, 0.15f, 0.15f);  //Slider Background
+                    break;
+               case "#072f30":
+                   __result = new Color(0, 0, 0,0.4f); // Background pannels;
+                   break;
+               case "#A7B6D2":
+                  __result = extensions.FloatArrToColor(ConfigVars.ButtonColor); // Buttons Wings
+                   break;
+                   case "#398a97":
+                    __result = extensions.FloatArrToColor(ConfigVars.textcolor); // Slider Default Color
+                 break;
+                case "#4c8e95":
+                __result =  extensions.FloatArrToColor(ConfigVars.textcolor); // Text color
+                   break;
+            }
         }
 
         internal static void StartHooks()
         {
+            // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
+            //"Harmony = No Bithces"
+
+            var methodss = typeof(VRC.UI.Core.Styles.StyleEngine).GetMethods().Where(m => m.Name.Contains("Color")).ToArray();
+            for (int i = 0; i < methodss.Length; i++)
+                Patch(methodss[i], typeof(Hooks).GetMethod(nameof(Hpatch)));
+            
 
 
-                // Settings.wrappers.extensions.GetAllStrings(typeof(Transmtn.WebsocketPipeline));
-                //"Harmony = No Bithces"
-                Console.WriteLine();
+
+            Console.WriteLine();
             Console.WriteLine("------------------------------------------------------------------------");
             var hooktimer = System.Diagnostics.Stopwatch.StartNew();
             MethodInfo[] methodsinfo = new MethodInfo[2];
@@ -249,12 +288,9 @@ namespace Nocturnal.Settings
             MethodInfo _PortalSpawnerm = typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal));
             _PortalSpawner = Hook<PortalSpawner>(_PortalSpawnerm, typeof(Hooks).GetMethod(nameof(PortalSpawnerh), BindingFlags.Static | BindingFlags.NonPublic));
 
-            //  MethodInfo methodsinfo2 = typeof(Transmtn.WebsocketPipeline).GetMethods().Where(m => m.GetParameters().Count() == 2 && m.GetParameters()[0].ParameterType.ToString() == "Il2CppSystem.Object" && m.GetParameters()[1].ParameterType.ToString() == "WebSocketSharp.MessageEventArgs").FirstOrDefault();
-            //  _WebsockerReciver = Hook<WebsockerReciver>(methodsinfo2, typeof(Hooks).GetMethod(nameof(WebSocket), BindingFlags.Static | BindingFlags.NonPublic));
 
 
-
-           MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
+            MethodInfo PostReq = typeof(VRC.Core.API).GetMethod(nameof(VRC.Core.API.SendPutRequest));
            s_putRquest = Hook<_putRquest>(PostReq, typeof(Hooks).GetMethod(nameof(PutReq), BindingFlags.Static | BindingFlags.NonPublic));
 
 
@@ -285,6 +321,10 @@ namespace Nocturnal.Settings
             Console.WriteLine();
 
         }
+        private static GameObject s_gamObj { get; set; }
+    
+
+
 
         //Thx To Killer for helping me to fix the Websocket hook
         private static string _WorldType { get; set; }
@@ -393,7 +433,7 @@ namespace Nocturnal.Settings
                 try
                 {
                     _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
-                    GameObject.DestroyImmediate(_Portal.gameObject);
+                    GameObject.Destroy(_Portal.gameObject);
                     Apis.Onscreenui.showmsg($"<color=red>Destroyed Portal");
                 }
                 catch { }
@@ -404,7 +444,7 @@ namespace Nocturnal.Settings
                 try
                 {
                     _Portal = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<PortalInternal>(_instance);
-                    GameObject.DestroyImmediate(_Portal.gameObject);
+                    GameObject.Destroy(_Portal.gameObject);
                     Apis.Onscreenui.showmsg($"<color=red>Destroyed Portal");
                 }
                 catch { }
@@ -701,37 +741,27 @@ namespace Nocturnal.Settings
         {
             try
             {
-                _AvatarManager = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCAvatarManager>(avatardescriptor).transform.parent.gameObject;
-                var player = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
-                if (player == VRC.Player.prop_Player_0._vrcplayer)
-                    VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new Vector3(0, 0, 1.2f * VRC.Player.prop_Player_0._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.ViewPosition.y * 2);
-
-                _AvatarManager.SetActive(false);
-                if (!Settings.ConfigVars.selfanti && _VRCPLAYER == VRC.Player.prop_Player_0._vrcplayer)
+                var pl = UnhollowerSupport.Il2CppObjectPtrToIl2CppObject<VRCPlayer>(_instance);
+                pl.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.gameObject.SetActive(false);
+                if (!Settings.ConfigVars.selfanti && pl == VRC.Player.prop_Player_0._vrcplayer)
                 {
-                    _AvatarManager.SetActive(true);
-                    return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
-                }
-                if (Settings.Download_Files.userwhitelist.Contains(_VRCPLAYER._player.field_Private_APIUser_0.id))
-                {
-                    _AvatarManager.SetActive(true);
+                    pl.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.gameObject.SetActive(true);
                     return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
                 }
 
-             //  GameObject.DestroyImmediate(_AvatarManager.transform.Find("_AvatarShadowClone").gameObject);
-                new Anticrash(player);
-             
-
-
-                return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
+                if (Settings.Download_Files.userwhitelist.Contains(pl._player.field_Private_APIUser_0.id))
+                {
+                    pl.field_Private_VRCAvatarManager_0.field_Private_VRCAvatarDescriptor_0.gameObject.SetActive(true);
+                    return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
+                }
+                  
+                new Anticrash(pl);
             }
-            catch
+            catch 
             {
-                // NocturnalC.Log(ex);
-                return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
             }
 
-
+            return _avatarchanged(_instance, gmj, avatardescriptor, boleanv, _nativeMethodInfoPtr);
         }
         private static IntPtr _Pickupss(IntPtr _instance, bool value, IntPtr _nativeMethodInfoPtr)
         {
@@ -1055,7 +1085,6 @@ namespace Nocturnal.Settings
         }
         private static Dictionary<string, string> _Dictionary { get; set; }
         private static GameObject _AvatarManager { get; set; }
-        private static VRCPlayer _VRCPLAYER { get; set; }
         internal static string _RoomCapacity { get; set; }
         private static string _WorldName { get; set; }
         private static TMPro.TextMeshProUGUI _NotText { get; set; }

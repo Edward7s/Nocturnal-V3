@@ -48,6 +48,8 @@ namespace Nocturnal.Settings
         private static string Backgroundb = "https://nocturnal-client.xyz/Resources/backgound.png";
         private static string MirrorMover = "https://nocturnal-client.xyz/Resources/Desktopmirror.png";
         private static string PostProccessing = "https://nocturnal-client.xyz/Resources/postpr.png";
+        private static string Button = "https://nocturnal-client.xyz/Resources/icons/button.png";
+        private static string TabIcon = "https://nocturnal-client.xyz/Resources/icons/tab.png";
 
         internal static UnityEngine.Material _SkyboxMaterial { get; set; }
         internal static string musicpath = null;

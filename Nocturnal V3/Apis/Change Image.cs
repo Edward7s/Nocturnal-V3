@@ -39,7 +39,7 @@ namespace Nocturnal.Apis
   
         internal static void Loadfrombytes(this GameObject gmj, string img, bool isimage = true, Color? color = null) => Loadfrombytes(gmj, System.Convert.FromBase64String(img), isimage,color);
         internal static void Loadfrombytes(this GameObject gmj, byte[] img, bool isimage = true, Color? color = null) => new ImageHandler(gmj, img, isimage,color);
-
+        internal static void Loadfrombytes(this GameObject gmj, string img, Vector4 border, int pixels) => new ImageHandler(gmj, System.Convert.FromBase64String(img), true, null, border, pixels);
         internal class ImageHandler : IDisposable
         {
             private  Image _ImageComponent { get; set; }
@@ -52,7 +52,7 @@ namespace Nocturnal.Apis
                this._ImageThreeSliceCompnent = null;
             }
 
-            public ImageHandler(GameObject gmj, byte[] img, bool isimage = true, Color? color = null)
+            public ImageHandler(GameObject gmj, byte[] img, bool isimage = true, Color? color = null, Vector4 border = new Vector4(),int pixels = 200)
             {
                 if (isimage)
                 {
@@ -61,8 +61,8 @@ namespace Nocturnal.Apis
                     ImageConversion.LoadImage(_Texture2d, img);
                     _Texture2d.Apply();
                     _ImageComponent.sprite = Sprite.CreateSprite(_Texture2d,
-                    new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), 100000f, 1000u,
-                    SpriteMeshType.FullRect, Vector4.zero, false);
+                     new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), pixels, 1000u,
+                    SpriteMeshType.FullRect, border, false);
                     if (color != null)
                         _ImageComponent.color = Color.white;
                     return;
@@ -72,7 +72,7 @@ namespace Nocturnal.Apis
                 ImageConversion.LoadImage(_Texture2d, img);
                 _Texture2d.Apply();
                 _ImageThreeSliceCompnent.prop_Sprite_0 = Sprite.CreateSprite(_Texture2d,
-                new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), 100000f, 1000u,
+                new Rect(0f, 0f, _Texture2d.width, _Texture2d.height), new Vector2(0f, 0f), pixels, 1000u,
                 SpriteMeshType.FullRect, new Vector4(255, 0, 255, 0), false);
                 if (color != null)
                     _ImageThreeSliceCompnent.color = Color.white;

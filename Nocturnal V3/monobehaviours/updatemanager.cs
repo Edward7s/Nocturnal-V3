@@ -121,7 +121,7 @@ namespace Nocturnal.Monobehaviours
                     {
                         if (_SecondCamera != null && !_Isthirdpersonback)
                         {
-                            GameObject.DestroyImmediate(_SecondCamera);
+                            GameObject.Destroy(_SecondCamera);
                             _SecondCamera = null;
                             Settings.Hooks.cameraeye.gameObject.SetActive(true);
                             _Isthirdp = false;

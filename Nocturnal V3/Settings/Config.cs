@@ -14,8 +14,7 @@ namespace Nocturnal.Settings
         public string? QmDebbugerImg { get; set; }
         public string? BiguiImg { get; set; }
         public string? PlayerListImg { get; set; }
-        public string? QmImg { get; set; }
-        public float? QMopacity { get; set; }
+
 
         public float? BigImgOpacity { get; set; }
 
@@ -129,7 +128,10 @@ namespace Nocturnal.Settings
         public float? MaxPhysBonesBones { get; set; }
         public float? MaxPhysColidersChecks { get; set; }
         public float? MaxPhysColiders { get; set; }
-
+        public string? MiddleQm { get; set; }
+        public string? LeftWing { get; set; }
+        public string? RightWing { get; set; }
+        public float? BackgoundsOpaacity { get; set; }
 
     }
     internal class ConfigVars
@@ -164,8 +166,6 @@ namespace Nocturnal.Settings
         public static string QmDebbugerImg = "https://cutewallpaper.org/21/black-aesthetic-anime/Image-about-girl-in-black-aesthetic-by-Quantis.png";
         public static string BiguiImg = "https://nocturnal-client.xyz/BigUi.png";
         public static string PlayerListImg = "https://i.pinimg.com/564x/4e/70/5a/4e705a534d03153e9800b2ba676bf1ee.jpg";
-        public static string QmImg = "https://i.pinimg.com/564x/54/24/3b/54243bfa9ea67ed8be8ee4dc4e015e6e.jpg";
-        public static float QMopacity = 0.8f;
         public static float playelerlistopacity = 0.8f;
         public static float clientvolume = 0.4f;
         public static float BigImgOpacity = 0.7f;
@@ -205,9 +205,9 @@ namespace Nocturnal.Settings
         public static float[] friend = new float[] { 1, 1, 0 ,1};
         public static bool playerlist = true;
         public static bool rightsideplayerlist = true;
-        public static float[] ButtonColor = new float[] { 0, 0, 0, 1 };
-        public static float[] HuDColor = new float[] { 0.2f, 0, 0.5f, 0.9f };
-        public static float[]  textcolor = new float[] { 1f, 0.1f, 0.2f, 1f };
+        public static float[] ButtonColor = new float[] { 0.4f, 0.4f, 0.4f, 1 };
+        public static float[] HuDColor = new float[] { 0, 0.3f, 0.65f, 1 };
+        public static float[]  textcolor = new float[] { 0, 0.45f, 0.58f        , 1f };
         public static bool forcejump = false;
         public static bool infinitejump = true;
         public static float speedvalue = 10;
@@ -269,5 +269,9 @@ namespace Nocturnal.Settings
         public static float MaxPhysBonesBones = 130;
         public static float MaxPhysColidersChecks = 20;
         public static float MaxPhysColiders = 2;
+        public static string MiddleQm = "https://nocturnal-client.xyz/Resources/icons/1.png";
+        public static string LeftWing = "https://nocturnal-client.xyz/Resources/icons/2.png";
+        public static string RightWing = "https://nocturnal-client.xyz/Resources/icons/3.png";
+        public static float BackgoundsOpaacity = 0.9f;
     }
 }

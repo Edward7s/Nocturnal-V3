@@ -23,10 +23,10 @@ namespace Nocturnal.Apis.qm
             _ButtonComponent.onClick.RemoveAllListeners();
             _ButtonComponent.onClick.AddListener(action);
             _ButtonIcon = _ButtonGameobject.transform.Find("Icon").gameObject;
-            Component.DestroyImmediate(_ButtonIcon.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+           Component.DestroyImmediate(_ButtonIcon.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             _ButtonIcon.Loadfrombytes(icon);
             _ButtonGameobject.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = text;
-            _ButtonIcon.gameObject.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+          //  _ButtonIcon.gameObject.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
         }
       
     }

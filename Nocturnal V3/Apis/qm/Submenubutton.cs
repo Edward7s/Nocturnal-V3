@@ -24,7 +24,7 @@ namespace Nocturnal.Apis.qm
         {
             _YValue = half ? -140 - (Y * (200 / 2) - 45) : -140 - Y * 200;
             _ButtonGameobject = GameObject.Instantiate(Objects._ButtonPrefab, menu.transform).gameObject;
-            Component.DestroyImmediate(_ButtonGameobject.transform.Find("Icon").gameObject.GetComponent<VRC.UI.Core.Styles.StyleElement>());
+           Component.DestroyImmediate(_ButtonGameobject.transform.Find("Icon").gameObject.GetComponent<VRC.UI.Core.Styles.StyleElement>());
             _ButtonGameobject.name = $"SubBtn_{text}";
             _ButtonGameobject.transform.localEulerAngles = Vector3.zero;
             _ButtonComponent = _ButtonGameobject.GetComponent<Button>();
@@ -40,7 +40,7 @@ namespace Nocturnal.Apis.qm
             if (img != null)
             {
                 Apis.Change_Image.Loadfrombytes(_ButtonGameobject.transform.Find("Icon").gameObject, img);
-                _ButtonGameobject.transform.Find("Icon").gameObject.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
+                //_ButtonGameobject.transform.Find("Icon").gameObject.GetComponent<Image>().color = new Color(0.415f, 0.89f, 0.976f, 1);
             }
             if (X != 628 && Y != 628)
                 _ButtonGameobject.transform.localPosition = new Vector3(-350 + X * 240, (float)_YValue);   

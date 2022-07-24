@@ -1,10 +1,29 @@
 ﻿
 using Nocturnal.Ui;
+using System;
+using System.IO;
+
 namespace Nocturnal.Style
 {
     internal class Debbuger
     {
         private static string _lastlines = "";
+        private string _error { get; set; }
+
+        public Debbuger()
+        {
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            {
+             
+                Console.WriteLine("//////////////////[Please Report This To Noctunral Server]//////////////////");
+                Console.WriteLine("Send The Log.log from Nocturnal folder to a ticket channel");
+                Console.WriteLine("[ERROR]: " + eventArgs.Exception.ToString());
+                Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
+                File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", $"\n//////////////////////////////////////////////////////\n[ERROR]: {eventArgs.Exception.ToString()}\n//////////////////////////////////////////////////////");
+
+            };
+        }
+
 
         public static string Debugermsg(string text)
         {

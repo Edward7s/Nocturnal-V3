@@ -24,6 +24,10 @@ namespace Nocturnal
 
     public class Main2
     {
+
+    
+
+
         internal static int _pid = 123;
         internal static Thread _mainthread = null;
         internal static IntPtr _hwnd = IntPtr.Zero;
@@ -33,8 +37,8 @@ namespace Nocturnal
         [Obsolete]
         public static void Start()
         {
-      //  Settings.wrappers.extensions.GetAllStrings(typeof(VRCUiPopupManager),typeof(string));
-        
+            //  Settings.wrappers.extensions.GetAllStrings(typeof(VRCUiPopupManager),typeof(string));
+         
             _CurentP = Process.GetCurrentProcess();
             Main2._queueDictionary = new Dictionary<string, Action>(); 
             _pid = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -89,8 +93,9 @@ namespace Nocturnal
 
 
             Console.WriteLine(art);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", "[Nocturnal Loaded]");
+            new Style.Debbuger();
 
-        
 
 
             int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
@@ -190,7 +195,13 @@ namespace Nocturnal
             try
             {
                 string vrcpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow") + "\\VRChat\\VRChat";
-                System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
+
+                if (!File.Exists(vrcpath + "\\config.json"))
+                    System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
+
+
+                if (!File.ReadAllText(vrcpath + "\\config.json").Contains("disableRichPresence"))
+                    System.IO.File.WriteAllText(vrcpath + "\\config.json", "{\"disableRichPresence\":true}");
             }
             catch { }
         }
