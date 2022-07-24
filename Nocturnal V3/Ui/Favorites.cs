@@ -123,6 +123,10 @@ namespace Nocturnal.Ui
                     File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AvatarFav.json", JsonConvert.SerializeObject(_Menus));
             });
 
+            GameObject menu4 = null;
+            new Apis.bigui.BButton(out menu4, "Favorite Self Avi", path, () => Apis.AvatarFav.FavoriteAvatar(VRC.Player.prop_Player_0));
+
+            menu4.transform.localPosition = new Vector3(-850f, -245, 0);
             menu3.transform.localPosition = new Vector3(-850f, -388, 0);
             menu2.transform.localPosition = new Vector3(-850f, -315, 0);
             menu.transform.localPosition = new Vector3(-850f, -460, 0);

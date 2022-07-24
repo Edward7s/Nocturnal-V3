@@ -2,6 +2,10 @@
 using Nocturnal.Ui;
 using System;
 using System.IO;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace Nocturnal.Style
 {
@@ -10,11 +14,12 @@ namespace Nocturnal.Style
         private static string _lastlines = "";
         private string _error { get; set; }
 
-        public Debbuger()
+        public static void ExceptionHandler()
         {
+
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
-             
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("//////////////////[Please Report This To Noctunral Server]//////////////////");
                 Console.WriteLine("Send The Log.log from Nocturnal folder to a ticket channel");
                 Console.WriteLine("[ERROR]: " + eventArgs.Exception.ToString());
@@ -22,6 +27,30 @@ namespace Nocturnal.Style
                 File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", $"\n//////////////////////////////////////////////////////\n[ERROR]: {eventArgs.Exception.ToString()}\n//////////////////////////////////////////////////////");
 
             };
+
+         /*   AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("//////////////////[Please Report This To Noctunral Server]//////////////////");
+                Console.WriteLine("Send The Log.log from Nocturnal folder to a ticket channel");
+                Console.WriteLine("[ERROR]: " + eventArgs.ExceptionObject.ToString());
+                Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
+                File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", $"\n//////////////////////////////////////////////////////\n[ERROR]: {eventArgs.ExceptionObject.ToString()}\n//////////////////////////////////////////////////////");
+
+            };
+
+
+            Application.ThreadException += (sender, eventArgs) =>
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("//////////////////[Please Report This To Noctunral Server]//////////////////");
+                Console.WriteLine("Send The Log.log from Nocturnal folder to a ticket channel");
+                Console.WriteLine("[ERROR]: " + eventArgs.Exception.ToString());
+                Console.WriteLine("///////////////////////////////////////////////////////////////////////////");
+                File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", $"\n//////////////////////////////////////////////////////\n[ERROR]: {eventArgs.Exception.ToString()}\n//////////////////////////////////////////////////////");
+
+            };*/
+
         }
 
 

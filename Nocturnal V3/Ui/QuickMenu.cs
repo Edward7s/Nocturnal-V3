@@ -59,6 +59,8 @@ namespace Nocturnal.Ui
                 s_imageComp.type = Image.Type.Sliced;
                 s_imageComp.pixelsPerUnitMultiplier = 69;
                 s_background.Loadfrombytes(Settings.Download_Files.imagehandler.Button, new Vector4(35, 35, 35, 35), 2);
+                if (s_background.transform.parent.parent.gameObject.name == "Tabs")
+                    s_background.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
             }
 
             s_buttonsArr = Objects._QuickMenuCanvas.GetComponentsInChildren<VRC.UI.Core.Styles.StyleElement>(true).Where(x => x.transform.Find("Container") != null && x.transform.Find("Container/Background") != null).ToArray();
@@ -125,6 +127,8 @@ namespace Nocturnal.Ui
                 s_imageComp.pixelsPerUnitMultiplier = 69;
                 s_background.Loadfrombytes(Settings.Download_Files.imagehandler.TabIcon, new Vector4(35, 35, 35, 35), 2);
             }
+
+        
 
 
             Objects._QuickMenuCanvas.transform.Find("Container/Window/MicButton").gameObject.GetComponent<Image>().color = extensions.FloatArrToColor(Settings.ConfigVars.ButtonColor);

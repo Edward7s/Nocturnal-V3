@@ -391,7 +391,7 @@ namespace Nocturnal.Ui.qm
                 for (int i = 0; i < mirrors.Length; i++)
                     if (mirrors[i].name == "NocturnalMirror")
                     {
-                        GameObject.DestroyImmediate(mirrors[i].gameObject);
+                        GameObject.Destroy(mirrors[i].gameObject);
                         return;
                     }
                 Exploits.Mirror.Togglemirror(true);
@@ -406,7 +406,7 @@ namespace Nocturnal.Ui.qm
                 for (int i = 0; i < mirrors.Length; i++)
                     if (mirrors[i].name == "NocturnalMirror")
                     {
-                        GameObject.DestroyImmediate(mirrors[i].gameObject);
+                        GameObject.Destroy(mirrors[i].gameObject);
                         return;
                     }
                 Exploits.Mirror.Togglemirror(true, true);
@@ -416,6 +416,7 @@ namespace Nocturnal.Ui.qm
             new SmallButton(menu.gameObject, () =>
             {
                 var mirros = GameObject.FindObjectsOfType<VRC.SDK3.Components.VRCMirrorReflection>().Where(x => x.gameObject.name == "NocturnalMirror").FirstOrDefault();
+                if (mirros == null) return;
                 mirros.gameObject.GetComponent<MeshCollider>().enabled = !mirros.gameObject.GetComponent<MeshCollider>().enabled;
             },Download_Files.imagehandler.MirrorMover)._ButtonGameobject.transform.localPosition = new Vector3(-605,-672.5f,-1.0042f);
 

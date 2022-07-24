@@ -94,8 +94,7 @@ namespace Nocturnal
 
             Console.WriteLine(art);
             File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", "[Nocturnal Loaded]");
-            new Style.Debbuger();
-
+            Style.Debbuger.ExceptionHandler();
 
 
             int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
