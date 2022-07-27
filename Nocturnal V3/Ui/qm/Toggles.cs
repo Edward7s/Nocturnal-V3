@@ -67,12 +67,14 @@ namespace Nocturnal.Ui.qm
                 catch { }
 
             }, Settings.ConfigVars.CameraView);
+            new NToggle("Hide Player", toggles.Getmenu(), () => Settings.ConfigVars.HidePlayerOverDistance = true, () => Settings.ConfigVars.HidePlayerOverDistance = false, Settings.ConfigVars.HidePlayerOverDistance);
+
             new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.ZCamera = val, Settings.ConfigVars.ZCamera,new Action(()=>  VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new UnityEngine.Vector3(0,  - Settings.ConfigVars.YCamera * 2, Settings.ConfigVars.ZCamera * 5)),false,"Z");
             new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.YCamera = val, Settings.ConfigVars.YCamera, new Action(() => VRC.Player.prop_Player_0.transform.Find("AnimationController/HeadAndHandIK/HeadEffector/Camera").transform.localPosition = new UnityEngine.Vector3(0, - Settings.ConfigVars.YCamera * 2, Settings.ConfigVars.ZCamera * 5)), false, "Y");
             new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.CameraOpacity = val, Settings.ConfigVars.CameraOpacity, ()=> GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/Camera Render").gameObject.GetComponent<UnityEngine.UI.RawImage>().color = new Color(1,1,1,ConfigVars.CameraOpacity), false, "Opacity");
             new Apis.Slider(toggles.Getmenu(), val => Settings.ConfigVars.CameraSize = val, Settings.ConfigVars.CameraSize, () => GameObject.Find("/UserInterface").transform.Find("UnscaledUI/HudContent_Old/Hud/Camera Render").gameObject.transform.localScale = new Vector3(Settings.ConfigVars.CameraSize * 10, Settings.ConfigVars.CameraSize * 10, Settings.ConfigVars.CameraSize * 10), false, "Opacity");
 
-        
+
         }
 
 

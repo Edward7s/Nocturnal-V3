@@ -15,9 +15,8 @@ namespace Nocturnal
         private static string _MessageType { get; set; }
         private static System.DateTime _Time { get; set; }
 
-        internal static string Log(object message, string types = "Blank", ConsoleColor color = ConsoleColor.White,bool msg = true)
+        internal static void Log(object message, string types = "Blank", ConsoleColor color = ConsoleColor.White,bool msg = true)
         {
-            if (!msg) return null;
             _Time = System.DateTime.Now;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write($"[{_Time.ToString("HH:mm:ss")}]");
@@ -29,8 +28,12 @@ namespace Nocturnal
             Console.ForegroundColor = color;
             Console.Write(message.ToString());
             Console.WriteLine();
-            File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log",$"\n[{_Time.ToString("HH:mm:ss")}][{types}] =>{message.ToString()}");
-            return message.ToString();
+            try
+            {
+                File.AppendAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", $"\n[{_Time.ToString("HH:mm:ss")}][{types}] =>{message.ToString()}");
+
+            }
+            catch { }
 
         }
     }

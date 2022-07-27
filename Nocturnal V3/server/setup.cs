@@ -122,7 +122,7 @@ namespace Nocturnal.server
                             catch { }
 
                         }
-                        player._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/_Plate:Loading").gameObject.GetComponent<Monobehaviours.PlatesUpdator>().IsNocturnal = "<color=#7919ff>Nocturnal ";
+                        player._vrcplayer.field_Public_PlayerNameplate_0.field_Public_GameObject_0.transform.Find("Platesmanager/_Plate:Loading").gameObject.GetComponent<Monobehaviours.NocturnalPlayerManager>().IsNocturnal = "<color=#7919ff>Nocturnal ";
 
                     try
                     {

@@ -69,17 +69,33 @@ namespace Nocturnal.Settings
         {
             var sttime = Stopwatch.StartNew();
             NocturnalC.Log("Starting DownloadHander");
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3");
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config");
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic");
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound");
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing");
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic");
+
+
             var webclient = new System.Net.WebClient();
             Rain = webclient.DownloadData("https://nocturnal-client.xyz/Resources/rain2");
             loadingscreen = webclient.DownloadData("https://nocturnal-client.xyz/Resources/loading");
             shaderesp = webclient.DownloadData("https://nocturnal-client.xyz/Resources/outline");
             uinotifications = webclient.DownloadData("https://nocturnal-client.xyz/Resources/ui");
             Exploits.Anticrash.WhiteList = webclient.DownloadString("https://nocturnal-client.xyz/cl/anticrashshader.txt").Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3");
+        
 
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config");
 
             
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Config.json"))
@@ -155,8 +171,7 @@ namespace Nocturnal.Settings
             userwhitelist = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\AntiCrash.whitelist");
 
 
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic");
+         
 
             if (Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic").Length == 0)
                 webclient.DownloadFile("https://nocturnal-client.xyz/Resources/LoadingMusic.mp3", Directory.GetCurrentDirectory() + "\\Nocturnal V3\\LoadingMusic\\LoadingMusic.mp3");
@@ -165,18 +180,10 @@ namespace Nocturnal.Settings
 
 
 
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic");
-
             if (Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic").Length == 0)
                 webclient.DownloadFile("https://nocturnal-client.xyz/Resources/Qmmusic.mp3", Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic\\Qmmusic.mp3");
 
             musicpath = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\QmMusic").FirstOrDefault().ToString();
-
-
-
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound");
 
 
             if (Directory.GetFiles(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound").Length == 0)
@@ -186,14 +193,6 @@ namespace Nocturnal.Settings
 
 
             //  if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Joinsound.mp3"))
-
-
-
-
-
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing");
-
 
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\PostProccesing\\DefaultProccesing.json"))
             {
@@ -273,8 +272,9 @@ namespace Nocturnal.Settings
             if (!File.Exists(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json"))
                 File.Create(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json").Close();
 
-          //   new Apis.KeyBindsManager(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json");
+            //   new Apis.KeyBindsManager(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Config\\Keybinds.json");
 
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", "[Nocturnal Loaded]");
 
             sttime.Stop();
             NocturnalC.Log($"Resources Downloaded In {sttime.Elapsed.ToString("hh\\:mm\\:ss\\.ff")} ", "Download Manager", ConsoleColor.Green);

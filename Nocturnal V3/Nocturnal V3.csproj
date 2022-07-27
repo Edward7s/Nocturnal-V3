@@ -487,7 +487,7 @@
     <Compile Include="server\PartyJson.cs" />
     <Compile Include="server\PartyManager.cs" />
     <Compile Include="Ui\Platemanager.cs" />
-    <Compile Include="Monobehaviours\PlatesUpdator.cs" />
+    <Compile Include="Monobehaviours\NocturnalPlayerManager.cs" />
     <Compile Include="Monobehaviours\PostProccesingManager.cs" />
     <Compile Include="Monobehaviours\Svastica.cs" />
     <Compile Include="Monobehaviours\TagAnimation.cs" />

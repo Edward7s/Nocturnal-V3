@@ -132,6 +132,7 @@ namespace Nocturnal.Settings
         public string? LeftWing { get; set; }
         public string? RightWing { get; set; }
         public float? BackgoundsOpaacity { get; set; }
+        public bool? HidePlayerOverDistance { get; set; }
 
     }
     internal class ConfigVars
@@ -273,5 +274,6 @@ namespace Nocturnal.Settings
         public static string LeftWing = "https://nocturnal-client.xyz/Resources/icons/2.png";
         public static string RightWing = "https://nocturnal-client.xyz/Resources/icons/3.png";
         public static float BackgoundsOpaacity = 0.9f;
+        public static bool HidePlayerOverDistance = false;
     }
 }

@@ -770,7 +770,7 @@ namespace Nocturnal.Settings
         }
 
 
-        private static Monobehaviours.PlatesUpdator _platesUpdator { get; set; }
+        private static Monobehaviours.NocturnalPlayerManager _PlateManager { get; set; }
         private static GameObject CameraManager { get; set; }
         private static void _userjoined(IntPtr _instance, IntPtr user, IntPtr _nativeMethodInfoPtr)
         {
@@ -830,14 +830,14 @@ namespace Nocturnal.Settings
             new Apis.qm.TextButton(Ui.Qm_basic._playerlistmenu, $"{_Friends}{_Platform} {_VR} {_UserName}", _Userid, vrcplayer);
 
             if (Settings.ConfigVars.NamePlatesInfo)
-             {
-                 _platesUpdator = vrcplayer.GeneratePlate("Loading").AddComponent<Monobehaviours.PlatesUpdator>();
-                 _platesUpdator.Player = vrcplayer;
-                 _platesUpdator._rank = _Rank;
-                 _platesUpdator._friend = _Friends;
-                 _platesUpdator._platform = _Platform;
-                 _platesUpdator._vr = _VR;
-
+            {
+                vrcplayer.GeneratePlate("Loading");
+                _PlateManager = vrcplayer.gameObject.AddComponent<Monobehaviours.NocturnalPlayerManager>();
+                _PlateManager.Player = vrcplayer;
+                _PlateManager._rank = _Rank;
+                _PlateManager._friend = _Friends;
+                _PlateManager._platform = _Platform;
+                _PlateManager._vr = _VR;
              }
 
             var dictionary = new Dictionary<string, string>();

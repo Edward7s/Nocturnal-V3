@@ -93,9 +93,7 @@ namespace Nocturnal
 
 
             Console.WriteLine(art);
-            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Nocturnal V3\\Log.log", "[Nocturnal Loaded]");
             Style.Debbuger.ExceptionHandler();
-
 
             int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
             string[] scenes = new string[sceneCount];
@@ -231,7 +229,7 @@ namespace Nocturnal
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemMover>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.TagAnimation>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.ItemLagger >();
-            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PlatesUpdator>();
+            ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.NocturnalPlayerManager>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PickupLevitation>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.PostProccesingManager>();
             ClassInjector.RegisterTypeInIl2Cpp<Monobehaviours.Trail>();
